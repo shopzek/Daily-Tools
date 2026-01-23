@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const imgResult = document.getElementById("imgResult");
 
   convertBtn.addEventListener("click", function() {
-    imgResult.innerHTML = "";
+    imgResult.innerHTML = ""; // Clear previous results
 
     if (!imgInput.files.length) {
       imgResult.innerText = "Please select an image!";
@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function() {
       img.src = e.target.result;
 
       img.onload = function() {
-        // Set width and height
+        // Set width and height (or use original if empty)
         const width = parseInt(widthInput.value) || img.width;
         const height = parseInt(heightInput.value) || img.height;
 
@@ -215,19 +215,20 @@ document.addEventListener("DOMContentLoaded", function() {
         const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
 
+        // Output format and compression quality
         const outputType = formatSelect.value;
         const quality = compressCheckbox.checked ? 0.6 : 0.9;
 
         const finalDataUrl = canvas.toDataURL(outputType, quality);
 
-        // Show preview
+        // Preview the image
         const preview = document.createElement("img");
         preview.src = finalDataUrl;
         preview.style.maxWidth = "300px";
         preview.style.display = "block";
         imgResult.appendChild(preview);
 
-        // Create download link
+        // Download link
         const link = document.createElement("a");
         link.href = finalDataUrl;
         const ext = outputType.split("/")[1];
@@ -246,4 +247,3 @@ document.addEventListener("DOMContentLoaded", function() {
     reader.readAsDataURL(file);
   });
 });
-

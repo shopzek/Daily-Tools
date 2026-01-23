@@ -122,20 +122,21 @@
 <!-- PDF.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
-<!-- IMAGE COMPRESSOR -->
-<section class="tool" id="tool-image-compressor" style="display:none;">
-  <h2>Image Compressor</h2>
-  <input type="file" id="compressInput" accept="image/jpeg, image/png">
+<section class="tool-area">
+  <h2>Image Converter & Compressor</h2>
+
+  <input type="file" id="imgInput" accept="image/png,image/jpeg">
   <br><br>
-  <button id="compressBtn">Compress Image</button>
-  <div id="compressStatus"></div>
-  <div id="compressResult" style="margin-top:20px;"></div>
-</section>
 
-<div class="tools-grid">
-  <div class="tool-card" onclick="openTool('image-compressor')">Image Compressor</div>
-</div>
+  <select id="format">
+    <option value="image/jpeg">Convert to JPG</option>
+    <option value="image/png">Convert to PNG</option>
+  </select>
 
+  <br><br>
+  <button id="convertImageBtn">Convert / Compress</button>
+
+  <div id="imgResult" style="margin-top:20px;"></div>
 </section>
 
 

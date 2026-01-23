@@ -25,7 +25,7 @@
   <div class="tool-card" onclick="openTool('jpgpdf')">JPG to PDF</div>
 <div class="tool-card" onclick="openTool('pdfjpg')">PDF to JPG</div>
 <div class="tool-card" onclick="openTool('pngjpg')">PNG to JPG</div>
-<div class="tool-card" onclick="openTool('compress')">Image Compressor</div>
+<div class="tool-card" onclick="openTool('image-compressor')">Image Compressor</div>
 <div class="tool-card" onclick="openTool('mergepdf')">Merge PDF</div>
 <div class="tool-card" onclick="openTool('video')">Video Converter</div>
 <div class="tool-card" onclick="openTool('qr')">QR Generator</div>
@@ -122,6 +122,15 @@
 <!-- PDF.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
+<!-- IMAGE COMPRESSOR -->
+<section class="tool" id="tool-image-compressor" style="display:none;">
+  <h2>Image Compressor</h2>
+  <input type="file" id="compressInput" accept="image/jpeg, image/png">
+  <br><br>
+  <button id="compressBtn">Compress Image</button>
+  <div id="compressStatus"></div>
+  <div id="compressResult" style="margin-top:20px;"></div>
+</section>
 
 
 
@@ -130,6 +139,8 @@
 <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+
+  
 <footer>
   <p>© 2026 DailyTools • Files never leave your device</p>
 </footer>

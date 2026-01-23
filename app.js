@@ -295,7 +295,46 @@ function mergePdfFiles() {
   alert("Merge PDF function not implemented yet."); // You can integrate PDF-lib later
 }
 
-function convertVideo() {
-  alert("Video conversion function not implemented yet."); // You can integrate ffmpeg.js later
-}
+document.addEventListener("DOMContentLoaded", function() {
+  const videoBtn = document.getElementById("convertVideoBtn");
+  const videoInput = document.getElementById("videoInput");
+  const videoFormat = document.getElementById("videoFormat");
+  const videoWidth = document.getElementById("videoWidth");
+  const videoHeight = document.getElementById("videoHeight");
+  const videoQuality = document.getElementById("videoQuality");
+  const videoResult = document.getElementById("videoResult");
+
+  videoBtn.addEventListener("click", function() {
+    videoResult.innerHTML = "";
+
+    if (!videoInput.files.length) {
+      videoResult.innerText = "Please select a video!";
+      return;
+    }
+
+    const file = videoInput.files[0];
+
+    // Preview only (conversion requires ffmpeg.js or server-side)
+    const url = URL.createObjectURL(file);
+    const video = document.createElement("video");
+    video.src = url;
+    video.controls = true;
+    video.style.maxWidth = "400px";
+    videoResult.appendChild(video);
+
+    const info = document.createElement("p");
+    info.innerText = `Selected format: ${videoFormat.value}, Width: ${videoWidth.value || "Auto"}, Height: ${videoHeight.value || "Auto"}, Quality: ${videoQuality.value || 100}%`;
+    videoResult.appendChild(info);
+
+    const downloadLink = document.createElement("a");
+    downloadLink.href = url;
+    downloadLink.download = file.name.replace(/\.[^/.]+$/, "") + "." + videoFormat.value;
+    downloadLink.innerText = "Download Video (Original, conversion not applied)";
+    downloadLink.style.display = "block";
+    downloadLink.style.marginTop = "10px";
+    videoResult.appendChild(downloadLink);
+
+    alert("Note: Actual conversion requires FFmpeg.js or server-side processing.");
+  });
+});
 

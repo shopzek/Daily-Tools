@@ -40,7 +40,7 @@ async function convertJpgToPdf() {
 }
 // QR CODE GENERATOR
 function generateQR() {
-  const text = document.getElementById("qrText").value;
+  const text = document.getElementById("qrText").value.trim();
   const result = document.getElementById("qrResult");
 
   result.innerHTML = "";
@@ -53,22 +53,8 @@ function generateQR() {
   new QRCode(result, {
     text: text,
     width: 200,
-    height: 200
+    height: 200,
+    colorDark: "#000000",
+    colorLight: "#ffffff"
   });
 }
-
-// QR CODE SCANNER
-const scanner = new Html5Qrcode("reader");
-
-scanner.start(
-  { facingMode: "environment" },
-  {
-    fps: 10,
-    qrbox: 250
-  },
-  qrCodeMessage => {
-    document.getElementById("scanResult").innerText =
-      "Scanned: " + qrCodeMessage;
-    scanner.stop();
-  }
-);

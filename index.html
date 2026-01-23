@@ -123,6 +123,17 @@
 <!-- PDF.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
+<!-- WORD TO PDF -->
+<section class="tool">
+  <h2>Word to PDF</h2>
+  <input type="file" id="wordInput" accept=".docx">
+  <button onclick="wordToPdf()">Convert to PDF</button>
+  <div id="wordStatus"></div>
+</section>
+
+<!-- REQUIRED LIBRARIES -->
+<script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <footer>
   <p>© 2026 DailyTools • Files never leave your device</p>

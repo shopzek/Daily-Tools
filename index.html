@@ -101,44 +101,30 @@
 
   <div id="imageOutput" style="margin-top:20px;"></div>
 </section>
-    <section class="tool-area">
-  <h2>Image Converter & Compressor</h2>
+  
+<!-- IMAGE COMPRESSOR -->
+<section class="tool-area" id="tool-image-compressor" style="display:none;">
+  <h2>Image Compressor</h2>
+  <input type="file" id="compressInput" accept="image/jpeg, image/png">
+  <br><br>
+  <button id="compressBtn">Compress Image</button>
+  <div id="compressStatus"></div>
+  <div id="compressResult" style="margin-top:20px;"></div>
+</section>
 
+<!-- IMAGE CONVERTER / COMPRESS -->
+<section class="tool-area" id="tool-image-converter" style="display:none;">
+  <h2>Image Converter & Compressor</h2>
   <input type="file" id="imgInput" accept="image/png,image/jpeg">
   <br><br>
-
   <select id="format">
     <option value="image/jpeg">Convert to JPG</option>
     <option value="image/png">Convert to PNG</option>
   </select>
-
   <br><br>
-  <button onclick="convertImage()">Convert / Compress</button>
-
+  <button id="convertImgBtn">Convert / Compress</button>
   <div id="imgResult" style="margin-top:20px;"></div>
 </section>
-
-
-<!-- PDF.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-
-<section class="tool-area">
-  <h2>Image Converter & Compressor</h2>
-
-  <input type="file" id="imgInput" accept="image/png,image/jpeg">
-  <br><br>
-
-  <select id="format">
-    <option value="image/jpeg">Convert to JPG</option>
-    <option value="image/png">Convert to PNG</option>
-  </select>
-
-  <br><br>
-  <button id="convertImageBtn">Convert / Compress</button>
-
-  <div id="imgResult" style="margin-top:20px;"></div>
-</section>
-
 
 
 

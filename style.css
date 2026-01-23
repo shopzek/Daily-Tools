@@ -88,3 +88,15 @@ footer{
 .tool-area button:hover {
   opacity: 0.9;
 }
+.tool-area h3 {
+  margin-top: 20px;
+}
+
+#qrResult img {
+  margin-top: 10px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+}

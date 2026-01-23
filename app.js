@@ -219,3 +219,36 @@ function convertImage() {
 
   reader.readAsDataURL(file);
 }
+/* WORD TO PDF */
+function wordToPdf() {
+  const fileInput = document.getElementById("wordInput");
+  const status = document.getElementById("wordStatus");
+
+  if (!fileInput.files.length) {
+    alert("Please select a Word file");
+    return;
+  }
+
+  const file = fileInput.files[0];
+
+  const reader = new FileReader();
+  reader.onload = function (event) {
+    mammoth.convertToHtml({ arrayBuffer: event.target.result })
+      .then(function (result) {
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = result.value;
+
+        html2pdf()
+          .from(tempDiv)
+          .save(file.name.replace(".docx", ".pdf"));
+
+        status.innerText = "Converting… PDF will download automatically.";
+      })
+      .catch(function (err) {
+        alert("Conversion failed");
+        console.error(err);
+      });
+  };
+
+  reader.readAsArrayBuffer(file);
+}

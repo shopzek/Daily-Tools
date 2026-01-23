@@ -1,88 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Free Online Daily Use Tools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Free daily use tools – JPG to PDF, PDF to JPG, QR code, timer, video converter and more. No signup required.">
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <div class="logo">DailyTools</div>
+  <input type="text" id="search" placeholder="Search tools...">
+</header>
+
+<section class="hero">
+  <h1>Free Online Daily Use Tools</h1>
+  <p>Convert, compress, generate – fast, secure & free.</p>
+</section>
+
 <section class="tools-grid" id="tools">
   <div class="tool-card" onclick="openTool('jpgpdf')">JPG to PDF</div>
   <div class="tool-card" onclick="openTool('pdfjpg')">PDF to JPG</div>
   <div class="tool-card" onclick="openTool('wordpdf')">Word to PDF</div>
-  <div class="tool-card" onclick="openTool('pngjpg')">PNG to JPG</div>
-  <div class="tool-card" onclick="openTool('compress')">Image Compressor</div>
-  <div class="tool-card" onclick="openTool('mergepdf')">Merge PDF</div>
-  <div class="tool-card" onclick="openTool('video')">Video Converter</div>
-  <div class="tool-card" onclick="openTool('qr')">QR Generator</div>
-  <div class="tool-card" onclick="openTool('timer')">Timer</div>
+  <div class="tool-card">PNG to JPG</div>
+  <div class="tool-card">Image Compressor</div>
+  <div class="tool-card">Merge PDF</div>
+  <div class="tool-card">Video Converter</div>
+  <div class="tool-card">QR Generator</div>
+  <div class="tool-card">Timer</div>
 </section>
 
 <section class="tool-area" id="tool-area">
+  <h2>JPG to PDF Converter</h2>
 
-  <!-- JPG to PDF -->
-  <div class="tool" id="jpgpdf" style="display:none;">
-    <h2>JPG to PDF Converter</h2>
-    <input type="file" id="jpgInput" accept="image/jpeg" multiple>
-    <br><br>
-    <button onclick="convertJpgToPdf()">Convert to PDF</button>
-    <p id="status"></p>
-  </div>
+  <input type="file" id="jpgInput" accept="image/jpeg" multiple>
 
-  <!-- PDF to JPG -->
-  <div class="tool" id="pdfjpg" style="display:none;">
-    <h2>PDF to JPG Converter</h2>
-    <input type="file" id="pdfInput" accept="application/pdf">
-    <button onclick="convertPdfToJpg()">Convert</button>
-    <div id="pdfOutput"></div>
-  </div>
+  <br><br>
 
-  <!-- Word to PDF -->
-  <div class="tool" id="wordpdf" style="display:none;">
-    <h2>Word to PDF</h2>
-    <input type="file" id="wordInput" accept=".doc,.docx">
-    <button onclick="convertWordToPdf()">Convert</button>
-    <a id="wordDownload" style="display:none">Download PDF</a>
-  </div>
+  <button onclick="convertJpgToPdf()">Convert to PDF</button>
 
-  <!-- PNG to JPG -->
-  <div class="tool" id="pngjpg" style="display:none;">
-    <h2>PNG to JPG</h2>
-    <input type="file" id="pngInput" accept="image/png">
-    <button onclick="convertPngToJpg()">Convert</button>
-    <a id="pngDownload" style="display:none">Download JPG</a>
-  </div>
-
-  <!-- Image Compressor -->
-  <div class="tool" id="compress" style="display:none;">
-    <h2>Image Compressor</h2>
-    <input type="file" id="compressInput" accept="image/*">
-    <button onclick="compressImage()">Compress</button>
-    <a id="compressDownload" style="display:none">Download Compressed</a>
-  </div>
-
-  <!-- Merge PDF -->
-  <div class="tool" id="mergepdf" style="display:none;">
-    <h2>Merge PDF</h2>
-    <input type="file" id="mergeInput" accept="application/pdf" multiple>
-    <button onclick="mergePdf()">Merge</button>
-    <a id="mergeDownload" style="display:none">Download Merged PDF</a>
-  </div>
-
-  <!-- Video Converter -->
-  <div class="tool" id="video" style="display:none;">
-    <h2>Video Converter</h2>
-    <input type="file" id="videoInput" accept="video/*">
-    <button onclick="convertVideo()">Convert</button>
-    <a id="videoDownload" style="display:none">Download Converted Video</a>
-  </div>
-
-  <!-- QR Generator -->
-  <div class="tool" id="qr" style="display:none;">
-    <h2>QR Generator</h2>
-    <input type="text" id="qrText" placeholder="Enter text or URL">
-    <button onclick="generateQR()">Generate</button>
-    <div id="qrOutput"></div>
-  </div>
-
-  <!-- Timer -->
-  <div class="tool" id="timer" style="display:none;">
-    <h2>Timer</h2>
-    <input type="number" id="timerInput" placeholder="Seconds">
-    <button onclick="startTimer()">Start</button>
-    <div id="timerDisplay"></div>
-  </div>
-
+  <p id="status"></p>
 </section>
+
+<!-- jsPDF library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
+<footer>
+  <p>© 2026 DailyTools • Files never leave your device</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

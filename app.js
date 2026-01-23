@@ -218,13 +218,7 @@ function convertImage() {
   };
 
   reader.readAsDataURL(file);
- <!-- jsPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<!-- Mammoth.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
-
-// WORD TO PDF
 document.addEventListener("DOMContentLoaded", () => {
   const convertBtn = document.getElementById("convertBtn");
   const wordInput = document.getElementById("wordInput");
@@ -240,41 +234,35 @@ document.addEventListener("DOMContentLoaded", () => {
     const reader = new FileReader();
 
     reader.onload = function(event) {
-      const arrayBuffer = event.target.result;
-
-      // Extract plain text from Word using Mammoth
-      mammoth.extractRawText({ arrayBuffer: arrayBuffer })
+      // Use Mammoth to convert Word to HTML
+      mammoth.convertToHtml({ arrayBuffer: event.target.result })
         .then(result => {
-          const text = result.value;
+          const htmlContent = result.value;
 
-          if (!text.trim()) {
-            wordStatus.innerText = "The Word file is empty!";
+          if (!htmlContent.trim()) {
+            wordStatus.innerText = "The Word file seems empty!";
             return;
           }
 
-          const { jsPDF } = window.jspdf;
-          const pdf = new jsPDF({ unit: "mm", format: "a4" });
-          const pageWidth = pdf.internal.pageSize.getWidth();
-          const pageHeight = pdf.internal.pageSize.getHeight();
-          const margin = 10;
-          const maxLineWidth = pageWidth - margin * 2;
+          // Create temporary div to hold HTML content
+          const tempDiv = document.createElement("div");
+          tempDiv.innerHTML = htmlContent;
+          tempDiv.style.padding = "10px"; // add some margin for PDF
 
-          // Split text into lines that fit page width
-          const lines = pdf.splitTextToSize(text, maxLineWidth);
-          let y = 20; // start 20mm from top
-          const lineHeight = 7;
+          // Convert HTML to PDF using html2pdf
+          html2pdf()
+            .set({
+              margin: 10,
+              filename: file.name.replace(".docx", ".pdf"),
+              html2canvas: { scale: 2 },
+              jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+            })
+            .from(tempDiv)
+            .save()
+            .then(() => {
+              wordStatus.innerText = "PDF ready! Download should start automatically.";
+            });
 
-          for (let i = 0; i < lines.length; i++) {
-            if (y > pageHeight - 20) {
-              pdf.addPage();
-              y = 20;
-            }
-            pdf.text(lines[i], margin, y);
-            y += lineHeight;
-          }
-
-          pdf.save(file.name.replace(".docx", ".pdf"));
-          wordStatus.innerText = "PDF ready! Download should start automatically.";
         })
         .catch(err => {
           console.error(err);
@@ -285,4 +273,3 @@ document.addEventListener("DOMContentLoaded", () => {
     reader.readAsArrayBuffer(file);
   });
 });
-

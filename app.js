@@ -180,6 +180,19 @@ async function convertPdfToJpg() {
   fileReader.readAsArrayBuffer(file);
 }
 
+// =====================
+// Show only selected tool
+// =====================
+function openTool(toolId) {
+  const allTools = document.querySelectorAll(".tool-area");
+  allTools.forEach(t => t.style.display = "none");
+  const tool = document.getElementById(toolId);
+  if (tool) tool.style.display = "block";
+}
+
+// =====================
+// IMAGE CONVERTER & COMPRESSOR
+// =====================
 document.addEventListener("DOMContentLoaded", function() {
   const convertBtn = document.getElementById("convertImgBtn");
   const imgInput = document.getElementById("imgInput");
@@ -190,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const imgResult = document.getElementById("imgResult");
 
   convertBtn.addEventListener("click", function() {
-    imgResult.innerHTML = ""; // Clear previous results
+    imgResult.innerHTML = "";
 
     if (!imgInput.files.length) {
       imgResult.innerText = "Please select an image!";
@@ -205,7 +218,6 @@ document.addEventListener("DOMContentLoaded", function() {
       img.src = e.target.result;
 
       img.onload = function() {
-        // Set width and height (or use original if empty)
         const width = parseInt(widthInput.value) || img.width;
         const height = parseInt(heightInput.value) || img.height;
 
@@ -215,20 +227,17 @@ document.addEventListener("DOMContentLoaded", function() {
         const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
 
-        // Output format and compression quality
         const outputType = formatSelect.value;
         const quality = compressCheckbox.checked ? 0.6 : 0.9;
 
         const finalDataUrl = canvas.toDataURL(outputType, quality);
 
-        // Preview the image
         const preview = document.createElement("img");
         preview.src = finalDataUrl;
         preview.style.maxWidth = "300px";
         preview.style.display = "block";
         imgResult.appendChild(preview);
 
-        // Download link
         const link = document.createElement("a");
         link.href = finalDataUrl;
         const ext = outputType.split("/")[1];
@@ -247,3 +256,5 @@ document.addEventListener("DOMContentLoaded", function() {
     reader.readAsDataURL(file);
   });
 });
+
+

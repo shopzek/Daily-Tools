@@ -69,3 +69,22 @@ footer{
   font-size:14px;
   color:#64748b;
 }
+.tool-area input,
+.tool-area button {
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 16px;
+}
+
+.tool-area button {
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+
+.tool-area button:hover {
+  opacity: 0.9;
+}

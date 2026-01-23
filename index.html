@@ -72,6 +72,26 @@
 <script src="https://unpkg.com/html5-qrcode"></script>
 
 <script src="app.js"></script>
+<section class="tool-area" id="tool-area">
+  <h2>Timer & Stopwatch</h2>
+
+  <!-- TIMER -->
+  <h3>Countdown Timer</h3>
+  <input type="number" id="minutes" placeholder="Minutes">
+  <br><br>
+  <button onclick="startTimer()">Start Timer</button>
+  <button onclick="resetTimer()">Reset</button>
+  <p id="timerDisplay">00:00</p>
+
+  <hr>
+
+  <!-- STOPWATCH -->
+  <h3>Stopwatch</h3>
+  <p id="stopwatchDisplay">00:00:00</p>
+  <button onclick="startStopwatch()">Start</button>
+  <button onclick="stopStopwatch()">Stop</button>
+  <button onclick="resetStopwatch()">Reset</button>
+</section>
 
 
 <footer>

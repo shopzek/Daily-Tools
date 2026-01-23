@@ -1,3 +1,6 @@
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
+
 async function convertJpgToPdf() {
   const input = document.getElementById("jpgInput");
   const status = document.getElementById("status");

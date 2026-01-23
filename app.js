@@ -1,5 +1,11 @@
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
+<!-- Mammoth.js: extract text from Word -->
+<script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+
+<!-- html2pdf.js: convert HTML to PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 
 async function convertJpgToPdf() {
   const input = document.getElementById("jpgInput");

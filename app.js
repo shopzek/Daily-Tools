@@ -224,62 +224,65 @@ function convertImage() {
 <!-- Mammoth.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
 
-document.getElementById("convertBtn").addEventListener("click", () => {
-  const fileInput = document.getElementById("wordInput");
-  const status = document.getElementById("wordStatus");
+// WORD TO PDF
+document.addEventListener("DOMContentLoaded", () => {
+  const convertBtn = document.getElementById("convertBtn");
+  const wordInput = document.getElementById("wordInput");
+  const wordStatus = document.getElementById("wordStatus");
 
-  if (!fileInput.files.length) {
-    status.innerText = "Please select a Word file!";
-    return;
-  }
+  convertBtn.addEventListener("click", () => {
+    if (!wordInput.files.length) {
+      wordStatus.innerText = "Please select a Word (.docx) file!";
+      return;
+    }
 
-  const file = fileInput.files[0];
-  const reader = new FileReader();
+    const file = wordInput.files[0];
+    const reader = new FileReader();
 
-  reader.onload = function(event) {
-    const arrayBuffer = event.target.result;
+    reader.onload = function(event) {
+      const arrayBuffer = event.target.result;
 
-    // Extract raw text
-    mammoth.extractRawText({ arrayBuffer: arrayBuffer })
-      .then((result) => {
-        const text = result.value;
+      // Extract plain text from Word using Mammoth
+      mammoth.extractRawText({ arrayBuffer: arrayBuffer })
+        .then(result => {
+          const text = result.value;
 
-        if (!text.trim()) {
-          status.innerText = "The Word file is empty!";
-          return;
-        }
-
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF({ unit: "mm", format: "a4" });
-
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        const margin = 10;
-        const maxLineWidth = pageWidth - margin * 2;
-
-        // Split into lines that fit the page
-        const lines = pdf.splitTextToSize(text, maxLineWidth);
-
-        let y = 20; // start 20mm from top
-        const lineHeight = 7; // line height
-
-        for (let i = 0; i < lines.length; i++) {
-          if (y > pdf.internal.pageSize.getHeight() - 20) { // page break
-            pdf.addPage();
-            y = 20;
+          if (!text.trim()) {
+            wordStatus.innerText = "The Word file is empty!";
+            return;
           }
-          pdf.text(lines[i], margin, y);
-          y += lineHeight;
-        }
 
-        pdf.save(file.name.replace(".docx", ".pdf"));
-        status.innerText = "PDF ready! Download should start automatically.";
-      })
-      .catch((err) => {
-        console.error(err);
-        status.innerText = "Conversion failed!";
-      });
-  };
+          const { jsPDF } = window.jspdf;
+          const pdf = new jsPDF({ unit: "mm", format: "a4" });
+          const pageWidth = pdf.internal.pageSize.getWidth();
+          const pageHeight = pdf.internal.pageSize.getHeight();
+          const margin = 10;
+          const maxLineWidth = pageWidth - margin * 2;
 
-  reader.readAsArrayBuffer(file);
+          // Split text into lines that fit page width
+          const lines = pdf.splitTextToSize(text, maxLineWidth);
+          let y = 20; // start 20mm from top
+          const lineHeight = 7;
+
+          for (let i = 0; i < lines.length; i++) {
+            if (y > pageHeight - 20) {
+              pdf.addPage();
+              y = 20;
+            }
+            pdf.text(lines[i], margin, y);
+            y += lineHeight;
+          }
+
+          pdf.save(file.name.replace(".docx", ".pdf"));
+          wordStatus.innerText = "PDF ready! Download should start automatically.";
+        })
+        .catch(err => {
+          console.error(err);
+          wordStatus.innerText = "Conversion failed!";
+        });
+    };
+
+    reader.readAsArrayBuffer(file);
+  });
 });
 

@@ -131,4 +131,48 @@ function resetStopwatch() {
   stopwatchSeconds = 0;
   document.getElementById("stopwatchDisplay").innerText = "00:00:00";
 }
+// PDF TO JPG
+async function convertPdfToJpg() {
+  const fileInput = document.getElementById("pdfInput");
+  const output = document.getElementById("imageOutput");
+
+  if (!fileInput.files.length) {
+    alert("Please select a PDF file");
+    return;
+  }
+
+  output.innerHTML = "Converting...";
+
+  const file = fileInput.files[0];
+  const fileReader = new FileReader();
+
+  fileReader.onload = async function () {
+    const typedArray = new Uint8Array(this.result);
+
+    const pdf = await pdfjsLib.getDocument(typedArray).promise;
+
+    output.innerHTML = "";
+
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+      const page = await pdf.getPage(pageNum);
+      const viewport = page.getViewport({ scale: 2 });
+
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      await page.render({
+        canvasContext: context,
+        viewport: viewport
+      }).promise;
+
+      const img = document.createElement("img");
+      img.src = canvas.toDataURL("image/jpeg", 1.0);
+      output.appendChild(img);
+    }
+  };
+
+  fileReader.readAsArrayBuffer(file);
+}
 

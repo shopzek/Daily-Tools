@@ -1,3 +1,5 @@
+const { jsPDF } = window.jspdf;
+
 async function convertJpgToPdf() {
   const input = document.getElementById("jpgInput");
   const status = document.getElementById("status");
@@ -9,13 +11,12 @@ async function convertJpgToPdf() {
 
   status.innerText = "Converting...";
 
-  const { jsPDF } = window.jspdf;
   const pdf = new jsPDF();
 
   for (let i = 0; i < input.files.length; i++) {
     const file = input.files[i];
-    const img = new Image();
     const reader = new FileReader();
+    const img = new Image();
 
     reader.onload = function (e) {
       img.src = e.target.result;
@@ -25,11 +26,11 @@ async function convertJpgToPdf() {
 
     await new Promise(resolve => {
       img.onload = () => {
-        const width = pdf.internal.pageSize.getWidth();
-        const height = (img.height * width) / img.width;
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = (img.height * pageWidth) / img.width;
 
         if (i > 0) pdf.addPage();
-        pdf.addImage(img, "JPEG", 0, 0, width, height);
+        pdf.addImage(img, "JPEG", 0, 0, pageWidth, pageHeight);
         resolve();
       };
     });

@@ -217,37 +217,112 @@ function convertImage() {
       `;
     };
   };
+
+  // ---------------------------
 // TOOL SWITCHER
+// ---------------------------
 function openTool(toolName) {
-  const tools = document.querySelectorAll('.tool');
+  // Hide all tool sections
+  const tools = document.querySelectorAll('.tool, .tool-area');
   tools.forEach(t => t.style.display = 'none');
 
-  const selectedTool = document.getElementById(`tool-${toolName}`);
+  // Show the selected tool
+  const selectedTool = document.getElementById(`tool-${toolName}`) || document.getElementById(`tool-area-${toolName}`);
   if (selectedTool) {
     selectedTool.style.display = 'block';
     selectedTool.scrollIntoView({ behavior: 'smooth' });
   }
 }
 
+// ---------------------------
 // IMAGE COMPRESSOR
+// ---------------------------
 window.addEventListener("load", () => {
   const compressBtn = document.getElementById("compressBtn");
   const compressInput = document.getElementById("compressInput");
   const compressStatus = document.getElementById("compressStatus");
   const compressResult = document.getElementById("compressResult");
 
-  compressBtn.addEventListener("click", () => {
-    if (!compressInput.files.length) {
-      compressStatus.innerText = "Please select an image!";
+  if (compressBtn) {
+    compressBtn.addEventListener("click", () => {
+      compressStatus.innerText = "";
+      compressResult.innerHTML = "";
+
+      if (!compressInput.files.length) {
+        compressStatus.style.color = "red";
+        compressStatus.innerText = "Please select an image!";
+        return;
+      }
+
+      const file = compressInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function(event) {
+        const img = new Image();
+        img.src = event.target.result;
+
+        img.onload = function() {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+
+          // Compress image 60%
+          const compressedDataUrl = canvas.toDataURL(file.type, 0.6);
+
+          // Show preview
+          compressResult.innerHTML = `<img src="${compressedDataUrl}" style="max-width:300px; display:block;">`;
+
+          // Add download link
+          const link = document.createElement("a");
+          link.href = compressedDataUrl;
+          link.download = "compressed_" + file.name;
+          link.innerText = "Download Compressed Image";
+          link.style.display = "block";
+          link.style.marginTop = "10px";
+          compressResult.appendChild(link);
+
+          compressStatus.style.color = "green";
+          compressStatus.innerText = "Image compressed successfully!";
+        };
+
+        img.onerror = function() {
+          compressStatus.style.color = "red";
+          compressStatus.innerText = "Failed to load image!";
+        };
+      };
+
+      reader.readAsDataURL(file);
+    });
+  }
+});
+
+// ---------------------------
+// IMAGE CONVERTER / COMPRESS (PNG <> JPG)
+// ---------------------------
+window.addEventListener("load", () => {
+  const imgInput = document.getElementById("imgInput");
+  const formatSelect = document.getElementById("format");
+  const imgResult = document.getElementById("imgResult");
+
+  const convertBtn = document.querySelector('button[onclick="convertImage()"]');
+  if (!convertBtn) return;
+
+  convertBtn.addEventListener("click", () => {
+    imgResult.innerHTML = "";
+
+    if (!imgInput.files.length) {
+      imgResult.innerText = "Please select an image!";
       return;
     }
 
-    const file = compressInput.files[0];
+    const file = imgInput.files[0];
     const reader = new FileReader();
 
-    reader.onload = function(event) {
+    reader.onload = function(e) {
       const img = new Image();
-      img.src = event.target.result;
+      img.src = e.target.result;
 
       img.onload = function() {
         const canvas = document.createElement("canvas");
@@ -256,24 +331,25 @@ window.addEventListener("load", () => {
         const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0);
 
-        const compressedDataUrl = canvas.toDataURL(file.type, 0.6);
+        const outputType = formatSelect.value;
+        const convertedDataUrl = canvas.toDataURL(outputType, 0.9);
 
-        compressResult.innerHTML = `<img src="${compressedDataUrl}" style="max-width:300px; display:block;">`;
+        // Show preview
+        imgResult.innerHTML = `<img src="${convertedDataUrl}" style="max-width:300px; display:block;">`;
 
+        // Download link
         const link = document.createElement("a");
-        link.href = compressedDataUrl;
-        link.download = "compressed_" + file.name;
-        link.innerText = "Download Compressed Image";
+        link.href = convertedDataUrl;
+        const ext = outputType.split("/")[1];
+        link.download = "converted_image." + ext;
+        link.innerText = "Download Converted Image";
         link.style.display = "block";
         link.style.marginTop = "10px";
-
-        compressResult.appendChild(link);
-
-        compressStatus.innerText = "Image compressed successfully!";
+        imgResult.appendChild(link);
       };
 
       img.onerror = function() {
-        compressStatus.innerText = "Failed to load image.";
+        imgResult.innerText = "Failed to load image!";
       };
     };
 

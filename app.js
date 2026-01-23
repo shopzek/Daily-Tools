@@ -180,54 +180,12 @@ async function convertPdfToJpg() {
   fileReader.readAsArrayBuffer(file);
 }
 
-// IMAGE CONVERTER + COMPRESSOR
-function convertImage() {
-  const input = document.getElementById("imgInput");
-  const format = document.getElementById("format").value;
-  const result = document.getElementById("imgResult");
-
-  if (!input.files.length) {
-    alert("Please select an image");
-    return;
-  }
-
-  result.innerHTML = "Processing...";
-
-  const file = input.files[0];
-  const reader = new FileReader();
-
-  reader.onload = function (e) {
-    const img = new Image();
-    img.src = e.target.result;
-
-    img.onload = function () {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-
-      const output = canvas.toDataURL(format, 0.8);
-
-      result.innerHTML = `
-        <img src="${output}" style="max-width:100%;border-radius:8px;">
-        <br><br>
-        <a href="${output}" download="converted-image">Download Image</a>
-      `;
-    };
-  };
-
-  // ---------------------------
 // TOOL SWITCHER
-// ---------------------------
 function openTool(toolName) {
-  // Hide all tool sections
   const tools = document.querySelectorAll('.tool, .tool-area');
   tools.forEach(t => t.style.display = 'none');
 
-  // Show the selected tool
-  const selectedTool = document.getElementById(`tool-${toolName}`) || document.getElementById(`tool-area-${toolName}`);
+  const selectedTool = document.getElementById(`tool-${toolName}`);
   if (selectedTool) {
     selectedTool.style.display = 'block';
     selectedTool.scrollIntoView({ behavior: 'smooth' });
@@ -268,13 +226,10 @@ window.addEventListener("load", () => {
           const ctx = canvas.getContext("2d");
           ctx.drawImage(img, 0, 0);
 
-          // Compress image 60%
           const compressedDataUrl = canvas.toDataURL(file.type, 0.6);
 
-          // Show preview
           compressResult.innerHTML = `<img src="${compressedDataUrl}" style="max-width:300px; display:block;">`;
 
-          // Add download link
           const link = document.createElement("a");
           link.href = compressedDataUrl;
           link.download = "compressed_" + file.name;
@@ -299,62 +254,58 @@ window.addEventListener("load", () => {
 });
 
 // ---------------------------
-// IMAGE CONVERTER / COMPRESS (PNG <> JPG)
+// IMAGE CONVERTER / COMPRESS (PNG ↔ JPG)
 // ---------------------------
 window.addEventListener("load", () => {
+  const convertBtn = document.getElementById("convertImgBtn");
   const imgInput = document.getElementById("imgInput");
   const formatSelect = document.getElementById("format");
   const imgResult = document.getElementById("imgResult");
 
-  const convertBtn = document.querySelector('button[onclick="convertImage()"]');
-  if (!convertBtn) return;
+  if (convertBtn) {
+    convertBtn.addEventListener("click", () => {
+      imgResult.innerHTML = "";
 
-  convertBtn.addEventListener("click", () => {
-    imgResult.innerHTML = "";
+      if (!imgInput.files.length) {
+        imgResult.innerText = "Please select an image!";
+        return;
+      }
 
-    if (!imgInput.files.length) {
-      imgResult.innerText = "Please select an image!";
-      return;
-    }
+      const file = imgInput.files[0];
+      const reader = new FileReader();
 
-    const file = imgInput.files[0];
-    const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.src = e.target.result;
 
-    reader.onload = function(e) {
-      const img = new Image();
-      img.src = e.target.result;
+        img.onload = function() {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
 
-      img.onload = function() {
-        const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0);
+          const outputType = formatSelect.value;
+          const convertedDataUrl = canvas.toDataURL(outputType, 0.9);
 
-        const outputType = formatSelect.value;
-        const convertedDataUrl = canvas.toDataURL(outputType, 0.9);
+          imgResult.innerHTML = `<img src="${convertedDataUrl}" style="max-width:300px; display:block;">`;
 
-        // Show preview
-        imgResult.innerHTML = `<img src="${convertedDataUrl}" style="max-width:300px; display:block;">`;
+          const link = document.createElement("a");
+          link.href = convertedDataUrl;
+          const ext = outputType.split("/")[1];
+          link.download = "converted_image." + ext;
+          link.innerText = "Download Converted Image";
+          link.style.display = "block";
+          link.style.marginTop = "10px";
+          imgResult.appendChild(link);
+        };
 
-        // Download link
-        const link = document.createElement("a");
-        link.href = convertedDataUrl;
-        const ext = outputType.split("/")[1];
-        link.download = "converted_image." + ext;
-        link.innerText = "Download Converted Image";
-        link.style.display = "block";
-        link.style.marginTop = "10px";
-        imgResult.appendChild(link);
+        img.onerror = function() {
+          imgResult.innerText = "Failed to load image!";
+        };
       };
 
-      img.onerror = function() {
-        imgResult.innerText = "Failed to load image!";
-      };
-    };
-
-    reader.readAsDataURL(file);
-  });
+      reader.readAsDataURL(file);
+    });
+  }
 });
-
-  

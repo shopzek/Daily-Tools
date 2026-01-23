@@ -58,3 +58,71 @@ function generateQR() {
     colorLight: "#ffffff"
   });
 }
+// TIMER
+let timerInterval;
+
+function startTimer() {
+  const minutes = document.getElementById("minutes").value;
+  let time = minutes * 60;
+  const display = document.getElementById("timerDisplay");
+
+  if (!minutes) {
+    display.innerText = "Enter minutes";
+    return;
+  }
+
+  clearInterval(timerInterval);
+
+  timerInterval = setInterval(() => {
+    const mins = Math.floor(time / 60);
+    const secs = time % 60;
+
+    display.innerText =
+      String(mins).padStart(2, "0") + ":" +
+      String(secs).padStart(2, "0");
+
+    if (time <= 0) {
+      clearInterval(timerInterval);
+      alert("Time is up!");
+    }
+
+    time--;
+  }, 1000);
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  document.getElementById("timerDisplay").innerText = "00:00";
+}
+
+// STOPWATCH
+let stopwatchInterval;
+let seconds = 0;
+
+function startStopwatch() {
+  if (stopwatchInterval) return;
+
+  stopwatchInterval = setInterval(() => {
+    seconds++;
+
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+
+    document.getElementById("stopwatchDisplay").innerText =
+      String(hrs).padStart(2, "0") + ":" +
+      String(mins).padStart(2, "0") + ":" +
+      String(secs).padStart(2, "0");
+  }, 1000);
+}
+
+function stopStopwatch() {
+  clearInterval(stopwatchInterval);
+  stopwatchInterval = null;
+}
+
+function resetStopwatch() {
+  stopStopwatch();
+  seconds = 0;
+  document.getElementById("stopwatchDisplay").innerText = "00:00:00";
+}

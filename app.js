@@ -179,3 +179,43 @@ async function convertPdfToJpg() {
   fileReader.readAsArrayBuffer(file);
 }
 
+// IMAGE CONVERTER + COMPRESSOR
+function convertImage() {
+  const input = document.getElementById("imgInput");
+  const format = document.getElementById("format").value;
+  const result = document.getElementById("imgResult");
+
+  if (!input.files.length) {
+    alert("Please select an image");
+    return;
+  }
+
+  result.innerHTML = "Processing...";
+
+  const file = input.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+    const img = new Image();
+    img.src = e.target.result;
+
+    img.onload = function () {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+
+      const output = canvas.toDataURL(format, 0.8);
+
+      result.innerHTML = `
+        <img src="${output}" style="max-width:100%;border-radius:8px;">
+        <br><br>
+        <a href="${output}" download="converted-image">Download Image</a>
+      `;
+    };
+  };
+
+  reader.readAsDataURL(file);
+}

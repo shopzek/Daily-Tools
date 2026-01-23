@@ -253,12 +253,14 @@ window.addEventListener("load", () => {
   }
 });
 
-// IMAGE CONVERTER + COMPRESSOR
+// IMAGE CONVERTER + COMPRESSOR with Width/Height
 window.addEventListener("load", () => {
   const convertBtn = document.getElementById("convertImgBtn");
   const imgInput = document.getElementById("imgInput");
   const formatSelect = document.getElementById("format");
   const compressCheckbox = document.getElementById("compressCheckbox");
+  const widthInput = document.getElementById("imgWidth");
+  const heightInput = document.getElementById("imgHeight");
   const imgResult = document.getElementById("imgResult");
 
   convertBtn.addEventListener("click", () => {
@@ -277,19 +279,18 @@ window.addEventListener("load", () => {
       img.src = e.target.result;
 
       img.onload = function() {
+        // Set width & height
+        let width = parseInt(widthInput.value) || img.width;
+        let height = parseInt(heightInput.value) || img.height;
+
         const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
+        canvas.width = width;
+        canvas.height = height;
         const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0);
+        ctx.drawImage(img, 0, 0, width, height);
 
         let outputType = formatSelect.value;
-        let quality = 0.9;
-
-        // If compress checkbox is checked, reduce quality
-        if (compressCheckbox.checked) {
-          quality = 0.6;
-        }
+        let quality = compressCheckbox.checked ? 0.6 : 0.9;
 
         const finalDataUrl = canvas.toDataURL(outputType, quality);
 
@@ -311,6 +312,11 @@ window.addEventListener("load", () => {
         imgResult.innerText = "Failed to load image!";
       };
     };
+
+    reader.readAsDataURL(file);
+  });
+});
+
 
     reader.readAsDataURL(file);
   });

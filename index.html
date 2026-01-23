@@ -92,6 +92,39 @@
   <button onclick="resetStopwatch()">Reset</button>
 </section>
 
+<!-- PNG to JPG Converter -->
+<section class="tool-area" id="tool-pngjpg" style="display:none;">
+  <h2>PNG to JPG Converter</h2>
+  <input type="file" id="pngInput" accept="image/png" multiple>
+  <br><br>
+  <button onclick="convertPngToJpg()">Convert to JPG</button>
+  <div id="pngOutput" style="margin-top:20px;"></div>
+</section>
+
+<!-- Merge PDF -->
+<section class="tool-area" id="tool-mergepdf" style="display:none;">
+  <h2>Merge PDF</h2>
+  <input type="file" id="mergePdfInput" accept="application/pdf" multiple>
+  <br><br>
+  <button onclick="mergePdfFiles()">Merge PDFs</button>
+  <div id="mergePdfResult" style="margin-top:20px;"></div>
+</section>
+
+<!-- Video Converter -->
+<section class="tool-area" id="tool-video" style="display:none;">
+  <h2>Video Converter</h2>
+  <input type="file" id="videoInput" accept="video/*">
+  <br><br>
+  <select id="videoFormat">
+    <option value="mp4">Convert to MP4</option>
+    <option value="webm">Convert to WEBM</option>
+  </select>
+  <br><br>
+  <button onclick="convertVideo()">Convert Video</button>
+  <div id="videoResult" style="margin-top:20px;"></div>
+</section>
+
+  
 <!-- FOOTER -->
 <footer>
   <p>© 2026 DailyTools • Files never leave your device</p>

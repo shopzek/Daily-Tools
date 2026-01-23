@@ -38,3 +38,37 @@ async function convertJpgToPdf() {
   pdf.save("converted.pdf");
   status.innerText = "Done! Your PDF is downloaded.";
 }
+// QR CODE GENERATOR
+function generateQR() {
+  const text = document.getElementById("qrText").value;
+  const result = document.getElementById("qrResult");
+
+  result.innerHTML = "";
+
+  if (!text) {
+    result.innerText = "Please enter text or URL.";
+    return;
+  }
+
+  new QRCode(result, {
+    text: text,
+    width: 200,
+    height: 200
+  });
+}
+
+// QR CODE SCANNER
+const scanner = new Html5Qrcode("reader");
+
+scanner.start(
+  { facingMode: "environment" },
+  {
+    fps: 10,
+    qrbox: 250
+  },
+  qrCodeMessage => {
+    document.getElementById("scanResult").innerText =
+      "Scanned: " + qrCodeMessage;
+    scanner.stop();
+  }
+);

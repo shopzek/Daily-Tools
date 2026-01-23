@@ -237,29 +237,35 @@ function wordToPdf() {
   const file = fileInput.files[0];
   const reader = new FileReader();
 
-  reader.onload = function (event) {
-    // Convert Word to HTML
-    mammoth.convertToHtml({ arrayBuffer: event.target.result })
-      .then(function (result) {
-        const tempDiv = document.createElement("div");
-        tempDiv.innerHTML = result.value;
+  reader.onload = function(event) {
+    const arrayBuffer = event.target.result;
 
-        // Convert HTML to PDF
-        html2pdf()
-          .set({
-            margin: 10,
-            filename: file.name.replace(".docx", ".pdf"),
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
-          })
-          .from(tempDiv)
-          .save()
-          .then(() => {
-            status.innerText = "PDF ready! Download should start automatically.";
-          });
+    // Extract raw text from Word
+    mammoth.extractRawText({ arrayBuffer: arrayBuffer })
+      .then(function(result) {
+        let text = result.value;
 
+        if (!text.trim()) {
+          status.innerText = "The Word file seems empty!";
+          return;
+        }
+
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ unit: "mm", format: "a4" });
+
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const margin = 10;
+        const maxLineWidth = pageWidth - margin * 2;
+
+        // Split text into lines that fit the page width
+        const lines = pdf.splitTextToSize(text, maxLineWidth);
+
+        pdf.text(lines, margin, 20); // start 20mm from top
+        pdf.save(file.name.replace(".docx", ".pdf"));
+
+        status.innerText = "PDF ready! Download should start automatically.";
       })
-      .catch(function (err) {
+      .catch(function(err) {
         console.error(err);
         status.innerText = "Conversion failed!";
       });

@@ -217,21 +217,22 @@ function convertImage() {
       `;
     };
   };
+// TOOL SWITCHER
 function openTool(toolName) {
-  // Hide all tool sections
   const tools = document.querySelectorAll('.tool');
   tools.forEach(t => t.style.display = 'none');
 
-  // Show selected tool
   const selectedTool = document.getElementById(`tool-${toolName}`);
   if (selectedTool) {
     selectedTool.style.display = 'block';
     selectedTool.scrollIntoView({ behavior: 'smooth' });
   }
 }
-document.addEventListener("DOMContentLoaded", () => {
-  const compressInput = document.getElementById("compressInput");
+
+// IMAGE COMPRESSOR
+window.addEventListener("load", () => {
   const compressBtn = document.getElementById("compressBtn");
+  const compressInput = document.getElementById("compressInput");
   const compressStatus = document.getElementById("compressStatus");
   const compressResult = document.getElementById("compressResult");
 
@@ -250,17 +251,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
       img.onload = function() {
         const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-
         canvas.width = img.width;
         canvas.height = img.height;
-
+        const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0);
 
-        // Compress image: 60% quality
         const compressedDataUrl = canvas.toDataURL(file.type, 0.6);
 
-        // Create download link
+        compressResult.innerHTML = `<img src="${compressedDataUrl}" style="max-width:300px; display:block;">`;
+
         const link = document.createElement("a");
         link.href = compressedDataUrl;
         link.download = "compressed_" + file.name;
@@ -268,7 +267,6 @@ document.addEventListener("DOMContentLoaded", () => {
         link.style.display = "block";
         link.style.marginTop = "10px";
 
-        compressResult.innerHTML = `<img src="${compressedDataUrl}" style="max-width:300px; display:block;">`;
         compressResult.appendChild(link);
 
         compressStatus.innerText = "Image compressed successfully!";

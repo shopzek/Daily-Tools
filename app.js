@@ -225,7 +225,7 @@ function convertImage() {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 }
-function wordToPdf() {
+document.getElementById("convertBtn").addEventListener("click", () => {
   const fileInput = document.getElementById("wordInput");
   const status = document.getElementById("wordStatus");
 
@@ -240,13 +240,13 @@ function wordToPdf() {
   reader.onload = function(event) {
     const arrayBuffer = event.target.result;
 
-    // Extract raw text from Word
+    // Extract raw text
     mammoth.extractRawText({ arrayBuffer: arrayBuffer })
-      .then(function(result) {
-        let text = result.value;
+      .then((result) => {
+        const text = result.value;
 
         if (!text.trim()) {
-          status.innerText = "The Word file seems empty!";
+          status.innerText = "The Word file is empty!";
           return;
         }
 
@@ -257,19 +257,30 @@ function wordToPdf() {
         const margin = 10;
         const maxLineWidth = pageWidth - margin * 2;
 
-        // Split text into lines that fit the page width
+        // Split into lines that fit the page
         const lines = pdf.splitTextToSize(text, maxLineWidth);
 
-        pdf.text(lines, margin, 20); // start 20mm from top
-        pdf.save(file.name.replace(".docx", ".pdf"));
+        let y = 20; // start 20mm from top
+        const lineHeight = 7; // line height
 
+        for (let i = 0; i < lines.length; i++) {
+          if (y > pdf.internal.pageSize.getHeight() - 20) { // page break
+            pdf.addPage();
+            y = 20;
+          }
+          pdf.text(lines[i], margin, y);
+          y += lineHeight;
+        }
+
+        pdf.save(file.name.replace(".docx", ".pdf"));
         status.innerText = "PDF ready! Download should start automatically.";
       })
-      .catch(function(err) {
+      .catch((err) => {
         console.error(err);
         status.innerText = "Conversion failed!";
       });
   };
 
   reader.readAsArrayBuffer(file);
-}
+});
+

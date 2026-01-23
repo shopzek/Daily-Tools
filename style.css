@@ -111,3 +111,21 @@ hr {
   margin-bottom: 10px;
   border-radius: 8px;
 }
+.tool img {
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+button {
+  cursor: pointer;
+  padding: 10px 20px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #1d4ed8;
+}

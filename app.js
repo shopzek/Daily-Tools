@@ -257,4 +257,45 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
+function convertPngToJpg() {
+  const input = document.getElementById("pngInput");
+  const output = document.getElementById("pngOutput");
+
+  if (!input.files.length) {
+    output.innerText = "Please select a PNG file!";
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.src = e.target.result;
+    img.onload = function() {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
+
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = input.files[0].name.replace(".png", ".jpg");
+      link.innerText = "Download JPG";
+      link.style.display = "block";
+
+      output.innerHTML = "";
+      output.appendChild(link);
+    };
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+function mergePdfFiles() {
+  alert("Merge PDF function not implemented yet."); // You can integrate PDF-lib later
+}
+
+function convertVideo() {
+  alert("Video conversion function not implemented yet."); // You can integrate ffmpeg.js later
+}
 

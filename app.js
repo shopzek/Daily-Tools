@@ -180,81 +180,8 @@ async function convertPdfToJpg() {
   fileReader.readAsArrayBuffer(file);
 }
 
-// TOOL SWITCHER
-function openTool(toolName) {
-  const tools = document.querySelectorAll('.tool, .tool-area');
-  tools.forEach(t => t.style.display = 'none');
-
-  const selectedTool = document.getElementById(`tool-${toolName}`);
-  if (selectedTool) {
-    selectedTool.style.display = 'block';
-    selectedTool.scrollIntoView({ behavior: 'smooth' });
-  }
-}
-
-// ---------------------------
-// IMAGE COMPRESSOR
-// ---------------------------
-window.addEventListener("load", () => {
-  const compressBtn = document.getElementById("compressBtn");
-  const compressInput = document.getElementById("compressInput");
-  const compressStatus = document.getElementById("compressStatus");
-  const compressResult = document.getElementById("compressResult");
-
-  if (compressBtn) {
-    compressBtn.addEventListener("click", () => {
-      compressStatus.innerText = "";
-      compressResult.innerHTML = "";
-
-      if (!compressInput.files.length) {
-        compressStatus.style.color = "red";
-        compressStatus.innerText = "Please select an image!";
-        return;
-      }
-
-      const file = compressInput.files[0];
-      const reader = new FileReader();
-
-      reader.onload = function(event) {
-        const img = new Image();
-        img.src = event.target.result;
-
-        img.onload = function() {
-          const canvas = document.createElement("canvas");
-          canvas.width = img.width;
-          canvas.height = img.height;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0);
-
-          const compressedDataUrl = canvas.toDataURL(file.type, 0.6);
-
-          compressResult.innerHTML = `<img src="${compressedDataUrl}" style="max-width:300px; display:block;">`;
-
-          const link = document.createElement("a");
-          link.href = compressedDataUrl;
-          link.download = "compressed_" + file.name;
-          link.innerText = "Download Compressed Image";
-          link.style.display = "block";
-          link.style.marginTop = "10px";
-          compressResult.appendChild(link);
-
-          compressStatus.style.color = "green";
-          compressStatus.innerText = "Image compressed successfully!";
-        };
-
-        img.onerror = function() {
-          compressStatus.style.color = "red";
-          compressStatus.innerText = "Failed to load image!";
-        };
-      };
-
-      reader.readAsDataURL(file);
-    });
-  }
-});
-
 // IMAGE CONVERTER + COMPRESSOR with Width/Height
-window.addEventListener("load", () => {
+window.addEventListener("DOMContentLoaded", () => {
   const convertBtn = document.getElementById("convertImgBtn");
   const imgInput = document.getElementById("imgInput");
   const formatSelect = document.getElementById("format");
@@ -279,9 +206,9 @@ window.addEventListener("load", () => {
       img.src = e.target.result;
 
       img.onload = function() {
-        // Set width & height
-        let width = parseInt(widthInput.value) || img.width;
-        let height = parseInt(heightInput.value) || img.height;
+        // Determine width & height
+        const width = parseInt(widthInput.value) || img.width;
+        const height = parseInt(heightInput.value) || img.height;
 
         const canvas = document.createElement("canvas");
         canvas.width = width;
@@ -289,15 +216,16 @@ window.addEventListener("load", () => {
         const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
 
-        let outputType = formatSelect.value;
-        let quality = compressCheckbox.checked ? 0.6 : 0.9;
+        // Determine output type and quality
+        const outputType = formatSelect.value;
+        const quality = compressCheckbox.checked ? 0.6 : 0.9;
 
         const finalDataUrl = canvas.toDataURL(outputType, quality);
 
         // Show preview
         imgResult.innerHTML = `<img src="${finalDataUrl}" style="max-width:300px; display:block;">`;
 
-        // Download link
+        // Create download link
         const link = document.createElement("a");
         link.href = finalDataUrl;
         const ext = outputType.split("/")[1];
@@ -312,11 +240,6 @@ window.addEventListener("load", () => {
         imgResult.innerText = "Failed to load image!";
       };
     };
-
-    reader.readAsDataURL(file);
-  });
-});
-
 
     reader.readAsDataURL(file);
   });

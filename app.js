@@ -59,15 +59,21 @@ function generateQR() {
   });
 }
 // TIMER
-let timerInterval;
+let timerInterval = null;
 
 function startTimer() {
-  const minutes = document.getElementById("minutes").value;
-  let time = minutes * 60;
+  const minutesInput = document.getElementById("minutes");
   const display = document.getElementById("timerDisplay");
 
-  if (!minutes) {
-    display.innerText = "Enter minutes";
+  if (!minutesInput || !display) {
+    alert("Timer elements not found");
+    return;
+  }
+
+  let time = parseInt(minutesInput.value, 10) * 60;
+
+  if (isNaN(time) || time <= 0) {
+    display.innerText = "Enter valid minutes";
     return;
   }
 
@@ -81,7 +87,7 @@ function startTimer() {
       String(mins).padStart(2, "0") + ":" +
       String(secs).padStart(2, "0");
 
-    if (time <= 0) {
+    if (time === 0) {
       clearInterval(timerInterval);
       alert("Time is up!");
     }
@@ -94,20 +100,19 @@ function resetTimer() {
   clearInterval(timerInterval);
   document.getElementById("timerDisplay").innerText = "00:00";
 }
-
 // STOPWATCH
-let stopwatchInterval;
-let seconds = 0;
+let stopwatchInterval = null;
+let stopwatchSeconds = 0;
 
 function startStopwatch() {
   if (stopwatchInterval) return;
 
   stopwatchInterval = setInterval(() => {
-    seconds++;
+    stopwatchSeconds++;
 
-    const hrs = Math.floor(seconds / 3600);
-    const mins = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
+    const hrs = Math.floor(stopwatchSeconds / 3600);
+    const mins = Math.floor((stopwatchSeconds % 3600) / 60);
+    const secs = stopwatchSeconds % 60;
 
     document.getElementById("stopwatchDisplay").innerText =
       String(hrs).padStart(2, "0") + ":" +
@@ -123,6 +128,7 @@ function stopStopwatch() {
 
 function resetStopwatch() {
   stopStopwatch();
-  seconds = 0;
+  stopwatchSeconds = 0;
   document.getElementById("stopwatchDisplay").innerText = "00:00:00";
 }
+

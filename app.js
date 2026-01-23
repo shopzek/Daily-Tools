@@ -218,6 +218,12 @@ function convertImage() {
   };
 
   reader.readAsDataURL(file);
+  <!-- Mammoth.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+
+<!-- html2pdf.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 }
 function wordToPdf() {
   const fileInput = document.getElementById("wordInput");

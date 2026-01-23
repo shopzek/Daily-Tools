@@ -24,7 +24,6 @@
 <section class="tools-grid" id="tools">
   <div class="tool-card" onclick="openTool('jpgpdf')">JPG to PDF</div>
 <div class="tool-card" onclick="openTool('pdfjpg')">PDF to JPG</div>
-<div class="tool-card" onclick="openTool('wordpdf')">Word to PDF</div>
 <div class="tool-card" onclick="openTool('pngjpg')">PNG to JPG</div>
 <div class="tool-card" onclick="openTool('compress')">Image Compressor</div>
 <div class="tool-card" onclick="openTool('mergepdf')">Merge PDF</div>
@@ -123,23 +122,12 @@
 <!-- PDF.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
-<!-- WORD TO PDF -->
-<section class="tool">
-  <h2>Word to PDF</h2>
-  <input type="file" id="wordInput" accept=".docx">
-  <button id="convertBtn">Convert to PDF</button>
-  <div id="wordStatus"></div>
-</section>
+
 
 
 
 <!-- REQUIRED LIBRARIES -->
 <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-   <!-- Mammoth.js: extract text from Word -->
-<script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
-
-<!-- html2pdf.js: convert HTML to PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <footer>

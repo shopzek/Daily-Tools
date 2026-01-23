@@ -93,6 +93,19 @@
   <button onclick="resetStopwatch()">Reset</button>
 </section>
 
+  <section class="tool-area" id="tool-area">
+  <h2>PDF to JPG Converter</h2>
+
+  <input type="file" id="pdfInput" accept="application/pdf">
+  <br><br>
+  <button onclick="convertPdfToJpg()">Convert to JPG</button>
+
+  <div id="imageOutput" style="margin-top:20px;"></div>
+</section>
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
 
 <footer>
   <p>© 2026 DailyTools • Files never leave your device</p>

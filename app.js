@@ -219,34 +219,43 @@ function convertImage() {
 
   reader.readAsDataURL(file);
 }
-/* WORD TO PDF */
 function wordToPdf() {
   const fileInput = document.getElementById("wordInput");
   const status = document.getElementById("wordStatus");
 
   if (!fileInput.files.length) {
-    alert("Please select a Word file");
+    status.innerText = "Please select a Word file!";
     return;
   }
 
   const file = fileInput.files[0];
-
   const reader = new FileReader();
+
   reader.onload = function (event) {
+    // Convert Word to HTML
     mammoth.convertToHtml({ arrayBuffer: event.target.result })
       .then(function (result) {
         const tempDiv = document.createElement("div");
         tempDiv.innerHTML = result.value;
 
+        // Convert HTML to PDF
         html2pdf()
+          .set({
+            margin: 10,
+            filename: file.name.replace(".docx", ".pdf"),
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+          })
           .from(tempDiv)
-          .save(file.name.replace(".docx", ".pdf"));
+          .save()
+          .then(() => {
+            status.innerText = "PDF ready! Download should start automatically.";
+          });
 
-        status.innerText = "Converting… PDF will download automatically.";
       })
       .catch(function (err) {
-        alert("Conversion failed");
         console.error(err);
+        status.innerText = "Conversion failed!";
       });
   };
 

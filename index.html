@@ -102,20 +102,15 @@
   <div id="imageOutput" style="margin-top:20px;"></div>
 </section>
   
-<!-- IMAGE COMPRESSOR -->
-<section class="tool-area" id="tool-image-compressor" style="display:none;">
-  <h2>Image Compressor</h2>
-  <input type="file" id="compressInput" accept="image/jpeg, image/png">
-  <br><br>
-  <button id="compressBtn">Compress Image</button>
-  <div id="compressStatus"></div>
-  <div id="compressResult" style="margin-top:20px;"></div>
-</section>
 
-<!-- IMAGE CONVERTER / COMPRESS -->
+<!-- IMAGE COMPRESSOR -->
 <section class="tool-area" id="tool-image-converter" style="display:none;">
   <h2>Image Converter & Compressor</h2>
   <input type="file" id="imgInput" accept="image/png,image/jpeg">
+  <br><br>
+  <label>
+    <input type="checkbox" id="compressCheckbox"> Compress Image
+  </label>
   <br><br>
   <select id="format">
     <option value="image/jpeg">Convert to JPG</option>
@@ -125,6 +120,7 @@
   <button id="convertImgBtn">Convert / Compress</button>
   <div id="imgResult" style="margin-top:20px;"></div>
 </section>
+
 
 
 

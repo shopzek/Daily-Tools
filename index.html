@@ -49,6 +49,30 @@
 <!-- jsPDF library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
+  <section class="tool-area" id="tool-area">
+  <h2>QR Code Tools</h2>
+
+  <!-- QR Generator -->
+  <h3>Generate QR Code</h3>
+  <input type="text" id="qrText" placeholder="Enter text or URL">
+  <br><br>
+  <button onclick="generateQR()">Generate QR</button>
+  <div id="qrResult" style="margin-top:20px;"></div>
+
+  <hr style="margin:30px 0">
+
+  <!-- QR Scanner -->
+  <h3>Scan QR Code</h3>
+  <div id="reader" style="width:300px;"></div>
+  <p id="scanResult"></p>
+</section>
+
+<!-- QR libraries -->
+<script src="https://unpkg.com/qrcodejs/qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<script src="app.js"></script>
+
 
 <footer>
   <p>© 2026 DailyTools • Files never leave your device</p>

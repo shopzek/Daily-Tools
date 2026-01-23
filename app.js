@@ -220,12 +220,6 @@ function convertImage() {
 
   reader.readAsDataURL(file);
   
-<!-- Mammoth.js: extract text from Word -->
-<script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
-
-<!-- html2pdf.js: convert HTML to PDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 document.addEventListener("DOMContentLoaded", () => {
   const convertBtn = document.getElementById("convertBtn");
   const wordInput = document.getElementById("wordInput");

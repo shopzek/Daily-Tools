@@ -180,8 +180,7 @@ async function convertPdfToJpg() {
   fileReader.readAsArrayBuffer(file);
 }
 
-// IMAGE CONVERTER + COMPRESSOR with Width/Height
-window.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function() {
   const convertBtn = document.getElementById("convertImgBtn");
   const imgInput = document.getElementById("imgInput");
   const formatSelect = document.getElementById("format");
@@ -190,7 +189,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const heightInput = document.getElementById("imgHeight");
   const imgResult = document.getElementById("imgResult");
 
-  convertBtn.addEventListener("click", () => {
+  convertBtn.addEventListener("click", function() {
     imgResult.innerHTML = "";
 
     if (!imgInput.files.length) {
@@ -206,7 +205,7 @@ window.addEventListener("DOMContentLoaded", () => {
       img.src = e.target.result;
 
       img.onload = function() {
-        // Determine width & height
+        // Set width and height
         const width = parseInt(widthInput.value) || img.width;
         const height = parseInt(heightInput.value) || img.height;
 
@@ -216,14 +215,17 @@ window.addEventListener("DOMContentLoaded", () => {
         const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
 
-        // Determine output type and quality
         const outputType = formatSelect.value;
         const quality = compressCheckbox.checked ? 0.6 : 0.9;
 
         const finalDataUrl = canvas.toDataURL(outputType, quality);
 
         // Show preview
-        imgResult.innerHTML = `<img src="${finalDataUrl}" style="max-width:300px; display:block;">`;
+        const preview = document.createElement("img");
+        preview.src = finalDataUrl;
+        preview.style.maxWidth = "300px";
+        preview.style.display = "block";
+        imgResult.appendChild(preview);
 
         // Create download link
         const link = document.createElement("a");

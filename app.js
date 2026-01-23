@@ -220,7 +220,7 @@ function convertImage() {
 
   reader.readAsDataURL(file);
   
-document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", () => {
   const convertBtn = document.getElementById("convertBtn");
   const wordInput = document.getElementById("wordInput");
   const wordStatus = document.getElementById("wordStatus");
@@ -245,12 +245,12 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
           }
 
-          // Create temporary div to hold HTML content
+          // Create temporary div for html2pdf
           const tempDiv = document.createElement("div");
           tempDiv.innerHTML = htmlContent;
-          tempDiv.style.padding = "10px"; // add some margin for PDF
+          tempDiv.style.padding = "10px";
 
-          // Convert HTML to PDF using html2pdf
+          // Convert HTML to PDF
           html2pdf()
             .set({
               margin: 10,
@@ -262,8 +262,11 @@ document.addEventListener("DOMContentLoaded", () => {
             .save()
             .then(() => {
               wordStatus.innerText = "PDF ready! Download should start automatically.";
+            })
+            .catch(err => {
+              console.error(err);
+              wordStatus.innerText = "Conversion failed!";
             });
-
         })
         .catch(err => {
           console.error(err);

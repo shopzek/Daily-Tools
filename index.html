@@ -113,16 +113,35 @@
 <!-- Video Converter -->
 <section class="tool-area" id="tool-video" style="display:none;">
   <h2>Video Converter</h2>
+
   <input type="file" id="videoInput" accept="video/*">
   <br><br>
+
+  <label>
+    Width (px):
+    <input type="number" id="videoWidth" placeholder="Auto" style="width:80px;">
+  </label>
+  <label style="margin-left:10px;">
+    Height (px):
+    <input type="number" id="videoHeight" placeholder="Auto" style="width:80px;">
+  </label>
+  <label style="margin-left:10px;">
+    Quality (%):
+    <input type="number" id="videoQuality" placeholder="100" min="10" max="100" style="width:80px;">
+  </label>
+  <br><br>
+
   <select id="videoFormat">
     <option value="mp4">Convert to MP4</option>
     <option value="webm">Convert to WEBM</option>
   </select>
   <br><br>
-  <button onclick="convertVideo()">Convert Video</button>
+
+  <button id="convertVideoBtn">Convert Video</button>
+
   <div id="videoResult" style="margin-top:20px;"></div>
 </section>
+
 
   
 <!-- FOOTER -->

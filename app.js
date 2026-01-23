@@ -217,5 +217,70 @@ function convertImage() {
       `;
     };
   };
+function openTool(toolName) {
+  // Hide all tool sections
+  const tools = document.querySelectorAll('.tool');
+  tools.forEach(t => t.style.display = 'none');
+
+  // Show selected tool
+  const selectedTool = document.getElementById(`tool-${toolName}`);
+  if (selectedTool) {
+    selectedTool.style.display = 'block';
+    selectedTool.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const compressInput = document.getElementById("compressInput");
+  const compressBtn = document.getElementById("compressBtn");
+  const compressStatus = document.getElementById("compressStatus");
+  const compressResult = document.getElementById("compressResult");
+
+  compressBtn.addEventListener("click", () => {
+    if (!compressInput.files.length) {
+      compressStatus.innerText = "Please select an image!";
+      return;
+    }
+
+    const file = compressInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+      const img = new Image();
+      img.src = event.target.result;
+
+      img.onload = function() {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        ctx.drawImage(img, 0, 0);
+
+        // Compress image: 60% quality
+        const compressedDataUrl = canvas.toDataURL(file.type, 0.6);
+
+        // Create download link
+        const link = document.createElement("a");
+        link.href = compressedDataUrl;
+        link.download = "compressed_" + file.name;
+        link.innerText = "Download Compressed Image";
+        link.style.display = "block";
+        link.style.marginTop = "10px";
+
+        compressResult.innerHTML = `<img src="${compressedDataUrl}" style="max-width:300px; display:block;">`;
+        compressResult.appendChild(link);
+
+        compressStatus.innerText = "Image compressed successfully!";
+      };
+
+      img.onerror = function() {
+        compressStatus.innerText = "Failed to load image.";
+      };
+    };
+
+    reader.readAsDataURL(file);
+  });
+});
 
   

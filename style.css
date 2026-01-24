@@ -181,4 +181,41 @@ body{
 }
 
 
+.card{
+  background:white;
+  padding:25px;
+  border-radius:18px;
+  max-width:650px;
+  box-shadow:0 20px 50px rgba(0,0,0,.08);
+}
+
+.row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:15px 0;
+}
+
+input,select{
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #e5e7eb;
+}
+
+.primary-btn{
+  background:#2563eb;
+  color:white;
+  padding:12px 22px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:16px;
+}
+
+.primary-btn:hover{
+  background:#1e40af;
+}
+
+
+
 

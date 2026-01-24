@@ -295,7 +295,18 @@ function mergePdfFiles() {
 }
 
 /* VIDEO CONVERTER – MP4 / HD / 3GP / MP3 / WEBM */
-const { createFFmpeg } = FFmpeg;
+const ffmpeg = FFmpeg.createFFmpeg({
+  log: true,
+  progress: ({ ratio }) => {
+    const percent = Math.round(ratio * 100);
+    const bar = document.getElementById("videoProgress");
+    const text = document.getElementById("progressText");
+
+    bar.style.display = "block";
+    bar.value = percent;
+    text.innerText = `Processing: ${percent}%`;
+  }
+});
 const { fetchFile } = FFmpegUtil;
 
 const ffmpeg = createFFmpeg({ log: true });

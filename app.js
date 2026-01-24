@@ -366,3 +366,19 @@ document.getElementById("convertVideoBtn").addEventListener("click", async () =>
     <a href="${url}" download="${output}">Download Converted File</a>
   `;
 });
+
+
+
+function openTool(id){
+  document.querySelectorAll('.tool-area').forEach(t=>{
+    t.style.display="none";
+  });
+
+  const el=document.getElementById(id);
+  el.style.display="block";
+  el.classList.remove("fade");
+  void el.offsetWidth;
+  el.classList.add("fade");
+}
+
+

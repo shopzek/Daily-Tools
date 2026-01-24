@@ -295,55 +295,71 @@ function mergePdfFiles() {
 }
 
 /* VIDEO CONVERTER – MP4 / HD / 3GP / MP3 / WEBM */
-const { createFFmpeg, fetchFile } = FFmpeg;
+const { createFFmpeg } = FFmpeg;
+const { fetchFile } = FFmpegUtil;
+
 const ffmpeg = createFFmpeg({ log: true });
 
-document.getElementById("convertVideoBtn").addEventListener("click", async () => {
-  const fileInput = document.getElementById("videoInput");
+document.getElementById("convertVideoBtn").onclick = async () => {
+  const input = document.getElementById("videoInput");
   const format = document.getElementById("videoFormat").value;
-  const resultDiv = document.getElementById("videoResult");
+  const outputDiv = document.getElementById("videoResult");
 
-  if (!fileInput.files.length) {
+  if (!input.files.length) {
     alert("Please select a video file");
     return;
   }
 
-  resultDiv.innerHTML = "⏳ Loading converter...";
+  outputDiv.innerHTML = "⏳ Loading FFmpeg (first time may take 10–20 sec)...";
 
-  if (!ffmpeg.isLoaded()) {
-    await ffmpeg.load();
+  try {
+    if (!ffmpeg.isLoaded()) {
+      await ffmpeg.load();
+    }
+
+    const file = input.files[0];
+    ffmpeg.FS("writeFile", "input", await fetchFile(file));
+
+    let outputFile = "output.mp4";
+    let args = ["-i", "input", outputFile];
+
+    if (format === "mp3") {
+      outputFile = "output.mp3";
+      args = ["-i", "input", outputFile];
+    }
+
+    if (format === "3gp") {
+      outputFile = "output.3gp";
+      args = ["-i", "input", outputFile];
+    }
+
+    if (format === "webm") {
+      outputFile = "output.webm";
+      args = ["-i", "input", outputFile];
+    }
+
+    if (format === "hd") {
+      outputFile = "output_hd.mp4";
+      args = ["-i", "input", "-vf", "scale=1280:720", outputFile];
+    }
+
+    await ffmpeg.run(...args);
+
+    const data = ffmpeg.FS("readFile", outputFile);
+    const url = URL.createObjectURL(
+      new Blob([data.buffer])
+    );
+
+    outputDiv.innerHTML = `
+      ✅ Done!<br><br>
+      <a href="${url}" download="${outputFile}">⬇ Download</a>
+    `;
+
+  } catch (err) {
+    console.error(err);
+    outputDiv.innerHTML = "❌ Conversion failed. Try smaller file.";
   }
-
-  const file = fileInput.files[0];
-  const inputName = "input";
-  const outputName = `output.${format === "hd" ? "mp4" : format}`;
-
-  ffmpeg.FS("writeFile", inputName, await fetchFile(file));
-
-  let command = [];
-
-  if (format === "mp3") {
-    command = ["-i", inputName, outputName];
-  } 
-  else if (format === "hd") {
-    command = ["-i", inputName, "-vf", "scale=1280:720", outputName];
-  } 
-  else {
-    command = ["-i", inputName, outputName];
-  }
-
-  await ffmpeg.run(...command);
-
-  const data = ffmpeg.FS("readFile", outputName);
-  const url = URL.createObjectURL(
-    new Blob([data.buffer], { type: "video/mp4" })
-  );
-
-  resultDiv.innerHTML = `
-    ✅ Conversion complete<br><br>
-    <a href="${url}" download="${outputName}">⬇ Download File</a>
-  `;
-});
+};
 
 /* For Header Color Dark  */
 function openTool(toolId) {

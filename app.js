@@ -11,7 +11,7 @@ async function convertJpgToPdf() {
   const input = document.getElementById("jpgInput");
   const status = document.getElementById("status");
 
-  if (!input.files.length) {
+  if (!input || !input.files.length) {
     status.innerText = "Please select JPG images";
     return;
   }
@@ -32,10 +32,11 @@ async function convertJpgToPdf() {
       img.src = imgData;
     });
 
-    const w = pdf.internal.pageSize.getWidth();
-    const h = (img.height * w) / img.width;
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = (img.height * pageWidth) / img.width;
+
     if (i > 0) pdf.addPage();
-    pdf.addImage(img, "JPEG", 0, 0, w, h);
+    pdf.addImage(img, "JPEG", 0, 0, pageWidth, pageHeight);
   }
 
   pdf.save("converted.pdf");
@@ -43,20 +44,30 @@ async function convertJpgToPdf() {
 }
 
 /* ===============================
-   QR CODE
+   QR CODE GENERATOR
 ================================ */
 function generateQR() {
   const text = document.getElementById("qrText").value.trim();
   const box = document.getElementById("qrResult");
+
   box.innerHTML = "";
-  if (!text) return (box.innerText = "Enter text");
-  new QRCode(box, { text, width: 200, height: 200 });
+  if (!text) {
+    box.innerText = "Enter text or URL";
+    return;
+  }
+
+  new QRCode(box, {
+    text,
+    width: 200,
+    height: 200
+  });
 }
 
 /* ===============================
-   TIMER + STOPWATCH (FIXED)
+   TIMER + STOPWATCH
 ================================ */
-let timerInterval, stopwatchInterval;
+let timerInterval = null;
+let stopwatchInterval = null;
 let swSeconds = 0;
 
 const minutesInput = document.getElementById("minutes");
@@ -64,14 +75,16 @@ const timerDisplay = document.getElementById("timerDisplay");
 const stopwatchDisplay = document.getElementById("stopwatchDisplay");
 
 function startTimer() {
-  let time = parseInt(minutesInput.value) * 60;
-  if (!time) return alert("Enter minutes");
+  const minutes = parseInt(minutesInput.value, 10);
+  if (!minutes || minutes <= 0) return alert("Enter valid minutes");
 
+  let time = minutes * 60;
   clearInterval(timerInterval);
+
   timerInterval = setInterval(() => {
-    timerDisplay.innerText =
-      String(Math.floor(time / 60)).padStart(2, "0") + ":" +
-      String(time % 60).padStart(2, "0");
+    const m = String(Math.floor(time / 60)).padStart(2, "0");
+    const s = String(time % 60).padStart(2, "0");
+    timerDisplay.innerText = `${m}:${s}`;
 
     if (--time < 0) clearInterval(timerInterval);
   }, 1000);
@@ -84,12 +97,13 @@ function resetTimer() {
 
 function startStopwatch() {
   if (stopwatchInterval) return;
+
   stopwatchInterval = setInterval(() => {
     swSeconds++;
-    stopwatchDisplay.innerText =
-      String(Math.floor(swSeconds / 3600)).padStart(2, "0") + ":" +
-      String(Math.floor(swSeconds / 60) % 60).padStart(2, "0") + ":" +
-      String(swSeconds % 60).padStart(2, "0");
+    const h = String(Math.floor(swSeconds / 3600)).padStart(2, "0");
+    const m = String(Math.floor(swSeconds / 60) % 60).padStart(2, "0");
+    const s = String(swSeconds % 60).padStart(2, "0");
+    stopwatchDisplay.innerText = `${h}:${m}:${s}`;
   }, 1000);
 }
 
@@ -108,15 +122,18 @@ function resetStopwatch() {
    PDF → JPG
 ================================ */
 async function convertPdfToJpg() {
-  const file = pdfInput.files[0];
-  if (!file) return alert("Select PDF");
+  const input = document.getElementById("pdfInput");
+  const output = document.getElementById("imageOutput");
 
-  imageOutput.innerHTML = "";
-  const pdf = await pdfjsLib.getDocument(await file.arrayBuffer()).promise;
+  if (!input.files.length) return alert("Select a PDF file");
+
+  output.innerHTML = "";
+  const pdf = await pdfjsLib.getDocument(await input.files[0].arrayBuffer()).promise;
 
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const viewport = page.getViewport({ scale: 2 });
+
     const canvas = document.createElement("canvas");
     canvas.width = viewport.width;
     canvas.height = viewport.height;
@@ -128,20 +145,26 @@ async function convertPdfToJpg() {
 
     const img = document.createElement("img");
     img.src = canvas.toDataURL("image/jpeg", 1);
-    imageOutput.appendChild(img);
+    img.style.maxWidth = "100%";
+    output.appendChild(img);
   }
 }
 
 /* ===============================
-   MERGE PDF (FIXED)
+   MERGE PDF
 ================================ */
 async function mergePdfFiles() {
-  const files = mergePdfInput.files;
-  if (files.length < 2) return alert("Select at least 2 PDFs");
+  const input = document.getElementById("mergePdfInput");
+  const result = document.getElementById("mergePdfResult");
+
+  if (!input.files || input.files.length < 2) {
+    alert("Select at least 2 PDF files");
+    return;
+  }
 
   const merged = await PDFLib.PDFDocument.create();
 
-  for (const file of files) {
+  for (const file of input.files) {
     const pdf = await PDFLib.PDFDocument.load(await file.arrayBuffer());
     const pages = await merged.copyPages(pdf, pdf.getPageIndices());
     pages.forEach(p => merged.addPage(p));
@@ -150,77 +173,20 @@ async function mergePdfFiles() {
   const blob = new Blob([await merged.save()], { type: "application/pdf" });
   const url = URL.createObjectURL(blob);
 
-  mergePdfResult.innerHTML =
+  result.innerHTML =
     `<a href="${url}" download="merged.pdf">⬇ Download Merged PDF</a>`;
 }
-
-/* ===============================
-   VIDEO CONVERTER (EXPANDED)
-================================ */
-const { createFFmpeg, fetchFile } = FFmpeg;
-
-let ffmpeg;
-
-async function loadFFmpeg() {
-  if (ffmpeg) return;
-
-  ffmpeg = createFFmpeg({
-    log: true,
-    corePath: "./ffmpeg/ffmpeg-core.js" // ✅ LOCAL CORE
-  });
-
-  await ffmpeg.load();
-}
-
-document.getElementById("convertVideoBtn").addEventListener("click", async () => {
-  const file = videoInput.files[0];
-  const format = videoFormat.value;
-
-  if (!file) {
-    alert("Select a video file");
-    return;
-  }
-
-  videoResult.innerHTML = "⏳ Loading FFmpeg (first run ~10s)...";
-
-  try {
-    await loadFFmpeg();
-
-    ffmpeg.FS("writeFile", "input", await fetchFile(file));
-
-    let output = `output.${format}`;
-
-    if (format === "mp3") {
-      await ffmpeg.run(
-        "-i", "input",
-        "-vn",
-        "-acodec", "libmp3lame",
-        output
-      );
-    } else {
-      await ffmpeg.run("-i", "input", output);
-    }
-
-    const data = ffmpeg.FS("readFile", output);
-    const url = URL.createObjectURL(new Blob([data.buffer]));
-
-    videoResult.innerHTML = `
-      ✅ Conversion successful<br>
-      <a href="${url}" download="${output}">⬇ Download</a>
-    `;
-  } catch (err) {
-    console.error(err);
-    videoResult.innerHTML = "❌ Conversion failed. See console.";
-  }
-});
 
 /* ===============================
    UI HELPERS
 ================================ */
 function openTool(id) {
-  document.querySelectorAll(".tool-area").forEach(t => t.style.display = "none");
+  document.querySelectorAll(".tool-area").forEach(
+    section => section.style.display = "none"
+  );
   document.getElementById(id).style.display = "block";
 }
+
 function toggleDark() {
   document.body.classList.toggle("dark");
 }

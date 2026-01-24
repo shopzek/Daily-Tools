@@ -49,187 +49,136 @@ function generateQR() {
   const text = document.getElementById("qrText").value.trim();
   const box = document.getElementById("qrResult");
   box.innerHTML = "";
-
   if (!text) return (box.innerText = "Enter text");
-
   new QRCode(box, { text, width: 200, height: 200 });
 }
 
 /* ===============================
-   TIMER + STOPWATCH
+   TIMER + STOPWATCH (FIXED)
 ================================ */
-let timerInt, stopwatchInt, swSec = 0;
+let timerInterval, stopwatchInterval;
+let swSeconds = 0;
+
+const minutesInput = document.getElementById("minutes");
+const timerDisplay = document.getElementById("timerDisplay");
+const stopwatchDisplay = document.getElementById("stopwatchDisplay");
 
 function startTimer() {
-  let t = parseInt(minutes.value) * 60;
-  if (!t) return;
-  clearInterval(timerInt);
-  timerInt = setInterval(() => {
+  let time = parseInt(minutesInput.value) * 60;
+  if (!time) return alert("Enter minutes");
+
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
     timerDisplay.innerText =
-      String(Math.floor(t / 60)).padStart(2, "0") + ":" +
-      String(t % 60).padStart(2, "0");
-    if (t-- <= 0) clearInterval(timerInt);
+      String(Math.floor(time / 60)).padStart(2, "0") + ":" +
+      String(time % 60).padStart(2, "0");
+
+    if (--time < 0) clearInterval(timerInterval);
   }, 1000);
 }
+
 function resetTimer() {
-  clearInterval(timerInt);
+  clearInterval(timerInterval);
   timerDisplay.innerText = "00:00";
 }
+
 function startStopwatch() {
-  if (stopwatchInt) return;
-  stopwatchInt = setInterval(() => {
-    swSec++;
+  if (stopwatchInterval) return;
+  stopwatchInterval = setInterval(() => {
+    swSeconds++;
     stopwatchDisplay.innerText =
-      String(Math.floor(swSec / 3600)).padStart(2, "0") + ":" +
-      String(Math.floor(swSec / 60) % 60).padStart(2, "0") + ":" +
-      String(swSec % 60).padStart(2, "0");
+      String(Math.floor(swSeconds / 3600)).padStart(2, "0") + ":" +
+      String(Math.floor(swSeconds / 60) % 60).padStart(2, "0") + ":" +
+      String(swSeconds % 60).padStart(2, "0");
   }, 1000);
 }
-function stopStopwatch() { clearInterval(stopwatchInt); stopwatchInt = null; }
-function resetStopwatch() { stopStopwatch(); swSec = 0; stopwatchDisplay.innerText="00:00:00"; }
+
+function stopStopwatch() {
+  clearInterval(stopwatchInterval);
+  stopwatchInterval = null;
+}
+
+function resetStopwatch() {
+  stopStopwatch();
+  swSeconds = 0;
+  stopwatchDisplay.innerText = "00:00:00";
+}
 
 /* ===============================
    PDF → JPG
 ================================ */
 async function convertPdfToJpg() {
-  const f = pdfInput.files[0];
-  if (!f) return alert("Select PDF");
-  imageOutput.innerHTML = "";
+  const file = pdfInput.files[0];
+  if (!file) return alert("Select PDF");
 
-  const pdf = await pdfjsLib.getDocument(await f.arrayBuffer()).promise;
+  imageOutput.innerHTML = "";
+  const pdf = await pdfjsLib.getDocument(await file.arrayBuffer()).promise;
+
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
-    const v = page.getViewport({ scale: 2 });
-    const c = document.createElement("canvas");
-    c.width = v.width; c.height = v.height;
-    await page.render({ canvasContext: c.getContext("2d"), viewport: v }).promise;
+    const viewport = page.getViewport({ scale: 2 });
+    const canvas = document.createElement("canvas");
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+
+    await page.render({
+      canvasContext: canvas.getContext("2d"),
+      viewport
+    }).promise;
+
     const img = document.createElement("img");
-    img.src = c.toDataURL("image/jpeg", 1);
+    img.src = canvas.toDataURL("image/jpeg", 1);
     imageOutput.appendChild(img);
   }
 }
 
 /* ===============================
-   IMAGE CONVERTER
-================================ */
-document.addEventListener("DOMContentLoaded", () => {
-  convertImgBtn.onclick = () => {
-    if (!imgInput.files.length) return;
-    const r = new FileReader();
-    r.onload = e => {
-      const img = new Image();
-      img.onload = () => {
-        const w = imgWidth.value || img.width;
-        const h = imgHeight.value || img.height;
-        const c = document.createElement("canvas");
-        c.width = w; c.height = h;
-        c.getContext("2d").drawImage(img, 0, 0, w, h);
-        const out = c.toDataURL(format.value, compressCheckbox.checked ? .6 : .9);
-        imgResult.innerHTML = `<img src="${out}" style="max-width:300px"><a download href="${out}">Download</a>`;
-      };
-      img.src = e.target.result;
-    };
-    r.readAsDataURL(imgInput.files[0]);
-  };
-});
-
-/* ===============================
-   PNG → JPG
-================================ */
-function convertPngToJpg() {
-  const f = pngInput.files[0];
-  if (!f) return;
-  const r = new FileReader();
-  r.onload = e => {
-    const img = new Image();
-    img.onload = () => {
-      const c = document.createElement("canvas");
-      c.width = img.width; c.height = img.height;
-      c.getContext("2d").drawImage(img, 0, 0);
-      const d = c.toDataURL("image/jpeg", .9);
-      pngOutput.innerHTML = `<a href="${d}" download="image.jpg">Download JPG</a>`;
-    };
-    img.src = e.target.result;
-  };
-  r.readAsDataURL(f);
-}
-
-/* ===============================
-   MERGE PDF (REAL)
+   MERGE PDF (FIXED)
 ================================ */
 async function mergePdfFiles() {
   const files = mergePdfInput.files;
-  if (files.length < 2) return alert("Select 2+ PDFs");
+  if (files.length < 2) return alert("Select at least 2 PDFs");
 
-  const out = await PDFLib.PDFDocument.create();
-  for (const f of files) {
-    const pdf = await PDFLib.PDFDocument.load(await f.arrayBuffer());
-    (await out.copyPages(pdf, pdf.getPageIndices()))
-      .forEach(p => out.addPage(p));
+  const merged = await PDFLib.PDFDocument.create();
+
+  for (const file of files) {
+    const pdf = await PDFLib.PDFDocument.load(await file.arrayBuffer());
+    const pages = await merged.copyPages(pdf, pdf.getPageIndices());
+    pages.forEach(p => merged.addPage(p));
   }
 
-  const url = URL.createObjectURL(
-    new Blob([await out.save()], { type: "application/pdf" })
-  );
-  mergePdfResult.innerHTML = `<a href="${url}" download="merged.pdf">Download PDF</a>`;
+  const blob = new Blob([await merged.save()], { type: "application/pdf" });
+  const url = URL.createObjectURL(blob);
+
+  mergePdfResult.innerHTML =
+    `<a href="${url}" download="merged.pdf">⬇ Download Merged PDF</a>`;
 }
 
-/* =========================
-   VIDEO CONVERTER (WORKING)
-========================= */
-
+/* ===============================
+   VIDEO CONVERTER (EXPANDED)
+================================ */
 const { createFFmpeg, fetchFile } = FFmpeg;
-const ffmpeg = createFFmpeg({ log: true });
+const ffmpeg = createFFmpeg({ log: false });
 
-document.getElementById("convertVideoBtn").addEventListener("click", async () => {
-  const input = document.getElementById("videoInput");
-  const format = document.getElementById("videoFormat").value;
-  const outputDiv = document.getElementById("videoResult");
+document.getElementById("convertVideoBtn").onclick = async () => {
+  const input = videoInput.files[0];
+  const format = videoFormat.value;
+  const outputDiv = videoResult;
 
-  const width = document.getElementById("videoWidth").value;
-  const height = document.getElementById("videoHeight").value;
+  if (!input) return alert("Select a video");
 
-  if (!input.files.length) {
-    alert("Please select a video file");
-    return;
-  }
-
-  outputDiv.innerHTML = "⏳ Loading converter... (first time takes ~15s)";
+  outputDiv.innerText = "⏳ Converting... first time may take ~15s";
 
   try {
-    if (!ffmpeg.isLoaded()) {
-      await ffmpeg.load();
-    }
+    if (!ffmpeg.isLoaded()) await ffmpeg.load();
 
-    const file = input.files[0];
-    ffmpeg.FS("writeFile", "input", await fetchFile(file));
+    ffmpeg.FS("writeFile", "input", await fetchFile(input));
 
-    let scale = [];
-    if (width || height) {
-      scale = ["-vf", `scale=${width || -1}:${height || -1}`];
-    }
-
-    let output = "output.mp4";
-    let args = ["-i", "input", ...scale, output];
+    let output = `output.${format}`;
+    let args = ["-i", "input", output];
 
     if (format === "mp3") {
-      output = "output.mp3";
-      args = ["-i", "input", output];
-    }
-
-    if (format === "3gp") {
-      output = "output.3gp";
-      args = ["-i", "input", ...scale, output];
-    }
-
-    if (format === "webm") {
-      output = "output.webm";
-      args = ["-i", "input", ...scale, output];
-    }
-
-    if (format === "hd") {
-      output = "output_hd.mp4";
-      args = ["-i", "input", "-vf", "scale=1280:720", output];
+      args = ["-i", "input", "-vn", "-acodec", "libmp3lame", output];
     }
 
     await ffmpeg.run(...args);
@@ -237,22 +186,20 @@ document.getElementById("convertVideoBtn").addEventListener("click", async () =>
     const data = ffmpeg.FS("readFile", output);
     const url = URL.createObjectURL(new Blob([data.buffer]));
 
-    outputDiv.innerHTML = `
-      ✅ Conversion Done<br><br>
-      <a href="${url}" download="${output}">⬇ Download Video</a>
-    `;
-  } catch (err) {
-    console.error(err);
-    outputDiv.innerHTML = "❌ Conversion failed. Try smaller video.";
+    outputDiv.innerHTML =
+      `✅ Done<br><a href="${url}" download="${output}">⬇ Download</a>`;
+  } catch (e) {
+    console.error(e);
+    outputDiv.innerText = "❌ Failed. Try smaller file.";
   }
-});
+};
 
 /* ===============================
    UI HELPERS
 ================================ */
 function openTool(id) {
-  document.querySelectorAll(".tool-area").forEach(t => t.style.display="none");
-  document.getElementById(id).style.display="block";
+  document.querySelectorAll(".tool-area").forEach(t => t.style.display = "none");
+  document.getElementById(id).style.display = "block";
 }
 function toggleDark() {
   document.body.classList.toggle("dark");

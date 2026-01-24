@@ -161,14 +161,15 @@ const { createFFmpeg, fetchFile } = FFmpeg;
 
 let ffmpeg;
 
-async function initFFmpeg() {
-  if (!ffmpeg) {
-    ffmpeg = createFFmpeg({
-      log: true,
-      corePath: "https://unpkg.com/@ffmpeg/core@0.11.6/dist/ffmpeg-core.js"
-    });
-    await ffmpeg.load();
-  }
+async function loadFFmpeg() {
+  if (ffmpeg) return;
+
+  ffmpeg = createFFmpeg({
+    log: true,
+    corePath: "./ffmpeg/ffmpeg-core.js" // ✅ LOCAL CORE
+  });
+
+  await ffmpeg.load();
 }
 
 document.getElementById("convertVideoBtn").addEventListener("click", async () => {
@@ -180,10 +181,10 @@ document.getElementById("convertVideoBtn").addEventListener("click", async () =>
     return;
   }
 
-  videoResult.innerHTML = "⏳ Loading FFmpeg (first time ~15s)...";
+  videoResult.innerHTML = "⏳ Loading FFmpeg (first run ~10s)...";
 
   try {
-    await initFFmpeg();
+    await loadFFmpeg();
 
     ffmpeg.FS("writeFile", "input", await fetchFile(file));
 
@@ -197,29 +198,21 @@ document.getElementById("convertVideoBtn").addEventListener("click", async () =>
         output
       );
     } else {
-      await ffmpeg.run(
-        "-i", "input",
-        output
-      );
+      await ffmpeg.run("-i", "input", output);
     }
 
     const data = ffmpeg.FS("readFile", output);
-
-    const url = URL.createObjectURL(
-      new Blob([data.buffer])
-    );
+    const url = URL.createObjectURL(new Blob([data.buffer]));
 
     videoResult.innerHTML = `
-      ✅ Converted successfully<br>
+      ✅ Conversion successful<br>
       <a href="${url}" download="${output}">⬇ Download</a>
     `;
   } catch (err) {
     console.error(err);
-    videoResult.innerHTML = "❌ Conversion failed. Check console.";
+    videoResult.innerHTML = "❌ Conversion failed. See console.";
   }
 });
-
-
 
 /* ===============================
    UI HELPERS

@@ -1,11 +1,6 @@
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 
-function toggleDark(){
-  document.body.classList.toggle("dark");
-}
-
-
 async function convertJpgToPdf() {
   const input = document.getElementById("jpgInput");
   const status = document.getElementById("status");
@@ -371,18 +366,21 @@ document.getElementById("convertVideoBtn").addEventListener("click", async () =>
   `;
 });
 
-
-
-function openTool(id){
-  document.querySelectorAll('.tool-area').forEach(t=>{
-    t.style.display="none";
+function openTool(toolId) {
+  document.querySelectorAll('.tool-area').forEach(tool => {
+    tool.style.display = 'none';
   });
 
-  const el=document.getElementById(id);
-  el.style.display="block";
-  el.classList.remove("fade");
-  void el.offsetWidth;
-  el.classList.add("fade");
+  const active = document.getElementById(toolId);
+  if (active) {
+    active.style.display = 'block';
+    active.scrollIntoView({ behavior: 'smooth' });
+  }
 }
+
+function toggleDark() {
+  document.body.classList.toggle('dark');
+}
+
 
 

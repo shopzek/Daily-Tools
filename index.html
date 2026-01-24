@@ -131,11 +131,14 @@
   </label>
   <br><br>
 
-  <select id="videoFormat">
-    <option value="mp4">Convert to MP4</option>
-    <option value="webm">Convert to WEBM</option>
-  </select>
-  <br><br>
+<select id="videoFormat">
+  <option value="mp4">Video → MP4 (Original)</option>
+  <option value="hd">Video → HD MP4 (720p)</option>
+  <option value="3gp">Video → 3GP</option>
+  <option value="mp3">Video → MP3 (Audio)</option>
+  <option value="webm">Video → WEBM</option>
+</select>
+
 
   <button id="convertVideoBtn">Convert Video</button>
 
@@ -150,6 +153,7 @@
 </footer>
 
 <!-- REQUIRED LIBRARIES -->
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.6/dist/ffmpeg.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js"></script>

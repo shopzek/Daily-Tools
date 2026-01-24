@@ -309,7 +309,7 @@ const ffmpeg = FFmpeg.createFFmpeg({
 });
 const { fetchFile } = FFmpegUtil;
 
-const ffmpeg = createFFmpeg({ log: true });
+
 
 document.getElementById("convertVideoBtn").onclick = async () => {
   const input = document.getElementById("videoInput");

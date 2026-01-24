@@ -228,6 +228,20 @@ input,select{
   background:#1e40af;
 }
 
+@media (max-width: 600px) {
+  .row {
+    flex-direction: column;
+  }
+
+  input, select, button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .tool-area {
+    padding: 15px;
+  }
+}
 
 
 

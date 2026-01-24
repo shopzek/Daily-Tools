@@ -332,27 +332,39 @@ document.getElementById("convertVideoBtn").onclick = async () => {
     ffmpeg.FS("writeFile", "input", await fetchFile(file));
 
     let outputFile = "output.mp4";
-    let args = ["-i", "input", outputFile];
+    let args = ["-i", "input", ...scaleFilter, outputFile];
+
 
     if (format === "mp3") {
       outputFile = "output.mp3";
-      args = ["-i", "input", outputFile];
+      args = ["-i", "input", ...scaleFilter, outputFile];
+
     }
 
     if (format === "3gp") {
       outputFile = "output.3gp";
-      args = ["-i", "input", outputFile];
+     args = ["-i", "input", ...scaleFilter, outputFile];
+
     }
 
     if (format === "webm") {
       outputFile = "output.webm";
-      args = ["-i", "input", outputFile];
+     args = ["-i", "input", ...scaleFilter, outputFile];
+
     }
 
     if (format === "hd") {
       outputFile = "output_hd.mp4";
       args = ["-i", "input", "-vf", "scale=1280:720", outputFile];
     }
+const width = document.getElementById("videoWidth").value;
+const height = document.getElementById("videoHeight").value;
+
+let scaleFilter = [];
+
+if (width || height) {
+  scaleFilter = ["-vf", `scale=${width || -1}:${height || -1}`];
+}
 
     await ffmpeg.run(...args);
 
@@ -366,11 +378,19 @@ document.getElementById("convertVideoBtn").onclick = async () => {
       <a href="${url}" download="${outputFile}">⬇ Download</a>
     `;
 
-  } catch (err) {
-    console.error(err);
-    outputDiv.innerHTML = "❌ Conversion failed. Try smaller file.";
-  }
-};
+ catch (err) {
+  console.error(err);
+  outputDiv.innerHTML = `
+    ❌ Conversion failed<br>
+    Possible reasons:
+    <ul>
+      <li>File too large</li>
+      <li>Unsupported format</li>
+      <li>Low device memory</li>
+    </ul>
+  `;
+}
+
 
 /* For Header Color Dark  */
 function openTool(toolId) {

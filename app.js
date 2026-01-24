@@ -301,71 +301,51 @@ const ffmpeg = createFFmpeg({ log: true });
 document.getElementById("convertVideoBtn").addEventListener("click", async () => {
   const fileInput = document.getElementById("videoInput");
   const format = document.getElementById("videoFormat").value;
-  const width = document.getElementById("videoWidth").value;
-  const height = document.getElementById("videoHeight").value;
-  const quality = document.getElementById("videoQuality").value || 100;
-  const result = document.getElementById("videoResult");
+  const resultDiv = document.getElementById("videoResult");
 
   if (!fileInput.files.length) {
     alert("Please select a video file");
     return;
   }
 
-  result.innerHTML = "⏳ Converting… first load may take time";
+  resultDiv.innerHTML = "⏳ Loading converter...";
 
   if (!ffmpeg.isLoaded()) {
     await ffmpeg.load();
   }
 
-  ffmpeg.FS("writeFile", "input.mp4", await fetchFile(fileInput.files[0]));
+  const file = fileInput.files[0];
+  const inputName = "input";
+  const outputName = `output.${format === "hd" ? "mp4" : format}`;
 
-  let output = "output.mp4";
-  let args = [];
+  ffmpeg.FS("writeFile", inputName, await fetchFile(file));
 
-  // SCALE
-  let scale = null;
-  if (width || height) {
-    scale = `scale=${width || -1}:${height || -1}`;
-  }
+  let command = [];
 
   if (format === "mp3") {
-    output = "output.mp3";
-    args = ["-i", "input.mp4", "-vn", "-ab", "192k", output];
+    command = ["-i", inputName, outputName];
+  } 
+  else if (format === "hd") {
+    command = ["-i", inputName, "-vf", "scale=1280:720", outputName];
+  } 
+  else {
+    command = ["-i", inputName, outputName];
   }
 
-  if (format === "mp4") {
-    output = "output.mp4";
-    args = scale
-      ? ["-i", "input.mp4", "-vf", scale, output]
-      : ["-i", "input.mp4", output];
-  }
+  await ffmpeg.run(...command);
 
-  if (format === "hd") {
-    output = "output_hd.mp4";
-    args = ["-i", "input.mp4", "-vf", scale || "scale=1280:720", output];
-  }
+  const data = ffmpeg.FS("readFile", outputName);
+  const url = URL.createObjectURL(
+    new Blob([data.buffer], { type: "video/mp4" })
+  );
 
-  if (format === "3gp") {
-    output = "output.3gp";
-    args = ["-i", "input.mp4", "-vf", scale || "scale=352:288", "-r", "20", output];
-  }
-
-  if (format === "webm") {
-    output = "output.webm";
-    args = ["-i", "input.mp4", output];
-  }
-
-  await ffmpeg.run(...args);
-
-  const data = ffmpeg.FS("readFile", output);
-  const url = URL.createObjectURL(new Blob([data.buffer]));
-
-  result.innerHTML = `
-    <strong>✅ Done</strong><br><br>
-    <a href="${url}" download="${output}">Download Converted File</a>
+  resultDiv.innerHTML = `
+    ✅ Conversion complete<br><br>
+    <a href="${url}" download="${outputName}">⬇ Download File</a>
   `;
 });
 
+/* For Header Color Dark  */
 function openTool(toolId) {
   document.querySelectorAll('.tool-area').forEach(tool => {
     tool.style.display = 'none';
@@ -381,6 +361,7 @@ function openTool(toolId) {
 function toggleDark() {
   document.body.classList.toggle('dark');
 }
+
 
 
 

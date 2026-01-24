@@ -157,42 +157,76 @@ async function mergePdfFiles() {
 /* ===============================
    VIDEO CONVERTER (EXPANDED)
 ================================ */
+/* ===============================
+   VIDEO CONVERTER (OPTIMIZED)
+================================ */
+
 const { createFFmpeg, fetchFile } = FFmpeg;
-const ffmpeg = createFFmpeg({ log: false });
+
+const ffmpeg = createFFmpeg({
+  log: false,
+  progress: ({ ratio }) => {
+    const percent = Math.round(ratio * 100);
+    videoProgress.style.display = "block";
+    videoProgress.value = percent;
+    progressText.innerText = `Processing: ${percent}%`;
+  }
+});
 
 document.getElementById("convertVideoBtn").onclick = async () => {
-  const input = videoInput.files[0];
+  const file = videoInput.files[0];
   const format = videoFormat.value;
-  const outputDiv = videoResult;
 
-  if (!input) return alert("Select a video");
+  if (!file) {
+    alert("Please select a video file");
+    return;
+  }
 
-  outputDiv.innerText = "⏳ Converting... first time may take ~15s";
+  videoResult.innerText = "⏳ Loading video engine (first time ~10–15s)...";
+  videoProgress.style.display = "block";
+  videoProgress.value = 0;
+  progressText.innerText = "";
 
   try {
-    if (!ffmpeg.isLoaded()) await ffmpeg.load();
-
-    ffmpeg.FS("writeFile", "input", await fetchFile(input));
-
-    let output = `output.${format}`;
-    let args = ["-i", "input", output];
-
-    if (format === "mp3") {
-      args = ["-i", "input", "-vn", "-acodec", "libmp3lame", output];
+    // Lazy load FFmpeg (optimized)
+    if (!ffmpeg.isLoaded()) {
+      await ffmpeg.load();
     }
 
-    await ffmpeg.run(...args);
+    // Write input file
+    ffmpeg.FS("writeFile", "input", await fetchFile(file));
 
-    const data = ffmpeg.FS("readFile", output);
-    const url = URL.createObjectURL(new Blob([data.buffer]));
+    let outputName = `output.${format}`;
+    let command = ["-i", "input", outputName];
 
-    outputDiv.innerHTML =
-      `✅ Done<br><a href="${url}" download="${output}">⬇ Download</a>`;
-  } catch (e) {
-    console.error(e);
-    outputDiv.innerText = "❌ Failed. Try smaller file.";
+    // Audio only
+    if (format === "mp3") {
+      command = ["-i", "input", "-vn", "-acodec", "libmp3lame", outputName];
+    }
+
+    await ffmpeg.run(...command);
+
+    const data = ffmpeg.FS("readFile", outputName);
+    const url = URL.createObjectURL(
+      new Blob([data.buffer], { type: "application/octet-stream" })
+    );
+
+    videoProgress.style.display = "none";
+    progressText.innerText = "✅ Conversion completed";
+
+    videoResult.innerHTML = `
+      <strong>Success!</strong><br><br>
+      <a href="${url}" download="${outputName}">⬇ Download ${outputName}</a>
+    `;
+  } catch (err) {
+    console.error(err);
+    videoProgress.style.display = "none";
+    progressText.innerText = "";
+    videoResult.innerText =
+      "❌ Conversion failed. Try a smaller or shorter video.";
   }
 };
+
 
 /* ===============================
    UI HELPERS

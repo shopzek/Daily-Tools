@@ -122,39 +122,32 @@
   <div id="mergePdfResult" style="margin-top:20px;"></div>
 </section>
 
-<!-- Video Converter -->
-<section class="tool-area" id="tool-video" style="display:none;">
-  <h2>Video Converter</h2>
+<section class="tool-area fade" id="tool-video" style="display:none;">
+  <h2>🎬 Video Converter</h2>
 
-  <input type="file" id="videoInput" accept="video/*">
-  <br><br>
+  <div class="card">
+    <input type="file" id="videoInput" accept="video/*">
 
-  <label>
-    Width (px):
-    <input type="number" id="videoWidth" placeholder="Auto" style="width:80px;">
-  </label>
-  <label style="margin-left:10px;">
-    Height (px):
-    <input type="number" id="videoHeight" placeholder="Auto" style="width:80px;">
-  </label>
-  <label style="margin-left:10px;">
-    Quality (%):
-    <input type="number" id="videoQuality" placeholder="100" min="10" max="100" style="width:80px;">
-  </label>
-  <br><br>
+    <div class="row">
+      <label>Width (px)</label>
+      <input type="number" id="videoWidth" placeholder="Auto">
+      <label>Height (px)</label>
+      <input type="number" id="videoHeight" placeholder="Auto">
+      <label>Quality %</label>
+      <input type="number" id="videoQuality" value="100">
+    </div>
 
-<select id="videoFormat">
-  <option value="mp4">Video → MP4 (Original)</option>
-  <option value="hd">Video → HD MP4 (720p)</option>
-  <option value="3gp">Video → 3GP</option>
-  <option value="mp3">Video → MP3 (Audio)</option>
-  <option value="webm">Video → WEBM</option>
-</select>
+    <select id="videoFormat">
+      <option value="mp4">MP4</option>
+      <option value="webm">WEBM</option>
+      <option value="3gp">3GP</option>
+      <option value="mp3">MP3 (Audio)</option>
+      <option value="hd">HD MP4</option>
+    </select>
 
-
-  <button id="convertVideoBtn">Convert Video</button>
-
-  <div id="videoResult" style="margin-top:20px;"></div>
+    <button class="primary-btn">Convert Video</button>
+    <div id="videoResult"></div>
+  </div>
 </section>
 
 

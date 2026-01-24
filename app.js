@@ -157,23 +157,20 @@ async function mergePdfFiles() {
 /* ===============================
    VIDEO CONVERTER (EXPANDED)
 ================================ */
-/* ===============================
-   VIDEO CONVERTER (OPTIMIZED)
-================================ */
-
 const { createFFmpeg, fetchFile } = FFmpeg;
 
 const ffmpeg = createFFmpeg({
-  log: false,
+  log: true,
+  corePath: "https://unpkg.com/@ffmpeg/core@0.12.4/dist/ffmpeg-core.js",
   progress: ({ ratio }) => {
     const percent = Math.round(ratio * 100);
     videoProgress.style.display = "block";
     videoProgress.value = percent;
-    progressText.innerText = `Processing: ${percent}%`;
+    progressText.innerText = `Converting: ${percent}%`;
   }
 });
 
-document.getElementById("convertVideoBtn").onclick = async () => {
+document.getElementById("convertVideoBtn").addEventListener("click", async () => {
   const file = videoInput.files[0];
   const format = videoFormat.value;
 
@@ -182,50 +179,40 @@ document.getElementById("convertVideoBtn").onclick = async () => {
     return;
   }
 
-  videoResult.innerText = "⏳ Loading video engine (first time ~10–15s)...";
-  videoProgress.style.display = "block";
-  videoProgress.value = 0;
+  videoResult.innerHTML = "⏳ Loading video engine (first time takes ~15s)...";
+  videoProgress.style.display = "none";
   progressText.innerText = "";
 
   try {
-    // Lazy load FFmpeg (optimized)
     if (!ffmpeg.isLoaded()) {
       await ffmpeg.load();
     }
 
-    // Write input file
     ffmpeg.FS("writeFile", "input", await fetchFile(file));
 
-    let outputName = `output.${format}`;
-    let command = ["-i", "input", outputName];
+    let output = `output.${format}`;
+    let command = ["-i", "input", output];
 
-    // Audio only
     if (format === "mp3") {
-      command = ["-i", "input", "-vn", "-acodec", "libmp3lame", outputName];
+      command = ["-i", "input", "-vn", "-acodec", "libmp3lame", output];
     }
 
     await ffmpeg.run(...command);
 
-    const data = ffmpeg.FS("readFile", outputName);
+    const data = ffmpeg.FS("readFile", output);
     const url = URL.createObjectURL(
-      new Blob([data.buffer], { type: "application/octet-stream" })
+      new Blob([data.buffer], { type: "video/" + format })
     );
 
-    videoProgress.style.display = "none";
-    progressText.innerText = "✅ Conversion completed";
-
     videoResult.innerHTML = `
-      <strong>Success!</strong><br><br>
-      <a href="${url}" download="${outputName}">⬇ Download ${outputName}</a>
+      ✅ Conversion complete<br>
+      <a href="${url}" download="${output}">⬇ Download ${output}</a>
     `;
   } catch (err) {
     console.error(err);
-    videoProgress.style.display = "none";
-    progressText.innerText = "";
-    videoResult.innerText =
-      "❌ Conversion failed. Try a smaller or shorter video.";
+    videoResult.innerHTML = "❌ Conversion failed. Try smaller file.";
   }
-};
+});
 
 
 /* ===============================

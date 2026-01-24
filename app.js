@@ -1,414 +1,210 @@
+/* ===============================
+   PDF.JS WORKER
+================================ */
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 
+/* ===============================
+   JPG → PDF
+================================ */
 async function convertJpgToPdf() {
   const input = document.getElementById("jpgInput");
   const status = document.getElementById("status");
 
   if (!input.files.length) {
-    status.innerText = "Please select at least one JPG image.";
+    status.innerText = "Please select JPG images";
     return;
   }
-
-  status.innerText = "Converting...";
 
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF();
 
   for (let i = 0; i < input.files.length; i++) {
-    const file = input.files[i];
-    const img = new Image();
-    const reader = new FileReader();
-
-    reader.onload = function (e) {
-      img.src = e.target.result;
-    };
-
-    reader.readAsDataURL(file);
-
-    await new Promise(resolve => {
-      img.onload = () => {
-        const width = pdf.internal.pageSize.getWidth();
-        const height = (img.height * width) / img.width;
-
-        if (i > 0) pdf.addPage();
-        pdf.addImage(img, "JPEG", 0, 0, width, height);
-        resolve();
-      };
+    const imgData = await new Promise(res => {
+      const r = new FileReader();
+      r.onload = () => res(r.result);
+      r.readAsDataURL(input.files[i]);
     });
+
+    const img = new Image();
+    await new Promise(ok => {
+      img.onload = ok;
+      img.src = imgData;
+    });
+
+    const w = pdf.internal.pageSize.getWidth();
+    const h = (img.height * w) / img.width;
+    if (i > 0) pdf.addPage();
+    pdf.addImage(img, "JPEG", 0, 0, w, h);
   }
 
   pdf.save("converted.pdf");
-  status.innerText = "Done! Your PDF is downloaded.";
+  status.innerText = "Done!";
 }
-// QR CODE GENERATOR
+
+/* ===============================
+   QR CODE
+================================ */
 function generateQR() {
   const text = document.getElementById("qrText").value.trim();
-  const result = document.getElementById("qrResult");
+  const box = document.getElementById("qrResult");
+  box.innerHTML = "";
 
-  result.innerHTML = "";
+  if (!text) return (box.innerText = "Enter text");
 
-  if (!text) {
-    result.innerText = "Please enter text or URL.";
-    return;
-  }
-
-  new QRCode(result, {
-    text: text,
-    width: 200,
-    height: 200,
-    colorDark: "#000000",
-    colorLight: "#ffffff"
-  });
+  new QRCode(box, { text, width: 200, height: 200 });
 }
-// TIMER
-let timerInterval = null;
+
+/* ===============================
+   TIMER + STOPWATCH
+================================ */
+let timerInt, stopwatchInt, swSec = 0;
 
 function startTimer() {
-  const minutesInput = document.getElementById("minutes");
-  const display = document.getElementById("timerDisplay");
-
-  if (!minutesInput || !display) {
-    alert("Timer elements not found");
-    return;
-  }
-
-  let time = parseInt(minutesInput.value, 10) * 60;
-
-  if (isNaN(time) || time <= 0) {
-    display.innerText = "Enter valid minutes";
-    return;
-  }
-
-  clearInterval(timerInterval);
-
-  timerInterval = setInterval(() => {
-    const mins = Math.floor(time / 60);
-    const secs = time % 60;
-
-    display.innerText =
-      String(mins).padStart(2, "0") + ":" +
-      String(secs).padStart(2, "0");
-
-    if (time === 0) {
-      clearInterval(timerInterval);
-      alert("Time is up!");
-    }
-
-    time--;
+  let t = parseInt(minutes.value) * 60;
+  if (!t) return;
+  clearInterval(timerInt);
+  timerInt = setInterval(() => {
+    timerDisplay.innerText =
+      String(Math.floor(t / 60)).padStart(2, "0") + ":" +
+      String(t % 60).padStart(2, "0");
+    if (t-- <= 0) clearInterval(timerInt);
   }, 1000);
 }
-
 function resetTimer() {
-  clearInterval(timerInterval);
-  document.getElementById("timerDisplay").innerText = "00:00";
+  clearInterval(timerInt);
+  timerDisplay.innerText = "00:00";
 }
-// STOPWATCH
-let stopwatchInterval = null;
-let stopwatchSeconds = 0;
-
 function startStopwatch() {
-  if (stopwatchInterval) return;
-
-  stopwatchInterval = setInterval(() => {
-    stopwatchSeconds++;
-
-    const hrs = Math.floor(stopwatchSeconds / 3600);
-    const mins = Math.floor((stopwatchSeconds % 3600) / 60);
-    const secs = stopwatchSeconds % 60;
-
-    document.getElementById("stopwatchDisplay").innerText =
-      String(hrs).padStart(2, "0") + ":" +
-      String(mins).padStart(2, "0") + ":" +
-      String(secs).padStart(2, "0");
+  if (stopwatchInt) return;
+  stopwatchInt = setInterval(() => {
+    swSec++;
+    stopwatchDisplay.innerText =
+      String(Math.floor(swSec / 3600)).padStart(2, "0") + ":" +
+      String(Math.floor(swSec / 60) % 60).padStart(2, "0") + ":" +
+      String(swSec % 60).padStart(2, "0");
   }, 1000);
 }
+function stopStopwatch() { clearInterval(stopwatchInt); stopwatchInt = null; }
+function resetStopwatch() { stopStopwatch(); swSec = 0; stopwatchDisplay.innerText="00:00:00"; }
 
-function stopStopwatch() {
-  clearInterval(stopwatchInterval);
-  stopwatchInterval = null;
-}
-
-function resetStopwatch() {
-  stopStopwatch();
-  stopwatchSeconds = 0;
-  document.getElementById("stopwatchDisplay").innerText = "00:00:00";
-}
-// PDF TO JPG
+/* ===============================
+   PDF → JPG
+================================ */
 async function convertPdfToJpg() {
-  const fileInput = document.getElementById("pdfInput");
-  const output = document.getElementById("imageOutput");
+  const f = pdfInput.files[0];
+  if (!f) return alert("Select PDF");
+  imageOutput.innerHTML = "";
 
-  if (!fileInput.files.length) {
-    alert("Please select a PDF file");
-    return;
+  const pdf = await pdfjsLib.getDocument(await f.arrayBuffer()).promise;
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const v = page.getViewport({ scale: 2 });
+    const c = document.createElement("canvas");
+    c.width = v.width; c.height = v.height;
+    await page.render({ canvasContext: c.getContext("2d"), viewport: v }).promise;
+    const img = document.createElement("img");
+    img.src = c.toDataURL("image/jpeg", 1);
+    imageOutput.appendChild(img);
   }
-
-  output.innerHTML = "Converting...";
-
-  const file = fileInput.files[0];
-  const fileReader = new FileReader();
-
-  fileReader.onload = async function () {
-    const typedArray = new Uint8Array(this.result);
-
-    const pdf = await pdfjsLib.getDocument(typedArray).promise;
-
-    output.innerHTML = "";
-
-    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-      const page = await pdf.getPage(pageNum);
-      const viewport = page.getViewport({ scale: 2 });
-
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
-      canvas.height = viewport.height;
-      canvas.width = viewport.width;
-
-      await page.render({
-        canvasContext: context,
-        viewport: viewport
-      }).promise;
-
-      const img = document.createElement("img");
-      img.src = canvas.toDataURL("image/jpeg", 1.0);
-      output.appendChild(img);
-    }
-  };
-
-  fileReader.readAsArrayBuffer(file);
 }
 
-// =====================
-// Show only selected tool
-// =====================
-function openTool(toolId) {
-  const allTools = document.querySelectorAll(".tool-area");
-  allTools.forEach(t => t.style.display = "none");
-  const tool = document.getElementById(toolId);
-  if (tool) tool.style.display = "block";
-}
-
-// =====================
-// IMAGE CONVERTER & COMPRESSOR
-// =====================
-document.addEventListener("DOMContentLoaded", function() {
-  const convertBtn = document.getElementById("convertImgBtn");
-  const imgInput = document.getElementById("imgInput");
-  const formatSelect = document.getElementById("format");
-  const compressCheckbox = document.getElementById("compressCheckbox");
-  const widthInput = document.getElementById("imgWidth");
-  const heightInput = document.getElementById("imgHeight");
-  const imgResult = document.getElementById("imgResult");
-
-  convertBtn.addEventListener("click", function() {
-    imgResult.innerHTML = "";
-
-    if (!imgInput.files.length) {
-      imgResult.innerText = "Please select an image!";
-      return;
-    }
-
-    const file = imgInput.files[0];
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
+/* ===============================
+   IMAGE CONVERTER
+================================ */
+document.addEventListener("DOMContentLoaded", () => {
+  convertImgBtn.onclick = () => {
+    if (!imgInput.files.length) return;
+    const r = new FileReader();
+    r.onload = e => {
       const img = new Image();
+      img.onload = () => {
+        const w = imgWidth.value || img.width;
+        const h = imgHeight.value || img.height;
+        const c = document.createElement("canvas");
+        c.width = w; c.height = h;
+        c.getContext("2d").drawImage(img, 0, 0, w, h);
+        const out = c.toDataURL(format.value, compressCheckbox.checked ? .6 : .9);
+        imgResult.innerHTML = `<img src="${out}" style="max-width:300px"><a download href="${out}">Download</a>`;
+      };
       img.src = e.target.result;
-
-      img.onload = function() {
-        const width = parseInt(widthInput.value) || img.width;
-        const height = parseInt(heightInput.value) || img.height;
-
-        const canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, width, height);
-
-        const outputType = formatSelect.value;
-        const quality = compressCheckbox.checked ? 0.6 : 0.9;
-
-        const finalDataUrl = canvas.toDataURL(outputType, quality);
-
-        const preview = document.createElement("img");
-        preview.src = finalDataUrl;
-        preview.style.maxWidth = "300px";
-        preview.style.display = "block";
-        imgResult.appendChild(preview);
-
-        const link = document.createElement("a");
-        link.href = finalDataUrl;
-        const ext = outputType.split("/")[1];
-        link.download = (compressCheckbox.checked ? "compressed_" : "converted_") + file.name.replace(/\.[^/.]+$/, "") + "." + ext;
-        link.innerText = "Download Image";
-        link.style.display = "block";
-        link.style.marginTop = "10px";
-        imgResult.appendChild(link);
-      };
-
-      img.onerror = function() {
-        imgResult.innerText = "Failed to load image!";
-      };
     };
-
-    reader.readAsDataURL(file);
-  });
-});
-
-function convertPngToJpg() {
-  const input = document.getElementById("pngInput");
-  const output = document.getElementById("pngOutput");
-
-  if (!input.files.length) {
-    output.innerText = "Please select a PNG file!";
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const img = new Image();
-    img.src = e.target.result;
-    img.onload = function() {
-      const canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
-      const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
-
-      const link = document.createElement("a");
-      link.href = dataUrl;
-      link.download = input.files[0].name.replace(".png", ".jpg");
-      link.innerText = "Download JPG";
-      link.style.display = "block";
-
-      output.innerHTML = "";
-      output.appendChild(link);
-    };
+    r.readAsDataURL(imgInput.files[0]);
   };
-  reader.readAsDataURL(input.files[0]);
-}
-
-function mergePdfFiles() {
-  alert("Merge PDF function not implemented yet."); // You can integrate PDF-lib later
-}
-
-/* VIDEO CONVERTER – MP4 / HD / 3GP / MP3 / WEBM */
-const ffmpeg = FFmpeg.createFFmpeg({
-  log: true,
-  progress: ({ ratio }) => {
-    const percent = Math.round(ratio * 100);
-    const bar = document.getElementById("videoProgress");
-    const text = document.getElementById("progressText");
-
-    bar.style.display = "block";
-    bar.value = percent;
-    text.innerText = `Processing: ${percent}%`;
-  }
 });
-const { fetchFile } = FFmpegUtil;
 
+/* ===============================
+   PNG → JPG
+================================ */
+function convertPngToJpg() {
+  const f = pngInput.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement("canvas");
+      c.width = img.width; c.height = img.height;
+      c.getContext("2d").drawImage(img, 0, 0);
+      const d = c.toDataURL("image/jpeg", .9);
+      pngOutput.innerHTML = `<a href="${d}" download="image.jpg">Download JPG</a>`;
+    };
+    img.src = e.target.result;
+  };
+  r.readAsDataURL(f);
+}
 
+/* ===============================
+   MERGE PDF (REAL)
+================================ */
+async function mergePdfFiles() {
+  const files = mergePdfInput.files;
+  if (files.length < 2) return alert("Select 2+ PDFs");
 
-document.getElementById("convertVideoBtn").onclick = async () => {
-  const input = document.getElementById("videoInput");
-  const format = document.getElementById("videoFormat").value;
-  const outputDiv = document.getElementById("videoResult");
-
-  if (!input.files.length) {
-    alert("Please select a video file");
-    return;
+  const out = await PDFLib.PDFDocument.create();
+  for (const f of files) {
+    const pdf = await PDFLib.PDFDocument.load(await f.arrayBuffer());
+    (await out.copyPages(pdf, pdf.getPageIndices()))
+      .forEach(p => out.addPage(p));
   }
 
-  outputDiv.innerHTML = "⏳ Loading FFmpeg (first time may take 10–20 sec)...";
-
-  try {
-    if (!ffmpeg.isLoaded()) {
-      await ffmpeg.load();
-    }
-
-    const file = input.files[0];
-    ffmpeg.FS("writeFile", "input", await fetchFile(file));
-
-    let outputFile = "output.mp4";
-    let args = ["-i", "input", ...scaleFilter, outputFile];
-
-
-    if (format === "mp3") {
-      outputFile = "output.mp3";
-      args = ["-i", "input", ...scaleFilter, outputFile];
-
-    }
-
-    if (format === "3gp") {
-      outputFile = "output.3gp";
-     args = ["-i", "input", ...scaleFilter, outputFile];
-
-    }
-
-    if (format === "webm") {
-      outputFile = "output.webm";
-     args = ["-i", "input", ...scaleFilter, outputFile];
-
-    }
-
-    if (format === "hd") {
-      outputFile = "output_hd.mp4";
-      args = ["-i", "input", "-vf", "scale=1280:720", outputFile];
-    }
-const width = document.getElementById("videoWidth").value;
-const height = document.getElementById("videoHeight").value;
-
-let scaleFilter = [];
-
-if (width || height) {
-  scaleFilter = ["-vf", `scale=${width || -1}:${height || -1}`];
+  const url = URL.createObjectURL(
+    new Blob([await out.save()], { type: "application/pdf" })
+  );
+  mergePdfResult.innerHTML = `<a href="${url}" download="merged.pdf">Download PDF</a>`;
 }
 
-    await ffmpeg.run(...args);
+/* ===============================
+   VIDEO CONVERTER (STABLE)
+================================ */
+const { createFFmpeg, fetchFile } = FFmpeg;
+const ffmpeg = createFFmpeg({ log: true });
 
-    const data = ffmpeg.FS("readFile", outputFile);
-    const url = URL.createObjectURL(
-      new Blob([data.buffer])
-    );
+convertVideoBtn.onclick = async () => {
+  if (!videoInput.files.length) return alert("Select video");
 
-    outputDiv.innerHTML = `
-      ✅ Done!<br><br>
-      <a href="${url}" download="${outputFile}">⬇ Download</a>
-    `;
+  videoResult.innerText = "Loading FFmpeg...";
+  if (!ffmpeg.isLoaded()) await ffmpeg.load();
 
- catch (err) {
-  console.error(err);
-  outputDiv.innerHTML = `
-    ❌ Conversion failed<br>
-    Possible reasons:
-    <ul>
-      <li>File too large</li>
-      <li>Unsupported format</li>
-      <li>Low device memory</li>
-    </ul>
-  `;
+  ffmpeg.FS("writeFile", "input.mp4", await fetchFile(videoInput.files[0]));
+
+  const fmt = videoFormat.value;
+  const out = fmt === "mp3" ? "out.mp3" : "out." + fmt;
+
+  await ffmpeg.run("-i", "input.mp4", out);
+  const data = ffmpeg.FS("readFile", out);
+  const url = URL.createObjectURL(new Blob([data.buffer]));
+
+  videoResult.innerHTML = `<a href="${url}" download="${out}">Download</a>`;
+};
+
+/* ===============================
+   UI HELPERS
+================================ */
+function openTool(id) {
+  document.querySelectorAll(".tool-area").forEach(t => t.style.display="none");
+  document.getElementById(id).style.display="block";
 }
-
-
-/* For Header Color Dark  */
-function openTool(toolId) {
-  document.querySelectorAll('.tool-area').forEach(tool => {
-    tool.style.display = 'none';
-  });
-
-  const active = document.getElementById(toolId);
-  if (active) {
-    active.style.display = 'block';
-    active.scrollIntoView({ behavior: 'smooth' });
-  }
-}
-
 function toggleDark() {
-  document.body.classList.toggle('dark');
+  document.body.classList.toggle("dark");
 }
-
-
-
-

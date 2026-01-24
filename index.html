@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
 
-  <title>Free Online Daily Use Tools – Convert, Merge, Generate</title>
+  <title>Free Online Daily Use Tools – PDF, Image, QR, Timer</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description"
-        content="Free online tools: video converter, JPG to PDF, merge PDF, QR generator, timer & stopwatch. 100% browser-based, private & fast.">
+        content="Free online tools: JPG to PDF, merge PDF, image converter, QR generator, timer & stopwatch. 100% browser-based, private & fast.">
 
-  <!-- SEO / Social -->
+  <!-- SEO -->
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://shopzek.github.io/Daily-Tools/">
 
   <meta property="og:title" content="Free Online Daily Use Tools">
   <meta property="og:description"
-        content="Convert videos, merge PDFs, generate QR codes & more. No uploads. 100% free.">
+        content="Convert images, merge PDFs, generate QR codes & more. No uploads. 100% free.">
   <meta property="og:type" content="website">
 
   <link rel="stylesheet" href="style.css">
@@ -36,7 +36,6 @@
 
 <main>
   <div class="tools-grid">
-    <div class="tool-card" onclick="openTool('tool-video')">🎬 <span>Video Converter</span></div>
     <div class="tool-card" onclick="openTool('tool-qr')">🔳 <span>QR Generator</span></div>
     <div class="tool-card" onclick="openTool('tool-jpgpdf')">🖼️ <span>JPG to PDF</span></div>
     <div class="tool-card" onclick="openTool('tool-pdfjpg')">📄 <span>PDF to JPG</span></div>
@@ -113,24 +112,6 @@
     <div id="mergePdfResult"></div>
   </section>
 
-  <section class="tool-area" id="tool-video" style="display:none">
-    <h2>Video Converter</h2>
-
-    <input type="file" id="videoInput" accept="video/*">
-
-    <select id="videoFormat">
-      <option value="mp4">MP4</option>
-      <option value="mp3">MP3 (Audio)</option>
-      <option value="webm">WEBM</option>
-    </select>
-
-    <button id="convertVideoBtn">Convert</button>
-
-    <progress id="videoProgress" value="0" max="100"
-              style="display:none;width:100%"></progress>
-    <div id="progressText"></div>
-    <div id="videoResult"></div>
-  </section>
 </main>
 
 <footer>
@@ -142,9 +123,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script src="https://unpkg.com/qrcodejs/qrcode.min.js"></script>
 
-<!-- FFmpeg (Lazy loaded in JS) -->
-<script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
-
 <script src="app.js"></script>
 
 <!-- Schema.org -->
@@ -153,7 +131,7 @@
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "DailyTools",
-  "description": "Free online daily-use tools for video, PDF and image conversion.",
+  "description": "Free online daily-use tools for PDF, image conversion, QR codes, timer and utilities.",
   "applicationCategory": "Utilities",
   "operatingSystem": "All"
 }

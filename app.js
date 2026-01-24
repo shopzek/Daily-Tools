@@ -295,46 +295,74 @@ function mergePdfFiles() {
   alert("Merge PDF function not implemented yet."); // You can integrate PDF-lib later
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-  const videoBtn = document.getElementById("convertVideoBtn");
-  const videoInput = document.getElementById("videoInput");
-  const videoFormat = document.getElementById("videoFormat");
-  const videoWidth = document.getElementById("videoWidth");
-  const videoHeight = document.getElementById("videoHeight");
-  const videoQuality = document.getElementById("videoQuality");
-  const videoResult = document.getElementById("videoResult");
+/* VIDEO CONVERTER – MP4 / HD / 3GP / MP3 / WEBM */
+const { createFFmpeg, fetchFile } = FFmpeg;
+const ffmpeg = createFFmpeg({ log: true });
 
-  videoBtn.addEventListener("click", function() {
-    videoResult.innerHTML = "";
+document.getElementById("convertVideoBtn").addEventListener("click", async () => {
+  const fileInput = document.getElementById("videoInput");
+  const format = document.getElementById("videoFormat").value;
+  const width = document.getElementById("videoWidth").value;
+  const height = document.getElementById("videoHeight").value;
+  const quality = document.getElementById("videoQuality").value || 100;
+  const result = document.getElementById("videoResult");
 
-    if (!videoInput.files.length) {
-      videoResult.innerText = "Please select a video!";
-      return;
-    }
+  if (!fileInput.files.length) {
+    alert("Please select a video file");
+    return;
+  }
 
-    const file = videoInput.files[0];
+  result.innerHTML = "⏳ Converting… first load may take time";
 
-    // Preview only (conversion requires ffmpeg.js or server-side)
-    const url = URL.createObjectURL(file);
-    const video = document.createElement("video");
-    video.src = url;
-    video.controls = true;
-    video.style.maxWidth = "400px";
-    videoResult.appendChild(video);
+  if (!ffmpeg.isLoaded()) {
+    await ffmpeg.load();
+  }
 
-    const info = document.createElement("p");
-    info.innerText = `Selected format: ${videoFormat.value}, Width: ${videoWidth.value || "Auto"}, Height: ${videoHeight.value || "Auto"}, Quality: ${videoQuality.value || 100}%`;
-    videoResult.appendChild(info);
+  ffmpeg.FS("writeFile", "input.mp4", await fetchFile(fileInput.files[0]));
 
-    const downloadLink = document.createElement("a");
-    downloadLink.href = url;
-    downloadLink.download = file.name.replace(/\.[^/.]+$/, "") + "." + videoFormat.value;
-    downloadLink.innerText = "Download Video (Original, conversion not applied)";
-    downloadLink.style.display = "block";
-    downloadLink.style.marginTop = "10px";
-    videoResult.appendChild(downloadLink);
+  let output = "output.mp4";
+  let args = [];
 
-    alert("Note: Actual conversion requires FFmpeg.js or server-side processing.");
-  });
+  // SCALE
+  let scale = null;
+  if (width || height) {
+    scale = `scale=${width || -1}:${height || -1}`;
+  }
+
+  if (format === "mp3") {
+    output = "output.mp3";
+    args = ["-i", "input.mp4", "-vn", "-ab", "192k", output];
+  }
+
+  if (format === "mp4") {
+    output = "output.mp4";
+    args = scale
+      ? ["-i", "input.mp4", "-vf", scale, output]
+      : ["-i", "input.mp4", output];
+  }
+
+  if (format === "hd") {
+    output = "output_hd.mp4";
+    args = ["-i", "input.mp4", "-vf", scale || "scale=1280:720", output];
+  }
+
+  if (format === "3gp") {
+    output = "output.3gp";
+    args = ["-i", "input.mp4", "-vf", scale || "scale=352:288", "-r", "20", output];
+  }
+
+  if (format === "webm") {
+    output = "output.webm";
+    args = ["-i", "input.mp4", output];
+  }
+
+  await ffmpeg.run(...args);
+
+  const data = ffmpeg.FS("readFile", output);
+  const url = URL.createObjectURL(new Blob([data.buffer]));
+
+  result.innerHTML = `
+    <strong>✅ Done</strong><br><br>
+    <a href="${url}" download="${output}">Download Converted File</a>
+  `;
 });
-

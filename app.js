@@ -176,6 +176,55 @@ async function mergePdfFiles() {
   result.innerHTML =
     `<a href="${url}" download="merged.pdf">⬇ Download Merged PDF</a>`;
 }
+/* ===============================
+   TEXT CASE CONVERTER
+================================ */
+function toUpper() {
+  const t = caseInput.value;
+  caseOutput.value = t.toUpperCase();
+}
+
+function toLower() {
+  const t = caseInput.value;
+  caseOutput.value = t.toLowerCase();
+}
+
+function toTitle() {
+  caseOutput.value = caseInput.value
+    .toLowerCase()
+    .replace(/\b\w/g, c => c.toUpperCase());
+}
+
+/* ===============================
+   PASSWORD GENERATOR
+================================ */
+function generatePassword() {
+  const length = parseInt(passLength.value) || 12;
+  const chars =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+  let pass = "";
+
+  for (let i = 0; i < length; i++) {
+    pass += chars[Math.floor(Math.random() * chars.length)];
+  }
+
+  passwordOutput.value = pass;
+}
+
+/* ===============================
+   WORD COUNTER
+================================ */
+const countInput = document.getElementById("countInput");
+const countResult = document.getElementById("countResult");
+
+if (countInput) {
+  countInput.addEventListener("input", () => {
+    const text = countInput.value.trim();
+    const words = text ? text.split(/\s+/).length : 0;
+    const chars = text.length;
+    countResult.innerText = `Words: ${words} | Characters: ${chars}`;
+  });
+}
 
 /* ===============================
    UI HELPERS

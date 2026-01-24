@@ -114,6 +114,27 @@
     <button onclick="mergePdfFiles()">Merge PDFs</button>
     <div id="mergePdfResult"></div>
   </section>
+<section class="tool-area" id="tool-textcase" style="display:none">
+  <h2>Text Case Converter</h2>
+  <textarea id="caseInput" placeholder="Enter text"></textarea>
+  <button onclick="toUpper()">UPPERCASE</button>
+  <button onclick="toLower()">lowercase</button>
+  <button onclick="toTitle()">Title Case</button>
+  <textarea id="caseOutput" placeholder="Result"></textarea>
+</section>
+
+<section class="tool-area" id="tool-password" style="display:none">
+  <h2>Password Generator</h2>
+  <input type="number" id="passLength" placeholder="Length" value="12">
+  <button onclick="generatePassword()">Generate</button>
+  <input type="text" id="passwordOutput" readonly>
+</section>
+
+<section class="tool-area" id="tool-counter" style="display:none">
+  <h2>Word & Character Counter</h2>
+  <textarea id="countInput" placeholder="Enter text"></textarea>
+  <p id="countResult">Words: 0 | Characters: 0</p>
+</section>
 
 </main>
 

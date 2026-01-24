@@ -177,54 +177,64 @@ async function mergePdfFiles() {
     `<a href="${url}" download="merged.pdf">⬇ Download Merged PDF</a>`;
 }
 /* ===============================
-   TEXT CASE CONVERTER
+   TEXT CASE CONVERTER (FIXED)
 ================================ */
 function toUpper() {
-  const t = caseInput.value;
-  caseOutput.value = t.toUpperCase();
+  const input = document.getElementById("caseInput");
+  const output = document.getElementById("caseOutput");
+  output.value = input.value.toUpperCase();
 }
 
 function toLower() {
-  const t = caseInput.value;
-  caseOutput.value = t.toLowerCase();
+  const input = document.getElementById("caseInput");
+  const output = document.getElementById("caseOutput");
+  output.value = input.value.toLowerCase();
 }
 
 function toTitle() {
-  caseOutput.value = caseInput.value
+  const input = document.getElementById("caseInput");
+  const output = document.getElementById("caseOutput");
+  output.value = input.value
     .toLowerCase()
     .replace(/\b\w/g, c => c.toUpperCase());
 }
 
 /* ===============================
-   PASSWORD GENERATOR
+   PASSWORD GENERATOR (FIXED)
 ================================ */
 function generatePassword() {
-  const length = parseInt(passLength.value) || 12;
+  const lengthInput = document.getElementById("passLength");
+  const output = document.getElementById("passwordOutput");
+
+  const length = parseInt(lengthInput.value) || 12;
   const chars =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
-  let pass = "";
 
+  let password = "";
   for (let i = 0; i < length; i++) {
-    pass += chars[Math.floor(Math.random() * chars.length)];
+    password += chars[Math.floor(Math.random() * chars.length)];
   }
 
-  passwordOutput.value = pass;
+  output.value = password;
 }
 
 /* ===============================
-   WORD COUNTER
+   WORD & CHARACTER COUNTER (FIXED)
 ================================ */
-const countInput = document.getElementById("countInput");
-const countResult = document.getElementById("countResult");
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("countInput");
+  const result = document.getElementById("countResult");
 
-if (countInput) {
-  countInput.addEventListener("input", () => {
-    const text = countInput.value.trim();
+  if (!input) return;
+
+  input.addEventListener("input", () => {
+    const text = input.value.trim();
     const words = text ? text.split(/\s+/).length : 0;
-    const chars = text.length;
-    countResult.innerText = `Words: ${words} | Characters: ${chars}`;
+    const chars = input.value.length;
+
+    result.innerText = `Words: ${words} | Characters: ${chars}`;
   });
-}
+});
 
 /* ===============================
    UI HELPERS

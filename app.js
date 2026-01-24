@@ -174,29 +174,78 @@ async function mergePdfFiles() {
   mergePdfResult.innerHTML = `<a href="${url}" download="merged.pdf">Download PDF</a>`;
 }
 
-/* ===============================
-   VIDEO CONVERTER (STABLE)
-================================ */
+/* =========================
+   VIDEO CONVERTER (WORKING)
+========================= */
+
 const { createFFmpeg, fetchFile } = FFmpeg;
 const ffmpeg = createFFmpeg({ log: true });
 
-convertVideoBtn.onclick = async () => {
-  if (!videoInput.files.length) return alert("Select video");
+document.getElementById("convertVideoBtn").addEventListener("click", async () => {
+  const input = document.getElementById("videoInput");
+  const format = document.getElementById("videoFormat").value;
+  const outputDiv = document.getElementById("videoResult");
 
-  videoResult.innerText = "Loading FFmpeg...";
-  if (!ffmpeg.isLoaded()) await ffmpeg.load();
+  const width = document.getElementById("videoWidth").value;
+  const height = document.getElementById("videoHeight").value;
 
-  ffmpeg.FS("writeFile", "input.mp4", await fetchFile(videoInput.files[0]));
+  if (!input.files.length) {
+    alert("Please select a video file");
+    return;
+  }
 
-  const fmt = videoFormat.value;
-  const out = fmt === "mp3" ? "out.mp3" : "out." + fmt;
+  outputDiv.innerHTML = "⏳ Loading converter... (first time takes ~15s)";
 
-  await ffmpeg.run("-i", "input.mp4", out);
-  const data = ffmpeg.FS("readFile", out);
-  const url = URL.createObjectURL(new Blob([data.buffer]));
+  try {
+    if (!ffmpeg.isLoaded()) {
+      await ffmpeg.load();
+    }
 
-  videoResult.innerHTML = `<a href="${url}" download="${out}">Download</a>`;
-};
+    const file = input.files[0];
+    ffmpeg.FS("writeFile", "input", await fetchFile(file));
+
+    let scale = [];
+    if (width || height) {
+      scale = ["-vf", `scale=${width || -1}:${height || -1}`];
+    }
+
+    let output = "output.mp4";
+    let args = ["-i", "input", ...scale, output];
+
+    if (format === "mp3") {
+      output = "output.mp3";
+      args = ["-i", "input", output];
+    }
+
+    if (format === "3gp") {
+      output = "output.3gp";
+      args = ["-i", "input", ...scale, output];
+    }
+
+    if (format === "webm") {
+      output = "output.webm";
+      args = ["-i", "input", ...scale, output];
+    }
+
+    if (format === "hd") {
+      output = "output_hd.mp4";
+      args = ["-i", "input", "-vf", "scale=1280:720", output];
+    }
+
+    await ffmpeg.run(...args);
+
+    const data = ffmpeg.FS("readFile", output);
+    const url = URL.createObjectURL(new Blob([data.buffer]));
+
+    outputDiv.innerHTML = `
+      ✅ Conversion Done<br><br>
+      <a href="${url}" download="${output}">⬇ Download Video</a>
+    `;
+  } catch (err) {
+    console.error(err);
+    outputDiv.innerHTML = "❌ Conversion failed. Try smaller video.";
+  }
+});
 
 /* ===============================
    UI HELPERS

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <title>Free Online Daily Use Tools</title>
+  <title>Free Online Daily Use Tools – Convert, Merge, Generate</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Free daily use tools – JPG to PDF, PDF to JPG, QR code, timer, video converter and more. No signup required.">
+  <meta name="description" content="Free online tools: video converter, JPG to PDF, merge PDF, QR generator, timer & more. 100% browser-based, no uploads.">
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -13,14 +12,14 @@
 <body>
 
 <header>
-  <div class="logo">DailyTools</div>
+  <div class="logo">🚀 DailyTools</div>
   <input type="text" id="search" placeholder="Search tools...">
   <button onclick="toggleDark()" class="dark-btn">🌙</button>
 </header>
 
 <section class="hero">
   <h1>Free Online Daily Use Tools</h1>
-  <p>Convert, compress, generate – fast, secure & free.</p>
+  <p>Convert, merge, generate & manage files — fast, private & free.</p>
 </section>
 
 <div class="tools-grid">
@@ -31,31 +30,31 @@
   <div class="tool-card" onclick="openTool('tool-image-converter')">🎨 <span>Image Converter</span></div>
   <div class="tool-card" onclick="openTool('tool-pngjpg')">🖼️ <span>PNG to JPG</span></div>
   <div class="tool-card" onclick="openTool('tool-mergepdf')">📑 <span>Merge PDF</span></div>
-  <div class="tool-card" onclick="openTool('tool-timer')">⏱️ <span>Timer</span></div>
+  <div class="tool-card" onclick="openTool('tool-timer')">⏱️ <span>Timer & Stopwatch</span></div>
 </div>
 
 <!-- ================= TOOLS ================= -->
 
-<section class="tool-area" id="tool-jpgpdf" style="display:none;">
+<section class="tool-area" id="tool-jpgpdf">
   <h2>JPG to PDF</h2>
   <input type="file" id="jpgInput" accept="image/jpeg" multiple>
   <button onclick="convertJpgToPdf()">Convert</button>
   <p id="status"></p>
 </section>
 
-<section class="tool-area" id="tool-pdfjpg" style="display:none;">
+<section class="tool-area" id="tool-pdfjpg">
   <h2>PDF to JPG</h2>
   <input type="file" id="pdfInput" accept="application/pdf">
   <button onclick="convertPdfToJpg()">Convert</button>
   <div id="imageOutput"></div>
 </section>
 
-<section class="tool-area" id="tool-image-converter" style="display:none;">
+<section class="tool-area" id="tool-image-converter">
   <h2>Image Converter</h2>
   <input type="file" id="imgInput">
   <label><input type="checkbox" id="compressCheckbox"> Compress</label>
-  <input type="number" id="imgWidth" placeholder="Width px">
-  <input type="number" id="imgHeight" placeholder="Height px">
+  <input type="number" id="imgWidth" placeholder="Width (px)">
+  <input type="number" id="imgHeight" placeholder="Height (px)">
   <select id="format">
     <option value="image/jpeg">JPG</option>
     <option value="image/png">PNG</option>
@@ -64,57 +63,69 @@
   <div id="imgResult"></div>
 </section>
 
-<section class="tool-area" id="tool-qr" style="display:none;">
-  <h2>QR Generator</h2>
-  <input type="text" id="qrText">
-  <button onclick="generateQR()">Generate</button>
+<section class="tool-area" id="tool-qr">
+  <h2>QR Code Generator</h2>
+  <input type="text" id="qrText" placeholder="Enter text or URL">
+  <button onclick="generateQR()">Generate QR</button>
   <div id="qrResult"></div>
 </section>
 
-<section class="tool-area" id="tool-timer" style="display:none;">
+<section class="tool-area" id="tool-timer">
   <h2>Timer</h2>
-  <input type="number" id="minutes">
+  <input type="number" id="minutes" placeholder="Minutes">
   <button onclick="startTimer()">Start</button>
   <button onclick="resetTimer()">Reset</button>
   <p id="timerDisplay">00:00</p>
+
+  <hr>
+
+  <h2>Stopwatch</h2>
+  <p id="stopwatchDisplay">00:00:00</p>
+  <button onclick="startStopwatch()">Start</button>
+  <button onclick="stopStopwatch()">Stop</button>
+  <button onclick="resetStopwatch()">Reset</button>
 </section>
 
-<section class="tool-area" id="tool-pngjpg" style="display:none;">
+<section class="tool-area" id="tool-pngjpg">
   <h2>PNG to JPG</h2>
-  <input type="file" id="pngInput">
+  <input type="file" id="pngInput" accept="image/png">
   <button onclick="convertPngToJpg()">Convert</button>
   <div id="pngOutput"></div>
 </section>
 
-<section class="tool-area" id="tool-mergepdf" style="display:none;">
-  <h2>Merge PDF</h2>
-  <input type="file" multiple>
-  <button onclick="mergePdfFiles()">Merge</button>
+<section class="tool-area" id="tool-mergepdf">
+  <h2>Merge PDF Files</h2>
+  <input type="file" id="mergePdfInput" multiple accept="application/pdf">
+  <button onclick="mergePdfFiles()">Merge PDFs</button>
+  <div id="mergePdfResult"></div>
 </section>
 
-<section class="tool-area" id="tool-video" style="display:none;">
+<section class="tool-area" id="tool-video">
   <h2>Video Converter</h2>
-  <input type="file" id="videoInput">
+  <input type="file" id="videoInput" accept="video/*">
+
   <select id="videoFormat">
     <option value="mp4">MP4</option>
-    <option value="mp3">MP3</option>
+    <option value="mp3">MP3 (Audio)</option>
+    <option value="webm">WEBM</option>
   </select>
+
   <button id="convertVideoBtn">Convert</button>
   <div id="videoResult"></div>
-  <progress id="videoProgress" value="0" max="100" style="display:none;width:100%"></progress>
-<div id="progressText"></div>
-
 </section>
 
 <footer>
-  <p>© 2026 DailyTools • Files never leave your device</p>
+  <p>© 2026 DailyTools • 100% Client-Side • No File Uploads</p>
 </footer>
 
 <!-- LIBRARIES -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script src="https://unpkg.com/qrcodejs/qrcode.min.js"></script>
-<script src="app.js"></script>
 
+<!-- FFmpeg -->
+<script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.4/dist/ffmpeg.min.js"></script>
+
+<script src="app.js"></script>
 </body>
 </html>

@@ -159,60 +159,66 @@ async function mergePdfFiles() {
 ================================ */
 const { createFFmpeg, fetchFile } = FFmpeg;
 
-const ffmpeg = createFFmpeg({
-  log: true,
-  corePath: "https://unpkg.com/@ffmpeg/core@0.12.4/dist/ffmpeg-core.js",
-  progress: ({ ratio }) => {
-    const percent = Math.round(ratio * 100);
-    videoProgress.style.display = "block";
-    videoProgress.value = percent;
-    progressText.innerText = `Converting: ${percent}%`;
+let ffmpeg;
+
+async function initFFmpeg() {
+  if (!ffmpeg) {
+    ffmpeg = createFFmpeg({
+      log: true,
+      corePath: "https://unpkg.com/@ffmpeg/core@0.11.6/dist/ffmpeg-core.js"
+    });
+    await ffmpeg.load();
   }
-});
+}
 
 document.getElementById("convertVideoBtn").addEventListener("click", async () => {
   const file = videoInput.files[0];
   const format = videoFormat.value;
 
   if (!file) {
-    alert("Please select a video file");
+    alert("Select a video file");
     return;
   }
 
-  videoResult.innerHTML = "⏳ Loading video engine (first time takes ~15s)...";
-  videoProgress.style.display = "none";
-  progressText.innerText = "";
+  videoResult.innerHTML = "⏳ Loading FFmpeg (first time ~15s)...";
 
   try {
-    if (!ffmpeg.isLoaded()) {
-      await ffmpeg.load();
-    }
+    await initFFmpeg();
 
     ffmpeg.FS("writeFile", "input", await fetchFile(file));
 
     let output = `output.${format}`;
-    let command = ["-i", "input", output];
 
     if (format === "mp3") {
-      command = ["-i", "input", "-vn", "-acodec", "libmp3lame", output];
+      await ffmpeg.run(
+        "-i", "input",
+        "-vn",
+        "-acodec", "libmp3lame",
+        output
+      );
+    } else {
+      await ffmpeg.run(
+        "-i", "input",
+        output
+      );
     }
 
-    await ffmpeg.run(...command);
-
     const data = ffmpeg.FS("readFile", output);
+
     const url = URL.createObjectURL(
-      new Blob([data.buffer], { type: "video/" + format })
+      new Blob([data.buffer])
     );
 
     videoResult.innerHTML = `
-      ✅ Conversion complete<br>
-      <a href="${url}" download="${output}">⬇ Download ${output}</a>
+      ✅ Converted successfully<br>
+      <a href="${url}" download="${output}">⬇ Download</a>
     `;
   } catch (err) {
     console.error(err);
-    videoResult.innerHTML = "❌ Conversion failed. Try smaller file.";
+    videoResult.innerHTML = "❌ Conversion failed. Check console.";
   }
 });
+
 
 
 /* ===============================

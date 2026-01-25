@@ -7,66 +7,54 @@ if (window.pdfjsLib) {
 }
 
 /* ===============================
-   MAIN DOM READY
+   DOM READY
 ================================ */
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("App.js loaded and DOM ready ✅");
+  console.log("App.js loaded ✅");
 
   /* ===============================
      DOM ELEMENTS
   ================================= */
-  // Text Case
   const caseInput = document.getElementById("caseInput");
   const caseOutput = document.getElementById("caseOutput");
 
-  // Password Generator
   const passLength = document.getElementById("passLength");
   const passwordOutput = document.getElementById("passwordOutput");
 
-  // Word Counter
   const countInput = document.getElementById("countInput");
   const countResult = document.getElementById("countResult");
 
-  // JPG → PDF
   const jpgInput = document.getElementById("jpgInput");
   const jpgStatus = document.getElementById("status");
 
-  // PDF → JPG
   const pdfInput = document.getElementById("pdfInput");
   const imageOutput = document.getElementById("imageOutput");
 
-  // PNG → JPG
   const pngInput = document.getElementById("pngInput");
   const pngOutput = document.getElementById("pngOutput");
 
-  // Merge PDF
   const mergePdfInput = document.getElementById("mergePdfInput");
   const mergePdfResult = document.getElementById("mergePdfResult");
 
-  // QR Code
   const qrText = document.getElementById("qrText");
   const qrResult = document.getElementById("qrResult");
+  const qrLogoInput = document.getElementById("qrLogoInput"); // optional logo
 
-  // Timer/Stopwatch
   const timerDisplay = document.getElementById("timerDisplay");
   const stopwatchDisplay = document.getElementById("stopwatchDisplay");
   const minutesInput = document.getElementById("minutes");
 
   /* ===============================
-     GLOBAL UI HELPERS
+     GLOBAL HELPERS
   ================================= */
-  window.openTool = function (id) {
-    document.querySelectorAll(".tool-area").forEach(
-      section => section.style.display = "none"
-    );
+  window.openTool = id => {
+    document.querySelectorAll(".tool-area").forEach(s => s.style.display = "none");
     const el = document.getElementById(id);
     if (el) el.style.display = "block";
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  window.toggleDark = function () {
-    document.body.classList.toggle("dark");
-  };
+  window.toggleDark = () => document.body.classList.toggle("dark");
 
   /* ===============================
      DRAG & DROP
@@ -79,26 +67,25 @@ document.addEventListener("DOMContentLoaded", () => {
       zone.classList.add("dragover");
     });
 
-    zone.addEventListener("dragleave", () => {
-      zone.classList.remove("dragover");
-    });
+    zone.addEventListener("dragleave", () => zone.classList.remove("dragover"));
 
     zone.addEventListener("drop", e => {
       e.preventDefault();
       zone.classList.remove("dragover");
       if (input) input.files = e.dataTransfer.files;
+      const info = zone.querySelector(".file-info");
+      if (info && input.files.length) info.innerText = `${input.files.length} file(s) selected`;
     });
   });
 
   /* ===============================
      JPG → PDF
   ================================= */
-  window.convertJpgToPdf = async function () {
+  window.convertJpgToPdf = async () => {
     if (!jpgInput || !jpgInput.files.length) {
       if (jpgStatus) jpgStatus.innerText = "Please select JPG images";
       return;
     }
-
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF();
 
@@ -110,14 +97,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const img = new Image();
-      await new Promise(ok => {
-        img.onload = ok;
-        img.src = imgData;
-      });
+      await new Promise(ok => { img.onload = ok; img.src = imgData; });
 
       const w = pdf.internal.pageSize.getWidth();
       const h = (img.height * w) / img.width;
-
       if (i > 0) pdf.addPage();
       pdf.addImage(img, "JPEG", 0, 0, w, h);
     }
@@ -129,14 +112,12 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ===============================
      PDF → JPG
   ================================= */
-  window.convertPdfToJpg = async function () {
+  window.convertPdfToJpg = async () => {
     if (!pdfInput || !pdfInput.files.length) return alert("Select a PDF file");
     if (!imageOutput) return;
-
     imageOutput.innerHTML = "";
 
     const pdf = await pdfjsLib.getDocument(await pdfInput.files[0].arrayBuffer()).promise;
-
     for (let i = 1; i <= pdf.numPages; i++) {
       const page = await pdf.getPage(i);
       const viewport = page.getViewport({ scale: 2 });
@@ -158,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ===============================
      PNG → JPG
   ================================= */
-  window.convertPngToJpg = function () {
+  window.convertPngToJpg = () => {
     if (!pngInput || !pngInput.files.length) return alert("Please select a PNG image");
     if (!pngOutput) return;
 
@@ -166,7 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (file.type !== "image/png") return alert("Only PNG files allowed");
 
     pngOutput.innerHTML = "⏳ Converting...";
-
     const reader = new FileReader();
     reader.onload = () => {
       const img = new Image();
@@ -174,14 +154,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const canvas = document.createElement("canvas");
         canvas.width = img.width;
         canvas.height = img.height;
-
         const ctx = canvas.getContext("2d");
         ctx.fillStyle = "#fff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(img, 0, 0);
-
         const jpgUrl = canvas.toDataURL("image/jpeg", 0.95);
-
         pngOutput.innerHTML = `
           <img src="${jpgUrl}" style="max-width:100%;border-radius:8px;margin:10px 0">
           <br>
@@ -196,12 +173,13 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* ===============================
-     MERGE PDF
+     Merge PDF
   ================================= */
-  window.mergePdfFiles = async function () {
+  window.mergePdfFiles = async () => {
     if (!mergePdfInput || mergePdfInput.files.length < 2) return alert("Select at least 2 PDF files");
     if (!mergePdfResult) return;
 
+    mergePdfResult.innerHTML = "⏳ Merging PDFs...";
     const merged = await PDFLib.PDFDocument.create();
 
     for (const file of mergePdfInput.files) {
@@ -212,7 +190,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const blob = new Blob([await merged.save()], { type: "application/pdf" });
     const url = URL.createObjectURL(blob);
-
     mergePdfResult.innerHTML = `
       <a href="${url}" download="merged.pdf" class="primary-btn">
         ⬇ Download Merged PDF
@@ -221,143 +198,110 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* ===============================
-     QR CODE
+     QR CODE (PRO with Logo)
   ================================= */
-  window.generateQR = function () {
-  if (!qrText || !qrResult) return;
-  const value = qrText.value.trim();
-  if (!value) { qrResult.innerText = "Enter text or URL"; return; }
+  window.generateQR = () => {
+    if (!qrText || !qrResult) return;
+    const value = qrText.value.trim();
+    if (!value) { qrResult.innerText = "Enter text or URL"; return; }
 
-  qrResult.innerHTML = "";
-  // Advanced QR code with logo
-  const tempDiv = document.createElement("div");
-  qrResult.appendChild(tempDiv);
+    qrResult.innerHTML = "";
+    const tempDiv = document.createElement("div");
+    qrResult.appendChild(tempDiv);
 
-  const qr = new QRCode(tempDiv, {
-    text: value,
-    width: 300,
-    height: 300,
-    correctLevel: QRCode.CorrectLevel.H
-  });
+    const qr = new QRCode(tempDiv, {
+      text: value,
+      width: 300,
+      height: 300,
+      correctLevel: QRCode.CorrectLevel.H
+    });
 
-  // Optional: overlay logo
-  const logoInput = document.getElementById("qrLogoInput");
-  if (logoInput && logoInput.files[0]) {
-    setTimeout(() => {
-      const canvas = tempDiv.querySelector("canvas");
-      const reader = new FileReader();
-      reader.onload = () => {
-        const img = new Image();
-        img.onload = () => {
-          const ctx = canvas.getContext("2d");
-          const logoSize = canvas.width * 0.2;
-          ctx.drawImage(img, (canvas.width - logoSize)/2, (canvas.height - logoSize)/2, logoSize, logoSize);
+    // Overlay logo if selected
+    if (qrLogoInput && qrLogoInput.files[0]) {
+      setTimeout(() => {
+        const canvas = tempDiv.querySelector("canvas");
+        const reader = new FileReader();
+        reader.onload = () => {
+          const img = new Image();
+          img.onload = () => {
+            const ctx = canvas.getContext("2d");
+            const logoSize = canvas.width * 0.2;
+            ctx.drawImage(img, (canvas.width - logoSize)/2, (canvas.height - logoSize)/2, logoSize, logoSize);
+          };
+          img.src = reader.result;
         };
-        img.src = reader.result;
-      };
-      reader.readAsDataURL(logoInput.files[0]);
-      qrResult.appendChild(canvas);
-      tempDiv.remove();
-    }, 150);
-  } else {
-    // Just QR
-    setTimeout(() => {
-      const canvas = tempDiv.querySelector("canvas");
-      qrResult.appendChild(canvas);
-      tempDiv.remove();
-    }, 150);
-  }
-};
+        reader.readAsDataURL(qrLogoInput.files[0]);
+        qrResult.appendChild(canvas);
+        tempDiv.remove();
+      }, 150);
+    } else {
+      setTimeout(() => {
+        const canvas = tempDiv.querySelector("canvas");
+        qrResult.appendChild(canvas);
+        tempDiv.remove();
+      }, 150);
+    }
+  };
 
   /* ===============================
-     TIMER + STOPWATCH
+     Timer & Stopwatch
   ================================= */
-  let timerInterval, stopwatchInterval;
-  let swSeconds = 0;
+  let timerInterval, stopwatchInterval, swSeconds = 0;
 
-  window.startTimer = function () {
+  window.startTimer = () => {
     if (!minutesInput || !timerDisplay) return;
     const minutes = parseInt(minutesInput.value);
     if (!minutes || minutes <= 0) return alert("Enter minutes");
-
     let time = minutes * 60;
     clearInterval(timerInterval);
-
     timerInterval = setInterval(() => {
       timerDisplay.innerText =
-        String(Math.floor(time / 60)).padStart(2, "0") + ":" +
-        String(time % 60).padStart(2, "0");
-
+        String(Math.floor(time/60)).padStart(2,"0")+":"+
+        String(time%60).padStart(2,"0");
       if (--time < 0) clearInterval(timerInterval);
-    }, 1000);
+    },1000);
   };
+  window.resetTimer = () => { clearInterval(timerInterval); if (timerDisplay) timerDisplay.innerText="00:00"; };
 
-  window.resetTimer = function () {
-    clearInterval(timerInterval);
-    if (timerDisplay) timerDisplay.innerText = "00:00";
-  };
-
-  window.startStopwatch = function () {
-    if (!stopwatchDisplay) return;
-    if (stopwatchInterval) return;
+  window.startStopwatch = () => {
+    if (!stopwatchDisplay || stopwatchInterval) return;
     stopwatchInterval = setInterval(() => {
       swSeconds++;
       stopwatchDisplay.innerText =
-        String(Math.floor(swSeconds / 3600)).padStart(2, "0") + ":" +
-        String(Math.floor(swSeconds / 60) % 60).padStart(2, "0") + ":" +
-        String(swSeconds % 60).padStart(2, "0");
-    }, 1000);
+        String(Math.floor(swSeconds/3600)).padStart(2,"0")+":"+
+        String(Math.floor(swSeconds/60)%60).padStart(2,"0")+":"+
+        String(swSeconds%60).padStart(2,"0");
+    },1000);
   };
-
-  window.stopStopwatch = function () {
-    clearInterval(stopwatchInterval);
-    stopwatchInterval = null;
-  };
-
-  window.resetStopwatch = function () {
-    window.stopStopwatch();
-    swSeconds = 0;
-    if (stopwatchDisplay) stopwatchDisplay.innerText = "00:00:00";
-  };
+  window.stopStopwatch = () => { clearInterval(stopwatchInterval); stopwatchInterval=null; };
+  window.resetStopwatch = () => { window.stopStopwatch(); swSeconds=0; if(stopwatchDisplay) stopwatchDisplay.innerText="00:00:00"; };
 
   /* ===============================
-     TEXT CASE FUNCTIONS
+     Text Case
   ================================= */
-  window.toUpper = () => {
-    if (caseInput && caseOutput) caseOutput.value = caseInput.value.toUpperCase();
-  };
-  window.toLower = () => {
-    if (caseInput && caseOutput) caseOutput.value = caseInput.value.toLowerCase();
-  };
-  window.toTitle = () => {
-    if (caseInput && caseOutput) caseOutput.value = caseInput.value
-      .toLowerCase()
-      .replace(/\b\w/g, c => c.toUpperCase());
-  };
+  window.toUpper = () => { if(caseInput && caseOutput) caseOutput.value = caseInput.value.toUpperCase(); };
+  window.toLower = () => { if(caseInput && caseOutput) caseOutput.value = caseInput.value.toLowerCase(); };
+  window.toTitle = () => { if(caseInput && caseOutput) caseOutput.value = caseInput.value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()); };
 
   /* ===============================
-     PASSWORD GENERATOR
+     Password Generator
   ================================= */
   window.generatePassword = () => {
     if (!passLength || !passwordOutput) return;
     const len = parseInt(passLength.value) || 12;
-    const chars =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
-    let pass = "";
-    for (let i = 0; i < len; i++) {
-      pass += chars[Math.floor(Math.random() * chars.length)];
-    }
-    passwordOutput.value = pass;
+    const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+    let pass="";
+    for(let i=0;i<len;i++){ pass+=chars[Math.floor(Math.random()*chars.length)]; }
+    passwordOutput.value=pass;
   };
 
   /* ===============================
-     WORD COUNTER
+     Word Counter
   ================================= */
   if (countInput && countResult) {
     countInput.addEventListener("input", () => {
       const text = countInput.value.trim();
-      countResult.innerText =
-        `Words: ${text ? text.split(/\s+/).length : 0} | Characters: ${countInput.value.length}`;
+      countResult.innerText = `Words: ${text?text.split(/\s+/).length:0} | Characters: ${countInput.value.length}`;
     });
   }
 });

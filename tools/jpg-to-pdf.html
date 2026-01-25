@@ -9,6 +9,81 @@
         content="Convert JPG images to PDF online for free. No upload. 100% browser-based and private.">
 
   <link rel="stylesheet" href="../style.css">
+
+  <style>
+    /* PAGE LAYOUT */
+    .tool-wrapper {
+      max-width: 520px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 32px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+      text-align: center;
+    }
+
+    .tool-wrapper h1 {
+      margin-bottom: 10px;
+    }
+
+    .tool-desc {
+      color: #666;
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+
+    /* DRAG & DROP */
+    .drop-zone {
+      border: 2px dashed #ccc;
+      border-radius: 12px;
+      padding: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-bottom: 16px;
+    }
+
+    .drop-zone:hover {
+      border-color: #4f46e5;
+      background: #f5f7ff;
+    }
+
+    .drop-zone.dragover {
+      border-color: #4f46e5;
+      background: #eef2ff;
+    }
+
+    .drop-zone p {
+      margin: 0;
+      font-size: 14px;
+      color: #444;
+    }
+
+    .file-info {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #333;
+    }
+
+    button {
+      margin-top: 16px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #4f46e5;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #4338ca;
+    }
+
+    #status {
+      margin-top: 12px;
+      font-size: 14px;
+    }
+  </style>
 </head>
 
 <body>
@@ -17,26 +92,61 @@
   <a href="../index.html" class="logo">🚀 DailyTools</a>
 </header>
 
-<main class="tool-page">
+<main class="tool-wrapper">
 
   <h1>JPG to PDF Converter</h1>
   <p class="tool-desc">
-    Convert JPG images into a single PDF file instantly. No uploads. Works fully in your browser.
+    Convert JPG images into a single PDF file instantly.  
+    Files stay on your device — 100% private.
   </p>
 
-  <input type="file" id="jpgInput" accept="image/jpeg" multiple>
-  <button onclick="convertJpgToPdf()">Convert to PDF</button>
+  <!-- DRAG & DROP -->
+  <div class="drop-zone" id="dropZone">
+    <p>📂 Drag & drop JPG files here<br>or click to select</p>
+    <input type="file" id="jpgInput" accept="image/jpeg" multiple hidden>
+    <div class="file-info" id="fileInfo"></div>
+  </div>
 
+  <button onclick="convertJpgToPdf()">Convert to PDF</button>
   <p id="status"></p>
 
 </main>
 
 <footer class="site-footer">
-  <p>© 2026 DailyTools</p>
+  <p>© 2026 DailyTools • 100% Client-Side</p>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="../app.js"></script>
+
+<script>
+  /* DRAG & DROP LOGIC */
+  const dropZone = document.getElementById("dropZone");
+  const fileInput = document.getElementById("jpgInput");
+  const fileInfo = document.getElementById("fileInfo");
+
+  dropZone.addEventListener("click", () => fileInput.click());
+
+  fileInput.addEventListener("change", () => {
+    fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
+  });
+
+  dropZone.addEventListener("dragover", e => {
+    e.preventDefault();
+    dropZone.classList.add("dragover");
+  });
+
+  dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("dragover");
+  });
+
+  dropZone.addEventListener("drop", e => {
+    e.preventDefault();
+    dropZone.classList.remove("dragover");
+    fileInput.files = e.dataTransfer.files;
+    fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
+  });
+</script>
 
 </body>
 </html>

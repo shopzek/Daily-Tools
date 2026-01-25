@@ -18,45 +18,20 @@
       text-align: center;
     }
 
-    .tool-wrapper h1 {
-      margin-bottom: 10px;
-    }
-
-    .tool-desc {
-      color: #666;
-      font-size: 15px;
-      margin-bottom: 24px;
-    }
+    .tool-desc { color:#666; font-size:15px; margin-bottom:24px; }
 
     .drop-zone {
       border: 2px dashed #ccc;
       border-radius: 12px;
       padding: 30px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: .3s;
       margin-bottom: 16px;
     }
 
-    .drop-zone:hover {
-      border-color: #4f46e5;
-      background: #f5f7ff;
-    }
-
     .drop-zone.dragover {
-      border-color: #4f46e5;
-      background: #eef2ff;
-    }
-
-    .drop-zone p {
-      margin: 0;
-      font-size: 14px;
-      color: #444;
-    }
-
-    .file-info {
-      margin-top: 10px;
-      font-size: 13px;
-      color: #333;
+      border-color:#4f46e5;
+      background:#eef2ff;
     }
 
     button {
@@ -70,22 +45,14 @@
       cursor: pointer;
     }
 
-    button:hover {
-      background: #4338ca;
-    }
-
-    #imageOutput {
-      margin-top: 20px;
-      text-align: center;
-    }
-
     #imageOutput img {
-      margin-bottom: 10px;
-      border-radius: 8px;
       max-width: 100%;
+      border-radius: 8px;
+      margin-bottom: 8px;
     }
   </style>
 </head>
+
 <body>
 
 <header class="main-header">
@@ -95,126 +62,102 @@
 <main class="tool-wrapper">
   <h1>Image Compressor & Converter</h1>
   <p class="tool-desc">
-    Compress or convert images (PNG/JPG) instantly. Files stay on your device — 100% private.
+    Compress or convert images instantly. 100% private, browser-based.
   </p>
 
   <div class="drop-zone" id="dropZone">
     <p>📂 Drag & drop images here<br>or click to select</p>
-    <input type="file" id="imgInput" accept="image/png, image/jpeg" multiple hidden>
-    <div class="file-info" id="fileInfo"></div>
+    <input type="file" id="imgInput" accept="image/png,image/jpeg" multiple hidden>
+    <div id="fileInfo"></div>
   </div>
 
   <label>
-    Compression Quality: <input type="number" id="qualityInput" min="10" max="100" value="80">%
+    Compression Quality:
+    <input type="number" id="qualityInput" min="10" max="100" value="80">%
   </label>
+
   <br>
-  <button onclick="compressImages()">Compress & Convert</button>
+  <button id="convertBtn">Compress & Convert</button>
 
   <div id="imageOutput"></div>
 </main>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const dropZone = document.getElementById("dropZone");
-  const imgInput = document.getElementById("imgInput");
-  const fileInfo = document.getElementById("fileInfo");
-  const imageOutput = document.getElementById("imageOutput");
-  const qualityInput = document.getElementById("qualityInput");
-
-  dropZone.addEventListener("click", () => imgInput.click());
-
-  imgInput.addEventListener("change", () => {
-    fileInfo.innerText = `${imgInput.files.length} file(s) selected`;
-  });
-
-  dropZone.addEventListener("dragover", e => {
-    e.preventDefault();
-    dropZone.classList.add("dragover");
-  });
-
-  dropZone.addEventListener("dragleave", () => {
-    dropZone.classList.remove("dragover");
-  });
-
-  dropZone.addEventListener("drop", e => {
-    e.preventDefault();
-    dropZone.classList.remove("dragover");
-    imgInput.files = e.dataTransfer.files;
-    fileInfo.innerText = `${imgInput.files.length} file(s) selected`;
-  });
-
-  window.compressImages = () => {
-    if (!imgInput.files.length) {
-      alert("Please select at least one image");
-      return;
-    }
-
-    imageOutput.innerHTML = "⏳ Processing...";
-
-    const quality = Math.min(Math.max(parseInt(qualityInput.value) / 100, 0.1), 1);
-
-    imageOutput.innerHTML = "";
-    Array.from(imgInput.files).forEach(file => {
-      if (!file.type.startsWith("image/")) return;
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement("canvas");
-          canvas.width = img.width;
-          canvas.height = img.height;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0);
-
-          const compressedUrl = canvas.toDataURL("image/jpeg", quality);
-
-          const output = document.createElement("div");
-          output.innerHTML = `
-            <img src="${compressedUrl}">
-            <br>
-            <a href="${compressedUrl}" download="${file.name.replace(/\.[^.]+$/, ".jpg")}">
-              ⬇ Download
-            </a>
-          `;
-          imageOutput.appendChild(output);
-        };
-        img.src = reader.result;
-      };
-      reader.readAsDataURL(file);
-    });
-  };
-});
-
-  
 <section class="seo-section">
   <h2>About Image Converter</h2>
   <p>
-    The Image Converter allows you to quickly convert images between multiple formats directly in your browser. 
-    Whether you need JPG, PNG, or other popular image types, this tool converts your images instantly without 
-    uploading them to any server — keeping your files 100% private and secure.
-  </p>
-
-  <h3>Why use this tool?</h3>
-  <ul>
-    <li>✔ Convert multiple image formats easily</li>
-    <li>✔ 100% free and unlimited use</li>
-    <li>✔ No registration required</li>
-    <li>✔ Works on mobile, tablet, and desktop</li>
-    <li>✔ Files never leave your device, ensuring full privacy</li>
-  </ul>
-
-  <h3>How it works</h3>
-  <p>
-    Simply upload your image, select the desired output format, and click convert. 
-    The converted image will appear instantly for preview and download. Everything runs locally in your browser 
-    using modern web technologies.
+    Convert and compress images directly in your browser.
+    No uploads, no tracking, full privacy.
   </p>
 </section>
-
 
 <footer class="site-footer">
   <p>© 2026 DailyTools • 100% Free</p>
 </footer>
 
- 
+<script>
+const dropZone = document.getElementById("dropZone");
+const imgInput = document.getElementById("imgInput");
+const fileInfo = document.getElementById("fileInfo");
+const imageOutput = document.getElementById("imageOutput");
+const qualityInput = document.getElementById("qualityInput");
+const convertBtn = document.getElementById("convertBtn");
+
+dropZone.onclick = () => imgInput.click();
+
+imgInput.onchange = () => {
+  fileInfo.textContent = imgInput.files.length + " file(s) selected";
+};
+
+dropZone.ondragover = e => {
+  e.preventDefault();
+  dropZone.classList.add("dragover");
+};
+
+dropZone.ondragleave = () => dropZone.classList.remove("dragover");
+
+dropZone.ondrop = e => {
+  e.preventDefault();
+  dropZone.classList.remove("dragover");
+  imgInput.files = e.dataTransfer.files;
+  fileInfo.textContent = imgInput.files.length + " file(s) selected";
+};
+
+convertBtn.onclick = () => {
+  if (!imgInput.files.length) {
+    alert("Please select images");
+    return;
+  }
+
+  imageOutput.innerHTML = "";
+  const quality = Math.max(0.1, Math.min(1, qualityInput.value / 100));
+
+  [...imgInput.files].forEach(file => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        canvas.getContext("2d").drawImage(img, 0, 0);
+
+        const url = canvas.toDataURL("image/jpeg", quality);
+
+        imageOutput.innerHTML += `
+          <div>
+            <img src="${url}">
+            <a href="${url}" download="${file.name.replace(/\..+$/, '.jpg')}">
+              ⬇ Download
+            </a>
+          </div>
+        `;
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+};
+</script>
+
+</body>
+</html>

@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
 
-  <title>Free Online Daily Use Tools – PDF, Image, QR, Timer</title>
+  <title>Free Online Daily Use Tools – PDF, Image, QR, Text</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description"
-        content="Free online tools: JPG to PDF, merge PDF, image converter, QR generator, timer & stopwatch. 100% browser-based, private & fast.">
+        content="Free online tools including JPG to PDF, PDF to JPG, image converter, QR generator, word counter, password generator and timer. 100% browser-based & private.">
 
   <!-- SEO -->
   <meta name="robots" content="index, follow">
@@ -15,7 +15,7 @@
 
   <meta property="og:title" content="Free Online Daily Use Tools">
   <meta property="og:description"
-        content="Convert images, merge PDFs, generate QR codes & more. No uploads. 100% free.">
+        content="Fast, private & free online tools for everyday use. No uploads required.">
   <meta property="og:type" content="website">
 
   <link rel="stylesheet" href="style.css">
@@ -23,132 +23,103 @@
 
 <body>
 
-<header>
-  <div class="logo">🚀 DailyTools</div>
+<header class="main-header">
+  <a href="index.html" class="logo">🚀 DailyTools</a>
+
   <input type="text" id="search" placeholder="Search tools..." aria-label="Search tools">
+
   <button onclick="toggleDark()" class="dark-btn" aria-label="Toggle dark mode">🌙</button>
 </header>
 
 <section class="hero">
   <h1>Free Online Daily Use Tools</h1>
-  <p>Convert, merge, generate & manage files — fast, private & free.</p>
+  <p>Simple, fast & private tools for files, text and productivity.</p>
 </section>
 
-<main>
+<main class="container">
+
   <div class="tools-grid">
-    <div class="tool-card" onclick="openTool('tool-textcase')">🔠 <span>Text Case Converter</span></div>
-<div class="tool-card" onclick="openTool('tool-password')">🔐 <span>Password Generator</span></div>
-<div class="tool-card" onclick="openTool('tool-counter')">📊 <span>Word Counter</span></div>
-    <div class="tool-card" onclick="openTool('tool-qr')">🔳 <span>QR Generator</span></div>
-    <div class="tool-card" onclick="openTool('tool-jpgpdf')">🖼️ <span>JPG to PDF</span></div>
-    <div class="tool-card" onclick="openTool('tool-pdfjpg')">📄 <span>PDF to JPG</span></div>
-    <div class="tool-card" onclick="openTool('tool-image-converter')">🎨 <span>Image Converter</span></div>
-    <div class="tool-card" onclick="openTool('tool-pngjpg')">🖼️ <span>PNG to JPG</span></div>
-    <div class="tool-card" onclick="openTool('tool-mergepdf')">📑 <span>Merge PDF</span></div>
-    <div class="tool-card" onclick="openTool('tool-timer')">⏱️ <span>Timer & Stopwatch</span></div>
+
+    <a href="tools/text-case.html" class="tool-card">
+      🔠
+      <span>Text Case Converter</span>
+    </a>
+
+    <a href="tools/password-generator.html" class="tool-card">
+      🔐
+      <span>Password Generator</span>
+    </a>
+
+    <a href="tools/word-counter.html" class="tool-card">
+      📊
+      <span>Word Counter</span>
+    </a>
+
+    <a href="tools/qr-generator.html" class="tool-card">
+      🔳
+      <span>QR Code Generator</span>
+    </a>
+
+    <a href="tools/jpg-to-pdf.html" class="tool-card">
+      🖼️
+      <span>JPG to PDF</span>
+    </a>
+
+    <a href="tools/pdf-to-jpg.html" class="tool-card">
+      📄
+      <span>PDF to JPG</span>
+    </a>
+
+    <a href="tools/image-converter.html" class="tool-card">
+      🎨
+      <span>Image Converter</span>
+    </a>
+
+    <a href="tools/png-to-jpg.html" class="tool-card">
+      🖼️
+      <span>PNG to JPG</span>
+    </a>
+
+    <a href="tools/merge-pdf.html" class="tool-card">
+      📑
+      <span>Merge PDF</span>
+    </a>
+
+    <a href="tools/timer.html" class="tool-card">
+      ⏱️
+      <span>Timer & Stopwatch</span>
+    </a>
+
   </div>
-
-  <!-- ================= TOOLS ================= -->
-
-  <section class="tool-area" id="tool-jpgpdf" style="display:none">
-    <h2>JPG to PDF</h2>
-    <input type="file" id="jpgInput" accept="image/jpeg" multiple>
-    <button onclick="convertJpgToPdf()">Convert</button>
-    <p id="status"></p>
-  </section>
-
-  <section class="tool-area" id="tool-pdfjpg" style="display:none">
-    <h2>PDF to JPG</h2>
-    <input type="file" id="pdfInput" accept="application/pdf">
-    <button onclick="convertPdfToJpg()">Convert</button>
-    <div id="imageOutput"></div>
-  </section>
-
-  <section class="tool-area" id="tool-image-converter" style="display:none">
-    <h2>Image Converter</h2>
-    <input type="file" id="imgInput">
-    <label><input type="checkbox" id="compressCheckbox"> Compress</label>
-    <input type="number" id="imgWidth" placeholder="Width (px)">
-    <input type="number" id="imgHeight" placeholder="Height (px)">
-    <select id="format">
-      <option value="image/jpeg">JPG</option>
-      <option value="image/png">PNG</option>
-    </select>
-    <button id="convertImgBtn">Convert</button>
-    <div id="imgResult"></div>
-  </section>
-
-  <section class="tool-area" id="tool-qr" style="display:none">
-    <h2>QR Code Generator</h2>
-    <input type="text" id="qrText" placeholder="Enter text or URL">
-    <button onclick="generateQR()">Generate QR</button>
-    <div id="qrResult"></div>
-  </section>
-
-  <section class="tool-area" id="tool-timer" style="display:none">
-    <h2>Timer</h2>
-    <input type="number" id="minutes" placeholder="Minutes">
-    <button onclick="startTimer()">Start</button>
-    <button onclick="resetTimer()">Reset</button>
-    <p id="timerDisplay">00:00</p>
-
-    <hr>
-
-    <h2>Stopwatch</h2>
-    <p id="stopwatchDisplay">00:00:00</p>
-    <button onclick="startStopwatch()">Start</button>
-    <button onclick="stopStopwatch()">Stop</button>
-    <button onclick="resetStopwatch()">Reset</button>
-  </section>
-
-  <section class="tool-area" id="tool-pngjpg" style="display:none">
-    <h2>PNG to JPG</h2>
-    <input type="file" id="pngInput" accept="image/png">
-    <button onclick="convertPngToJpg()">Convert</button>
-    <div id="pngOutput"></div>
-  </section>
-
-  <section class="tool-area" id="tool-mergepdf" style="display:none">
-    <h2>Merge PDF Files</h2>
-    <input type="file" id="mergePdfInput" multiple accept="application/pdf">
-    <button onclick="mergePdfFiles()">Merge PDFs</button>
-    <div id="mergePdfResult"></div>
-  </section>
-<section class="tool-area" id="tool-textcase" style="display:none">
-  <h2>Text Case Converter</h2>
-  <textarea id="caseInput" placeholder="Enter text"></textarea>
-  <button onclick="toUpper()">UPPERCASE</button>
-  <button onclick="toLower()">lowercase</button>
-  <button onclick="toTitle()">Title Case</button>
-  <textarea id="caseOutput" placeholder="Result"></textarea>
-</section>
-
-<section class="tool-area" id="tool-password" style="display:none">
-  <h2>Password Generator</h2>
-  <input type="number" id="passLength" placeholder="Length" value="12">
-  <button onclick="generatePassword()">Generate</button>
-  <input type="text" id="passwordOutput" readonly>
-</section>
-
-<section class="tool-area" id="tool-counter" style="display:none">
-  <h2>Word & Character Counter</h2>
-  <textarea id="countInput" placeholder="Enter text"></textarea>
-  <p id="countResult">Words: 0 | Characters: 0</p>
-</section>
 
 </main>
 
-<footer>
-  <p>© 2026 DailyTools • 100% Client-Side • Files never leave your device</p>
+<footer class="site-footer">
+  <p>© 2026 DailyTools — Free & Private Online Utilities</p>
+
+  <nav class="footer-links">
+    <a href="about.html">About</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms.html">Terms</a>
+    <a href="contact.html">Contact</a>
+  </nav>
 </footer>
 
-<!-- LIBRARIES -->
-  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-<script src="https://unpkg.com/qrcodejs/qrcode.min.js"></script>
+<script>
+/* Simple client-side search */
+document.getElementById("search").addEventListener("input", function () {
+  const value = this.value.toLowerCase();
+  document.querySelectorAll(".tool-card").forEach(card => {
+    card.style.display = card.innerText.toLowerCase().includes(value)
+      ? "flex"
+      : "none";
+  });
+});
 
-<script src="app.js"></script>
+function toggleDark() {
+  document.body.classList.toggle("dark");
+}
+</script>
 
 <!-- Schema.org -->
 <script type="application/ld+json">
@@ -156,7 +127,7 @@
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "DailyTools",
-  "description": "Free online daily-use tools for PDF, image conversion, QR codes, timer and utilities.",
+  "description": "Free online daily-use tools for PDFs, images, text utilities and productivity.",
   "applicationCategory": "Utilities",
   "operatingSystem": "All"
 }

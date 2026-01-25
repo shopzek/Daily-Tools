@@ -301,7 +301,126 @@ document.addEventListener("DOMContentLoaded", () => {
     countInput.addEventListener("input", () => {
       const text = countInput.value.trim();
       countResult.innerText = `Words: ${text?text.split(/\s+/).length:0} | Characters: ${countInput.value.length}`;
-    });
+    };
   }
 
+/* ===============================
+   URL SHORTENER
+================================ */
+const longUrlInput = document.getElementById("longUrl");
+const shortUrlOutput = document.getElementById("shortUrlOutput");
+
+if (longUrlInput && shortUrlOutput) {
+  window.shortenURL = async () => {
+    const url = longUrlInput.value.trim();
+    if (!url) {
+      shortUrlOutput.innerText = "Enter a valid URL";
+      return;
+    }
+
+    shortUrlOutput.innerText = "⏳ Shortening...";
+
+    try {
+      const res = await fetch(
+        `https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`
+      );
+      const shortUrl = await res.text();
+
+      shortUrlOutput.innerHTML = `
+        <input type="text" value="${shortUrl}" readonly style="width:100%;margin:8px 0">
+        <button onclick="navigator.clipboard.writeText('${shortUrl}')">
+          📋 Copy
+        </button>
+      `;
+    } catch {
+      shortUrlOutput.innerText = "❌ Failed to shorten URL";
+    };
+  }
+
+   /* ===============================
+   IMAGE → WEBP
+================================ */
+const webpInput = document.getElementById("webpInput");
+const webpQuality = document.getElementById("webpQuality");
+const webpOutput = document.getElementById("webpOutput");
+
+if (webpInput && webpOutput) {
+  window.convertToWebp = () => {
+    if (!webpInput.files.length) {
+      alert("Select an image");
+      return;
+    }
+
+    const quality = Math.min(Math.max((webpQuality.value || 80) / 100, 0.1), 1);
+    webpOutput.innerHTML = "⏳ Converting...";
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        canvas.getContext("2d").drawImage(img, 0, 0);
+
+        const webpUrl = canvas.toDataURL("image/webp", quality);
+
+        webpOutput.innerHTML = `
+          <img src="${webpUrl}" style="max-width:100%;border-radius:8px">
+          <br>
+          <a href="${webpUrl}" download="converted.webp" class="primary-btn">
+            ⬇ Download WEBP
+          </a>
+        `;
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(webpInput.files[0]);
+  };
+}
+
+   /* ===============================
+   EMOJI TOOL
+================================ */
+const emojiGrid = document.getElementById("emojiGrid");
+const selectedEmoji = document.getElementById("selectedEmoji");
+
+if (emojiGrid && selectedEmoji) {
+  const emojis = [
+    "😀","😂","😍","😎","😭","🔥","❤️","👍",
+    "🎉","🚀","💰","📈","📱","🤖","⚡"
+  ];
+
+  emojis.forEach(e => {
+    const btn = document.createElement("button");
+    btn.textContent = e;
+    btn.className = "emoji-btn";
+    btn.onclick = () => selectedEmoji.innerText = e;
+    emojiGrid.appendChild(btn);
+  });
+
+  window.copyEmoji = () => {
+    if (!selectedEmoji.innerText) return alert("Select an emoji");
+    navigator.clipboard.writeText(selectedEmoji.innerText);
+    alert("Emoji copied!");
+  };
+
+  window.downloadEmoji = () => {
+    if (!selectedEmoji.innerText) return alert("Select an emoji");
+
+    const canvas = document.createElement("canvas");
+    canvas.width = 256;
+    canvas.height = 256;
+    const ctx = canvas.getContext("2d");
+    ctx.font = "200px serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(selectedEmoji.innerText, 128, 140);
+
+    const link = document.createElement("a");
+    link.href = canvas.toDataURL("image/png");
+    link.download = "emoji.png";
+    link.click();
+  });
+} 
 });

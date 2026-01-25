@@ -2,92 +2,211 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Word to PDF Converter | Free Online Tool</title>
   <meta name="description" content="Convert Word documents (.doc, .docx) to PDF online for free. Easy and fast Word to PDF converter tool.">
   <meta name="keywords" content="Word to PDF, DOC to PDF, DOCX to PDF, online converter, free PDF converter">
-  <meta name="author" content="YourSiteName">
+  <meta name="author" content="DailyTools">
+
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom Styles -->
   <style>
-.tool-wrapper{
-  max-width:520px;margin:60px auto;background:#fff;
-  padding:32px;border-radius:14px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-  text-align:center;
-}
-.tool-desc{color:#666;font-size:15px;margin-bottom:20px}
-input,button{
-  width:100%;padding:12px;margin-top:12px;
-  border-radius:8px;border:1px solid #ccc;
-}
-button{
-  background:#4f46e5;color:#fff;border:none;cursor:pointer;
-}
-button:hover{background:#4338ca}
-#result{margin-top:20px;font-size:14px}
+    body {
+      background-color: #f4f5f9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
 
-.seo-section{
-  max-width:900px;margin:60px auto;background:#fff;
-  padding:30px;border-radius:12px;
-}
+    header.main-header {
+      background: #4f46e5;
+      padding: 15px 0;
+      text-align: center;
+      color: #fff;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
 
-.star-rating span{font-size:22px;cursor:pointer}
-.comment-box input,.comment-box textarea{
-  width:100%;padding:10px;margin-bottom:10px;
-}
-</style>
+    .tool-wrapper {
+      max-width: 520px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 32px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .tool-wrapper h2 {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .tool-desc {
+      color: #666;
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+
+    .tool-wrapper input[type="file"],
+    .tool-wrapper button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .tool-wrapper button {
+      background: #4f46e5;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .tool-wrapper button:hover {
+      background: #4338ca;
+    }
+
+    #status {
+      margin-top: 15px;
+      font-size: 14px;
+      color: red;
+    }
+
+    /* SEO Section */
+    .seo-section {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 30px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .seo-section h2 {
+      color: #4f46e5;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .seo-section h3 {
+      margin-top: 20px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .seo-section ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .seo-section ul li::before {
+      content: "✔ ";
+      color: #4f46e5;
+      font-weight: bold;
+    }
+
+    /* Comments Section */
+    #comments {
+      max-width: 900px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    #comments h2 {
+      color: #4f46e5;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    #commentForm input,
+    #commentForm textarea,
+    #commentForm select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    #commentForm button {
+      background: #4f46e5;
+      color: #fff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #commentForm button:hover {
+      background: #4338ca;
+    }
+
+    .comment {
+      background: #f1f3f5;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    .comment strong {
+      color: #4f46e5;
+    }
+  </style>
 </head>
 
 <body>
+  <!-- Header -->
+  <header class="main-header">🚀 DailyTools</header>
 
-<header class="main-header">
-  <a href="../index.html" class="logo">🚀 DailyTools</a>
-</header>
-</head>
-<body>
-  <div class="converter-box">
+  <!-- Word to PDF Converter -->
+  <div class="tool-wrapper">
     <h2>Word to PDF Converter</h2>
-    <p>Convert Word documents (.doc, .docx) into PDF format easily.</p>
-    <input type="file" id="fileInput" class="form-control mb-3" accept=".doc,.docx" />
-    <button id="convertBtn" class="btn btn-primary">Convert Word to PDF</button>
-    <p id="status" class="mt-2 text-danger"></p>
+    <p class="tool-desc">Convert Word documents (.doc, .docx) into PDF format easily, quickly, and securely.</p>
+    <input type="file" id="fileInput" accept=".doc,.docx">
+    <button id="convertBtn">Convert Word to PDF</button>
+    <p id="status"></p>
+  </div>
 
-    <!-- SEO SECTION -->
-<section class="seo-section" style="max-width:900px; margin:40px auto; padding:20px; background:white; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-  <h2>About Word to PDF Converter Tool</h2>
-  <p>
-    The Word to PDF Converter allows you to quickly and easily convert your Word documents
-    (.doc, .docx) into PDF files. It’s ideal for students, professionals, and anyone
-    who needs a reliable and fast online conversion tool.
-  </p>
+  <!-- SEO Section -->
+  <section class="seo-section">
+    <h2>About Word to PDF Converter Tool</h2>
+    <p>The Word to PDF Converter allows you to quickly and easily convert your Word documents (.doc, .docx) into PDF files. It’s ideal for students, professionals, and anyone who needs a reliable and fast online conversion tool.</p>
 
-  <h3>Why use this tool?</h3>
-  <ul>
-    <li>✔ 100% free and unlimited use</li>
-    <li>✔ No registration required</li>
-    <li>✔ Works on mobile, tablet, and desktop</li>
-    <li>✔ Preserves text formatting for professional PDFs</li>
-    <li>✔ Your files are safe — conversion happens locally in your browser</li>
-  </ul>
+    <h3>Why use this tool?</h3>
+    <ul>
+      <li>100% free and unlimited use</li>
+      <li>No registration required</li>
+      <li>Works on mobile, tablet, and desktop</li>
+      <li>Preserves text formatting for professional PDFs</li>
+      <li>Your files are safe — conversion happens locally in your browser</li>
+    </ul>
 
-  <h3>How it works</h3>
-  <p>
-    Simply upload your Word document and click the "Convert Word to PDF" button.
-    The tool automatically extracts the text and creates a PDF file you can download instantly.
-    No software installation required — it’s fast, simple, and secure.
-  </p>
-</section>
-
+    <h3>How it works</h3>
+    <p>Simply upload your Word document and click the "Convert Word to PDF" button. The tool automatically extracts the text and creates a PDF file you can download instantly. No software installation required — it’s fast, simple, and secure.</p>
+  </section>
 
   <!-- Comments Section -->
   <section id="comments">
     <h2>User Reviews & Comments</h2>
-    
     <form id="commentForm">
-      <input type="text" id="username" placeholder="Your Name" required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
-      <textarea id="usercomment" rows="4" placeholder="Write your review or comment..." required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;"></textarea>
-      <label style="display:block; margin-bottom:10px;">Rating: 
-        <select id="rating" required style="padding:5px; border-radius:5px;">
+      <input type="text" id="username" placeholder="Your Name" required>
+      <textarea id="usercomment" rows="4" placeholder="Write your review or comment..." required></textarea>
+      <label>Rating:
+        <select id="rating" required>
           <option value="">Select</option>
           <option value="5">⭐⭐⭐⭐⭐ 5</option>
           <option value="4">⭐⭐⭐⭐ 4</option>
@@ -96,25 +215,25 @@ button:hover{background:#4338ca}
           <option value="1">⭐ 1</option>
         </select>
       </label>
-      <button type="submit" style="background:#2563eb; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">Submit</button>
+      <button type="submit">Submit</button>
     </form>
-
-    <div id="commentList" style="margin-top:20px;"></div>
+    <div id="commentList"></div>
   </section>
 
   <!-- JS Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
+  <!-- JS Functionality -->
   <script>
-    // Word to PDF conversion
+    // Word to PDF
     const fileInput = document.getElementById('fileInput');
     const convertBtn = document.getElementById('convertBtn');
     const status = document.getElementById('status');
 
     convertBtn.addEventListener('click', () => {
       if (!fileInput.files.length) {
-        status.innerText = 'Please select a Word file first!';
+        status.textContent = 'Please select a Word file first!';
         return;
       }
 
@@ -123,52 +242,33 @@ button:hover{background:#4338ca}
 
       reader.onload = function(event) {
         const arrayBuffer = event.target.result;
-
-        // Extract text from Word
         mammoth.extractRawText({ arrayBuffer: arrayBuffer })
-          .then(function(result) {
+          .then(result => {
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF();
-
             const text = result.value || '';
             const lines = pdf.splitTextToSize(text, 180);
             pdf.text(lines, 10, 10);
             pdf.save(file.name.replace(/\.(docx?|DOCX?)$/, '.pdf'));
-            status.innerText = '';
+            status.textContent = '';
           })
-          .catch(function(err) {
+          .catch(err => {
             console.error(err);
-            status.innerText = 'Error converting file. Make sure it is a valid Word document.';
+            status.textContent = 'Error converting file. Make sure it is a valid Word document.';
           });
       };
-
       reader.readAsArrayBuffer(file);
     });
 
-    // Star rating functionality
-    const stars = document.querySelectorAll('#starRating span');
-    const ratingValue = document.getElementById('ratingValue');
-    stars.forEach(star => {
-      star.addEventListener('click', () => {
-        const value = star.getAttribute('data-value');
-        stars.forEach(s => s.classList.remove('active'));
-        for (let i = 0; i < value; i++) {
-          stars[i].classList.add('active');
-        }
-        ratingValue.innerText = `Your rating: ${value}`;
-      });
-    });
-
-    // Comment form functionality
+    // Comments
     const commentForm = document.getElementById('commentForm');
     const commentList = document.getElementById('commentList');
 
-    commentForm.addEventListener('submit', function(e) {
+    commentForm.addEventListener('submit', e => {
       e.preventDefault();
       const username = document.getElementById('username').value.trim();
       const usercomment = document.getElementById('usercomment').value.trim();
       const rating = document.getElementById('rating').value;
-
       if (!username || !usercomment || !rating) return;
 
       const commentDiv = document.createElement('div');
@@ -176,7 +276,6 @@ button:hover{background:#4338ca}
       commentDiv.innerHTML = `<strong>${username}</strong> (Rating: ${'⭐'.repeat(rating)})<br>${usercomment}`;
       commentList.appendChild(commentDiv);
 
-      // Clear form
       commentForm.reset();
     });
   </script>

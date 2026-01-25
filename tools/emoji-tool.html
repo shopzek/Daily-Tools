@@ -1,1 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Emoji Picker & Copier – Free Tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Pick and copy emojis online instantly. 100% browser-based and private.">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .tool-wrapper {
+      max-width: 520px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 32px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+      text-align: center;
+    }
+
+    .tool-desc { color:#666; font-size:15px; margin-bottom:24px; }
+
+    .emoji-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .emoji {
+      font-size: 28px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #f3f4f6;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .emoji:hover {
+      background: #4f46e5;
+      color: #fff;
+    }
+
+    #selectedEmoji {
+      font-size: 40px;
+      margin: 16px 0;
+    }
+
+    button {
+      margin-top: 16px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #4f46e5;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="main-header">
+  <a href="../index.html" class="logo">🚀 DailyTools</a>
+</header>
+
+<main class="tool-wrapper">
+  <h1>Emoji Picker & Copier</h1>
+  <p class="tool-desc">
+    Select an emoji and copy it instantly. 100% private and browser-based.
+  </p>
+
+  <div class="emoji-grid" id="emojiGrid">
+    <!-- Emojis will be inserted here -->
+  </div>
+
+  <div id="selectedEmoji">😀</div>
+  <button id="copyBtn">Copy Emoji</button>
+</main>
+
+<script>
+const emojiGrid = document.getElementById("emojiGrid");
+const selectedEmojiDiv = document.getElementById("selectedEmoji");
+const copyBtn = document.getElementById("copyBtn");
+
+// List of popular emojis
+const emojis = [
+  "😀","😃","😄","😁","😆","😅","😂","🤣","😊","😇",
+  "🙂","🙃","😉","😌","😍","🥰","😘","😗","😙","😚",
+  "😋","😛","😝","😜","🤪","🤨","🧐","🤓","😎","🥳",
+  "😏","😒","😞","😔","😟","😕","🙁","☹️","😣","😖",
+  "😫","😩","🥺","😢","😭","😤","😠","😡","🤬","🤯",
+  "😳","🥵","🥶","😱","😨","😰","😥","😓","🤗","🤔"
+];
+
+// Populate emojis
+emojis.forEach(e => {
+  const span = document.createElement("span");
+  span.className = "emoji";
+  span.textContent = e;
+  span.onclick = () => selectedEmojiDiv.textContent = e;
+  emojiGrid.appendChild(span);
+});
+
+// Copy to clipboard
+copyBtn.onclick = () => {
+  const emoji = selectedEmojiDiv.textContent;
+  navigator.clipboard.writeText(emoji).then(() => {
+    alert("Copied: " + emoji);
+  });
+};
+</script>
+
+<section class="seo-section">
+  <h2>About Emoji Picker & Copier</h2>
+  <p>
+    The Emoji Picker & Copier allows you to quickly select and copy popular emojis directly in your browser.
+    No installation, signup, or server upload is needed—everything runs locally and privately.
+  </p>
+
+  <h3>Why use this tool?</h3>
+  <ul>
+    <li>✔ 100% free and unlimited</li>
+    <li>✔ No registration required</li>
+    <li>✔ Copy emojis instantly with one click</li>
+    <li>✔ Works on mobile, tablet, and desktop</li>
+    <li>✔ Fully private: nothing leaves your device</li>
+  </ul>
+
+  <h3>How it works</h3>
+  <p>
+    Simply click any emoji to select it, then click the "Copy Emoji" button.
+    The emoji will be copied to your clipboard instantly and ready to paste anywhere.
+  </p>
+</section>
+
+<footer class="site-footer">
+  <p>© 2026 DailyTools • 100% Free</p>
+</footer>
+</body>
+</html>
 

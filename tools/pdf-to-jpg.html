@@ -6,7 +6,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description"
-        content="Convert PDF pages to JPG images online for free. No upload. 100% browser-based and private.">
+        content="Convert PDF pages to JPG images online for free. 100% browser-based and private. No files are uploaded.">
 
   <link rel="stylesheet" href="../style.css">
 
@@ -79,8 +79,10 @@
       background: #4338ca;
     }
 
-    #imageOutput {
-      margin-top: 16px;
+    #imageOutput img {
+      max-width: 100%;
+      margin-bottom: 12px;
+      border-radius: 8px;
     }
   </style>
 </head>
@@ -95,7 +97,7 @@
 
   <h1>PDF to JPG Converter</h1>
   <p class="tool-desc">
-    Convert each page of your PDF into a separate JPG image instantly.  
+    Convert each page of your PDF into separate JPG images instantly.  
     Files stay on your device — 100% private.
   </p>
 
@@ -113,18 +115,22 @@
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-<script src="../app.js"></script>
-
 <script>
-  /* DRAG & DROP LOGIC */
+  // Setup PDF.js worker
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
+
+  // Drag & drop
   const dropZone = document.getElementById("dropZone");
   const fileInput = document.getElementById("pdfInput");
   const fileInfo = document.getElementById("fileInfo");
+  const imageOutput = document.getElementById("imageOutput");
 
   dropZone.addEventListener("click", () => fileInput.click());
 
   fileInput.addEventListener("change", () => {
     fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
+    imageOutput.innerHTML = "";
   });
 
   dropZone.addEventListener("dragover", e => {
@@ -132,16 +138,49 @@
     dropZone.classList.add("dragover");
   });
 
-  dropZone.addEventListener("dragleave", () => {
-    dropZone.classList.remove("dragover");
-  });
+  dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
 
   dropZone.addEventListener("drop", e => {
     e.preventDefault();
     dropZone.classList.remove("dragover");
     fileInput.files = e.dataTransfer.files;
     fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
+    imageOutput.innerHTML = "";
   });
+
+  // Convert PDF → JPG
+  async function convertPdfToJpg() {
+    if (!fileInput.files.length) return alert("Select a PDF file");
+    imageOutput.innerHTML = "<p>⏳ Converting...</p>";
+
+    try {
+      const arrayBuffer = await fileInput.files[0].arrayBuffer();
+      const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+
+      imageOutput.innerHTML = ""; // clear previous images
+
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale: 2 });
+
+        const canvas = document.createElement("canvas");
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        const renderContext = { canvasContext: canvas.getContext("2d"), viewport };
+        await page.render(renderContext).promise;
+
+        const img = document.createElement("img");
+        img.src = canvas.toDataURL("image/jpeg", 1);
+        imageOutput.appendChild(img);
+      }
+
+      alert("✅ PDF pages converted to JPG!");
+    } catch (err) {
+      console.error(err);
+      alert("❌ Failed to convert PDF. Make sure the file is valid and you are running on a server.");
+    }
+  }
 </script>
 
 <section class="seo-section">
@@ -163,5 +202,6 @@
 <footer class="site-footer">
   <p>© 2026 DailyTools • 100% Free</p>
 </footer>
+
 </body>
 </html>

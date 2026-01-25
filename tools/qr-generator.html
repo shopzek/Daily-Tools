@@ -4,12 +4,7 @@
   <meta charset="UTF-8">
   <title>QR Code Generator Online – Free QR Maker | DailyTools</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- SEO -->
   <meta name="description" content="Free QR Code Generator online. Create QR codes for links, WhatsApp, phone, email and text. Download high-quality QR codes instantly.">
-  <meta name="keywords" content="QR code generator, free QR code, WhatsApp QR, link QR code, download QR code, QR maker online">
-  <link rel="canonical" href="https://shopzek.github.io/Daily-Tools/tools/qr-code-gen.html">
-
   <link rel="stylesheet" href="../style.css">
 
   <style>
@@ -22,45 +17,14 @@
       box-shadow: 0 10px 30px rgba(0,0,0,.08);
       text-align: center;
     }
-
     .tool-desc { color: #666; font-size: 15px; margin-bottom: 20px; }
-
-    select, input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 12px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
-
-    .options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    button {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      background: #4f46e5;
-      color: white;
-      font-size: 15px;
-      cursor: pointer;
-      margin-top: 6px;
-    }
-
+    select, input { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; }
+    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    button { padding: 12px 20px; border: none; border-radius: 8px; background: #4f46e5; color: white; font-size: 15px; cursor: pointer; margin-top: 6px; }
     button:hover { background: #4338ca; }
-
     #qrOutput { margin-top: 20px; }
-    #qrOutput canvas, #qrOutput img { margin: auto; }
-
-    .download-btn {
-      background: #059669;
-      margin-left: 6px;
-    }
+    #qrOutput canvas, #qrOutput img { display: block; margin: auto; }
+    .download-btn { background: #059669; margin-left: 6px; }
     .download-btn:hover { background: #047857; }
   </style>
 </head>
@@ -86,15 +50,12 @@
 
   <input type="text" id="qrInput" placeholder="Enter text, link, or number">
 
-  <!-- OPTIONS -->
   <div class="options">
     <input type="number" id="qrSize" placeholder="QR Size (px)" value="220">
     <input type="color" id="qrColor" value="#000000">
   </div>
 
-  <!-- LOGO -->
   <input type="file" id="logoInput" accept="image/*">
-
   <button onclick="generateQR()">Generate QR</button>
   <button class="download-btn" onclick="downloadQR()">Download QR</button>
 
@@ -103,49 +64,29 @@
 
 <!-- QR Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
 <script>
 let currentQRCanvas = null;
 
 function generateQR() {
-  const type = qrType.value;
-  const input = qrInput.value.trim();
-  const size = parseInt(qrSize.value) || 220;
-  const color = qrColor.value;
+  const type = document.getElementById("qrType").value;
+  const input = document.getElementById("qrInput").value.trim();
+  const size = parseInt(document.getElementById("qrSize").value) || 220;
+  const color = document.getElementById("qrColor").value;
   const output = document.getElementById("qrOutput");
 
-  if (!input) {
-    alert("Please enter a value");
-    return;
-  }
+  if (!input) return alert("Please enter a value");
 
   let data = "";
-  switch (type) {
-    case "url":
-      data = input.startsWith("http") ? input : "https://" + input;
-      break;
-    case "whatsapp":
-      data = "https://wa.me/" + input.replace(/\D/g, "");
-      break;
-    case "phone":
-      data = "tel:" + input;
-      break;
-    case "email":
-      data = "mailto:" + input;
-      break;
-    default:
-      data = input;
+  switch(type){
+    case "url": data = input.startsWith("http") ? input : "https://" + input; break;
+    case "whatsapp": data = "https://wa.me/" + input.replace(/\D/g,""); break;
+    case "phone": data = "tel:" + input; break;
+    case "email": data = "mailto:" + input; break;
+    default: data = input;
   }
 
   output.innerHTML = "";
-
-  const qr = new QRCode(output, {
-    text: data,
-    width: size,
-    height: size,
-    colorDark: color,
-    colorLight: "#ffffff"
-  });
+  const qr = new QRCode(output, { text: data, width: size, height: size, colorDark: color, colorLight: "#ffffff" });
 
   setTimeout(() => {
     currentQRCanvas = output.querySelector("canvas");
@@ -154,90 +95,35 @@ function generateQR() {
 }
 
 function addLogoIfAny() {
-  const file = logoInput.files[0];
+  const file = document.getElementById("logoInput").files[0];
   if (!file || !currentQRCanvas) return;
 
   const ctx = currentQRCanvas.getContext("2d");
   const img = new Image();
-
   img.onload = () => {
     const size = currentQRCanvas.width;
     const logoSize = size * 0.22;
-    const x = (size - logoSize) / 2;
-    const y = (size - logoSize) / 2;
-
+    const x = (size - logoSize)/2;
+    const y = (size - logoSize)/2;
     ctx.fillStyle = "#fff";
     ctx.fillRect(x, y, logoSize, logoSize);
     ctx.drawImage(img, x, y, logoSize, logoSize);
   };
-
   img.src = URL.createObjectURL(file);
 }
 
 function downloadQR() {
-  if (!currentQRCanvas) {
-    alert("Please generate a QR code first");
-    return;
-  }
-
+  if (!currentQRCanvas) return alert("Please generate a QR code first");
   const link = document.createElement("a");
   link.download = "dailytools-qr-code.png";
   link.href = currentQRCanvas.toDataURL("image/png");
   link.click();
 }
+</script>
 
-<section class="seo-section">
-  <h2>About QR Code Generator</h2>
-  <p>
-    The QR Code Generator helps you create QR codes instantly for websites,
-    WhatsApp numbers, phone calls, emails, and plain text. The tool works fully
-    in your browser, so your data stays private and secure.
-  </p>
-
-  <h3>Why use this QR Code Generator?</h3>
-  <ul>
-    <li>✔ 100% free and unlimited usage</li>
-    <li>✔ No signup or login required</li>
-    <li>✔ Generate QR codes for links, WhatsApp, phone & email</li>
-    <li>✔ Customize QR size, color and add your own logo</li>
-    <li>✔ Download high-quality QR codes instantly</li>
-    <li>✔ Works on mobile, tablet and desktop</li>
-  </ul>
-
-  <h3>How it works</h3>
-  <p>
-    Select the QR type, enter your text or link, customize the size and color,
-    and generate your QR code instantly. You can also add a logo in the center
-    and download the QR image with one click. Everything runs locally in your
-    browser using modern web technologies.
-  </p>
-</section>
-
-      <section id="comments" style="max-width:900px; margin:40px auto; background:white; padding:20px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-  <h2 style="color:#2563eb; margin-bottom:15px;">User Reviews & Comments</h2>
-  
-  <form id="commentForm">
-    <input type="text" id="username" placeholder="Your Name" required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
-    <textarea id="usercomment" rows="4" placeholder="Write your review or comment..." required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;"></textarea>
-    <label style="display:block; margin-bottom:10px;">Rating: 
-      <select id="rating" required style="padding:5px; border-radius:5px;">
-        <option value="">Select</option>
-        <option value="5">⭐⭐⭐⭐⭐ 5</option>
-        <option value="4">⭐⭐⭐⭐ 4</option>
-        <option value="3">⭐⭐⭐ 3</option>
-        <option value="2">⭐⭐ 2</option>
-        <option value="1">⭐ 1</option>
-      </select>
-    </label>
-    <button type="submit" style="background:#2563eb; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">Submit</button>
-  </form>
-
-  <div id="commentList" style="margin-top:20px;"></div>
-</section>
-
-      
 <footer class="site-footer">
   <p>© 2026 DailyTools • 100% Free</p>
 </footer>
 
-  
+</body>
+</html>

@@ -19,14 +19,28 @@
       padding: 0;
     }
 
+    /* Header styled like screenshot */
     header.main-header {
-      background: #4f46e5;
+      background: #ffffff;
       padding: 15px 0;
       text-align: center;
-      color: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    header.main-header a {
+      text-decoration: none;
+      font-weight: bold;
       font-size: 1.5rem;
-      font-weight: 600;
-      letter-spacing: 1px;
+      color: #1e3a8a;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    header.main-header img {
+      width: 28px;
+      vertical-align: middle;
+      margin-right: 6px;
     }
 
     .tool-wrapper {
@@ -193,14 +207,13 @@
 </head>
 
 <body>
- <!-- Header -->
-<header class="main-header" style="background: #ffffff; padding: 15px 0; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-  <a href="../index.html" style="text-decoration: none; font-weight: bold; font-size: 1.5rem; color: #1e3a8a; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-    <img src="/path-to-your-rocket-icon.png" alt="Rocket" style="width:28px; vertical-align:middle; margin-right:6px;">
-    DailyTools
-  </a>
-</header>
-
+  <!-- Header -->
+  <header class="main-header">
+    <a href="../index.html">
+      <img src="c2642c68-cebf-40d0-b35d-09d58e2c543f.png" alt="Rocket Icon">
+      DailyTools
+    </a>
+  </header>
 
   <!-- Word to PDF Converter -->
   <div class="tool-wrapper">
@@ -329,7 +342,6 @@
       const avg = (totalRating / reviewCount).toFixed(1);
       averageRating.textContent = `Average Rating: ⭐ ${avg} (${reviewCount} review${reviewCount > 1 ? 's' : ''})`;
 
-      // Reset form
       commentForm.reset();
     });
   </script>

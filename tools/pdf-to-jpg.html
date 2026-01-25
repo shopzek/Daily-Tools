@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>PDF to JPG Converter – Free Online Tool</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description"
-        content="Convert PDF pages to JPG images online for free. 100% browser-based and private.">
+        content="Convert PDF pages to JPG images online for free. No upload. 100% browser-based and private.">
 
   <link rel="stylesheet" href="../style.css">
 
   <style>
+    /* PAGE LAYOUT */
     .tool-wrapper {
       max-width: 520px;
       margin: 60px auto;
@@ -30,6 +32,7 @@
       margin-bottom: 24px;
     }
 
+    /* DRAG & DROP */
     .drop-zone {
       border: 2px dashed #ccc;
       border-radius: 12px;
@@ -77,17 +80,11 @@
     }
 
     #imageOutput {
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    #imageOutput img {
-      margin-bottom: 10px;
-      border-radius: 8px;
-      max-width: 100%;
+      margin-top: 16px;
     }
   </style>
 </head>
+
 <body>
 
 <header class="main-header">
@@ -95,9 +92,11 @@
 </header>
 
 <main class="tool-wrapper">
+
   <h1>PDF to JPG Converter</h1>
   <p class="tool-desc">
-    Convert PDF pages into JPG images instantly. Files stay on your device — 100% private.
+    Convert each page of your PDF into a separate JPG image instantly.  
+    Files stay on your device — 100% private.
   </p>
 
   <!-- DRAG & DROP -->
@@ -107,30 +106,25 @@
     <div class="file-info" id="fileInfo"></div>
   </div>
 
-  <button onclick="convertPdfToJpg()">Convert to JPG</button>
+  <button onclick="convertPdfToJpg()">Convert PDF to JPG</button>
 
   <div id="imageOutput"></div>
+
 </main>
 
-<!-- PDF.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+<script src="../app.js"></script>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("PDF to JPG tool loaded ✅");
-
+  /* DRAG & DROP LOGIC */
   const dropZone = document.getElementById("dropZone");
-  const pdfInput = document.getElementById("pdfInput");
+  const fileInput = document.getElementById("pdfInput");
   const fileInfo = document.getElementById("fileInfo");
-  const imageOutput = document.getElementById("imageOutput");
 
-  // Drag & Drop functionality
-  dropZone.addEventListener("click", () => pdfInput.click());
+  dropZone.addEventListener("click", () => fileInput.click());
 
-  pdfInput.addEventListener("change", () => {
-    if (pdfInput.files.length > 0) {
-      fileInfo.innerText = `${pdfInput.files.length} file(s) selected`;
-    }
+  fileInput.addEventListener("change", () => {
+    fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
   });
 
   dropZone.addEventListener("dragover", e => {
@@ -145,69 +139,29 @@ document.addEventListener("DOMContentLoaded", () => {
   dropZone.addEventListener("drop", e => {
     e.preventDefault();
     dropZone.classList.remove("dragover");
-    pdfInput.files = e.dataTransfer.files;
-    fileInfo.innerText = `${pdfInput.files.length} file(s) selected`;
+    fileInput.files = e.dataTransfer.files;
+    fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
   });
+</script>
 
-  // PDF → JPG conversion function
-  window.convertPdfToJpg = async function () {
-    if (!pdfInput.files.length) {
-      alert("Please select a PDF file");
-      return;
-    }
-
-    if (!imageOutput) return;
-
-    imageOutput.innerHTML = "⏳ Converting...";
-
-    const pdf = await pdfjsLib.getDocument(await pdfInput.files[0].arrayBuffer()).promise;
-
-    imageOutput.innerHTML = "";
-
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const viewport = page.getViewport({ scale: 2 });
-
-      const canvas = document.createElement("canvas");
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-
-      await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
-
-      const img = document.createElement("img");
-      img.src = canvas.toDataURL("image/jpeg", 1);
-
-      imageOutput.appendChild(img);
-    }
-  };
-});
 <section class="seo-section">
   <h2>About PDF to JPG Converter</h2>
   <p>
-    The PDF to JPG Converter allows you to convert PDF pages into high-quality
-    JPG images directly in your browser. The tool is fast, easy to use, and
-    keeps your files completely private by processing everything locally.
+    The PDF to JPG Converter extracts each page of your PDF into high-quality JPG images. 
+    Everything runs locally in your browser — no files are uploaded to a server.
   </p>
 
-  <h3>Why use this PDF to JPG Converter?</h3>
+  <h3>Why use this tool?</h3>
   <ul>
-    <li>✔ 100% free and unlimited usage</li>
-    <li>✔ No signup or registration required</li>
-    <li>✔ Convert PDF pages to JPG images</li>
-    <li>✔ High-quality image output</li>
+    <li>✔ 100% free and unlimited</li>
+    <li>✔ No registration required</li>
     <li>✔ Works on mobile, tablet, and desktop</li>
     <li>✔ Files never leave your device</li>
   </ul>
-
-  <h3>How it works</h3>
-  <p>
-    Upload your PDF file, click the convert button, and each page of the PDF
-    will be converted into a JPG image instantly. The entire process runs
-    inside your browser using modern web technologies.
-  </p>
 </section>
 
 <footer class="site-footer">
   <p>© 2026 DailyTools • 100% Free</p>
 </footer>
-
+</body>
+</html>

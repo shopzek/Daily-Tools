@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>PNG to JPG Converter – Free Online Tool</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description"
-        content="Convert PNG images to JPG online for free. 100% browser-based and private.">
+        content="Convert PNG images to JPG online for free. 100% browser-based and private. No files are uploaded.">
 
   <link rel="stylesheet" href="../style.css">
 
   <style>
+    /* PAGE LAYOUT */
     .tool-wrapper {
       max-width: 520px;
       margin: 60px auto;
@@ -30,6 +32,7 @@
       margin-bottom: 24px;
     }
 
+    /* DRAG & DROP */
     .drop-zone {
       border: 2px dashed #ccc;
       border-radius: 12px;
@@ -76,12 +79,28 @@
       background: #4338ca;
     }
 
-    #pngOutput {
-      margin-top: 20px;
-      text-align: center;
+    #pngOutput img {
+      max-width: 100%;
+      margin-bottom: 12px;
+      border-radius: 8px;
+    }
+
+    #pngOutput a {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 8px 16px;
+      background: #4f46e5;
+      color: #fff;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    #pngOutput a:hover {
+      background: #4338ca;
     }
   </style>
 </head>
+
 <body>
 
 <header class="main-header">
@@ -89,9 +108,11 @@
 </header>
 
 <main class="tool-wrapper">
+
   <h1>PNG to JPG Converter</h1>
   <p class="tool-desc">
-    Convert PNG images to JPG instantly. Files stay on your device — 100% private.
+    Convert PNG images into JPG instantly.  
+    Files stay on your device — 100% private.
   </p>
 
   <!-- DRAG & DROP -->
@@ -101,27 +122,23 @@
     <div class="file-info" id="fileInfo"></div>
   </div>
 
-  <button onclick="convertPngToJpg()">Convert to JPG</button>
+  <button onclick="convertPngToJpg()">Convert PNG to JPG</button>
 
   <div id="pngOutput"></div>
+
 </main>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("PNG to JPG tool loaded ✅");
-
   const dropZone = document.getElementById("dropZone");
-  const pngInput = document.getElementById("pngInput");
+  const fileInput = document.getElementById("pngInput");
   const fileInfo = document.getElementById("fileInfo");
   const pngOutput = document.getElementById("pngOutput");
 
-  // Drag & Drop functionality
-  dropZone.addEventListener("click", () => pngInput.click());
+  dropZone.addEventListener("click", () => fileInput.click());
 
-  pngInput.addEventListener("change", () => {
-    if (pngInput.files.length > 0) {
-      fileInfo.innerText = `${pngInput.files.length} file(s) selected`;
-    }
+  fileInput.addEventListener("change", () => {
+    fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
+    pngOutput.innerHTML = "";
   });
 
   dropZone.addEventListener("dragover", e => {
@@ -129,29 +146,20 @@ document.addEventListener("DOMContentLoaded", () => {
     dropZone.classList.add("dragover");
   });
 
-  dropZone.addEventListener("dragleave", () => {
-    dropZone.classList.remove("dragover");
-  });
+  dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
 
   dropZone.addEventListener("drop", e => {
     e.preventDefault();
     dropZone.classList.remove("dragover");
-    pngInput.files = e.dataTransfer.files;
-    fileInfo.innerText = `${pngInput.files.length} file(s) selected`;
+    fileInput.files = e.dataTransfer.files;
+    fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
+    pngOutput.innerHTML = "";
   });
 
-  // PNG → JPG conversion function
-  window.convertPngToJpg = function () {
-    if (!pngInput.files.length) {
-      alert("Please select a PNG file");
-      return;
-    }
-
-    const file = pngInput.files[0];
-    if (file.type !== "image/png") {
-      alert("Only PNG files are allowed");
-      return;
-    }
+  function convertPngToJpg() {
+    if (!fileInput.files.length) return alert("Please select a PNG image");
+    const file = fileInput.files[0];
+    if (file.type !== "image/png") return alert("Only PNG files allowed");
 
     pngOutput.innerHTML = "⏳ Converting...";
 
@@ -162,56 +170,46 @@ document.addEventListener("DOMContentLoaded", () => {
         const canvas = document.createElement("canvas");
         canvas.width = img.width;
         canvas.height = img.height;
-
         const ctx = canvas.getContext("2d");
-        ctx.fillStyle = "#fff"; // white background for JPG
+
+        // Fill white background to avoid transparency
+        ctx.fillStyle = "#fff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(img, 0, 0);
 
         const jpgUrl = canvas.toDataURL("image/jpeg", 0.95);
 
         pngOutput.innerHTML = `
-          <img src="${jpgUrl}" style="max-width:100%;border-radius:8px;margin:10px 0">
+          <img src="${jpgUrl}" alt="Converted JPG">
           <br>
-          <a href="${jpgUrl}" download="converted.jpg" class="primary-btn">
-            ⬇ Download JPG
-          </a>
+          <a href="${jpgUrl}" download="converted.jpg">⬇ Download JPG</a>
         `;
       };
       img.src = reader.result;
     };
-
     reader.readAsDataURL(file);
-  };
-});
+  }
+</script>
+
 <section class="seo-section">
   <h2>About PNG to JPG Converter</h2>
   <p>
-    The PNG to JPG Converter allows you to easily convert PNG images into JPG
-    format directly in your browser. This tool is fast, simple to use, and
-    keeps your files completely private since everything runs locally.
+    The PNG to JPG Converter allows you to quickly convert PNG images into JPG format directly in your browser.  
+    Everything runs locally, ensuring full privacy and security.
   </p>
 
-  <h3>Why use this PNG to JPG Converter?</h3>
+  <h3>Why use this tool?</h3>
   <ul>
-    <li>✔ 100% free and unlimited usage</li>
-    <li>✔ No signup or registration required</li>
-    <li>✔ Convert PNG images to JPG in seconds</li>
-    <li>✔ Reduce image file size easily</li>
+    <li>✔ 100% free and unlimited</li>
+    <li>✔ No registration required</li>
     <li>✔ Works on mobile, tablet, and desktop</li>
     <li>✔ Files never leave your device</li>
   </ul>
-
-  <h3>How it works</h3>
-  <p>
-    Upload or drag and drop your PNG image, click the convert button, and
-    download the JPG file instantly. The entire conversion process happens
-    inside your browser using modern web technologies.
-  </p>
 </section>
-
 
 <footer class="site-footer">
   <p>© 2026 DailyTools • 100% Free</p>
 </footer>
 
+</body>
+</html>

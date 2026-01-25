@@ -243,5 +243,29 @@ input,select{
   }
 }
 
+.seo-section {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 0 20px;
+  color: #333;
+}
+
+.seo-section h2,
+.seo-section h3 {
+  margin-top: 24px;
+}
+
+.seo-section p {
+  line-height: 1.7;
+  color: #555;
+}
+
+.seo-section ul {
+  padding-left: 18px;
+}
+
+.seo-section li {
+  margin-bottom: 8px;
+}
 
 

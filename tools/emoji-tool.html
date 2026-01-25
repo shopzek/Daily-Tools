@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Emoji Picker & Copier – Free Tool</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Pick and copy emojis online instantly. 100% browser-based and private.">
+  <meta name="description" content="Pick, search, and copy emojis online instantly. 100% browser-based and private.">
   <link rel="stylesheet" href="../style.css">
 
   <style>
@@ -19,6 +19,15 @@
     }
 
     .tool-desc { color:#666; font-size:15px; margin-bottom:24px; }
+
+    #emojiSearch {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
 
     .emoji-grid {
       display: grid;
@@ -68,12 +77,12 @@
 <main class="tool-wrapper">
   <h1>Emoji Picker & Copier</h1>
   <p class="tool-desc">
-    Select an emoji and copy it instantly. 100% private and browser-based.
+    Search, select, and copy emojis instantly. 100% private and browser-based.
   </p>
 
-  <div class="emoji-grid" id="emojiGrid">
-    <!-- Emojis will be inserted here -->
-  </div>
+  <input type="text" id="emojiSearch" placeholder="🔍 Search emoji by keyword…">
+
+  <div class="emoji-grid" id="emojiGrid"></div>
 
   <div id="selectedEmoji">😀</div>
   <button id="copyBtn">Copy Emoji</button>
@@ -83,24 +92,74 @@
 const emojiGrid = document.getElementById("emojiGrid");
 const selectedEmojiDiv = document.getElementById("selectedEmoji");
 const copyBtn = document.getElementById("copyBtn");
+const emojiSearch = document.getElementById("emojiSearch");
 
-// List of popular emojis
+// List of popular emojis with keywords
 const emojis = [
-  "😀","😃","😄","😁","😆","😅","😂","🤣","😊","😇",
-  "🙂","🙃","😉","😌","😍","🥰","😘","😗","😙","😚",
-  "😋","😛","😝","😜","🤪","🤨","🧐","🤓","😎","🥳",
-  "😏","😒","😞","😔","😟","😕","🙁","☹️","😣","😖",
-  "😫","😩","🥺","😢","😭","😤","😠","😡","🤬","🤯",
-  "😳","🥵","🥶","😱","😨","😰","😥","😓","🤗","🤔"
+  {emoji:"😀", keywords:["grinning","smile","happy"]},
+  {emoji:"😃", keywords:["smile","happy"]},
+  {emoji:"😄", keywords:["smile","happy","joy"]},
+  {emoji:"😁", keywords:["grin","happy","teeth"]},
+  {emoji:"😆", keywords:["laugh","happy"]},
+  {emoji:"😂", keywords:["joy","tear","lol"]},
+  {emoji:"🤣", keywords:["rofl","laugh"]},
+  {emoji:"😊", keywords:["blush","happy","smile"]},
+  {emoji:"😇", keywords:["angel","innocent"]},
+  {emoji:"🙂", keywords:["smile","happy","neutral"]},
+  {emoji:"🙃", keywords:["upside-down","funny"]},
+  {emoji:"😉", keywords:["wink","flirt"]},
+  {emoji:"😍", keywords:["love","heart","eyes"]},
+  {emoji:"🥰", keywords:["love","hearts"]},
+  {emoji:"😘", keywords:["kiss","love"]},
+  {emoji:"😗", keywords:["kiss"]},
+  {emoji:"😙", keywords:["kiss","smile"]},
+  {emoji:"😚", keywords:["kiss","love"]},
+  {emoji:"😋", keywords:["yum","tongue","food"]},
+  {emoji:"😛", keywords:["tongue","playful"]},
+  {emoji:"😝", keywords:["silly","tongue"]},
+  {emoji:"😜", keywords:["wink","tongue","playful"]},
+  {emoji:"🤪", keywords:["zany","crazy"]},
+  {emoji:"🤓", keywords:["nerd","geek","glasses"]},
+  {emoji:"😎", keywords:["cool","sunglasses"]},
+  {emoji:"🥳", keywords:["party","celebrate"]},
+  {emoji:"❤️", keywords:["heart","love"]},
+  {emoji:"💔", keywords:["heart","broken","sad"]},
+  {emoji:"💖", keywords:["love","sparkle"]},
+  {emoji:"✨", keywords:["sparkle","stars"]},
+  {emoji:"🔥", keywords:["fire","hot","trending"]},
+  {emoji:"🎉", keywords:["party","celebrate","confetti"]},
+  {emoji:"💯", keywords:["100","perfect"]},
+  {emoji:"👍", keywords:["thumb","like","good"]},
+  {emoji:"👎", keywords:["thumb","dislike","bad"]},
+  {emoji:"🙏", keywords:["pray","please","thank"]},
+  {emoji:"👏", keywords:["clap","applause"]},
+  {emoji:"🙌", keywords:["hands","praise","celebrate"]},
+  {emoji:"😱", keywords:["shocked","scared"]},
+  {emoji:"🥵", keywords:["hot","sweat"]},
+  {emoji:"🥶", keywords:["cold","freeze"]}
 ];
 
-// Populate emojis
-emojis.forEach(e => {
-  const span = document.createElement("span");
-  span.className = "emoji";
-  span.textContent = e;
-  span.onclick = () => selectedEmojiDiv.textContent = e;
-  emojiGrid.appendChild(span);
+// Function to render emojis
+function renderEmojis(filter="") {
+  emojiGrid.innerHTML = "";
+  const filtered = emojis.filter(e => 
+    e.keywords.some(k => k.includes(filter.toLowerCase()))
+  );
+  filtered.forEach(e => {
+    const span = document.createElement("span");
+    span.className = "emoji";
+    span.textContent = e.emoji;
+    span.onclick = () => selectedEmojiDiv.textContent = e.emoji;
+    emojiGrid.appendChild(span);
+  });
+}
+
+// Initial render
+renderEmojis();
+
+// Search event
+emojiSearch.addEventListener("input", () => {
+  renderEmojis(emojiSearch.value);
 });
 
 // Copy to clipboard
@@ -115,14 +174,15 @@ copyBtn.onclick = () => {
 <section class="seo-section">
   <h2>About Emoji Picker & Copier</h2>
   <p>
-    The Emoji Picker & Copier allows you to quickly select and copy popular emojis directly in your browser.
-    No installation, signup, or server upload is needed—everything runs locally and privately.
+    The Emoji Picker & Copier allows you to search, select, and copy popular emojis directly in your browser.
+    No installation or server upload is needed—everything runs locally and privately.
   </p>
 
   <h3>Why use this tool?</h3>
   <ul>
     <li>✔ 100% free and unlimited</li>
     <li>✔ No registration required</li>
+    <li>✔ Search emojis by keyword</li>
     <li>✔ Copy emojis instantly with one click</li>
     <li>✔ Works on mobile, tablet, and desktop</li>
     <li>✔ Fully private: nothing leaves your device</li>
@@ -130,8 +190,8 @@ copyBtn.onclick = () => {
 
   <h3>How it works</h3>
   <p>
-    Simply click any emoji to select it, then click the "Copy Emoji" button.
-    The emoji will be copied to your clipboard instantly and ready to paste anywhere.
+    Type a keyword in the search box, click any emoji to select it, and click "Copy Emoji".
+    The emoji is copied instantly and ready to paste anywhere.
   </p>
 </section>
 
@@ -140,4 +200,3 @@ copyBtn.onclick = () => {
 </footer>
 </body>
 </html>
-

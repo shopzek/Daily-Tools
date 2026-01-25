@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PDF to JPG Converter – Free Online Tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+        content="Convert PDF pages to JPG images online for free. 100% browser-based and private.">
+
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .tool-wrapper {
+      max-width: 520px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 32px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+      text-align: center;
+    }
+
+    .tool-wrapper h1 {
+      margin-bottom: 10px;
+    }
+
+    .tool-desc {
+      color: #666;
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+
+    .drop-zone {
+      border: 2px dashed #ccc;
+      border-radius: 12px;
+      padding: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-bottom: 16px;
+    }
+
+    .drop-zone:hover {
+      border-color: #4f46e5;
+      background: #f5f7ff;
+    }
+
+    .drop-zone.dragover {
+      border-color: #4f46e5;
+      background: #eef2ff;
+    }
+
+    .drop-zone p {
+      margin: 0;
+      font-size: 14px;
+      color: #444;
+    }
+
+    .file-info {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #333;
+    }
+
+    button {
+      margin-top: 16px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #4f46e5;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #4338ca;
+    }
+
+    #imageOutput {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    #imageOutput img {
+      margin-bottom: 10px;
+      border-radius: 8px;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<header class="main-header">
+  <a href="../index.html" class="logo">🚀 DailyTools</a>
+</header>
+
+<main class="tool-wrapper">
+  <h1>PDF to JPG Converter</h1>
+  <p class="tool-desc">
+    Convert PDF pages into JPG images instantly. Files stay on your device — 100% private.
+  </p>
+
+  <!-- DRAG & DROP -->
+  <div class="drop-zone" id="dropZone">
+    <p>📂 Drag & drop a PDF file here<br>or click to select</p>
+    <input type="file" id="pdfInput" accept="application/pdf" hidden>
+    <div class="file-info" id="fileInfo"></div>
+  </div>
+
+  <button onclick="convertPdfToJpg()">Convert to JPG</button>
+
+  <div id="imageOutput"></div>
+</main>
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("PDF to JPG tool loaded ✅");
+
+  const dropZone = document.getElementById("dropZone");
+  const pdfInput = document.getElementById("pdfInput");
+  const fileInfo = document.getElementById("fileInfo");
+  const imageOutput = document.getElementById("imageOutput");
+
+  // Drag & Drop functionality
+  dropZone.addEventListener("click", () => pdfInput.click());
+
+  pdfInput.addEventListener("change", () => {
+    if (pdfInput.files.length > 0) {
+      fileInfo.innerText = `${pdfInput.files.length} file(s) selected`;
+    }
+  });
+
+  dropZone.addEventListener("dragover", e => {
+    e.preventDefault();
+    dropZone.classList.add("dragover");
+  });
+
+  dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("dragover");
+  });
+
+  dropZone.addEventListener("drop", e => {
+    e.preventDefault();
+    dropZone.classList.remove("dragover");
+    pdfInput.files = e.dataTransfer.files;
+    fileInfo.innerText = `${pdfInput.files.length} file(s) selected`;
+  });
+
+  // PDF → JPG conversion function
+  window.convertPdfToJpg = async function () {
+    if (!pdfInput.files.length) {
+      alert("Please select a PDF file");
+      return;
+    }
+
+    if (!imageOutput) return;
+
+    imageOutput.innerHTML = "⏳ Converting...";
+
+    const pdf = await pdfjsLib.getDocument(await pdfInput.files[0].arrayBuffer()).promise;
+
+    imageOutput.innerHTML = "";
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const viewport = page.getViewport({ scale: 2 });
+
+      const canvas = document.createElement("canvas");
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+
+      await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
+
+      const img = document.createElement("img");
+      img.src = canvas.toDataURL("image/jpeg", 1);
+
+      imageOutput.appendChild(img);
+    }
+  };
+});
+</script>
+
+<footer class="site-footer">
+  <p>© 2026 DailyTools • 100% Free</p>
+</footer>
+</body>
+</html>

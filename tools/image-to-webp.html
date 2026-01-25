@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image to WebP Converter – Free Tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Convert images to WebP format online for free. 100% browser-based and private.">
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .tool-wrapper {
+      max-width: 520px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 32px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+      text-align: center;
+    }
+
+    .tool-desc { color:#666; font-size:15px; margin-bottom:24px; }
+
+    .drop-zone {
+      border: 2px dashed #ccc;
+      border-radius: 12px;
+      padding: 30px;
+      cursor: pointer;
+      transition: .3s;
+      margin-bottom: 16px;
+    }
+
+    .drop-zone.dragover {
+      border-color:#4f46e5;
+      background:#eef2ff;
+    }
+
+    #fileInfo { margin-top: 8px; font-size: 14px; color: #333; }
+
+    button {
+      margin-top: 16px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #4f46e5;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    #imageOutput img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    #qualityInput {
+      width: 60px;
+      margin-left: 8px;
+      padding: 4px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="main-header">
+  <a href="../index.html" class="logo">🚀 DailyTools</a>
+</header>
+
+<main class="tool-wrapper">
+  <h1>Image to WebP Converter</h1>
+  <p class="tool-desc">
+    Convert images to WebP format instantly. 100% private, browser-based.
+  </p>
+
+  <div class="drop-zone" id="dropZone">
+    <p>📂 Drag & drop images here<br>or click to select</p>
+    <input type="file" id="imgInput" accept="image/*" multiple hidden>
+    <div id="fileInfo"></div>
+  </div>
+
+  <label>
+    Quality (10–100):
+    <input type="number" id="qualityInput" min="10" max="100" value="80">
+  </label>
+
+  <br>
+  <button id="convertBtn">Convert to WebP</button>
+
+  <div id="imageOutput"></div>
+</main>
+
+<script>
+const dropZone = document.getElementById("dropZone");
+const imgInput = document.getElementById("imgInput");
+const fileInfo = document.getElementById("fileInfo");
+const imageOutput = document.getElementById("imageOutput");
+const qualityInput = document.getElementById("qualityInput");
+const convertBtn = document.getElementById("convertBtn");
+
+// Click to open file dialog
+dropZone.onclick = () => imgInput.click();
+
+// Display selected files
+imgInput.onchange = () => {
+  fileInfo.textContent = imgInput.files.length + " file(s) selected";
+};
+
+// Drag & drop
+dropZone.ondragover = e => {
+  e.preventDefault();
+  dropZone.classList.add("dragover");
+};
+
+dropZone.ondragleave = () => dropZone.classList.remove("dragover");
+
+dropZone.ondrop = e => {
+  e.preventDefault();
+  dropZone.classList.remove("dragover");
+  imgInput.files = e.dataTransfer.files;
+  fileInfo.textContent = imgInput.files.length + " file(s) selected";
+};
+
+// Convert images to WebP
+convertBtn.onclick = () => {
+  if (!imgInput.files.length) {
+    alert("Please select images");
+    return;
+  }
+
+  imageOutput.innerHTML = "";
+  const quality = Math.max(0.1, Math.min(1, qualityInput.value / 100));
+
+  [...imgInput.files].forEach(file => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        canvas.getContext("2d").drawImage(img, 0, 0);
+
+        const webpUrl = canvas.toDataURL("image/webp", quality);
+
+        imageOutput.innerHTML += `
+          <div>
+            <img src="${webpUrl}">
+            <a href="${webpUrl}" download="${file.name.replace(/\..+$/, '.webp')}">
+              ⬇ Download WebP
+            </a>
+          </div>
+        `;
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+};
+</script>
+
+<section class="seo-section">
+  <h2>About Image to WebP Converter</h2>
+  <p>
+    Convert your JPG, PNG, or other images to WebP format directly in your browser.
+    No files are uploaded to any server, ensuring full privacy and security.
+  </p>
+
+  <h3>Why use this tool?</h3>
+  <ul>
+    <li>✔ 100% free and unlimited</li>
+    <li>✔ No registration required</li>
+    <li>✔ Convert images to WebP with adjustable quality</li>
+    <li>✔ Works on mobile, tablet, and desktop</li>
+    <li>✔ Files never leave your device</li>
+  </ul>
+
+  <h3>How it works</h3>
+  <p>
+    Drag and drop your images or click to select. Choose the desired quality,
+    click "Convert to WebP", and download your optimized images instantly.
+    Everything runs locally in your browser.
+  </p>
+</section>
+
+<footer class="site-footer">
+  <p>© 2026 DailyTools • 100% Free</p>
+</footer>
+</body>
+</html>

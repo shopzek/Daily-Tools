@@ -129,18 +129,24 @@
 </main>
 
 <script>
+  // Elements
   const dropZone = document.getElementById("dropZone");
   const fileInput = document.getElementById("pngInput");
   const fileInfo = document.getElementById("fileInfo");
   const pngOutput = document.getElementById("pngOutput");
 
+  // Click to select file
   dropZone.addEventListener("click", () => fileInput.click());
 
+  // Update info when file selected
   fileInput.addEventListener("change", () => {
-    fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
-    pngOutput.innerHTML = "";
+    if (fileInput.files.length > 0) {
+      fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
+      pngOutput.innerHTML = "";
+    }
   });
 
+  // Drag & drop
   dropZone.addEventListener("dragover", e => {
     e.preventDefault();
     dropZone.classList.add("dragover");
@@ -152,10 +158,13 @@
     e.preventDefault();
     dropZone.classList.remove("dragover");
     fileInput.files = e.dataTransfer.files;
-    fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
-    pngOutput.innerHTML = "";
+    if (fileInput.files.length > 0) {
+      fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
+      pngOutput.innerHTML = "";
+    }
   });
 
+  // Convert PNG → JPG
   function convertPngToJpg() {
     if (!fileInput.files.length) return alert("Please select a PNG image");
     const file = fileInput.files[0];
@@ -172,7 +181,7 @@
         canvas.height = img.height;
         const ctx = canvas.getContext("2d");
 
-        // Fill white background to avoid transparency
+        // Fill white background (remove transparency)
         ctx.fillStyle = "#fff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(img, 0, 0);

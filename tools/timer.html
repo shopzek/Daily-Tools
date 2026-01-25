@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Online Timer & Stopwatch – Free Countdown Tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Free online timer and stopwatch. Start, pause, reset timer easily. Works on all devices.">
+
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .tool-wrapper {
+      max-width: 520px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 32px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+      text-align: center;
+    }
+
+    .timer-display {
+      font-size: 48px;
+      font-weight: bold;
+      margin: 30px 0;
+      color: #4f46e5;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    .start { background: #16a34a; }
+    .pause { background: #f59e0b; }
+    .reset { background: #dc2626; }
+
+    button:hover { opacity: .9; }
+
+    .time-inputs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .time-inputs input {
+      width: 80px;
+      padding: 8px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="main-header">
+  <a href="../index.html" class="logo">🚀 DailyTools</a>
+</header>
+
+<main class="tool-wrapper">
+  <h1>Online Timer & Stopwatch</h1>
+  <p class="tool-desc">
+    Simple and accurate countdown timer and stopwatch. Perfect for workouts, study sessions, and tasks.
+  </p>
+
+  <div class="time-inputs">
+    <input type="number" id="minutesInput" placeholder="Minutes" min="0">
+    <input type="number" id="secondsInput" placeholder="Seconds" min="0" max="59">
+  </div>
+
+  <div class="timer-display" id="timerDisplay">00:00</div>
+
+  <div class="controls">
+    <button class="start" onclick="startTimer()">Start</button>
+    <button class="pause" onclick="pauseTimer()">Pause</button>
+    <button class="reset" onclick="resetTimer()">Reset</button>
+  </div>
+</main>
+
+<!-- SEO SECTION -->
+<section class="seo-section">
+  <h2>About Online Timer Tool</h2>
+  <p>
+    The Online Timer helps you track time accurately with an easy-to-use countdown
+    and stopwatch feature. Everything runs directly in your browser without any downloads.
+  </p>
+
+  <h3>Why use this timer?</h3>
+  <ul>
+    <li>✔ 100% free & unlimited</li>
+    <li>✔ No signup or installation</li>
+    <li>✔ Works on mobile, tablet, and desktop</li>
+    <li>✔ Ideal for productivity and workouts</li>
+  </ul>
+
+  <h3>How it works</h3>
+  <p>
+    Enter minutes and seconds, press start, and the timer begins counting down.
+    Pause or reset anytime. The tool runs locally on your device.
+  </p>
+</section>
+
+<footer class="site-footer">
+  <p>© 2026 DailyTools • 100% Free</p>
+</footer>
+
+<script>
+let timer = null;
+let totalSeconds = 0;
+
+function startTimer() {
+  if (timer) return;
+
+  const min = parseInt(document.getElementById("minutesInput").value) || 0;
+  const sec = parseInt(document.getElementById("secondsInput").value) || 0;
+
+  if (totalSeconds === 0) {
+    totalSeconds = min * 60 + sec;
+  }
+
+  if (totalSeconds <= 0) return;
+
+  timer = setInterval(() => {
+    if (totalSeconds <= 0) {
+      clearInterval(timer);
+      timer = null;
+      alert("⏰ Time's up!");
+      return;
+    }
+    totalSeconds--;
+    updateDisplay();
+  }, 1000);
+}
+
+function pauseTimer() {
+  clearInterval(timer);
+  timer = null;
+}
+
+function resetTimer() {
+  clearInterval(timer);
+  timer = null;
+  totalSeconds = 0;
+  updateDisplay();
+  document.getElementById("minutesInput").value = "";
+  document.getElementById("secondsInput").value = "";
+}
+
+function updateDisplay() {
+  const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
+  const seconds = String(totalSeconds % 60).padStart(2, "0");
+  document.getElementById("timerDisplay").innerText = `${minutes}:${seconds}`;
+}
+
+updateDisplay();
+</script>
+
+</body>
+</html>

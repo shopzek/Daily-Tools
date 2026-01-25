@@ -1,95 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Professional QR Code Generator</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body{font-family:sans-serif;background:#f4f4f4;margin:0}
-.tool-wrapper{max-width:520px;margin:60px auto;background:#fff;padding:32px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.08);text-align:center}
-h1{margin-bottom:10px}
-.tool-desc{color:#666;font-size:15px;margin-bottom:24px}
-input,select,button{width:100%;padding:12px;margin-bottom:16px;border-radius:8px;border:1px solid #ccc;font-size:14px}
-button{background:#4f46e5;color:white;border:none;cursor:pointer}
-button:hover{background:#4338ca}
-#qrResult{margin-top:20px}
-#qrResult canvas{max-width:100%;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
-</style>
+  <meta charset="UTF-8">
+  <title>QR Code Generator Online – Free QR Maker | DailyTools</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- SEO -->
+  <meta name="description" content="Free QR Code Generator online. Create QR codes for links, WhatsApp, phone, email and text. Download high-quality QR codes instantly.">
+  <meta name="keywords" content="QR code generator, free QR code, WhatsApp QR, link QR code, download QR code, QR maker online">
+  <link rel="canonical" href="https://shopzek.github.io/Daily-Tools/tools/qr-code-gen.html">
+
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .tool-wrapper {
+      max-width: 520px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 32px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+      text-align: center;
+    }
+
+    .tool-desc { color: #666; font-size: 15px; margin-bottom: 20px; }
+
+    select, input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #4f46e5;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+
+    button:hover { background: #4338ca; }
+
+    #qrOutput { margin-top: 20px; }
+    #qrOutput canvas, #qrOutput img { margin: auto; }
+
+    .download-btn {
+      background: #059669;
+      margin-left: 6px;
+    }
+    .download-btn:hover { background: #047857; }
+  </style>
 </head>
 <body>
 
+<header class="main-header">
+  <a href="../index.html" class="logo">🚀 DailyTools</a>
+</header>
+
 <main class="tool-wrapper">
-<h1>QR Code Generator</h1>
-<p class="tool-desc">Generate QR codes for text, website, email, WhatsApp, or location with optional logo.</p>
+  <h1>QR Code Generator</h1>
+  <p class="tool-desc">
+    Generate and download QR codes for links, WhatsApp, phone, email and text. Customize size, color and add logo.
+  </p>
 
-<select id="qrType">
-  <option value="text">Text</option>
-  <option value="url">Website URL</option>
-  <option value="email">Email</option>
-  <option value="whatsapp">WhatsApp</option>
-  <option value="location">Location</option>
-</select>
+  <select id="qrType">
+    <option value="text">Text</option>
+    <option value="url">Website / Link</option>
+    <option value="whatsapp">WhatsApp Number</option>
+    <option value="phone">Phone Number</option>
+    <option value="email">Email</option>
+  </select>
 
-<input type="text" id="qrInput" placeholder="Enter text, URL, email, WhatsApp, or coordinates">
-<input type="file" id="qrLogoInput" accept="image/*">
-<button id="generateBtn">Generate QR Code</button>
+  <input type="text" id="qrInput" placeholder="Enter text, link, or number">
 
-<div id="qrResult"></div>
+  <!-- OPTIONS -->
+  <div class="options">
+    <input type="number" id="qrSize" placeholder="QR Size (px)" value="220">
+    <input type="color" id="qrColor" value="#000000">
+  </div>
+
+  <!-- LOGO -->
+  <input type="file" id="logoInput" accept="image/*">
+
+  <button onclick="generateQR()">Generate QR</button>
+  <button class="download-btn" onclick="downloadQR()">Download QR</button>
+
+  <div id="qrOutput"></div>
 </main>
 
+<!-- QR Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <script>
-document.getElementById("generateBtn").addEventListener("click", async () => {
-  const type = document.getElementById("qrType").value;
-  let value = document.getElementById("qrInput").value.trim();
-  const qrLogoInput = document.getElementById("qrLogoInput");
-  const qrResult = document.getElementById("qrResult");
-  qrResult.innerHTML = "";
+let currentQRCanvas = null;
 
-  if(!value){ alert("Enter a value"); return; }
+function generateQR() {
+  const type = qrType.value;
+  const input = qrInput.value.trim();
+  const size = parseInt(qrSize.value) || 220;
+  const color = qrColor.value;
+  const output = document.getElementById("qrOutput");
 
-  // Format value by type
-  if(type==="email") value = `mailto:${value}`;
-  if(type==="whatsapp") value = `https://wa.me/${value.replace(/\D/g,'')}`;
-  if(type==="location") value = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(value)}`;
+  if (!input) {
+    alert("Please enter a value");
+    return;
+  }
 
-  // Step 1: Generate QR in a hidden div
-  const tempDiv = document.createElement("div");
-  qrResult.appendChild(tempDiv);
-  const qr = new QRCode(tempDiv, {
-    text: value,
-    width: 300,
-    height: 300,
-    colorDark: "#000000",
-    colorLight: "#ffffff",
-    correctLevel: QRCode.CorrectLevel.H
+  let data = "";
+  switch (type) {
+    case "url":
+      data = input.startsWith("http") ? input : "https://" + input;
+      break;
+    case "whatsapp":
+      data = "https://wa.me/" + input.replace(/\D/g, "");
+      break;
+    case "phone":
+      data = "tel:" + input;
+      break;
+    case "email":
+      data = "mailto:" + input;
+      break;
+    default:
+      data = input;
+  }
+
+  output.innerHTML = "";
+
+  const qr = new QRCode(output, {
+    text: data,
+    width: size,
+    height: size,
+    colorDark: color,
+    colorLight: "#ffffff"
   });
 
-  // Wait for QR to render
   setTimeout(() => {
-    const qrCanvas = tempDiv.querySelector("canvas");
-    if(!qrCanvas) return;
+    currentQRCanvas = output.querySelector("canvas");
+    addLogoIfAny();
+  }, 300);
+}
 
-    // If logo is selected
-    if(qrLogoInput.files[0]){
-      const reader = new FileReader();
-      reader.onload = () => {
-        const img = new Image();
-        img.onload = () => {
-          const ctx = qrCanvas.getContext("2d");
-          const logoSize = qrCanvas.width * 0.2; // 20% size
-          ctx.drawImage(img, (qrCanvas.width - logoSize)/2, (qrCanvas.height - logoSize)/2, logoSize, logoSize);
-        };
-        img.src = reader.result;
-      };
-      reader.readAsDataURL(qrLogoInput.files[0]);
-    }
+function addLogoIfAny() {
+  const file = logoInput.files[0];
+  if (!file || !currentQRCanvas) return;
 
-    qrResult.appendChild(qrCanvas);
-    tempDiv.remove(); // remove hidden div
-  }, 150);
-});
+  const ctx = currentQRCanvas.getContext("2d");
+  const img = new Image();
+
+  img.onload = () => {
+    const size = currentQRCanvas.width;
+    const logoSize = size * 0.22;
+    const x = (size - logoSize) / 2;
+    const y = (size - logoSize) / 2;
+
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(x, y, logoSize, logoSize);
+    ctx.drawImage(img, x, y, logoSize, logoSize);
+  };
+
+  img.src = URL.createObjectURL(file);
+}
+
+function downloadQR() {
+  if (!currentQRCanvas) {
+    alert("Please generate a QR code first");
+    return;
+  }
+
+  const link = document.createElement("a");
+  link.download = "dailytools-qr-code.png";
+  link.href = currentQRCanvas.toDataURL("image/png");
+  link.click();
+}
 </script>
+
+<footer class="site-footer">
+  <p>© 2026 DailyTools • Free QR Code Generator</p>
+</footer>
 
 </body>
 </html>

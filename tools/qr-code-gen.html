@@ -1,161 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>QR Code Generator – Free Online Tool</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description"
-        content="Generate professional QR codes with logos for websites, email, WhatsApp, and locations. 100% browser-based and private.">
-
-  <link rel="stylesheet" href="../style.css">
-
-  <style>
-    .tool-wrapper {
-      max-width: 520px;
-      margin: 60px auto;
-      background: #fff;
-      padding: 32px;
-      border-radius: 14px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.08);
-      text-align: center;
-    }
-
-    .tool-wrapper h1 {
-      margin-bottom: 10px;
-    }
-
-    .tool-desc {
-      color: #666;
-      font-size: 15px;
-      margin-bottom: 24px;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 16px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
-
-    button {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      background: #4f46e5;
-      color: white;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #4338ca;
-    }
-
-    #qrResult {
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    #qrResult img {
-      margin-top: 10px;
-      max-width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,.1);
-    }
-  </style>
+<meta charset="UTF-8">
+<title>QR Code Generator – Free Tool</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body { font-family: sans-serif; background:#f4f4f4; margin:0; }
+  .tool-wrapper { max-width: 520px; margin:60px auto; background:#fff; padding:32px; border-radius:14px; box-shadow:0 10px 30px rgba(0,0,0,.08); text-align:center; }
+  h1 { margin-bottom:10px; }
+  .tool-desc { color:#666; font-size:15px; margin-bottom:24px; }
+  input, select, button { width:100%; padding:12px; margin-bottom:16px; border-radius:8px; border:1px solid #ccc; font-size:14px; }
+  button { background:#4f46e5; color:white; border:none; cursor:pointer; }
+  button:hover { background:#4338ca; }
+  #qrResult { margin-top:20px; }
+  #qrResult canvas { max-width:100%; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,.1); }
+</style>
 </head>
 <body>
 
-<header class="main-header">
-  <a href="../index.html" class="logo">🚀 DailyTools</a>
-</header>
-
 <main class="tool-wrapper">
-  <h1>QR Code Generator</h1>
-  <p class="tool-desc">
-    Generate professional QR codes for websites, email, WhatsApp, or locations. Add a logo to make it look professional.
-  </p>
+<h1>QR Code Generator</h1>
+<p class="tool-desc">Generate professional QR codes for websites, email, WhatsApp, or locations. Add a logo to make it look professional.</p>
 
-  <select id="qrType">
-    <option value="text">Text</option>
-    <option value="url">Website URL</option>
-    <option value="email">Email</option>
-    <option value="whatsapp">WhatsApp</option>
-    <option value="location">Location</option>
-  </select>
+<select id="qrType">
+  <option value="text">Text</option>
+  <option value="url">Website URL</option>
+  <option value="email">Email</option>
+  <option value="whatsapp">WhatsApp</option>
+  <option value="location">Location</option>
+</select>
 
-  <input type="text" id="qrInput" placeholder="Enter your text, URL, email, WhatsApp number, or coordinates">
+<input type="text" id="qrInput" placeholder="Enter text, URL, email, WhatsApp number, or coordinates">
+<input type="file" id="qrLogoInput" accept="image/*">
+<button onclick="generateQR()">Generate QR Code</button>
 
-  <input type="file" id="qrLogoInput" accept="image/*">
-
-  <button onclick="generateQR()">Generate QR Code</button>
-
-  <div id="qrResult"></div>
+<div id="qrResult"></div>
 </main>
 
-<!-- QRCode.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("QR Code tool loaded ✅");
-
-  const qrType = document.getElementById("qrType");
-  const qrInput = document.getElementById("qrInput");
+function generateQR() {
+  const qrType = document.getElementById("qrType").value;
+  let value = document.getElementById("qrInput").value.trim();
   const qrLogoInput = document.getElementById("qrLogoInput");
   const qrResult = document.getElementById("qrResult");
 
-  window.generateQR = function() {
-    const type = qrType.value;
-    let value = qrInput.value.trim();
-    if (!value) {
-      alert("Please enter a value");
-      return;
-    }
+  if(!value){ alert("Enter a value"); return; }
 
-    // Format value depending on type
-    if (type === "email") value = `mailto:${value}`;
-    else if (type === "whatsapp") value = `https://wa.me/${value.replace(/\D/g,'')}`;
-    else if (type === "location") value = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(value)}`;
+  // Format value based on type
+  if(qrType==="email") value = `mailto:${value}`;
+  if(qrType==="whatsapp") value = `https://wa.me/${value.replace(/\D/g,'')}`;
+  if(qrType==="location") value = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(value)}`;
 
-    qrResult.innerHTML = "";
+  qrResult.innerHTML = ""; // clear previous QR
 
-    // Create a temporary canvas to add logo
-    const canvas = document.createElement("canvas");
-    const qr = new QRCode(canvas, {
-      text: value,
-      width: 250,
-      height: 250,
-      colorDark: "#000000",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H
-    });
+  // Temporary div for QR
+  const qrDiv = document.createElement("div");
+  qrResult.appendChild(qrDiv);
 
-    // Add logo if provided
-    const reader = qrLogoInput.files[0] ? new FileReader() : null;
-    if (reader) {
+  const qr = new QRCode(qrDiv, {
+    text: value,
+    width: 250,
+    height: 250,
+    colorDark: "#000000",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+  // Wait a bit for QR to render, then add logo
+  setTimeout(() => {
+    const qrCanvas = qrDiv.querySelector("canvas");
+    if (!qrCanvas) return;
+
+    if (qrLogoInput.files[0]) {
+      const reader = new FileReader();
       reader.onload = () => {
         const img = new Image();
         img.onload = () => {
-          const ctx = canvas.getContext("2d");
-          const logoSize = canvas.width * 0.2; // 20% of QR code
-          ctx.drawImage(img, (canvas.width - logoSize)/2, (canvas.height - logoSize)/2, logoSize, logoSize);
-          qrResult.appendChild(canvas);
+          const ctx = qrCanvas.getContext("2d");
+          const logoSize = qrCanvas.width * 0.2; // 20%
+          ctx.drawImage(img, (qrCanvas.width - logoSize)/2, (qrCanvas.height - logoSize)/2, logoSize, logoSize);
         };
         img.src = reader.result;
       };
       reader.readAsDataURL(qrLogoInput.files[0]);
-    } else {
-      qrResult.appendChild(canvas);
     }
-  };
-});
+  }, 100);
+}
 </script>
 
-<footer class="site-footer">
-  <p>© 2026 DailyTools • 100% Free</p>
-</footer>
 </body>
 </html>

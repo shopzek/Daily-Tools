@@ -2,16 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>JPG to PDF Converter – Free Online Tool</title>
+  <title>JPG to PDF Converter – Free Online Tool | DailyTools</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description"
-        content="Convert JPG images to PDF online for free. No upload. 100% browser-based and private.">
+        content="Convert JPG images to PDF online for free. 100% browser-based, private and secure.">
 
   <link rel="stylesheet" href="../style.css">
 
   <style>
-    /* PAGE LAYOUT */
     .tool-wrapper {
       max-width: 520px;
       margin: 60px auto;
@@ -22,23 +21,17 @@
       text-align: center;
     }
 
-    .tool-wrapper h1 {
-      margin-bottom: 10px;
-    }
-
     .tool-desc {
       color: #666;
       font-size: 15px;
       margin-bottom: 24px;
     }
 
-    /* DRAG & DROP */
     .drop-zone {
       border: 2px dashed #ccc;
       border-radius: 12px;
       padding: 30px;
       cursor: pointer;
-      transition: 0.3s;
       margin-bottom: 16px;
     }
 
@@ -50,18 +43,6 @@
     .drop-zone.dragover {
       border-color: #4f46e5;
       background: #eef2ff;
-    }
-
-    .drop-zone p {
-      margin: 0;
-      font-size: 14px;
-      color: #444;
-    }
-
-    .file-info {
-      margin-top: 10px;
-      font-size: 13px;
-      color: #333;
     }
 
     button {
@@ -83,6 +64,15 @@
       margin-top: 12px;
       font-size: 14px;
     }
+
+    .seo-section {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,.08);
+    }
   </style>
 </head>
 
@@ -93,112 +83,156 @@
 </header>
 
 <main class="tool-wrapper">
-
   <h1>JPG to PDF Converter</h1>
   <p class="tool-desc">
-    Convert JPG images into a single PDF file instantly.  
-    Files stay on your device — 100% private.
+    Convert JPG images into a single PDF instantly.  
+    Files stay on your device.
   </p>
 
-  <!-- DRAG & DROP -->
   <div class="drop-zone" id="dropZone">
     <p>📂 Drag & drop JPG files here<br>or click to select</p>
-    <input type="file" id="jpgInput" accept="image/jpeg" multiple hidden>
-    <div class="file-info" id="fileInfo"></div>
+    <input type="file" id="jpgInput" accept="image/jpeg,image/jpg" multiple hidden>
+    <div id="fileInfo"></div>
   </div>
 
   <button onclick="convertJpgToPdf()">Convert to PDF</button>
   <p id="status"></p>
-
 </main>
 
+<!-- SEO SECTION -->
+<section class="seo-section">
+  <h2>About JPG to PDF Converter</h2>
+  <p>
+    This JPG to PDF tool lets you convert multiple images into a single PDF
+    without uploading files. Everything runs securely in your browser.
+  </p>
 
+  <ul>
+    <li>✔ Free & unlimited</li>
+    <li>✔ No signup required</li>
+    <li>✔ Mobile friendly</li>
+    <li>✔ 100% private</li>
+  </ul>
+</section>
+
+<!-- COMMENTS & RATING -->
+<section id="comments" class="seo-section">
+  <h2>User Reviews</h2>
+
+  <form onsubmit="saveComment(event)">
+    <input id="username" placeholder="Your name" required style="width:100%;padding:10px;margin-bottom:10px">
+    <textarea id="usercomment" placeholder="Your comment" required style="width:100%;padding:10px;margin-bottom:10px"></textarea>
+
+    <select id="rating" required>
+      <option value="">Rating</option>
+      <option value="5">⭐⭐⭐⭐⭐</option>
+      <option value="4">⭐⭐⭐⭐</option>
+      <option value="3">⭐⭐⭐</option>
+      <option value="2">⭐⭐</option>
+      <option value="1">⭐</option>
+    </select>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div id="commentList"></div>
+</section>
+
+<footer class="site-footer">
+  <p>© 2026 DailyTools • Free Online Tools</p>
+</footer>
+
+<!-- LIBRARIES -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="../app.js"></script>
 
 <script>
-  /* DRAG & DROP LOGIC */
-  const dropZone = document.getElementById("dropZone");
-  const fileInput = document.getElementById("jpgInput");
-  const fileInfo = document.getElementById("fileInfo");
+/* ===============================
+   JPG → PDF FUNCTION
+================================ */
+async function convertJpgToPdf() {
+  const input = document.getElementById("jpgInput");
+  const status = document.getElementById("status");
 
-  dropZone.addEventListener("click", () => fileInput.click());
+  if (!input.files.length) {
+    status.innerText = "Please select JPG images";
+    return;
+  }
 
-  fileInput.addEventListener("change", () => {
-    fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
-  });
+  status.innerText = "Converting...";
 
-  dropZone.addEventListener("dragover", e => {
-    e.preventDefault();
-    dropZone.classList.add("dragover");
-  });
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF();
 
-  dropZone.addEventListener("dragleave", () => {
-    dropZone.classList.remove("dragover");
-  });
+  for (let i = 0; i < input.files.length; i++) {
+    const file = input.files[i];
 
-  dropZone.addEventListener("drop", e => {
-    e.preventDefault();
-    dropZone.classList.remove("dragover");
-    fileInput.files = e.dataTransfer.files;
-    fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
-  });
+    const imgData = await new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.readAsDataURL(file);
+    });
+
+    const img = new Image();
+    img.src = imgData;
+
+    await new Promise(resolve => {
+      img.onload = () => {
+        const w = pdf.internal.pageSize.getWidth();
+        const h = (img.height * w) / img.width;
+        if (i > 0) pdf.addPage();
+        pdf.addImage(img, "JPEG", 0, 0, w, h);
+        resolve();
+      };
+    });
+  }
+
+  pdf.save("images.pdf");
+  status.innerText = "PDF downloaded ✔";
+}
+
+/* ===============================
+   COMMENTS (LOCAL STORAGE)
+================================ */
+function saveComment(e){
+  e.preventDefault();
+  const name = username.value;
+  const text = usercomment.value;
+  const rate = rating.value;
+
+  const div = document.createElement("div");
+  div.innerHTML = `<p><strong>${name}</strong> (${rate}⭐)</p><p>${text}</p><hr>`;
+  commentList.prepend(div);
+
+  e.target.reset();
+}
+
+/* ===============================
+   DRAG & DROP
+================================ */
+const dropZone = document.getElementById("dropZone");
+const input = document.getElementById("jpgInput");
+const fileInfo = document.getElementById("fileInfo");
+
+dropZone.onclick = () => input.click();
+
+input.onchange = () =>
+  fileInfo.innerText = `${input.files.length} file(s) selected`;
+
+dropZone.ondragover = e => {
+  e.preventDefault();
+  dropZone.classList.add("dragover");
+};
+
+dropZone.ondragleave = () =>
+  dropZone.classList.remove("dragover");
+
+dropZone.ondrop = e => {
+  e.preventDefault();
+  dropZone.classList.remove("dragover");
+  input.files = e.dataTransfer.files;
+  fileInfo.innerText = `${input.files.length} file(s) selected`;
+};
 </script>
 
 </body>
 </html>
-
-
-
-
-<section class="seo-section">
-  <h2>About JPG to PDF Converter</h2>
-  <p>
-    The JPG to PDF Converter allows you to quickly convert multiple JPG images
-    into a single PDF document directly in your browser. No files are uploaded
-    to any server, ensuring full privacy and security.
-  </p>
-
-  <h3>Why use this tool?</h3>
-  <ul>
-    <li>✔ 100% free and unlimited</li>
-    <li>✔ No registration required</li>
-    <li>✔ Works on mobile, tablet, and desktop</li>
-    <li>✔ Files never leave your device</li>
-  </ul>
-
-  <h3>How it works</h3>
-  <p>
-    Simply drag and drop your JPG images, click the convert button, and download
-    your PDF instantly. Everything runs locally in your browser using modern
-    web technologies.
-  </p>
-</section>
-
-<section id="comments" style="max-width:900px; margin:40px auto; background:white; padding:20px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-  <h2 style="color:#2563eb; margin-bottom:15px;">User Reviews & Comments</h2>
-  
-  <form id="commentForm">
-    <input type="text" id="username" placeholder="Your Name" required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
-    <textarea id="usercomment" rows="4" placeholder="Write your review or comment..." required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;"></textarea>
-    <label style="display:block; margin-bottom:10px;">Rating: 
-      <select id="rating" required style="padding:5px; border-radius:5px;">
-        <option value="">Select</option>
-        <option value="5">⭐⭐⭐⭐⭐ 5</option>
-        <option value="4">⭐⭐⭐⭐ 4</option>
-        <option value="3">⭐⭐⭐ 3</option>
-        <option value="2">⭐⭐ 2</option>
-        <option value="1">⭐ 1</option>
-      </select>
-    </label>
-    <button type="submit" style="background:#2563eb; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">Submit</button>
-  </form>
-
-  <div id="commentList" style="margin-top:20px;"></div>
-</section>
-
-
-   <footer class="site-footer">
-  <p>© 2026 DailyTools • 100% Free</p>
-</footer>
-

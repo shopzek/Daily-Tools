@@ -2,85 +2,192 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
   <title>PNG to JPG Converter – Free Online Tool</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description"
-        content="Convert PNG images to JPG online for free. Fast, secure, and 100% browser-based. No uploads required.">
+        content="Convert PNG images to JPG online for free. 100% browser-based and private.">
 
-  <!-- SEO -->
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://shopzek.github.io/Daily-Tools/tools/png-to-jpg/">
+  <link rel="stylesheet" href="../style.css">
 
-  <link rel="stylesheet" href="../../style.css">
+  <style>
+    .tool-wrapper {
+      max-width: 520px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 32px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+      text-align: center;
+    }
+
+    .tool-wrapper h1 {
+      margin-bottom: 10px;
+    }
+
+    .tool-desc {
+      color: #666;
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+
+    .drop-zone {
+      border: 2px dashed #ccc;
+      border-radius: 12px;
+      padding: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-bottom: 16px;
+    }
+
+    .drop-zone:hover {
+      border-color: #4f46e5;
+      background: #f5f7ff;
+    }
+
+    .drop-zone.dragover {
+      border-color: #4f46e5;
+      background: #eef2ff;
+    }
+
+    .drop-zone p {
+      margin: 0;
+      font-size: 14px;
+      color: #444;
+    }
+
+    .file-info {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #333;
+    }
+
+    button {
+      margin-top: 16px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #4f46e5;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #4338ca;
+    }
+
+    #pngOutput {
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
 </head>
-
 <body>
 
 <header class="main-header">
-  <a href="../../index.html" class="logo">🚀 DailyTools</a>
+  <a href="../index.html" class="logo">🚀 DailyTools</a>
 </header>
 
 <main class="tool-wrapper">
-
   <h1>PNG to JPG Converter</h1>
-
   <p class="tool-desc">
-    Convert PNG images to JPG format instantly. No uploads, no limits —
-    everything works directly in your browser.
+    Convert PNG images to JPG instantly. Files stay on your device — 100% private.
   </p>
 
-  <!-- TOOL UI -->
-  <div class="tool-box">
-
-    <label class="drop-zone">
-      <input type="file" id="pngInput" accept="image/png" hidden>
-      <span>📂 Drag & drop PNG file here<br>or click to select</span>
-    </label>
-
-    <button onclick="convertPngToJpg()" class="primary-btn">
-      Convert to JPG
-    </button>
-
-    <div id="pngOutput" class="result-box"></div>
-
+  <!-- DRAG & DROP -->
+  <div class="drop-zone" id="dropZone">
+    <p>📂 Drag & drop a PNG file here<br>or click to select</p>
+    <input type="file" id="pngInput" accept="image/png" hidden>
+    <div class="file-info" id="fileInfo"></div>
   </div>
 
+  <button onclick="convertPngToJpg()">Convert to JPG</button>
+
+  <div id="pngOutput"></div>
 </main>
 
-<!-- SEO CONTENT -->
-<section class="seo-section">
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("PNG to JPG tool loaded ✅");
 
-  <h2>About PNG to JPG Converter</h2>
-  <p>
-    The PNG to JPG Converter helps you quickly convert PNG images into JPG format
-    without uploading files to any server. All processing happens locally in
-    your browser, ensuring maximum privacy and speed.
-  </p>
+  const dropZone = document.getElementById("dropZone");
+  const pngInput = document.getElementById("pngInput");
+  const fileInfo = document.getElementById("fileInfo");
+  const pngOutput = document.getElementById("pngOutput");
 
-  <h3>Why use our PNG to JPG tool?</h3>
-  <ul>
-    <li>✔ 100% free and unlimited</li>
-    <li>✔ No sign-up required</li>
-    <li>✔ Works on mobile, tablet, and desktop</li>
-    <li>✔ Files never leave your device</li>
-  </ul>
+  // Drag & Drop functionality
+  dropZone.addEventListener("click", () => pngInput.click());
 
-  <h3>How to convert PNG to JPG</h3>
-  <p>
-    Simply drag and drop your PNG image, click the convert button, and download
-    your JPG image instantly. The conversion is fast and secure.
-  </p>
+  pngInput.addEventListener("change", () => {
+    if (pngInput.files.length > 0) {
+      fileInfo.innerText = `${pngInput.files.length} file(s) selected`;
+    }
+  });
 
-</section>
+  dropZone.addEventListener("dragover", e => {
+    e.preventDefault();
+    dropZone.classList.add("dragover");
+  });
+
+  dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("dragover");
+  });
+
+  dropZone.addEventListener("drop", e => {
+    e.preventDefault();
+    dropZone.classList.remove("dragover");
+    pngInput.files = e.dataTransfer.files;
+    fileInfo.innerText = `${pngInput.files.length} file(s) selected`;
+  });
+
+  // PNG → JPG conversion function
+  window.convertPngToJpg = function () {
+    if (!pngInput.files.length) {
+      alert("Please select a PNG file");
+      return;
+    }
+
+    const file = pngInput.files[0];
+    if (file.type !== "image/png") {
+      alert("Only PNG files are allowed");
+      return;
+    }
+
+    pngOutput.innerHTML = "⏳ Converting...";
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#fff"; // white background for JPG
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+
+        const jpgUrl = canvas.toDataURL("image/jpeg", 0.95);
+
+        pngOutput.innerHTML = `
+          <img src="${jpgUrl}" style="max-width:100%;border-radius:8px;margin:10px 0">
+          <br>
+          <a href="${jpgUrl}" download="converted.jpg" class="primary-btn">
+            ⬇ Download JPG
+          </a>
+        `;
+      };
+      img.src = reader.result;
+    };
+
+    reader.readAsDataURL(file);
+  };
+});
+</script>
 
 <footer class="site-footer">
-  <p>© 2026 DailyTools • Free Online Image Tools</p>
+  <p>© 2026 DailyTools • 100% Free</p>
 </footer>
-
-<script src="../../app.js"></script>
-
 </body>
 </html>
-

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Merge PDF Files – Free Online Tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+        content="Merge multiple PDF files into a single PDF online for free. 100% browser-based and private.">
+
+  <link rel="stylesheet" href="../style.css">
+
+  <style>
+    .tool-wrapper {
+      max-width: 520px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 32px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+      text-align: center;
+    }
+
+    .tool-wrapper h1 {
+      margin-bottom: 10px;
+    }
+
+    .tool-desc {
+      color: #666;
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+
+    .drop-zone {
+      border: 2px dashed #ccc;
+      border-radius: 12px;
+      padding: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-bottom: 16px;
+    }
+
+    .drop-zone:hover {
+      border-color: #4f46e5;
+      background: #f5f7ff;
+    }
+
+    .drop-zone.dragover {
+      border-color: #4f46e5;
+      background: #eef2ff;
+    }
+
+    .drop-zone p {
+      margin: 0;
+      font-size: 14px;
+      color: #444;
+    }
+
+    .file-info {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #333;
+    }
+
+    button {
+      margin-top: 16px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #4f46e5;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #4338ca;
+    }
+
+    #mergePdfResult {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    #mergePdfResult a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: #4f46e5;
+      color: white;
+      text-decoration: none;
+    }
+
+    #mergePdfResult a:hover {
+      background: #4338ca;
+    }
+  </style>
+</head>
+<body>
+
+<header class="main-header">
+  <a href="../index.html" class="logo">🚀 DailyTools</a>
+</header>
+
+<main class="tool-wrapper">
+  <h1>Merge PDF Files</h1>
+  <p class="tool-desc">
+    Combine multiple PDF files into a single PDF. Files stay on your device — 100% private.
+  </p>
+
+  <!-- DRAG & DROP -->
+  <div class="drop-zone" id="dropZone">
+    <p>📂 Drag & drop PDF files here<br>or click to select</p>
+    <input type="file" id="mergePdfInput" accept="application/pdf" multiple hidden>
+    <div class="file-info" id="fileInfo"></div>
+  </div>
+
+  <button onclick="mergePdfFiles()">Merge PDFs</button>
+
+  <div id="mergePdfResult"></div>
+</main>
+
+<!-- PDFLib -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("Merge PDF tool loaded ✅");
+
+  const dropZone = document.getElementById("dropZone");
+  const mergePdfInput = document.getElementById("mergePdfInput");
+  const fileInfo = document.getElementById("fileInfo");
+  const mergePdfResult = document.getElementById("mergePdfResult");
+
+  // Drag & Drop functionality
+  dropZone.addEventListener("click", () => mergePdfInput.click());
+
+  mergePdfInput.addEventListener("change", () => {
+    if (mergePdfInput.files.length > 0) {
+      fileInfo.innerText = `${mergePdfInput.files.length} file(s) selected`;
+    }
+  });
+
+  dropZone.addEventListener("dragover", e => {
+    e.preventDefault();
+    dropZone.classList.add("dragover");
+  });
+
+  dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("dragover");
+  });
+
+  dropZone.addEventListener("drop", e => {
+    e.preventDefault();
+    dropZone.classList.remove("dragover");
+    mergePdfInput.files = e.dataTransfer.files;
+    fileInfo.innerText = `${mergePdfInput.files.length} file(s) selected`;
+  });
+
+  // Merge PDF function
+  window.mergePdfFiles = async function () {
+    if (!mergePdfInput.files.length || mergePdfInput.files.length < 2) {
+      alert("Please select at least 2 PDF files");
+      return;
+    }
+
+    if (!mergePdfResult) return;
+
+    mergePdfResult.innerHTML = "⏳ Merging PDFs...";
+
+    const mergedPdf = await PDFLib.PDFDocument.create();
+
+    for (const file of mergePdfInput.files) {
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+      const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+      copiedPages.forEach(page => mergedPdf.addPage(page));
+    }
+
+    const mergedBytes = await mergedPdf.save();
+    const blob = new Blob([mergedBytes], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+
+    mergePdfResult.innerHTML = `
+      <a href="${url}" download="merged.pdf">
+        ⬇ Download Merged PDF
+      </a>
+    `;
+  };
+});
+</script>
+
+<footer class="site-footer">
+  <p>© 2026 DailyTools • 100% Free</p>
+</footer>
+</body>
+</html>

@@ -224,17 +224,50 @@ document.addEventListener("DOMContentLoaded", () => {
      QR CODE
   ================================= */
   window.generateQR = function () {
-    if (!qrText || !qrResult) return;
+  if (!qrText || !qrResult) return;
+  const value = qrText.value.trim();
+  if (!value) { qrResult.innerText = "Enter text or URL"; return; }
 
-    const text = qrText.value.trim();
-    if (!text) {
-      qrResult.innerText = "Enter text or URL";
-      return;
-    }
+  qrResult.innerHTML = "";
+  // Advanced QR code with logo
+  const tempDiv = document.createElement("div");
+  qrResult.appendChild(tempDiv);
 
-    qrResult.innerHTML = "";
-    new QRCode(qrResult, { text, width: 200, height: 200 });
-  };
+  const qr = new QRCode(tempDiv, {
+    text: value,
+    width: 300,
+    height: 300,
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+  // Optional: overlay logo
+  const logoInput = document.getElementById("qrLogoInput");
+  if (logoInput && logoInput.files[0]) {
+    setTimeout(() => {
+      const canvas = tempDiv.querySelector("canvas");
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const ctx = canvas.getContext("2d");
+          const logoSize = canvas.width * 0.2;
+          ctx.drawImage(img, (canvas.width - logoSize)/2, (canvas.height - logoSize)/2, logoSize, logoSize);
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(logoInput.files[0]);
+      qrResult.appendChild(canvas);
+      tempDiv.remove();
+    }, 150);
+  } else {
+    // Just QR
+    setTimeout(() => {
+      const canvas = tempDiv.querySelector("canvas");
+      qrResult.appendChild(canvas);
+      tempDiv.remove();
+    }, 150);
+  }
+};
 
   /* ===============================
      TIMER + STOPWATCH

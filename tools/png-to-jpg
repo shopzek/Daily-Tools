@@ -1,1 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <title>PNG to JPG Converter – Free Online Tool</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+        content="Convert PNG images to JPG online for free. Fast, secure, and 100% browser-based. No uploads required.">
+
+  <!-- SEO -->
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://shopzek.github.io/Daily-Tools/tools/png-to-jpg/">
+
+  <link rel="stylesheet" href="../../style.css">
+</head>
+
+<body>
+
+<header class="main-header">
+  <a href="../../index.html" class="logo">🚀 DailyTools</a>
+</header>
+
+<main class="tool-wrapper">
+
+  <h1>PNG to JPG Converter</h1>
+
+  <p class="tool-desc">
+    Convert PNG images to JPG format instantly. No uploads, no limits —
+    everything works directly in your browser.
+  </p>
+
+  <!-- TOOL UI -->
+  <div class="tool-box">
+
+    <label class="drop-zone">
+      <input type="file" id="pngInput" accept="image/png" hidden>
+      <span>📂 Drag & drop PNG file here<br>or click to select</span>
+    </label>
+
+    <button onclick="convertPngToJpg()" class="primary-btn">
+      Convert to JPG
+    </button>
+
+    <div id="pngOutput" class="result-box"></div>
+
+  </div>
+
+</main>
+
+<!-- SEO CONTENT -->
+<section class="seo-section">
+
+  <h2>About PNG to JPG Converter</h2>
+  <p>
+    The PNG to JPG Converter helps you quickly convert PNG images into JPG format
+    without uploading files to any server. All processing happens locally in
+    your browser, ensuring maximum privacy and speed.
+  </p>
+
+  <h3>Why use our PNG to JPG tool?</h3>
+  <ul>
+    <li>✔ 100% free and unlimited</li>
+    <li>✔ No sign-up required</li>
+    <li>✔ Works on mobile, tablet, and desktop</li>
+    <li>✔ Files never leave your device</li>
+  </ul>
+
+  <h3>How to convert PNG to JPG</h3>
+  <p>
+    Simply drag and drop your PNG image, click the convert button, and download
+    your JPG image instantly. The conversion is fast and secure.
+  </p>
+
+</section>
+
+<footer class="site-footer">
+  <p>© 2026 DailyTools • Free Online Image Tools</p>
+</footer>
+
+<script src="../../app.js"></script>
+
+</body>
+</html>
 

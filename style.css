@@ -29,7 +29,11 @@ header{
   background:#fff;
   box-shadow:0 2px 8px rgba(0,0,0,0.05);
 }
-
+.navbar a {
+  margin: 0 12px;
+  text-decoration: none;
+  font-weight: 500;
+}
 .logo{
   font-weight:700;
   font-size:20px;

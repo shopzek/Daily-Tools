@@ -343,3 +343,40 @@ hr {
     padding: 15px;
   }
 }
+/* ================= WHY US ================= */
+.why-us {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.why-toggle {
+  width: 100%;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.why-grid {
+  display: none;
+  margin-top: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+}
+
+.why-grid.active {
+  display: grid;
+}
+
+.why-card {
+  background: #f8f8f8;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+

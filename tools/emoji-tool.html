@@ -24,6 +24,7 @@
 </script>
 
 <style>
+/* Styles */
 .tool-wrapper{max-width:520px;margin:60px auto;background:#fff;padding:32px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.08);text-align:center}
 .tool-desc{color:#666;font-size:15px;margin-bottom:18px}
 #emojiSearch{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;font-size:15px;margin-bottom:14px}
@@ -120,6 +121,7 @@ select{padding:4px 6px;border-radius:6px}
 </main>
 
 <script>
+// DOM Elements
 const grid = document.getElementById("emojiGrid");
 const search = document.getElementById("emojiSearch");
 const toast = document.getElementById("toast");
@@ -130,29 +132,40 @@ const statsBox = document.getElementById("stats");
 
 let currentTab = "all", currentCat = "all", skinTone = "";
 const toneAble = ["👍","👏","🙏","🙌","👋","👌","✌️","🤝"];
+
+// Emoji Data
 const catRanges = {
   smileys:[[0x1F600,0x1F64F]],
   animals:[[0x1F400,0x1F43F]],
   food:[[0x1F347,0x1F37F]],
   activities:[[0x26BD,0x1F3C0]],
   objects:[[0x1F4A0,0x1F52F]],
-  flags:[[0x1F1E6,0x1F1FF]],
   hearts:[[0x2764,0x2764]],
   hands:[[0x1F44B,0x1F64F]]
 };
 
-// Build emoji list but do not render all at once
-const emojis=[];
+// Predefined Flags
+const flagEmojis = ["🇺🇸","🇬🇧","🇨🇦","🇦🇺","🇮🇳","🇯🇵","🇩🇪","🇫🇷","🇪🇸","🇮🇹"];
+
+// Trending / Daily search emojis
+const trendingEmojis = ["🚚","🏪","⚠️","🛒","🛍️","💳","📦","📢","🔥","❤️"];
+
+// Build emoji list
+let emojis = [];
 Object.values(catRanges).flat().forEach(r=>{
   for(let i=r[0]; i<=r[1]; i++) emojis.push(String.fromCodePoint(i));
 });
+emojis = trendingEmojis.concat(emojis, flagEmojis);
 
+// LocalStorage helpers
 function get(k){return JSON.parse(localStorage.getItem(k)||"[]")}
 function set(k,v){localStorage.setItem(k,JSON.stringify(v))}
 const recentK="recentE", favK="favE", statK="statE";
+
+// Apply skin tone
 function applyTone(e){return skinTone && toneAble.includes(e)? e+skinTone : e}
 
-// Lazy load rendering (show 50 at a time)
+// Lazy load
 let renderIndex = 0, pageSize = 50;
 function render(reset=true){
   if(reset){ grid.innerHTML=""; renderIndex=0 }
@@ -164,6 +177,7 @@ function render(reset=true){
       const c=e.codePointAt(0);
       return c>=r[0]&&c<=r[1];
     }));
+    if(currentCat==="flags") list = flagEmojis;
   }
   if(search.value) list=list.filter(e=>e.includes(search.value));
 
@@ -203,30 +217,32 @@ grid.addEventListener("scroll", ()=>{
   }
 });
 
+// Stats
 function showStats(){
   const s=get(statK);
   const top=Object.entries(s).sort((a,b)=>b[1]-a[1]).slice(0,5);
   statsBox.innerHTML=top.length?"📈 Most Used: "+top.map(x=>`${x[0]}(${x[1]})`).join(" "):"";
 }
 
+// Tabs & categories
 tabs.forEach(t=>t.onclick=()=>{
   tabs.forEach(x=>x.classList.remove("active"));
   t.classList.add("active");
   currentTab=t.dataset.tab; render();
 });
-
 cats.forEach(c=>c.onclick=()=>{
   cats.forEach(x=>x.classList.remove("active"));
   c.classList.add("active");
   currentCat=c.dataset.cat; render();
 });
 
+// Search & skin tone
 search.oninput=()=>render();
 toneSel.onchange=e=>{skinTone=e.target.value; render()};
 
 render(); showStats();
 
-// ⭐ Star Rating
+// Star rating
 const stars = document.querySelectorAll("#starRating span");
 let rating = get("emojiToolRating") || 0;
 stars.forEach(s=>{
@@ -239,7 +255,7 @@ stars.forEach(s=>{
   };
 });
 
-// 💬 Comments
+// Comments
 const commentInput = document.getElementById("commentInput");
 const commentList = document.getElementById("commentList");
 function renderComments(){

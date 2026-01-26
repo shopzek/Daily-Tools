@@ -11,9 +11,14 @@ content="Convert PDF pages to JPG images online for free. High-quality, secure P
 <link rel="stylesheet" href="../style.css">
 
 <style>
-body{margin:0;font-family:system-ui;background:#f3f4f6}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  background:#f3f4f6;
+  color:#111827;
+}
 
-/* TOOL */
+/* TOOL CARD — SAME */
 .tool-wrapper{
   max-width:750px;
   margin:40px auto;
@@ -23,57 +28,100 @@ body{margin:0;font-family:system-ui;background:#f3f4f6}
   box-shadow:0 15px 40px rgba(0,0,0,.08);
   text-align:center;
 }
-.tool-desc{color:#6b7280;font-size:15px;margin-bottom:25px}
 
-/* DROP ZONE */
+.tool-desc{
+  color:#6b7280;
+  font-size:15px;
+  margin-bottom:25px;
+}
+
+/* DRAG & DROP — SAME SIZE */
 .drop-zone{
   border:2px dashed #cbd5e1;
   border-radius:12px;
   padding:30px;
   background:#f9fafb;
   cursor:pointer;
+  transition:.2s;
   margin-bottom:18px;
+  font-size:15px;
 }
-.drop-zone.hover{background:#eef2ff;border-color:#4f46e5}
-.file-info{margin-top:10px;font-size:14px}
+
+.drop-zone.hover{
+  background:#eef2ff;
+  border-color:#4f46e5;
+}
+
+.file-info{
+  margin-top:10px;
+  font-size:14px;
+}
 
 /* BUTTON */
 button{
   padding:14px 28px;
   border-radius:12px;
   font-size:16px;
+  font-weight:500;
   background:#2563eb;
   color:white;
-  border:none;
   cursor:pointer;
+  border:none;
 }
 button:hover{background:#1e40af}
 
+/* OUTPUT */
 #imageOutput img{
   max-width:100%;
   margin-bottom:14px;
   border-radius:10px;
 }
 
-/* SEO */
+/* SEO SECTION — SAME */
 .seo-section{
   max-width:900px;
-  margin:60px auto;
+  margin:60px auto 80px auto;
   background:white;
   padding:40px;
   border-radius:16px;
   box-shadow:0 10px 30px rgba(0,0,0,.08);
 }
 
-/* COMMENTS */
-#comments input,#comments textarea,#comments select{
+.seo-section h2{text-align:center;margin-bottom:22px}
+.seo-section p,
+.seo-section li{
+  color:#4b5563;
+  font-size:15px;
+  line-height:1.7;
+}
+.seo-section ul{padding-left:18px}
+
+/* REVIEWS — SAME */
+#comments{text-align:center;margin-top:40px}
+#comments input,
+#comments textarea{
   width:100%;
   padding:14px;
-  margin-bottom:16px;
+  margin-bottom:18px;
   border-radius:12px;
   border:1px solid #d1d5db;
 }
-.comment{background:#f9fafb;padding:12px;border-radius:8px;margin-bottom:10px}
+#comments select{
+  padding:14px 28px;
+  border-radius:12px;
+  border:1px solid #d1d5db;
+  background:#fff;
+  margin-bottom:18px;
+}
+.comment{
+  background:#f9fafb;
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:10px;
+  font-size:14px;
+  text-align:left;
+}
+.comment strong{color:#2563eb}
 </style>
 </head>
 
@@ -85,7 +133,9 @@ button:hover{background:#1e40af}
 
 <div class="tool-wrapper">
 <h2>PDF to JPG Converter</h2>
-<p class="tool-desc">Convert each page of your PDF into HD JPG images.</p>
+<p class="tool-desc">
+Convert each page of your PDF into high-quality JPG images.
+</p>
 
 <div class="drop-zone" id="dropZone">
   <p>📂 Drag & drop a PDF file here<br>or click to select</p>
@@ -94,10 +144,6 @@ button:hover{background:#1e40af}
 </div>
 
 <button onclick="convertPdfToJpg()">Convert PDF to JPG</button>
-<br><br>
-<button onclick="downloadZip()" id="downloadBtn" style="display:none">
-⬇ Download All JPGs
-</button>
 
 <div id="imageOutput"></div>
 </div>
@@ -105,26 +151,26 @@ button:hover{background:#1e40af}
 <section class="seo-section">
 <h2>About PDF to JPG Converter</h2>
 <p>
-Extract every PDF page into high-quality JPG images instantly.
-No uploads. 100% private.
+DailyTools PDF to JPG Converter extracts every page of your PDF
+into crisp, HD JPG images directly in your browser.
 </p>
 
 <ul>
-<li>✔ HD quality output</li>
 <li>✔ Free & unlimited</li>
-<li>✔ Works on all devices</li>
+<li>✔ HD image quality</li>
+<li>✔ No uploads required</li>
 <li>✔ Secure & private</li>
 </ul>
 
 <section id="comments">
-<h2>User Reviews & Ratings</h2>
+<h2>User Reviews & Rating</h2>
 
 <form id="commentForm">
-<input id="username" placeholder="Your Name" required>
-<textarea id="usercomment" placeholder="Write your review" required></textarea>
+<input type="text" id="username" placeholder="Your Name" required>
+<textarea id="usercomment" placeholder="Write your review..." required></textarea>
 
 <select id="rating" required>
-<option value="">Rating</option>
+<option value="">Select Rating</option>
 <option value="5">⭐⭐⭐⭐⭐ 5</option>
 <option value="4">⭐⭐⭐⭐ 4</option>
 <option value="3">⭐⭐⭐ 3</option>
@@ -132,7 +178,7 @@ No uploads. 100% private.
 <option value="1">⭐ 1</option>
 </select>
 
-<button type="submit">Submit</button>
+<button type="submit">Submit Review</button>
 </form>
 
 <div id="commentList"></div>
@@ -144,22 +190,16 @@ No uploads. 100% private.
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc =
 "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 
+/* DRAG & DROP */
 const dropZone=document.getElementById("dropZone");
 const input=document.getElementById("pdfInput");
 const info=document.getElementById("fileInfo");
 const output=document.getElementById("imageOutput");
-const downloadBtn=document.getElementById("downloadBtn");
 
-let images=[];
-
-/* DRAG */
 dropZone.onclick=()=>input.click();
 dropZone.ondragover=e=>{e.preventDefault();dropZone.classList.add("hover")};
 dropZone.ondragleave=()=>dropZone.classList.remove("hover");
@@ -169,14 +209,13 @@ dropZone.ondrop=e=>{
   input.files=e.dataTransfer.files;
   info.textContent=`${input.files.length} file(s) selected`;
 };
+
 input.onchange=()=>info.textContent=`${input.files.length} file(s) selected`;
 
-/* CONVERT */
+/* HD PDF → JPG */
 async function convertPdfToJpg(){
-if(!input.files.length){alert("Select a PDF");return;}
-output.innerHTML="<p>⏳ Converting...</p>";
-images=[];
-downloadBtn.style.display="none";
+if(!input.files.length){alert("Select a PDF file");return;}
+output.innerHTML="<p>⏳ Converting in HD...</p>";
 
 const buffer=await input.files[0].arrayBuffer();
 const pdf=await pdfjsLib.getDocument(buffer).promise;
@@ -184,37 +223,21 @@ output.innerHTML="";
 
 for(let i=1;i<=pdf.numPages;i++){
 const page=await pdf.getPage(i);
-const viewport=page.getViewport({scale:3}); // 🔥 HD
+const viewport=page.getViewport({scale:3}); // 🔥 HD SCALE
 
 const canvas=document.createElement("canvas");
 canvas.width=viewport.width;
 canvas.height=viewport.height;
 
-await page.render({canvasContext:canvas.getContext("2d"),viewport}).promise;
-
-const data=canvas.toDataURL("image/jpeg",1);
-images.push(data);
+await page.render({
+canvasContext:canvas.getContext("2d"),
+viewport
+}).promise;
 
 const img=document.createElement("img");
-img.src=data;
+img.src=canvas.toDataURL("image/jpeg",1);
 output.appendChild(img);
 }
-
-/* AUTO DOWNLOAD */
-downloadZip();
-downloadBtn.style.display="inline-block";
-}
-
-/* DOWNLOAD ZIP */
-function downloadZip(){
-if(!images.length)return;
-const zip=new JSZip();
-images.forEach((img,i)=>{
-zip.file(`page-${i+1}.jpg`,img.split(",")[1],{base64:true});
-});
-zip.generateAsync({type:"blob"}).then(blob=>{
-saveAs(blob,"pdf-to-jpg.zip");
-});
 }
 
 /* COMMENTS */

@@ -1,183 +1,112 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Emoji Picker & Copier – Free Online Tool | DailyTools</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Free Emoji Picker & Copier. Search emojis & country flags by name, copy instantly, rate & comment. Fast & private.">
-
-<link rel="stylesheet" href="../style.css">
-
-<style>
-/* ===== CORE UI ===== */
-.tool-wrapper{max-width:520px;margin:60px auto;background:#fff;padding:32px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.08);text-align:center}
-.tool-desc{color:#666;font-size:15px;margin-bottom:18px}
-#emojiSearch{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;font-size:15px;margin-bottom:14px}
-
-.tabs,.cats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
-.tab,.cat{padding:6px 12px;border-radius:20px;background:#f3f4f6;font-size:13px;cursor:pointer}
-.tab.active,.cat.active{background:#4f46e5;color:#fff}
-
-.emoji-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(48px,1fr));
-  gap:12px;
-  max-height:600px;
-  overflow-y:auto;
-}
-
-.emoji{
-  font-size:clamp(22px, 6vw, 30px); /* 📱 auto scale */
-  padding:10px;
-  border-radius:8px;
-  background:#f3f4f6;
-  cursor:pointer;
-  transition:.2s;
-  position:relative;
-  font-family:
-    "Apple Color Emoji",
-    "Segoe UI Emoji",
-    "Noto Color Emoji",
-    system-ui;
-}
-
-.emoji:hover{background:#4f46e5;color:#fff}
-
-.toast{margin-top:10px;font-size:13px;color:green;display:none}
-
-/* Tooltip */
-.emoji[data-name]:hover::after{
-  content:attr(data-name);
-  position:absolute;
-  bottom:-26px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#000;
-  color:#fff;
-  font-size:11px;
-  padding:3px 6px;
-  border-radius:4px;
-  white-space:nowrap;
-  z-index:10;
-}
-</style>
-</head>
-
-<body>
-
-<header class="main-header">
-  <a href="../index.html" class="logo">🚀 DailyTools</a>
-</header>
-
-<main class="tool-wrapper">
-<h1>Emoji Picker & Copier</h1>
-<p class="tool-desc">Search emojis & country flags by name. Click to copy. 100% private.</p>
-
-<input type="text" id="emojiSearch" placeholder="🔍 Search emoji or country (india, usa, pakistan…)">
-
-<div class="tabs">
-  <div class="tab active" data-tab="all">All</div>
-  <div class="tab" data-tab="recent">🕘 Recent</div>
-</div>
-
-<div class="cats">
-  <div class="cat active" data-cat="all">All</div>
-  <div class="cat" data-cat="flags">🌍 Flags</div>
-</div>
-
-<div class="emoji-grid" id="emojiGrid"></div>
-<div class="toast" id="toast">Copied!</div>
-</main>
-
 <script>
-/* ========= DATA ========= */
+/* ================= CORE LOGIC ================= */
 
-const grid=document.getElementById("emojiGrid");
-const search=document.getElementById("emojiSearch");
-const toast=document.getElementById("toast");
-const cats=document.querySelectorAll(".cat");
+const grid = document.getElementById("emojiGrid");
+const search = document.getElementById("emojiSearch");
+const toast = document.getElementById("toast");
+const tabs = document.querySelectorAll(".tab");
+const cats = document.querySelectorAll(".cat");
+const toneSel = document.getElementById("tone");
 
-let currentCat="all";
+let currentTab="all", currentCat="all", skinTone="";
 
-/* 🌍 Country name + code map */
-const countries = {
-  US:"United States",
-  GB:"United Kingdom",
-  IN:"India",
-  PK:"Pakistan",
-  AE:"United Arab Emirates",
-  SA:"Saudi Arabia",
-  CN:"China",
-  JP:"Japan",
-  KR:"South Korea",
-  FR:"France",
-  DE:"Germany",
-  IT:"Italy",
-  ES:"Spain",
-  CA:"Canada",
-  AU:"Australia",
-  BR:"Brazil",
-  RU:"Russia",
-  TR:"Turkey",
-  ID:"Indonesia",
-  MY:"Malaysia",
-  TH:"Thailand",
-  VN:"Vietnam",
-  PH:"Philippines",
-  BD:"Bangladesh",
-  LK:"Sri Lanka",
-  NP:"Nepal",
-  EG:"Egypt",
-  ZA:"South Africa",
-  NG:"Nigeria",
-  MX:"Mexico"
+const catRanges={
+  smileys:[[0x1F600,0x1F64F]],
+  animals:[[0x1F400,0x1F43F]],
+  food:[[0x1F347,0x1F37F]],
+  activities:[[0x26BD,0x1F3C0]],
+  objects:[[0x1F4A0,0x1F52F]],
+  hearts:[[0x2764,0x2764]],
+  hands:[[0x1F44B,0x1F64F]]
 };
 
-/* Convert country code → flag emoji */
+/* 🌍 COUNTRY CODE → NAME */
+const countryMap = {
+ US:"United States", GB:"United Kingdom", IN:"India", PK:"Pakistan",
+ AE:"United Arab Emirates", SA:"Saudi Arabia", CN:"China", JP:"Japan",
+ KR:"South Korea", DE:"Germany", FR:"France", IT:"Italy", ES:"Spain",
+ CA:"Canada", AU:"Australia", BR:"Brazil", RU:"Russia", TR:"Turkey",
+ ID:"Indonesia", MY:"Malaysia", TH:"Thailand", VN:"Vietnam",
+ PH:"Philippines", BD:"Bangladesh", LK:"Sri Lanka", NP:"Nepal",
+ IR:"Iran", IQ:"Iraq", EG:"Egypt", ZA:"South Africa", NG:"Nigeria",
+ MX:"Mexico", NL:"Netherlands", SE:"Sweden", NO:"Norway", FI:"Finland",
+ DK:"Denmark", PL:"Poland", UA:"Ukraine", AT:"Austria", CH:"Switzerland",
+ BE:"Belgium", PT:"Portugal", GR:"Greece", IL:"Israel", QA:"Qatar",
+ KW:"Kuwait", OM:"Oman", NZ:"New Zealand", SG:"Singapore",
+ HK:"Hong Kong", TW:"Taiwan"
+};
+
+/* ✅ CORRECT FLAG GENERATOR */
 function codeToFlag(code){
-  return code.replace(/./g,c=>String.fromCodePoint(127397+c.charCodeAt()));
+  return [...code].map(c =>
+    String.fromCodePoint(127397 + c.charCodeAt())
+  ).join("");
 }
 
-/* Build flag objects */
-const flagList = Object.entries(countries).map(([code,name])=>({
+/* FLAGS AS OBJECTS (IMPORTANT FIX) */
+const flagList = Object.entries(countryMap).map(([code,name])=>({
   emoji: codeToFlag(code),
   name: name.toLowerCase()
 }));
 
-/* Trending emojis */
-const trending=["🔥","❤️","🛒","🛍️","📦","🚚","⚠️","🚨","🆘"];
+/* TRENDING EMOJIS */
+const trendingEmojis=["🚚","🏪","⚠️","🛒","🛍️","💳","📦","📢","🔥","❤️","🚨","🆘"];
 
-/* ========= RENDER ========= */
-function render(){
-  grid.innerHTML="";
-  let q=search.value.toLowerCase();
+let emojis=[...trendingEmojis];
+Object.values(catRanges).flat().forEach(r=>{
+  for(let i=r[0];i<=r[1];i++) emojis.push(String.fromCodePoint(i));
+});
 
-  let items = [];
+/* ===== LAZY RENDER ===== */
+let renderIndex=0,pageSize=50;
+
+function render(reset=true){
+  if(reset){grid.innerHTML="";renderIndex=0;}
+  let list=[];
 
   if(currentCat==="flags"){
-    items = flagList.filter(f=>f.name.includes(q) || q==="")
-      .map(f=>({emoji:f.emoji,name:f.name}));
+    const q=search.value.toLowerCase();
+    list = flagList.filter(f=>f.name.includes(q));
   }else{
-    items = trending
-      .filter(e=>e.includes(q) || q==="")
-      .map(e=>({emoji:e,name:"emoji"}));
+    list=[...emojis];
+    if(search.value) list=list.filter(e=>e.includes(search.value));
   }
 
-  items.forEach(i=>{
+  list.slice(renderIndex,renderIndex+pageSize).forEach(item=>{
     const s=document.createElement("span");
     s.className="emoji";
-    s.innerHTML=i.emoji;
-    s.dataset.name=i.name;
+
+    if(typeof item==="object"){
+      s.innerHTML=item.emoji;
+      s.dataset.country=item.name;
+      s.onclick=()=>navigator.clipboard.writeText(item.emoji);
+    }else{
+      s.innerHTML=item;
+      s.onclick=()=>navigator.clipboard.writeText(item);
+    }
+
     s.onclick=()=>{
-      navigator.clipboard.writeText(i.emoji);
+      navigator.clipboard.writeText(
+        typeof item==="object"?item.emoji:item
+      );
       toast.style.display="block";
       setTimeout(()=>toast.style.display="none",600);
     };
+
     grid.appendChild(s);
   });
+
+  renderIndex+=pageSize;
 }
 
-/* Category click */
+/* EVENTS */
+tabs.forEach(t=>t.onclick=()=>{
+  tabs.forEach(x=>x.classList.remove("active"));
+  t.classList.add("active");
+  currentTab=t.dataset.tab;
+  render();
+});
+
 cats.forEach(c=>c.onclick=()=>{
   cats.forEach(x=>x.classList.remove("active"));
   c.classList.add("active");
@@ -185,13 +114,6 @@ cats.forEach(c=>c.onclick=()=>{
   render();
 });
 
-search.oninput=render;
+search.oninput=()=>render();
 render();
 </script>
-
-<footer class="site-footer">
-<p>© 2026 DailyTools — Free & Private Online Utilities</p>
-</footer>
-
-</body>
-</html>

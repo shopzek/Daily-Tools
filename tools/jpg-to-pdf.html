@@ -1,236 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>JPG to PDF Converter – Free Online Tool | DailyTools</title>
+<meta charset="UTF-8">
+<title>JPG to PDF Converter – Free Online Tool | DailyTools</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description"
-        content="Convert JPG images to PDF online for free. 100% browser-based, private and secure.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description"
+content="Convert JPG images to PDF online for free in high quality. Fast, secure and HD JPG to PDF converter.">
 
-  <link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../style.css">
 
-  <style>
-    .tool-wrapper {
-      max-width: 520px;
-      margin: 60px auto;
-      background: #fff;
-      padding: 32px;
-      border-radius: 14px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.08);
-      text-align: center;
-    }
+<style>
+.tool-wrapper{
+  max-width:520px;
+  margin:60px auto;
+  background:#fff;
+  padding:32px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  text-align:center;
+}
 
-    .tool-desc {
-      color: #666;
-      font-size: 15px;
-      margin-bottom: 24px;
-    }
+.tool-desc{
+  color:#666;
+  font-size:15px;
+  margin-bottom:24px;
+}
 
-    .drop-zone {
-      border: 2px dashed #ccc;
-      border-radius: 12px;
-      padding: 30px;
-      cursor: pointer;
-      margin-bottom: 16px;
-    }
+/* DRAG & DROP */
+.drop-zone{
+  border:2px dashed #ccc;
+  border-radius:12px;
+  padding:30px;
+  cursor:pointer;
+  transition:.3s;
+  margin-bottom:16px;
+}
 
-    .drop-zone:hover {
-      border-color: #4f46e5;
-      background: #f5f7ff;
-    }
+.drop-zone:hover{
+  border-color:#4f46e5;
+  background:#f5f7ff;
+}
 
-    .drop-zone.dragover {
-      border-color: #4f46e5;
-      background: #eef2ff;
-    }
+.drop-zone.dragover{
+  border-color:#4f46e5;
+  background:#eef2ff;
+}
 
-    button {
-      margin-top: 16px;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      background: #4f46e5;
-      color: white;
-      font-size: 15px;
-      cursor: pointer;
-    }
+.drop-zone p{
+  margin:0;
+  font-size:14px;
+  color:#444;
+}
 
-    button:hover {
-      background: #4338ca;
-    }
+.file-info{
+  margin-top:10px;
+  font-size:13px;
+  color:#333;
+}
 
-    #status {
-      margin-top: 12px;
-      font-size: 14px;
-    }
+button{
+  margin-top:16px;
+  padding:12px 20px;
+  border:none;
+  border-radius:8px;
+  background:#4f46e5;
+  color:#fff;
+  font-size:15px;
+  cursor:pointer;
+}
 
-    .seo-section {
-      max-width: 900px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,.08);
-    }
-  </style>
+button:hover{background:#4338ca}
+
+#status{
+  margin-top:12px;
+  font-size:14px;
+}
+
+/* SEO SECTION (SAME STYLE) */
+.seo-section{
+  max-width:900px;
+  margin:60px auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+}
+</style>
 </head>
 
 <body>
 
 <header class="main-header">
-  <a href="../index.html" class="logo">🚀 DailyTools</a>
+<a href="../index.html" class="logo">🚀 DailyTools</a>
 </header>
 
 <main class="tool-wrapper">
-  <h1>JPG to PDF Converter</h1>
-  <p class="tool-desc">
-    Convert JPG images into a single PDF instantly.  
-    Files stay on your device.
-  </p>
 
-  <div class="drop-zone" id="dropZone">
-    <p>📂 Drag & drop JPG files here<br>or click to select</p>
-    <input type="file" id="jpgInput" accept="image/jpeg,image/jpg" multiple hidden>
-    <div id="fileInfo"></div>
-  </div>
+<h1>JPG to PDF Converter</h1>
+<p class="tool-desc">
+Convert JPG images into a high-quality PDF without losing resolution.
+</p>
 
-  <button onclick="convertJpgToPdf()">Convert to PDF</button>
-  <p id="status"></p>
+<div class="drop-zone" id="dropZone">
+<p>📂 Drag & drop JPG images here<br>or click to select</p>
+<input type="file" id="jpgInput" accept="image/jpeg,image/jpg" multiple hidden>
+<div class="file-info" id="fileInfo"></div>
+</div>
+
+<button onclick="convertJpgToPdf()">Convert JPG to PDF</button>
+<p id="status"></p>
+
 </main>
 
 <!-- SEO SECTION -->
 <section class="seo-section">
-  <h2>About JPG to PDF Converter</h2>
-  <p>
-    This JPG to PDF tool lets you convert multiple images into a single PDF
-    without uploading files. Everything runs securely in your browser.
-  </p>
+<h2>About JPG to PDF Converter</h2>
+<p>
+This JPG to PDF converter creates high-resolution PDF files from images
+while keeping original quality intact.
+</p>
 
-  <ul>
-    <li>✔ Free & unlimited</li>
-    <li>✔ No signup required</li>
-    <li>✔ Mobile friendly</li>
-    <li>✔ 100% private</li>
-  </ul>
+<ul>
+<li>✔ HD & print-ready PDFs</li>
+<li>✔ No quality loss</li>
+<li>✔ Secure & private</li>
+<li>✔ Works on all devices</li>
+</ul>
 </section>
 
-<!-- COMMENTS & RATING -->
-<section id="comments" class="seo-section">
-  <h2>User Reviews</h2>
+<!-- REVIEWS (SAME STYLE) -->
+<section id="comments"
+style="max-width:900px; margin:40px auto; background:white; padding:20px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
 
-  <form onsubmit="saveComment(event)">
-    <input id="username" placeholder="Your name" required style="width:100%;padding:10px;margin-bottom:10px">
-    <textarea id="usercomment" placeholder="Your comment" required style="width:100%;padding:10px;margin-bottom:10px"></textarea>
+<h2 style="color:#2563eb; margin-bottom:15px;">User Reviews & Comments</h2>
 
-    <select id="rating" required>
-      <option value="">Rating</option>
-      <option value="5">⭐⭐⭐⭐⭐</option>
-      <option value="4">⭐⭐⭐⭐</option>
-      <option value="3">⭐⭐⭐</option>
-      <option value="2">⭐⭐</option>
-      <option value="1">⭐</option>
-    </select>
+<form onsubmit="saveComment(event)">
+<input type="text" id="username" placeholder="Your Name" required
+style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
 
-    <button type="submit">Submit Reviews </button>
-  </form>
+<textarea id="usercomment" rows="4"
+placeholder="Write your review..." required
+style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;"></textarea>
 
-  <div id="commentList"></div>
+<label style="display:block; margin-bottom:10px;">
+Rating:
+<select id="rating" required style="padding:5px; border-radius:5px;">
+<option value="">Select</option>
+<option value="5">⭐⭐⭐⭐⭐ 5</option>
+<option value="4">⭐⭐⭐⭐ 4</option>
+<option value="3">⭐⭐⭐ 3</option>
+<option value="2">⭐⭐ 2</option>
+<option value="1">⭐ 1</option>
+</select>
+</label>
+
+<button type="submit"
+style="background:#2563eb; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">
+Submit
+</button>
+</form>
+
+<div id="commentList" style="margin-top:20px;"></div>
 </section>
 
 <footer class="site-footer">
-  <p>© 2026 DailyTools • Free Online Tools</p>
+<p>© 2026 DailyTools • Image Tools</p>
 </footer>
 
-<!-- LIBRARIES -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
-/* ===============================
-   JPG → PDF FUNCTION
-================================ */
-async function convertJpgToPdf() {
-  const input = document.getElementById("jpgInput");
-  const status = document.getElementById("status");
+/* HD JPG → PDF */
+async function convertJpgToPdf(){
+const input=document.getElementById("jpgInput");
+const status=document.getElementById("status");
 
-  if (!input.files.length) {
-    status.innerText = "Please select JPG images";
-    return;
-  }
-
-  status.innerText = "Converting...";
-
-  const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF();
-
-  for (let i = 0; i < input.files.length; i++) {
-    const file = input.files[i];
-
-    const imgData = await new Promise(resolve => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.readAsDataURL(file);
-    });
-
-    const img = new Image();
-    img.src = imgData;
-
-    await new Promise(resolve => {
-      img.onload = () => {
-        const w = pdf.internal.pageSize.getWidth();
-        const h = (img.height * w) / img.width;
-        if (i > 0) pdf.addPage();
-        pdf.addImage(img, "JPEG", 0, 0, w, h);
-        resolve();
-      };
-    });
-  }
-
-  pdf.save("images.pdf");
-  status.innerText = "PDF downloaded ✔";
+if(!input.files.length){
+status.innerText="Please select JPG images";
+return;
 }
 
-/* ===============================
-   COMMENTS (LOCAL STORAGE)
-================================ */
+status.innerText="Converting in HD...";
+
+const { jsPDF } = window.jspdf;
+let pdf=null;
+
+for(let i=0;i<input.files.length;i++){
+const imgData=await new Promise(res=>{
+const r=new FileReader();
+r.onload=()=>res(r.result);
+r.readAsDataURL(input.files[i]);
+});
+
+const img=new Image();
+img.src=imgData;
+
+await new Promise(res=>{
+img.onload=()=>{
+const pxToMm=0.264583; // high accuracy
+const pdfW=img.width*pxToMm;
+const pdfH=img.height*pxToMm;
+
+if(i===0){
+pdf=new jsPDF({
+orientation: pdfW>pdfH ? "landscape":"portrait",
+unit:"mm",
+format:[pdfW,pdfH]
+});
+}else{
+pdf.addPage([pdfW,pdfH]);
+}
+
+pdf.addImage(img,"JPEG",0,0,pdfW,pdfH,undefined,"NONE");
+res();
+};
+});
+}
+
+pdf.save("images-hd.pdf");
+status.innerText="HD PDF downloaded ✔";
+}
+
+/* COMMENTS */
 function saveComment(e){
-  e.preventDefault();
-  const name = username.value;
-  const text = usercomment.value;
-  const rate = rating.value;
-
-  const div = document.createElement("div");
-  div.innerHTML = `<p><strong>${name}</strong> (${rate}⭐)</p><p>${text}</p><hr>`;
-  commentList.prepend(div);
-
-  e.target.reset();
+e.preventDefault();
+const div=document.createElement("div");
+div.innerHTML=`<p><strong>${username.value}</strong> (${rating.value}⭐)</p>
+<p>${usercomment.value}</p><hr>`;
+commentList.prepend(div);
+e.target.reset();
 }
 
-/* ===============================
-   DRAG & DROP
-================================ */
-const dropZone = document.getElementById("dropZone");
-const input = document.getElementById("jpgInput");
-const fileInfo = document.getElementById("fileInfo");
+/* DRAG & DROP */
+const dropZone=document.getElementById("dropZone");
+const input=document.getElementById("jpgInput");
+const fileInfo=document.getElementById("fileInfo");
 
-dropZone.onclick = () => input.click();
+dropZone.onclick=()=>input.click();
 
-input.onchange = () =>
-  fileInfo.innerText = `${input.files.length} file(s) selected`;
+input.onchange=()=>fileInfo.innerText=`${input.files.length} file(s) selected`;
 
-dropZone.ondragover = e => {
-  e.preventDefault();
-  dropZone.classList.add("dragover");
+dropZone.ondragover=e=>{
+e.preventDefault();
+dropZone.classList.add("dragover");
 };
 
-dropZone.ondragleave = () =>
-  dropZone.classList.remove("dragover");
+dropZone.ondragleave=()=>dropZone.classList.remove("dragover");
 
-dropZone.ondrop = e => {
-  e.preventDefault();
-  dropZone.classList.remove("dragover");
-  input.files = e.dataTransfer.files;
-  fileInfo.innerText = `${input.files.length} file(s) selected`;
+dropZone.ondrop=e=>{
+e.preventDefault();
+dropZone.classList.remove("dragover");
+input.files=e.dataTransfer.files;
+fileInfo.innerText=`${input.files.length} file(s) selected`;
 };
 </script>
 

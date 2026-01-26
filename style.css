@@ -31,6 +31,38 @@ body {
 }
 
 /* =========================
+   Search css
+========================= */
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: #f2f2f2;
+  transition: all 0.3s ease;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 120px;
+  transition: width 0.3s ease;
+}
+
+.search-box:hover input,
+.search-box input:focus {
+  width: 200px;
+}
+
+body.dark .search-box {
+  background: #1e1e1e;
+}
+
+
+/* =========================
    HEADER / NAV
 ========================= */
 header {

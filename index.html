@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-  
 <head>
   <meta charset="UTF-8">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="dns-prefetch" href="//fonts.googleapis.com">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
 
   <title>Free Online Daily Use Tools – PDF, Image, QR, Text</title>
 
@@ -14,148 +12,78 @@
   <meta name="description"
         content="Free online tools including JPG to PDF, PDF to JPG, image converter, QR generator, word counter, password generator and timer. 100% browser-based & private.">
 
-  <!-- SEO -->
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://shopzek.github.io/Daily-Tools/">
 
   <meta property="og:title" content="Free Online Daily Use Tools">
-  <meta property="og:description"
-        content="Fast, private & free online tools for everyday use. No uploads required.">
+  <meta property="og:description" content="Fast, private & free online tools for everyday use.">
   <meta property="og:type" content="website">
 
   <link rel="stylesheet" href="style.css">
 </head>
 
-  <script defer src="script.js"></script>
-
 <body>
 
-<button class="menu-btn" onclick="toggleMenu()">☰</button>
-
-  
+<!-- ================= HEADER ================= -->
 <header class="main-header">
-  <a href="index.html" class="logo">🚀 DailyTools</a>
-  <nav class="navbar">
-<a href="index.html">Home</a>
-<a href="blog.html">Blog</a>
- </nav>
+  <div class="header-left">
+    <a href="index.html" class="logo">🚀 DailyTools</a>
 
-  <input type="text" id="search" placeholder="Search tools..." aria-label="Search tools">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
 
-  <button onclick="toggleDark()" class="dark-btn" aria-label="Toggle dark mode">🌙</button>
+    <nav class="navbar">
+      <a href="index.html">Home</a>
+      <a href="blog.html">Blog</a>
+    </nav>
+  </div>
+
+  <div class="header-right">
+    <div class="search-box">
+      🔍
+      <input type="text" id="search" placeholder="Search tools..." aria-label="Search tools">
+    </div>
+
+    <button onclick="toggleDark()" class="dark-btn" aria-label="Toggle dark mode">
+      🌙
+    </button>
+  </div>
 </header>
 
+<!-- ================= HERO ================= -->
 <section class="hero">
   <h1>Free Online Daily Use Tools</h1>
   <p>Simple, fast & private tools for files, text and productivity.</p>
 </section>
 
+<!-- ================= TOOLS ================= -->
 <main class="container">
-
   <div class="tools-grid">
 
-<!-- Word / PDF -->
-<a href="tools/word-to-pdf.html" class="tool-card">
-  📄 
-  <span>Word to PDF<span>
-</a>
-
-<a href="tools/pdf-to-word.html" class="tool-card">
-  📄 
-  <span>PDF to Word<span>
-</a>
-
-<!-- Excel / PDF -->
-<a href="tools/excel-to-pdf.html" class="tool-card">
-  📊 
-  <span>Excel to PDF<span>
-</a>
-
-<a href="tools/pdf-to-excel.html" class="tool-card">
-  📊 
-  <span>PDF to Excel<span>
-</a>
-    
-      <a href="tools/pdf-to-jpg.html" class="tool-card">
-      📄
-      <span>PDF to JPG</span>
-    </a>
-    
-   <a href="tools/jpg-to-pdf.html" class="tool-card">
-      🖼️
-      <span>JPG to PDF</span>
-    </a>
-
-<!-- Language Converter -->
-<a href="tools/language-converter.html" class="tool-card">
-  🌍 
-  <span>Language Converter<span>
-</a>
- 
-    <a href="tools/png-to-jpg.html" class="tool-card">
-      🖼️
-      <span>PNG to JPG</span>
-    </a>
-
-      <a href="tools/merge-pdf.html" class="tool-card">
-      📑
-      <span>Merge PDF</span>
-    </a>
-
-    
-    <a href="tools/image-converter.html" class="tool-card">
-      🎨
-      <span>Image Converter</span>
-    </a>
-
-    <a href="tools/image-to-webp.html" class="tool-card">
-   🧩
-    <span>Image to WEBP</span>
-     </a>
-
-        <a href="tools/url-shortener.html" class="tool-card">
-       🔗
-      <span>URL Shortener</span>
-      </a>
-
-        <a href="tools/qr-generator.html" class="tool-card">
-      🔳
-      <span>QR Code Generator</span>
-    </a>
-    
-    <a href="tools/text-case.html" class="tool-card">
-      🔠
-      <span>Text Case Converter</span>
-    </a>
-
-    <a href="tools/password-generator.html" class="tool-card">
-      🔐
-      <span>Password Generator</span>
-    </a>
-
-    <a href="tools/word-counter.html" class="tool-card">
-      📊
-      <span>Word Counter</span>
-    </a>
-
-    <a href="tools/timer.html" class="tool-card">
-      ⏱️
-      <span>Timer & Stopwatch</span>
-    </a>
-
-<a href="tools/emoji-tool.html" class="tool-card">
-  😄
-  <span>Emoji Picker</span>
-</a>
-
+    <a href="tools/word-to-pdf.html" class="tool-card">📄 <span>Word to PDF</span></a>
+    <a href="tools/pdf-to-word.html" class="tool-card">📄 <span>PDF to Word</span></a>
+    <a href="tools/excel-to-pdf.html" class="tool-card">📊 <span>Excel to PDF</span></a>
+    <a href="tools/pdf-to-excel.html" class="tool-card">📊 <span>PDF to Excel</span></a>
+    <a href="tools/pdf-to-jpg.html" class="tool-card">📄 <span>PDF to JPG</span></a>
+    <a href="tools/jpg-to-pdf.html" class="tool-card">🖼️ <span>JPG to PDF</span></a>
+    <a href="tools/language-converter.html" class="tool-card">🌍 <span>Language Converter</span></a>
+    <a href="tools/png-to-jpg.html" class="tool-card">🖼️ <span>PNG to JPG</span></a>
+    <a href="tools/merge-pdf.html" class="tool-card">📑 <span>Merge PDF</span></a>
+    <a href="tools/image-converter.html" class="tool-card">🎨 <span>Image Converter</span></a>
+    <a href="tools/image-to-webp.html" class="tool-card">🧩 <span>Image to WEBP</span></a>
+    <a href="tools/url-shortener.html" class="tool-card">🔗 <span>URL Shortener</span></a>
+    <a href="tools/qr-generator.html" class="tool-card">🔳 <span>QR Code Generator</span></a>
+    <a href="tools/text-case.html" class="tool-card">🔠 <span>Text Case Converter</span></a>
+    <a href="tools/password-generator.html" class="tool-card">🔐 <span>Password Generator</span></a>
+    <a href="tools/word-counter.html" class="tool-card">📊 <span>Word Counter</span></a>
+    <a href="tools/timer.html" class="tool-card">⏱️ <span>Timer & Stopwatch</span></a>
+    <a href="tools/emoji-tool.html" class="tool-card">😄 <span>Emoji Picker</span></a>
 
   </div>
-
 </main>
 
+<!-- ================= HOW IT WORKS ================= -->
 <section class="how-it-works">
   <h2>How It Works</h2>
-
   <div class="steps">
     <div class="step">1️⃣ Select a Tool</div>
     <div class="step">2️⃣ Upload Your File</div>
@@ -164,28 +92,25 @@
   </div>
 </section>
 
-    <section class="why-us">
-  <h2>Why Choose DailyTools?</h2>
-  <p class="subtitle">
-    Simple, fast and private tools designed for everyday tasks.
-  </p>
+<!-- ================= WHY US ================= -->
+<section class="why-us">
+  <button class="why-toggle" onclick="toggleWhy()">Why Choose DailyTools? ⌄</button>
 
-  <div class="why-grid">
-   <div class="why-card">⚡ Lightning-Fast Processing</div>
-<div class="why-card">🔐 Secure & Privacy-First</div>
-<div class="why-card">📱 Mobile & Desktop Friendly</div>
-<div class="why-card">🆓 Free to Use Forever</div>
-<div class="why-card">🚫 No Registration Needed</div>
-<div class="why-card">🌐 Works Directly in Your Browser</div>
-<div class="why-card">📂 Supports Multiple File Formats</div>
-<div class="why-card">🎯 Simple & User-Friendly Interface</div>
+  <div class="why-grid" id="whyGrid">
+    <div class="why-card">⚡ Lightning-Fast Processing</div>
+    <div class="why-card">🔐 Secure & Privacy-First</div>
+    <div class="why-card">📱 Mobile & Desktop Friendly</div>
+    <div class="why-card">🆓 Free to Use Forever</div>
+    <div class="why-card">🚫 No Registration Needed</div>
+    <div class="why-card">🌐 Works Directly in Your Browser</div>
+    <div class="why-card">📂 Supports Multiple File Formats</div>
+    <div class="why-card">🎯 Simple & User-Friendly Interface</div>
   </div>
 </section>
-    
-    
+
+<!-- ================= FOOTER ================= -->
 <footer class="site-footer">
   <p>© 2026 DailyTools — Free & Private Online Utilities</p>
-
   <nav class="footer-links">
     <a href="about.html">About</a>
     <a href="privacy-policy.html">Privacy Policy</a>
@@ -194,23 +119,33 @@
   </nav>
 </footer>
 
+<!-- ================= JS ================= -->
 <script>
-/* client-side search */
-<div class="search-box">
-  🔍
-  <input type="text" id="search" placeholder="Search tools..." aria-label="Search tools">
-</div>
+/* Search */
+document.getElementById("search").addEventListener("input", function () {
+  const value = this.value.toLowerCase();
+  document.querySelectorAll(".tool-card").forEach(card => {
+    card.style.display = card.innerText.toLowerCase().includes(value) ? "block" : "none";
+  });
+});
 
+/* Dark mode */
 function toggleDark() {
   document.body.classList.toggle("dark");
 }
-  function toggleMenu() {
+
+/* Mobile menu */
+function toggleMenu() {
   document.querySelector(".navbar").classList.toggle("show");
 }
 
+/* Why section collapse */
+function toggleWhy() {
+  document.getElementById("whyGrid").classList.toggle("show");
+}
 </script>
 
-<!-- Schema.org -->
+<!-- ================= SCHEMA ================= -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",

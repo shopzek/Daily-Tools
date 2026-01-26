@@ -88,6 +88,7 @@ select{padding:4px 6px;border-radius:6px}
 </select>
 </div>
 
+  
 <div class="emoji-grid" id="emojiGrid"></div>
 <div class="toast" id="toast">Copied!</div>
 <div class="stats" id="stats"></div>
@@ -107,6 +108,7 @@ select{padding:4px 6px;border-radius:6px}
 </div>
 </main>
 
+  
 <script>
 /* ================= CORE LOGIC ================= */
 
@@ -132,17 +134,18 @@ const catRanges={
 };
 
 /* ===== REAL FLAG EMOJIS (FIXED) ===== */
-const countryCodes=[
-"US","GB","IN","PK","AE","SA","CN","JP","KR","DE","FR","IT","ES","CA","AU",
-"BR","RU","TR","ID","MY","TH","VN","PH","BD","LK","NP","IR","IQ","EG",
-"ZA","NG","KE","MX","AR","CL","CO","PE","NL","SE","NO","FI","DK",
-"PL","UA","RO","HU","CZ","AT","CH","BE","PT","GR","IL","QA","KW","OM",
-"NZ","SG","HK","TW"
+const countryCodes = [
+  "US","GB","IN","PK","AE","SA","CN","JP","KR","DE","FR","IT","ES","CA","AU",
+  "BR","RU","TR","ID","MY","TH","VN","PH","BD","LK","NP","IR","IQ","EG",
+  "ZA","NG","KE","MX","AR","CL","CO","PE","NL","SE","NO","FI","DK",
+  "PL","UA","RO","HU","CZ","AT","CH","BE","PT","GR","IL","QA","KW","OM",
+  "NZ","SG","HK","TW"
 ];
 
 const flagEmojis = countryCodes.map(code =>
-  String.fromCodePoint(...[...code].map(c=>0x1F1E6+c.charCodeAt(0)-65))
+  countryCodeToFlagEmoji(code)
 );
+
 
 const trendingEmojis=["🚚","🏪","⚠️","🛒","🛍️","💳","📦","📢","🔥","❤️","🚨","🆘"];
 
@@ -151,6 +154,15 @@ Object.values(catRanges).flat().forEach(r=>{
   for(let i=r[0];i<=r[1];i++) emojis.push(String.fromCodePoint(i));
 });
 
+  function countryCodeToFlagEmoji(countryCode) {
+  return countryCode
+    .toUpperCase()
+    .replace(/./g, char =>
+      String.fromCodePoint(127397 + char.charCodeAt())
+    );
+}
+
+  
 /* ===== FIXED RENDER FUNCTION ===== */
 let renderIndex=0,pageSize=50;
 
@@ -175,7 +187,7 @@ function render(reset=true){
   list.slice(renderIndex,renderIndex+pageSize).forEach(e=>{
     const s=document.createElement("span");
     s.className="emoji";
-    s.textContent=e;
+    s.innerHTML = e;
     s.onclick=()=>{
       navigator.clipboard.writeText(e);
       toast.style.display="block";

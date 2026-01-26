@@ -171,7 +171,8 @@ const flagEmojis = countryCodes.map(code => {
 const trendingEmojis = ["🚚","🏪","⚠️","🛒","🛍️","💳","📦","📢","🔥","❤️"];
 
 // Build emoji list
-let emojis = [];
+let emojis = [...trendingEmojis];
+
 Object.values(catRanges).flat().forEach(r=>{
   for(let i=r[0]; i<=r[1]; i++) emojis.push(String.fromCodePoint(i));
 });
@@ -197,7 +198,7 @@ function render(reset=true){
       const c=e.codePointAt(0);
       return c>=r[0]&&c<=r[1];
     }));
-    if(currentCat==="flags") list = flagEmojis;
+    if(currentCat==="flags") { list = flagEmojis;
   }
   if(search.value) list=list.filter(e=>e.includes(search.value));
 

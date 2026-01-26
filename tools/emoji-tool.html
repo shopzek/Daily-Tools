@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Emoji Picker & Copier – Free Online Tool | DailyTools</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Free Emoji Picker & Copier. Search emojis, use categories, skin tone selector, favorites, recent emojis, and copy instantly. 100% private & browser-based.">
+<meta name="description" content="Free Emoji Picker & Copier. Search emojis, use categories, skin tone selector, favorites, recent emojis, and copy instantly. Fast & private.">
 <meta name="keywords" content="emoji picker, emoji copier, copy emoji, emoji search, free emoji tool, unicode emoji">
 
 <link rel="stylesheet" href="../style.css">
@@ -35,15 +35,21 @@
 .controls{display:flex;gap:8px;justify-content:center;margin-bottom:12px;font-size:13px}
 select{padding:4px 6px;border-radius:6px}
 
-.emoji-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(48px,1fr));gap:12px}
+.emoji-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(48px,1fr));gap:12px;max-height:600px;overflow-y:auto}
 .emoji{font-size:28px;padding:10px;border-radius:8px;background:#f3f4f6;cursor:pointer;transition:.2s;position:relative}
 .emoji:hover{background:#4f46e5;color:#fff}
-
 .star{position:absolute;top:4px;right:6px;font-size:12px;color:gold;display:none}
 .emoji.fav .star{display:block}
 
-.toast{margin-top:10px;font-size:13px;color:green;display:none}
+.toast{margin-top:10px;font-size:13px;color:green;display:none;transition:.3s}
 .stats{margin-top:14px;font-size:13px;color:#555}
+
+.comment-section, .rating-section{margin-top:20px;text-align:left;font-size:14px}
+.comment-section textarea{width:100%;padding:8px;margin-top:6px;border-radius:6px;border:1px solid #ccc}
+.comment-section button{margin-top:6px;padding:6px 12px;border-radius:6px;background:#4f46e5;color:#fff;border:none;cursor:pointer}
+.comment-list{margin-top:10px}
+.star-rating span{cursor:pointer;font-size:24px;color:#ccc}
+.star-rating span.active{color:gold}
 </style>
 </head>
 
@@ -92,86 +98,110 @@ select{padding:4px 6px;border-radius:6px}
 <div class="emoji-grid" id="emojiGrid"></div>
 <div class="toast" id="toast">Copied!</div>
 <div class="stats" id="stats"></div>
+
+<!-- Ratings & Comments -->
+<div class="rating-section">
+  <p>⭐ Rate this tool:</p>
+  <div class="star-rating" id="starRating">
+    <span data-star="1">★</span>
+    <span data-star="2">★</span>
+    <span data-star="3">★</span>
+    <span data-star="4">★</span>
+    <span data-star="5">★</span>
+  </div>
+</div>
+
+<div class="comment-section">
+  <p>💬 Leave a comment:</p>
+  <textarea id="commentInput" placeholder="Your comment..."></textarea>
+  <button id="addComment">Submit</button>
+  <div class="comment-list" id="commentList"></div>
+</div>
 </main>
 
 <script>
-const grid=document.getElementById("emojiGrid");
-const search=document.getElementById("emojiSearch");
-const toast=document.getElementById("toast");
-const tabs=document.querySelectorAll(".tab");
-const cats=document.querySelectorAll(".cat");
-const toneSel=document.getElementById("tone");
-const statsBox=document.getElementById("stats");
+const grid = document.getElementById("emojiGrid");
+const search = document.getElementById("emojiSearch");
+const toast = document.getElementById("toast");
+const tabs = document.querySelectorAll(".tab");
+const cats = document.querySelectorAll(".cat");
+const toneSel = document.getElementById("tone");
+const statsBox = document.getElementById("stats");
 
-let currentTab="all",currentCat="all",skinTone="";
-
-const toneAble=["👍","👏","🙏","🙌","👋","👌","✌️","🤝"];
-const catRanges={
-smileys:[[0x1F600,0x1F64F]],
-animals:[[0x1F400,0x1F43F]],
-food:[[0x1F347,0x1F37F]],
-activities:[[0x26BD,0x1F3C0]],
-objects:[[0x1F4A0,0x1F52F]],
-flags:[[0x1F1E6,0x1F1FF]],
-hearts:[[0x2764,0x2764]]
+let currentTab = "all", currentCat = "all", skinTone = "";
+const toneAble = ["👍","👏","🙏","🙌","👋","👌","✌️","🤝"];
+const catRanges = {
+  smileys:[[0x1F600,0x1F64F]],
+  animals:[[0x1F400,0x1F43F]],
+  food:[[0x1F347,0x1F37F]],
+  activities:[[0x26BD,0x1F3C0]],
+  objects:[[0x1F4A0,0x1F52F]],
+  flags:[[0x1F1E6,0x1F1FF]],
+  hearts:[[0x2764,0x2764]],
+  hands:[[0x1F44B,0x1F64F]]
 };
 
+// Build emoji list but do not render all at once
 const emojis=[];
 Object.values(catRanges).flat().forEach(r=>{
-  for(let i=r[0];i<=r[1];i++) emojis.push(String.fromCodePoint(i));
+  for(let i=r[0]; i<=r[1]; i++) emojis.push(String.fromCodePoint(i));
 });
 
 function get(k){return JSON.parse(localStorage.getItem(k)||"[]")}
 function set(k,v){localStorage.setItem(k,JSON.stringify(v))}
-const recentK="recentE",favK="favE",statK="statE";
+const recentK="recentE", favK="favE", statK="statE";
+function applyTone(e){return skinTone && toneAble.includes(e)? e+skinTone : e}
 
-function applyTone(e){return skinTone&&toneAble.includes(e)?e+skinTone:e}
-
-function render(){
-  grid.innerHTML="";
-  let list=[...emojis];
-
+// Lazy load rendering (show 50 at a time)
+let renderIndex = 0, pageSize = 50;
+function render(reset=true){
+  if(reset){ grid.innerHTML=""; renderIndex=0 }
+  let list = [...emojis];
   if(currentTab==="recent") list=get(recentK);
   if(currentTab==="fav") list=get(favK);
-
   if(currentCat!=="all"){
-    list=list.filter(e=>{
-      return catRanges[currentCat]?.some(r=>{
-        const c=e.codePointAt(0);
-        return c>=r[0]&&c<=r[1];
-      });
-    });
+    list=list.filter(e=>catRanges[currentCat]?.some(r=>{
+      const c=e.codePointAt(0);
+      return c>=r[0]&&c<=r[1];
+    }));
   }
+  if(search.value) list=list.filter(e=>e.includes(search.value));
 
-  list.filter(e=>e.includes(search.value))
-      .forEach(e=>{
-        const s=document.createElement("span");
-        s.className="emoji";
-        s.innerHTML=`${applyTone(e)}<span class="star">⭐</span>`;
-        if(get(favK).includes(e)) s.classList.add("fav");
+  const slice = list.slice(renderIndex, renderIndex + pageSize);
+  slice.forEach(e=>{
+    const s = document.createElement("span");
+    s.className="emoji";
+    s.innerHTML = `${applyTone(e)}<span class="star">⭐</span>`;
+    if(get(favK).includes(e)) s.classList.add("fav");
 
-        s.onclick=()=>{
-          navigator.clipboard.writeText(applyTone(e));
-          toast.style.display="block";
-          setTimeout(()=>toast.style.display="none",700);
+    s.onclick = ()=>{
+      navigator.clipboard.writeText(applyTone(e));
+      toast.style.display="block";
+      setTimeout(()=>toast.style.display="none",700);
+      let r=get(recentK).filter(x=>x!==e);
+      r.unshift(e); if(r.length>25) r.pop(); set(recentK,r);
+      let st=get(statK); st[e]=(st[e]||0)+1; set(statK,st);
+      showStats();
+    };
 
-          let r=get(recentK).filter(x=>x!==e);
-          r.unshift(e); if(r.length>25) r.pop(); set(recentK,r);
+    s.oncontextmenu = ev=>{
+      ev.preventDefault();
+      let f=get(favK);
+      f.includes(e)?f=f.filter(x=>x!==e):f.push(e);
+      set(favK,f); render(true);
+    };
 
-          let st=get(statK); st[e]=(st[e]||0)+1; set(statK,st);
-          showStats();
-        };
-
-        s.oncontextmenu=ev=>{
-          ev.preventDefault();
-          let f=get(favK);
-          f.includes(e)?f=f.filter(x=>x!==e):f.push(e);
-          set(favK,f); render();
-        };
-
-        grid.appendChild(s);
-      });
+    grid.appendChild(s);
+  });
+  renderIndex += pageSize;
 }
+
+// Load more on scroll
+grid.addEventListener("scroll", ()=>{
+  if(grid.scrollTop + grid.clientHeight >= grid.scrollHeight-10){
+    render(false);
+  }
+});
 
 function showStats(){
   const s=get(statK);
@@ -191,15 +221,45 @@ cats.forEach(c=>c.onclick=()=>{
   currentCat=c.dataset.cat; render();
 });
 
-search.oninput=render;
-toneSel.onchange=e=>{skinTone=e.target.value;render()};
+search.oninput=()=>render();
+toneSel.onchange=e=>{skinTone=e.target.value; render()};
 
 render(); showStats();
+
+// ⭐ Star Rating
+const stars = document.querySelectorAll("#starRating span");
+let rating = get("emojiToolRating") || 0;
+stars.forEach(s=>{
+  const val = parseInt(s.dataset.star);
+  s.classList.toggle("active", val <= rating);
+  s.onclick = ()=>{
+    rating = val;
+    set("emojiToolRating", rating);
+    stars.forEach(s2=>s2.classList.toggle("active", parseInt(s2.dataset.star) <= rating));
+  };
+});
+
+// 💬 Comments
+const commentInput = document.getElementById("commentInput");
+const commentList = document.getElementById("commentList");
+function renderComments(){
+  const comments = get("emojiToolComments");
+  commentList.innerHTML = comments.map(c=>`<div>💬 ${c}</div>`).join("");
+}
+document.getElementById("addComment").onclick = ()=>{
+  if(commentInput.value.trim()){
+    let comments = get("emojiToolComments");
+    comments.push(commentInput.value.trim());
+    set("emojiToolComments", comments);
+    commentInput.value="";
+    renderComments();
+  }
+};
+renderComments();
 </script>
 
 <footer class="site-footer">
   <p>© 2026 DailyTools • 100% Free & Private</p>
 </footer>
-
 </body>
 </html>

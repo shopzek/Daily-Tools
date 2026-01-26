@@ -424,3 +424,12 @@ if (emojiGrid && selectedEmoji) {
   });
 } 
 });
+/* ================= WHY US TOGGLE ================= */
+function toggleWhy(btn) {
+  const grid = document.getElementById("whyGrid");
+  grid.classList.toggle("active");
+
+  btn.innerText = grid.classList.contains("active")
+    ? "Why Choose DailyTools? −"
+    : "Why Choose DailyTools? +";
+}

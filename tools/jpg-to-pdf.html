@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="../style.css">
 
 <style>
-/* ================= BODY ================= */
 body{
   margin:0;
   font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
@@ -17,7 +16,7 @@ body{
   color:#111827;
 }
 
-/* ================= TOOL ================= */
+/* TOOL CARD (UNCHANGED) */
 .tool-wrapper{
   max-width:520px;
   margin:40px auto;
@@ -34,20 +33,21 @@ body{
   margin-bottom:25px;
 }
 
-/* ================= DRAG & DROP ================= */
+/* ✅ DRAG & DROP — SAME SIZE AS PREVIOUS TOOL */
 .drop-zone{
   border:2px dashed #cbd5e1;
   border-radius:12px;
-  padding:40px 20px;
+  padding:30px;               /* SAME AS PREVIOUS */
   background:#f9fafb;
   cursor:pointer;
   transition:.2s;
   margin-bottom:18px;
+  font-size:15px;
 }
 
 .drop-zone.hover{
-  background:#e0f2fe;
-  border-color:#2563eb;
+  background:#eef2ff;
+  border-color:#4f46e5;
 }
 
 .file-info{
@@ -55,7 +55,7 @@ body{
   font-size:14px;
 }
 
-/* ================= BUTTON ================= */
+/* BUTTON */
 button{
   padding:14px 28px;
   border-radius:12px;
@@ -66,12 +66,10 @@ button{
   cursor:pointer;
   border:none;
 }
-
 button:hover{background:#1e40af}
-
 #status{margin-top:15px;font-size:14px}
 
-/* ================= SEO + REVIEWS (ORIGINAL STYLE) ================= */
+/* SEO + REVIEWS (UNCHANGED — ORIGINAL STYLE) */
 .seo-section{
   max-width:900px;
   margin:60px auto 80px auto;
@@ -89,12 +87,10 @@ button:hover{background:#1e40af}
   font-size:15px;
   line-height:1.7;
 }
-
 .seo-section ul{padding-left:18px}
 
-/* ================= COMMENTS ================= */
-#comments{margin-top:40px;text-align:center}
-
+/* COMMENTS */
+#comments{text-align:center;margin-top:40px}
 #comments input,
 #comments textarea{
   width:100%;
@@ -103,7 +99,6 @@ button:hover{background:#1e40af}
   border-radius:12px;
   border:1px solid #d1d5db;
 }
-
 #comments select{
   padding:14px 28px;
   border-radius:12px;
@@ -111,7 +106,6 @@ button:hover{background:#1e40af}
   background:#fff;
   margin-bottom:18px;
 }
-
 .comment{
   background:#f9fafb;
   padding:12px;
@@ -120,7 +114,6 @@ button:hover{background:#1e40af}
   font-size:14px;
   text-align:left;
 }
-
 .comment strong{color:#2563eb}
 </style>
 </head>
@@ -136,9 +129,9 @@ button:hover{background:#1e40af}
 <p class="tool-desc">Convert JPG images into high-quality PDF files instantly.</p>
 
 <div class="drop-zone" id="dropZone">
-Drag & Drop JPG Images Here or Click to Browse
-<input type="file" id="jpgInput" accept="image/jpeg,image/jpg" multiple hidden>
-<div class="file-info" id="fileInfo"></div>
+  <p>📂 Drag & drop JPG files here<br>or click to select</p>
+  <input type="file" id="jpgInput" accept="image/jpeg,image/jpg" multiple hidden>
+  <div class="file-info" id="fileInfo"></div>
 </div>
 
 <button onclick="convertJpgToPdf()">Convert JPG to PDF</button>
@@ -199,10 +192,10 @@ dropZone.onclick=()=>input.click();
 dropZone.ondragover=e=>{e.preventDefault();dropZone.classList.add("hover")};
 dropZone.ondragleave=()=>dropZone.classList.remove("hover");
 dropZone.ondrop=e=>{
-e.preventDefault();
-dropZone.classList.remove("hover");
-input.files=e.dataTransfer.files;
-info.textContent=`${input.files.length} file(s) selected`;
+  e.preventDefault();
+  dropZone.classList.remove("hover");
+  input.files=e.dataTransfer.files;
+  info.textContent=`${input.files.length} file(s) selected`;
 };
 input.onchange=()=>info.textContent=`${input.files.length} file(s) selected`;
 
@@ -216,25 +209,24 @@ const { jsPDF }=window.jspdf;
 let pdf;
 
 for(let i=0;i<input.files.length;i++){
-const data=await input.files[i].arrayBuffer();
+const file=input.files[i];
 const img=new Image();
-img.src=URL.createObjectURL(new Blob([data]));
+img.src=URL.createObjectURL(file);
 
 await new Promise(res=>{
 img.onload=()=>{
 const mm=0.264583;
 const w=img.width*mm;
 const h=img.height*mm;
-if(i===0){
-pdf=new jsPDF({unit:"mm",format:[w,h]});
-}else pdf.addPage([w,h]);
+if(i===0) pdf=new jsPDF({unit:"mm",format:[w,h]});
+else pdf.addPage([w,h]);
 pdf.addImage(img,"JPEG",0,0,w,h,undefined,"NONE");
 res();
 };
 });
 }
 pdf.save("images-hd.pdf");
-status.textContent="Conversion done! ✅";
+status.textContent="Conversion done ✔";
 }
 
 /* COMMENTS */

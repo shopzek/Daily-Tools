@@ -190,15 +190,11 @@
 </footer>
 
 <script>
-/* Simple client-side search */
-document.getElementById("search").addEventListener("input", function () {
-  const value = this.value.toLowerCase();
-  document.querySelectorAll(".tool-card").forEach(card => {
-    card.style.display = card.innerText.toLowerCase().includes(value)
-      ? "flex"
-      : "none";
-  });
-});
+/* client-side search */
+<div class="search-box">
+  🔍
+  <input type="text" id="search" placeholder="Search tools..." aria-label="Search tools">
+</div>
 
 function toggleDark() {
   document.body.classList.toggle("dark");

@@ -20,6 +20,293 @@
   <meta property="og:type" content="website">
 
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* ================= HEADER ================= */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body.dark {
+      background: #121212;
+      color: #f1f1f1;
+    }
+
+    .main-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background: #f8f8f8;
+    }
+
+    body.dark .main-header {
+      background: #1e1e1e;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-decoration: none;
+      color: #007bff;
+    }
+
+    .menu-btn {
+      display: none;
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: inherit;
+    }
+
+    .navbar {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+    }
+
+    .navbar a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: #f0f0f0;
+      border-radius: 6px;
+      padding: 5px 10px;
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      margin-left: 5px;
+      height: 28px;
+    }
+
+    .dark-btn {
+      height: 38px;
+      width: 38px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: none;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    body.dark .dark-btn {
+      background-color: #333;
+      color: #fff;
+    }
+
+    /* ================= HERO ================= */
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: 2rem;
+    }
+
+    .hero p {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #555;
+    }
+
+    /* ================= TOOLS GRID ================= */
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+    }
+
+    .tool-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: #f0f0f0;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #000;
+      font-weight: 500;
+      text-align: center;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-3px);
+      background: #e0e0e0;
+    }
+
+    body.dark .tool-card {
+      background: #1e1e1e;
+      color: #fff;
+    }
+
+    body.dark .tool-card:hover {
+      background: #2a2a2a;
+    }
+
+    /* ================= HOW IT WORKS ================= */
+    .how-it-works {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .step {
+      background: #f0f0f0;
+      padding: 15px 20px;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+
+    body.dark .step {
+      background: #1e1e1e;
+    }
+
+    /* ================= WHY US ================= */
+    .why-us {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .why-toggle {
+      color: #000;
+      font-weight: bold;
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 10px 0;
+    }
+
+    .why-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .why-card {
+      flex: 1 1 40%;
+      background: #f0f0f0;
+      padding: 15px;
+      border-radius: 8px;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    body.dark .why-card {
+      background: #1e1e1e;
+      color: #fff;
+    }
+
+    /* Mobile collapse */
+    @media (max-width: 768px) {
+      .menu-btn {
+        display: block;
+      }
+
+      .navbar {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .navbar.show {
+        display: flex;
+      }
+
+      .why-grid {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .why-grid.show {
+        display: flex;
+      }
+
+      .tool-card {
+        padding: 15px;
+      }
+    }
+
+    /* ================= FOOTER ================= */
+    .site-footer {
+      text-align: center;
+      padding: 20px;
+      background: #f8f8f8;
+      margin-top: 40px;
+    }
+
+    body.dark .site-footer {
+      background: #1e1e1e;
+      color: #fff;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .footer-links a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  </style>
 </head>
 
 <body>
@@ -28,9 +315,7 @@
 <header class="main-header">
   <div class="header-left">
     <a href="index.html" class="logo">🚀 DailyTools</a>
-
     <button class="menu-btn" onclick="toggleMenu()">☰</button>
-
     <nav class="navbar">
       <a href="index.html">Home</a>
       <a href="blog.html">Blog</a>
@@ -94,7 +379,7 @@
 
 <!-- ================= WHY US ================= -->
 <section class="why-us">
-  <button class="why-toggle" onclick="toggleWhy()">Why Choose DailyTools? ⌄</button>
+  <button class="why-toggle" onclick="toggleWhy(this)">Why Choose DailyTools? +</button>
 
   <div class="why-grid" id="whyGrid">
     <div class="why-card">⚡ Lightning-Fast Processing</div>
@@ -140,8 +425,12 @@ function toggleMenu() {
 }
 
 /* Why section collapse */
-function toggleWhy() {
-  document.getElementById("whyGrid").classList.toggle("show");
+function toggleWhy(btn) {
+  const grid = document.getElementById("whyGrid");
+  grid.classList.toggle("show");
+  btn.textContent = grid.classList.contains("show") 
+    ? "Why Choose DailyTools? –" 
+    : "Why Choose DailyTools? +";
 }
 </script>
 

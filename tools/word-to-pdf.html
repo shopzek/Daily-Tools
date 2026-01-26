@@ -1,351 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Word to PDF Converter – Free Online Tool | DailyTools</title>
-<meta name="description" content="Convert Word documents (.doc, .docx) to PDF online for free. Fast, secure Word to PDF converter.">
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Word to PDF Converter – DailyTools</title>
+<meta name="description" content="Convert Word documents (.doc, .docx) to PDF online for free. Fast, secure Word to PDF converter." />
 <style>
-/* ================= BODY ================= */
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #f3f4f6;
-  color: #111827;
-}
-
-/* ================= HEADER ================= */
-.main-header {
-  background: #ffffff;
-  padding: 16px 30px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-.logo {
-  color: #2563eb;
-  text-decoration: none;
-  font-size: 20px;
-  font-weight: 600;
-}
-
-/* ================= TOOL WRAPPER ================= */
-.tool-wrapper {
-  max-width: 750px;
-  margin: 40px auto;
-  background: #fff;
-  padding: 32px;
-  border-radius: 16px;
-  box-shadow: 0 15px 40px rgba(0,0,0,.08);
-  text-align: center;
-  transition: transform 0.25s ease;
-}
-.tool-wrapper:hover {
-  transform: translateY(-3px);
-}
-.tool-wrapper h2 {
-  margin-bottom: 12px;
-  font-size: 28px;
-  color: #111827;
-}
-.tool-desc {
-  color: #6b7280;
-  font-size: 15px;
-  margin-bottom: 25px;
-}
-
-/* ================= FILE INPUT & DRAG & DROP ================= */
-#drop-area {
-  border: 2px dashed #cbd5e1;
-  border-radius: 12px;
-  padding: 40px 20px;
-  background: #f9fafb;
-  cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
-  margin-bottom: 18px;
-}
-#drop-area.hover {
-  background: #e0f2fe;
-  border-color: #2563eb;
-}
-#fileInput {
-  display: none;
-}
-
-/* ================= BUTTON ================= */
-button {
-  display: inline-block;
-  padding: 14px 28px;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 500;
-  background: #2563eb;
-  color: white;
-  cursor: pointer;
-  border: none;
-  transition: background 0.2s ease;
-}
-button:hover {
-  background: #1e40af;
-}
-
-/* ================= STATUS ================= */
-#status {
-  margin-top: 15px;
-  font-size: 14px;
-  color: #111827;
-}
-
-/* ================= SEO SECTION ================= */
-.seo-section {
-  max-width: 900px;
-  margin: 60px auto 80px auto;
-  background: white;
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.08);
-}
-.seo-section h2 {
-  text-align: center;
-  margin-bottom: 22px;
-  color: #111827;
-}
-.seo-section h3 {
-  color: #111827;
-  margin-top: 28px;
-  margin-bottom: 12px;
-}
-.seo-section p,
-.seo-section li {
-  color: #4b5563;
-  font-size: 15px;
-  line-height: 1.7;
-}
-.seo-section ul {
-  padding-left: 18px;
-}
-
-/* ================= COMMENTS ================= */
-#comments {
-  margin-top: 40px;
-  text-align: center;
-}
-#comments input,
-#comments textarea {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 18px;
-  border-radius: 12px;
-  border: 1px solid #d1d5db;
-}
-#comments select {
-  display: inline-block;
-  padding: 14px 28px;
-  font-size: 16px;
-  border-radius: 12px;
-  border: 1px solid #d1d5db;
-  background-color: #fff;
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  margin-bottom: 18px;
-  text-align: left;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236b7280'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z' clip-rule='evenodd'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;
-  background-position:right 16px center;
-  background-size:18px;
-}
-#comments button {
-  display: inline-block;
-  padding: 14px 28px;
-  font-size: 16px;
-  border-radius: 12px;
-}
-.comment {
-  background:#f9fafb;
-  padding:12px;
-  border-radius:8px;
-  margin-bottom:10px;
-  font-size:14px;
-  text-align:left;
-}
-.comment strong {
-  color:#2563eb;
-}
-
-/* ================= FOOTER ================= */
-.site-footer {
-  text-align:center;
-  padding:20px;
-  color:#6b7280;
-  font-size:14px;
-}
-
-/* ================= RESPONSIVE ================= */
-@media(max-width:640px){
-  .tool-wrapper{
-    margin:20px 12px;
-    padding:24px;
+  /* Basic Reset */
+  * {
+    box-sizing: border-box;
   }
-  .seo-section{
-    margin:30px 12px;
-    padding:24px;
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f3f4f6;
+    color: #111827;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
   }
-  textarea{
-    min-height:140px;
-    font-size:14px;
+  header {
+    background: white;
+    padding: 16px 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   }
-  button, #comments select{
-    padding:14px 20px;
-    font-size:16px;
+  .logo {
+    color: #2563eb;
+    font-weight: 600;
+    font-size: 20px;
+    text-decoration: none;
   }
-}
+
+  main {
+    flex: 1;
+    max-width: 720px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.08);
+    text-align: center;
+  }
+
+  h1 {
+    margin-bottom: 10px;
+    font-size: 28px;
+  }
+  p.description {
+    color: #6b7280;
+    font-size: 16px;
+    margin-bottom: 30px;
+  }
+
+  /* Drag & Drop Area */
+  #drop-zone {
+    border: 3px dashed #2563eb;
+    border-radius: 12px;
+    padding: 40px 20px;
+    color: #2563eb;
+    cursor: pointer;
+    font-size: 18px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  #drop-zone.dragover {
+    background-color: #e0e7ff;
+    border-color: #1e40af;
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+
+  button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 12px;
+    user-select: none;
+  }
+  button:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+  }
+  button:hover:not(:disabled) {
+    background: #1e40af;
+  }
+
+  #status {
+    margin-top: 18px;
+    font-size: 15px;
+    min-height: 22px;
+    color: #2563eb;
+    font-weight: 600;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    main {
+      margin: 20px 12px;
+      padding: 24px;
+    }
+  }
 </style>
 </head>
-
 <body>
 
-<header class="main-header">
-  <a href="../index.html" class="logo">🚀 DailyTools</a>
+<header>
+  <a href="#" class="logo">🚀 DailyTools</a>
 </header>
 
-<!-- TOOL -->
-<div class="tool-wrapper">
-  <h2>Word to PDF Converter</h2>
-  <p class="tool-desc">Convert Word documents (.doc, .docx) into high-quality PDF files instantly.</p>
+<main>
+  <h1>Word to PDF Converter</h1>
+  <p class="description">Drag & drop your Word file here or click to select. Supports .doc and .docx files.</p>
 
-  <!-- Drag & Drop Area -->
-  <div id="drop-area">Drag & Drop Word File Here or Click to Browse</div>
-  <input type="file" id="fileInput" accept=".doc,.docx">
-  <button id="convertBtn">Convert Word to PDF</button>
-  <p id="status"></p>
-</div>
+  <div id="drop-zone" tabindex="0" aria-label="File drop zone. Drag and drop Word document here or click to browse.">
+    Drop your Word file here or click to browse
+  </div>
+  <input type="file" id="fileInput" accept=".doc,.docx" aria-hidden="true" />
+  <button id="convertBtn" disabled>Convert Word to PDF</button>
+  <div id="status" role="alert" aria-live="polite"></div>
+</main>
 
-<!-- SEO + COMMENTS -->
-<section class="seo-section">
-  <h2>About Word to PDF Converter</h2>
-  <p>
-    DailyTools Word to PDF converter lets you transform Word documents into
-    professional PDF files directly in your browser. No uploads. No tracking.
-  </p>
-
-  <h3>Why use this tool?</h3>
-  <ul>
-    <li>✔ Free & unlimited</li>
-    <li>✔ Works on all devices</li>
-    <li>✔ No installation required</li>
-    <li>✔ Fast & secure</li>
-  </ul>
-
-  <!-- COMMENTS -->
-  <section id="comments">
-    <h2>User Reviews & Rating</h2>
-    <form id="commentForm">
-      <input type="text" id="username" placeholder="Your Name" required>
-      <textarea id="usercomment" rows="4" placeholder="Write your review..." required></textarea>
-      <select id="rating" required>
-        <option value="">Select Rating</option>
-        <option value="5">⭐⭐⭐⭐⭐ 5</option>
-        <option value="4">⭐⭐⭐⭐ 4</option>
-        <option value="3">⭐⭐⭐ 3</option>
-        <option value="2">⭐⭐ 2</option>
-        <option value="1">⭐ 1</option>
-      </select>
-      <button type="submit">Submit Review</button>
-    </form>
-    <div id="commentList"></div>
-  </section>
-</section>
-
-<footer class="site-footer">
-  © 2026 DailyTools • Word Tools
-</footer>
-
-<!-- LIBRARIES -->
+<!-- Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
-const dropArea = document.getElementById('drop-area');
-const fileInput = document.getElementById('fileInput');
-const convertBtn = document.getElementById('convertBtn');
-const status = document.getElementById('status');
-let selectedFile = null;
+  (function() {
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('fileInput');
+    const convertBtn = document.getElementById('convertBtn');
+    const status = document.getElementById('status');
 
-// Click to browse
-dropArea.addEventListener('click', () => fileInput.click());
+    let currentFile = null;
 
-// Drag & Drop
-['dragenter','dragover'].forEach(eventName => {
-  dropArea.addEventListener(eventName, e => {
-    e.preventDefault();
-    e.stopPropagation();
-    dropArea.classList.add('hover');
-  }, false);
-});
-['dragleave','drop'].forEach(eventName => {
-  dropArea.addEventListener(eventName, e => {
-    e.preventDefault();
-    e.stopPropagation();
-    dropArea.classList.remove('hover');
-  }, false);
-});
-dropArea.addEventListener('drop', e => {
-  selectedFile = e.dataTransfer.files[0];
-  fileInput.files = e.dataTransfer.files;
-  status.textContent = `Selected file: ${selectedFile.name}`;
-});
+    // Highlight drop zone on drag over
+    dropZone.addEventListener('dragover', e => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
 
-// File input change
-fileInput.addEventListener('change', e => {
-  selectedFile = e.target.files[0];
-  if(selectedFile) status.textContent = `Selected file: ${selectedFile.name}`;
-});
+    dropZone.addEventListener('dragleave', e => {
+      dropZone.classList.remove('dragover');
+    });
 
-// Convert to PDF
-convertBtn.addEventListener('click', () => {
-  if (!selectedFile) {
-    status.textContent = 'Please select a Word file first!';
-    return;
-  }
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
 
-  status.textContent = 'Converting... Please wait!';
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    mammoth.extractRawText({ arrayBuffer: e.target.result })
-      .then(result => {
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF();
-        const lines = pdf.splitTextToSize(result.value, 180);
-        pdf.text(lines, 10, 10);
-        pdf.save(selectedFile.name.replace(/\.(docx?|DOCX?)$/, '.pdf'));
-        status.textContent = 'Conversion done! ✅';
-      })
-      .catch(() => {
-        status.textContent = 'Error converting file.';
-      });
-  };
-  reader.readAsArrayBuffer(selectedFile);
-});
+      const files = e.dataTransfer.files;
+      if (files.length === 0) return;
 
-// COMMENTS
-let totalRating = 0, reviewCount = 0;
-document.getElementById('commentForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const name = username.value;
-  const text = usercomment.value;
-  const rate = parseInt(rating.value);
+      handleFile(files[0]);
+    });
 
-  const div = document.createElement('div');
-  div.className = 'comment';
-  div.innerHTML = `<strong>${name}</strong> (${ '⭐'.repeat(rate) })<br>${text}`;
-  commentList.prepend(div);
+    // Clicking drop zone triggers file input
+    dropZone.addEventListener('click', () => fileInput.click());
 
-  totalRating += rate;
-  reviewCount++;
-  e.target.reset();
-});
+    // Keyboard accessibility: Enter or Space triggers file input
+    dropZone.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        fileInput.click();
+      }
+    });
+
+    // File input change
+    fileInput.addEventListener('change', e => {
+      if (fileInput.files.length === 0) return;
+      handleFile(fileInput.files[0]);
+    });
+
+    // Handle file selection
+    function handleFile(file) {
+      if (!file.name.match(/\.(doc|docx)$/i)) {
+        status.textContent = 'Unsupported file type. Please select a .doc or .docx file.';
+        convertBtn.disabled = true;
+        return;
+      }
+      currentFile = file;
+      status.textContent = `Selected file: ${file.name}`;
+      convertBtn.disabled = false;
+    }
+
+    // Convert button clicked
+    convertBtn.addEventListener('click', () => {
+      if (!currentFile) {
+        status.textContent = 'Please select a Word file first.';
+        return;
+      }
+
+      convertBtn.disabled = true;
+      status.textContent = 'Converting... Please wait.';
+
+      const reader = new FileReader();
+      reader.onload = async function(e) {
+        try {
+          // Extract HTML content with Mammoth
+          const result = await mammoth.convertToHtml({ arrayBuffer: e.target.result });
+
+          // Use jsPDF to create PDF from HTML
+          const { jsPDF } = window.jspdf;
+          const pdf = new jsPDF({
+            unit: "pt",
+            format: "a4"
+          });
+
+          // Basic margins and max width for text area
+          const margin = 40;
+          const pageWidth = pdf.internal.pageSize.getWidth();
+          const pageHeight = pdf.internal.pageSize.getHeight();
+          const maxLineWidth = pageWidth - margin * 2;
+
+          // Create a hidden container for the HTML (offscreen)
+          const container = document.createElement('div');
+          container.style.position = 'absolute';
+          container.style.left = '-9999px';
+          container.style.top = '-9999px';
+          container.style.width = `${maxLineWidth}px`;
+          container.innerHTML = result.value;
+          document.body.appendChild(container);
+
+          // jsPDF html() requires a Promise and will paginate automatically
+          await pdf.html(container, {
+            x: margin,
+            y: margin,
+            width: maxLineWidth,
+            windowWidth: maxLineWidth,
+            callback: function (pdf) {
+              pdf.save(currentFile.name.replace(/\.(docx?|DOCX?)$/, '.pdf'));
+              status.textContent = 'Conversion complete! PDF downloaded.';
+              convertBtn.disabled = false;
+              container.remove();
+              currentFile = null;
+              fileInput.value = ''; // reset input
+            },
+            margin: [margin, margin, margin, margin],
+            autoPaging: 'text',
+            html2canvas: { scale: 0.8 }
+          });
+
+        } catch (err) {
+          console.error(err);
+          status.textContent = 'Error converting file. Please try again with a different document.';
+          convertBtn.disabled = false;
+        }
+      };
+      reader.readAsArrayBuffer(currentFile);
+    });
+  })();
 </script>
 
 </body>

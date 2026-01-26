@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="../style.css">
 
 <style>
-/* TOOL BOX */
+/* TOOL */
 .tool-wrapper{
   max-width:600px;
   margin:70px auto;
@@ -19,8 +19,6 @@
   box-shadow:0 10px 30px rgba(0,0,0,.08);
   text-align:center;
 }
-
-.tool-wrapper h1{margin-bottom:12px}
 
 .tool-desc{
   color:#666;
@@ -45,10 +43,7 @@ button{
 }
 button:hover{background:#4338ca}
 
-#output{
-  margin-top:20px;
-  white-space:pre-wrap;
-}
+#output{margin-top:20px;white-space:pre-wrap}
 
 /* SEO SECTION */
 .seo-section{
@@ -58,12 +53,23 @@ button:hover{background:#4338ca}
   padding:35px;
   border-radius:12px;
   box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+
+.seo-section h2{
   text-align:center;
+  margin-bottom:20px;
 }
 
 .seo-section p{
   color:#444;
   line-height:1.7;
+  text-align:left;
+}
+
+.seo-section ul{
+  text-align:left;
+  max-width:600px;
+  margin:20px 0;
 }
 
 /* COMMENTS */
@@ -92,13 +98,10 @@ button:hover{background:#4338ca}
   margin-top:10px;
 }
 
-.review-actions select{
-  width:auto;
-  padding:8px;
-}
-
+.review-actions select,
 .review-actions button{
-  padding:8px 18px;
+  width:120px;
+  padding:8px;
   font-size:13px;
 }
 
@@ -116,7 +119,6 @@ button:hover{background:#4338ca}
   <a href="../index.html" class="logo">🚀 DailyTools</a>
 </header>
 
-<!-- TOOL -->
 <main class="tool-wrapper">
   <h1>Language Converter</h1>
   <p class="tool-desc">Translate any paragraph into any language instantly.</p>
@@ -139,29 +141,28 @@ button:hover{background:#4338ca}
   <div id="output"></div>
 </main>
 
-<!-- SEO SECTION -->
+<!-- SEO -->
 <section class="seo-section">
   <h2>About Language Converter Tool</h2>
 
   <p>
-    DailyTools Language Converter is a fast, reliable, and user-friendly online
-    translation tool designed to convert text into multiple global languages
-    within seconds. This tool works directly in your browser, ensuring secure,
-    private, and hassle-free translations without any installation or signup.
+    DailyTools Language Converter is a fast and reliable online translation
+    solution designed to convert text into multiple global languages instantly.
+    The tool operates directly in your browser, ensuring privacy and security
+    without storing user data.
   </p>
 
   <p>
-    Whether you are a student, professional, or content creator, this language
-    translator helps you communicate effectively across different languages
-    with accurate and high-quality results.
+    This language translator is ideal for students, professionals, and content
+    creators who need accurate translations quickly and effortlessly.
   </p>
 
-  <ul style="text-align:left; max-width:600px; margin:20px auto">
-    <li>✔ Free and unlimited usage</li>
-    <li>✔ Supports Urdu and other global languages</li>
-    <li>✔ Fast and accurate translation engine</li>
+  <ul>
+    <li>✔ Free and unlimited translations</li>
+    <li>✔ Supports Urdu and global languages</li>
+    <li>✔ Fast and accurate results</li>
     <li>✔ Mobile and desktop friendly</li>
-    <li>✔ Privacy-focused – no data stored</li>
+    <li>✔ No signup required</li>
   </ul>
 </section>
 
@@ -196,14 +197,11 @@ button:hover{background:#4338ca}
 
 <script>
 async function translateText(){
-  const text=inputText.value.trim();
-  const lang=targetLang.value;
-  if(!text) return alert("Enter text");
-
+  if(!inputText.value.trim()) return alert("Enter text");
   output.innerText="Translating...";
   const res=await fetch(
     "https://api.mymemory.translated.net/get?q="+
-    encodeURIComponent(text)+"&langpair=en|"+lang
+    encodeURIComponent(inputText.value)+"&langpair=en|"+targetLang.value
   );
   const data=await res.json();
   output.innerText=data.responseData.translatedText;
@@ -211,14 +209,11 @@ async function translateText(){
 
 commentForm.onsubmit=e=>{
   e.preventDefault();
-  if(!rating.value) return alert("Select rating");
-
   commentList.innerHTML =
     `<div class="review">
       <strong>${username.value}</strong> (${rating.value}⭐)
       <p>${usercomment.value}</p>
     </div>` + commentList.innerHTML;
-
   e.target.reset();
 };
 </script>

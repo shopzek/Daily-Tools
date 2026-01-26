@@ -9,35 +9,86 @@
 <link rel="stylesheet" href="../style.css">
 
 <style>
+/* TOOL BOX */
 .tool-wrapper{
-  max-width:600px;margin:60px auto;background:#fff;
-  padding:32px;border-radius:14px;
+  max-width:600px;
+  margin:70px auto;
+  background:#fff;
+  padding:35px;
+  border-radius:14px;
   box-shadow:0 10px 30px rgba(0,0,0,.08);
+  text-align:center;
 }
+
+.tool-wrapper h1{
+  margin-bottom:12px;
+}
+
+.tool-desc{
+  color:#666;
+  font-size:15px;
+  margin-bottom:25px;
+}
+
+/* INPUTS */
 textarea,select,button{
-  width:100%;padding:12px;margin-top:10px;
-  border-radius:8px;border:1px solid #ccc;font-size:14px;
+  width:100%;
+  padding:12px;
+  margin-top:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:14px;
 }
-button{background:#4f46e5;color:#fff;border:none;cursor:pointer}
+
+button{
+  background:#4f46e5;
+  color:#fff;
+  border:none;
+  cursor:pointer;
+}
+
 button:hover{background:#4338ca}
-#output{margin-top:20px;white-space:pre-wrap}
 
+#output{
+  margin-top:20px;
+  white-space:pre-wrap;
+  font-size:15px;
+}
+
+/* SEO SECTION */
 .seo-section{
-  max-width:900px;margin:40px auto;background:#fff;
-  padding:30px;border-radius:14px;
-  box-shadow:0 4px 12px rgba(0,0,0,.08);
+  max-width:900px;
+  margin:60px auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
 }
 
+/* COMMENTS */
 #comments{
-  max-width:900px;margin:40px auto;background:#fff;
-  padding:20px;border-radius:12px;
-  box-shadow:0 4px 8px rgba(0,0,0,.1);
+  max-width:900px;
+  margin:40px auto;
+  background:#fff;
+  padding:25px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
 }
 
-.star-rating span{
-  font-size:22px;cursor:pointer;color:#ccc;
+.comment-box input,
+.comment-box textarea{
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+  border-radius:6px;
+  border:1px solid #ccc;
 }
-.star-rating span.active{color:#facc15}
+
+.review{
+  margin-bottom:15px;
+  border-bottom:1px solid #eee;
+  padding-bottom:10px;
+}
 </style>
 </head>
 
@@ -49,110 +100,108 @@ button:hover{background:#4338ca}
 
 <!-- TOOL -->
 <main class="tool-wrapper">
-<h1>Language Converter</h1>
-<p>Translate any paragraph into any language instantly.</p>
+  <h1>Language Converter</h1>
+  <p class="tool-desc">
+    Translate any paragraph into any language instantly.
+  </p>
 
-<textarea id="inputText" rows="6" placeholder="Enter text here..."></textarea>
+  <textarea id="inputText" rows="6" placeholder="Enter text here..."></textarea>
 
-<select id="targetLang">
-  <option value="en">English</option>
-  <option value="hi">Hindi</option>
-  <option value="ur">Urdu</option>
-  <option value="ar">Arabic</option>
-  <option value="fr">French</option>
-  <option value="es">Spanish</option>
-  <option value="de">German</option>
-  <option value="zh">Chinese</option>
-  <option value="ru">Russian</option>
-</select>
+  <select id="targetLang">
+    <option value="en">English</option>
+    <option value="hi">Hindi</option>
+    <option value="ur">Urdu</option>
+    <option value="ar">Arabic</option>
+    <option value="fr">French</option>
+    <option value="es">Spanish</option>
+    <option value="de">German</option>
+    <option value="zh">Chinese</option>
+    <option value="ru">Russian</option>
+  </select>
 
-<button onclick="translateText()">Translate</button>
+  <button onclick="translateText()">Translate</button>
 
-<div id="output"></div>
+  <div id="output"></div>
 </main>
 
 <!-- SEO SECTION -->
 <section class="seo-section">
-<h2>About Language Converter Tool</h2>
-<p>
-DailyTools Language Converter allows you to translate any paragraph into
-multiple languages instantly. This free online translator works directly
-in your browser and requires no signup or installation.
-</p>
+  <h2>About Language Converter</h2>
+  <p>
+    The DailyTools Language Converter allows you to translate any paragraph
+    into multiple languages instantly. It works on all devices and browsers
+    without registration.
+  </p>
 
-<h3>Why use our Language Converter?</h3>
-<ul>
-<li>✔ 100% free and unlimited translations</li>
-<li>✔ Supports multiple global languages</li>
-<li>✔ Fast and accurate paragraph translation</li>
-<li>✔ No registration required</li>
-<li>✔ Works on mobile, tablet, and desktop</li>
-<li>✔ Privacy-friendly – no data stored</li>
-</ul>
-
-<h3>How it works</h3>
-<p>
-Simply enter your text, select the target language, and click translate.
-Your translated paragraph will appear instantly below the button.
-</p>
+  <h3>Why use DailyTools?</h3>
+  <ul>
+    <li>✔ Free and unlimited translations</li>
+    <li>✔ Supports global languages including Urdu</li>
+    <li>✔ Fast and accurate results</li>
+    <li>✔ No signup required</li>
+    <li>✔ Mobile-friendly interface</li>
+    <li>✔ Privacy-focused – no data stored</li>
+  </ul>
 </section>
 
+<!-- COMMENTS -->
 <section id="comments">
-  <h2>User Reviews & Comments</h2>
-  
-  <form id="commentForm">
+  <h2>User Reviews & Ratings</h2>
+
+  <form id="commentForm" class="comment-box">
     <input type="text" id="username" placeholder="Your Name" required>
-    <textarea id="usercomment" rows="4" placeholder="Write your review or comment..." required></textarea>
-    <label>Rating:
-      <select id="rating" required>
-        <option value="">Select</option>
-        <option value="5">⭐⭐⭐⭐⭐ 5</option>
-        <option value="4">⭐⭐⭐⭐ 4</option>
-        <option value="3">⭐⭐⭐ 3</option>
-        <option value="2">⭐⭐ 2</option>
-        <option value="1">⭐ 1</option>
-      </select>
-    </label>
-    <button type="submit">Submit</button>
+    <textarea id="usercomment" rows="4" placeholder="Write your review..." required></textarea>
+
+    <select id="rating" required>
+      <option value="">Select Rating</option>
+      <option value="5">⭐⭐⭐⭐⭐ 5</option>
+      <option value="4">⭐⭐⭐⭐ 4</option>
+      <option value="3">⭐⭐⭐ 3</option>
+      <option value="2">⭐⭐ 2</option>
+      <option value="1">⭐ 1</option>
+    </select>
+
+    <button type="submit">Submit Review</button>
   </form>
 
   <div id="commentList"></div>
 </section>
 
 <footer class="site-footer">
-<p>© 2026 DailyTools • Free Language Converter</p>
+  <p>© 2026 DailyTools • Language Tools</p>
 </footer>
 
 <script>
 async function translateText(){
-  const text=document.getElementById("inputText").value.trim();
-  const lang=document.getElementById("targetLang").value;
+  const text=inputText.value.trim();
+  const lang=targetLang.value;
   if(!text) return alert("Enter text");
 
-  document.getElementById("output").innerText="Translating...";
+  output.innerText="Translating...";
 
   const res=await fetch(
     "https://api.mymemory.translated.net/get?q="+
     encodeURIComponent(text)+"&langpair=en|"+lang
   );
   const data=await res.json();
-  document.getElementById("output").innerText=data.responseData.translatedText;
+  output.innerText=data.responseData.translatedText;
 }
 
 /* COMMENTS */
-document.getElementById("commentForm").onsubmit=e=>{
+commentForm.onsubmit=e=>{
   e.preventDefault();
   const name=username.value;
   const comment=usercomment.value;
   const rate=rating.value;
 
-  if(!rate) return alert("Please select a rating");
+  if(!rate) return alert("Select rating");
 
-  commentList.innerHTML+=`
-  <div style="margin-bottom:15px;border-bottom:1px solid #eee;padding-bottom:10px">
-    <strong>${name}</strong> – ${"★".repeat(rate)}
-    <p>${comment}</p>
-  </div>`;
+  commentList.innerHTML=
+    `<div class="review">
+      <strong>${name}</strong> (${rate}⭐)
+      <p>${comment}</p>
+    </div>` + commentList.innerHTML;
+
   e.target.reset();
 };
 </script>

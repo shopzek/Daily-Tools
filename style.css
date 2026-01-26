@@ -461,13 +461,7 @@ button:hover,
     margin: 20px 12px;
     padding: 24px;
     border-radius: 16px;
-  }
-
-  .info-card {
-    margin: 30px 12px;
-    padding: 24px;
-    border-radius: 16px;
-  }
+}
 
   textarea {
     min-height: 140px;
@@ -488,4 +482,13 @@ button:hover,
     padding: 14px;
     font-size: 16px;
   }
+}
+.info-card {
+  max-width: 760px;
+  margin: 60px auto;
+  background: #ffffff;
+  padding: 42px;
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.08);
+  text-align: center;
 }

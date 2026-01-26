@@ -2,82 +2,233 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PDF to Word Converter – Free Online Tool | DailyTools</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Convert PDF files to Word documents online. Free PDF to DOCX converter. Fast, secure and easy to use.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="../style.css">
+<title>PDF to Word Converter – Free Online Tool | DailyTools</title>
+<meta name="description" content="Convert PDF files to editable Word documents online for free. Fast, secure PDF to DOCX converter.">
 
 <style>
-.tool-wrapper{max-width:520px;margin:60px auto;background:#fff;padding:32px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.08);text-align:center}
-.tool-desc{color:#666;font-size:15px;margin-bottom:20px}
-input,button{width:100%;padding:12px;margin-top:12px;border-radius:8px;border:1px solid #ccc}
-button{background:#4f46e5;color:#fff;border:none;cursor:pointer}
-button:hover{background:#4338ca}
-#result{margin-top:20px;font-size:14px}
-.seo-section{max-width:900px;margin:60px auto;background:#fff;padding:30px;border-radius:12px}
-.star-rating span{font-size:22px;cursor:pointer}
-.comment-box{margin-top:20px}
+/* ================= BODY ================= */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f3f4f6;
+  color: #111827;
+}
+
+/* ================= HEADER ================= */
+.main-header {
+  background: #ffffff;
+  padding: 16px 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.logo {
+  color: #2563eb;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ================= TOOL WRAPPER ================= */
+.tool-wrapper {
+  max-width: 750px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0,0,0,.08);
+  text-align: center;
+}
+.tool-wrapper h2 {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+.tool-desc {
+  color: #6b7280;
+  font-size: 15px;
+  margin-bottom: 25px;
+}
+
+/* ================= INPUT & BUTTON ================= */
+input[type="file"] {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  margin-bottom: 16px;
+}
+button {
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+button:hover {
+  background: #1e40af;
+}
+#status {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+/* ================= SEO SECTION ================= */
+.seo-section {
+  max-width: 900px;
+  margin: 60px auto 80px;
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+.seo-section h2 {
+  text-align: center;
+  margin-bottom: 22px;
+}
+.seo-section h3 {
+  margin-top: 28px;
+  margin-bottom: 12px;
+}
+.seo-section p,
+.seo-section li {
+  color: #4b5563;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.seo-section ul {
+  padding-left: 18px;
+}
+
+/* ================= COMMENTS ================= */
+#comments {
+  margin-top: 40px;
+  text-align: center;
+}
+#comments input,
+#comments textarea {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 18px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+}
+#comments select {
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  margin-bottom: 18px;
+}
+.comment {
+  background: #f9fafb;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-align: left;
+}
+.comment strong {
+  color: #2563eb;
+}
+
+/* ================= FOOTER ================= */
+.site-footer {
+  text-align: center;
+  padding: 20px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:640px){
+  .tool-wrapper, .seo-section {
+    margin: 20px 12px;
+    padding: 24px;
+  }
+}
 </style>
 </head>
 
 <body>
 
 <header class="main-header">
-<a href="../index.html" class="logo">🚀 DailyTools</a>
+  <a href="../index.html" class="logo">🚀 DailyTools</a>
 </header>
 
-<main class="tool-wrapper">
-<h1>PDF to Word Converter</h1>
-<p class="tool-desc">Convert PDF documents into editable Word files.</p>
+<!-- TOOL -->
+<div class="tool-wrapper">
+  <h2>PDF to Word Converter</h2>
+  <p class="tool-desc">Convert PDF files into editable Word documents easily.</p>
 
-<input type="file" accept="application/pdf">
-<button onclick="alert('PDF to Word conversion requires a server API. This demo UI is ready.')">
-Convert PDF to Word
-</button>
+  <input type="file" accept="application/pdf">
+  <button onclick="alert('PDF to Word conversion requires a backend API. UI is ready.')">
+    Convert PDF to Word
+  </button>
 
-<div id="result">
-<p>⚠️ This tool UI is ready. Backend API can be connected later.</p>
+  <p id="status">⚠️ Backend API can be connected later.</p>
 </div>
-</main>
 
-<!-- SEO SECTION -->
+<!-- SEO + REVIEWS -->
 <section class="seo-section">
-<h2>About PDF to Word Converter</h2>
-<p>This PDF to Word converter helps you transform PDF files into editable Word documents. The tool is designed for speed, privacy, and ease of use.</p>
+  <h2>About PDF to Word Converter</h2>
+  <p>
+    DailyTools PDF to Word converter allows you to transform PDF documents into
+    editable Word files quickly and securely. No installation required.
+  </p>
 
-<h3>Why use DailyTools PDF to Word?</h3>
-<ul>
-<li>✔ Free and easy to use</li>
-<li>✔ Works on all devices</li>
-<li>✔ No installation required</li>
-<li>✔ Secure file handling</li>
-</ul>
-<section id="comments" style="max-width:900px; margin:40px auto; background:white; padding:20px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-  <h2 style="color:#2563eb; margin-bottom:15px;">User Reviews & Comments</h2>
-  
-  <form id="commentForm">
-    <input type="text" id="username" placeholder="Your Name" required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
-    <textarea id="usercomment" rows="4" placeholder="Write your review or comment..." required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;"></textarea>
-    <label style="display:block; margin-bottom:10px;">Rating: 
-      <select id="rating" required style="padding:5px; border-radius:5px;">
-        <option value="">Select</option>
+  <h3>Why use this tool?</h3>
+  <ul>
+    <li>✔ Free & unlimited usage</li>
+    <li>✔ Works on all devices</li>
+    <li>✔ No sign-up required</li>
+    <li>✔ Secure & privacy-friendly</li>
+  </ul>
+
+  <!-- COMMENTS -->
+  <section id="comments">
+    <h2>User Reviews & Ratings</h2>
+
+    <form id="commentForm">
+      <input type="text" id="username" placeholder="Your Name" required>
+      <textarea id="usercomment" rows="4" placeholder="Write your review..." required></textarea>
+      <select id="rating" required>
+        <option value="">Select Rating</option>
         <option value="5">⭐⭐⭐⭐⭐ 5</option>
         <option value="4">⭐⭐⭐⭐ 4</option>
         <option value="3">⭐⭐⭐ 3</option>
         <option value="2">⭐⭐ 2</option>
         <option value="1">⭐ 1</option>
       </select>
-    </label>
-    <button type="submit" style="background:#2563eb; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">Submit</button>
-  </form>
+      <button type="submit">Submit Review</button>
+    </form>
 
-  <div id="commentList" style="margin-top:20px;"></div>
+    <div id="commentList"></div>
+  </section>
 </section>
 
 <footer class="site-footer">
-<p>© 2026 DailyTools • PDF Tools</p>
+  © 2026 DailyTools • PDF Tools
 </footer>
+
+<script>
+document.getElementById('commentForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const name = username.value;
+  const text = usercomment.value;
+  const rate = rating.value;
+
+  const div = document.createElement('div');
+  div.className = 'comment';
+  div.innerHTML = `<strong>${name}</strong> (${ '⭐'.repeat(rate) })<br>${text}`;
+
+  commentList.prepend(div);
+  this.reset();
+});
+</script>
 
 </body>
 </html>

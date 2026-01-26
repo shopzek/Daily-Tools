@@ -136,29 +136,28 @@
     Paste or type your text into the editor and the tool automatically updates
     all counts in real time. No buttons required — fast and accurate.
   </p>
-</section>
+<!-- COMMENTS -->
+  <section id="comments">
+    <h2>User Reviews & Rating</h2>
 
-<section id="comments" style="max-width:900px; margin:40px auto; background:white; padding:20px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-  <h2 style="color:#2563eb; margin-bottom:15px;">User Reviews & Comments</h2>
-  
-  <form id="commentForm">
-    <input type="text" id="username" placeholder="Your Name" required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
-    <textarea id="usercomment" rows="4" placeholder="Write your review or comment..." required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;"></textarea>
-    <label style="display:block; margin-bottom:10px;">Rating: 
-      <select id="rating" required style="padding:5px; border-radius:5px;">
-        <option value="">Select</option>
+    <form id="commentForm">
+      <input type="text" id="username" placeholder="Your Name" required>
+      <textarea id="usercomment" rows="4" placeholder="Write your review..." required></textarea>
+
+      <select id="rating" required>
+        <option value="">Select Rating</option>
         <option value="5">⭐⭐⭐⭐⭐ 5</option>
         <option value="4">⭐⭐⭐⭐ 4</option>
         <option value="3">⭐⭐⭐ 3</option>
         <option value="2">⭐⭐ 2</option>
         <option value="1">⭐ 1</option>
       </select>
-    </label>
-    <button type="submit" style="background:#2563eb; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">Submit</button>
-  </form>
 
-  <div id="commentList" style="margin-top:20px;"></div>
-</section>
+      <button type="submit">Submit Review</button>
+    </form>
+
+    <div id="commentList"></div>
+  </section>
 
   
 <footer class="site-footer">

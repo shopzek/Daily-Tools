@@ -406,47 +406,52 @@ hr {
   z-index:10;
 }
 
+body {
+  background: #f3f4f6;
+}
+
+/* Shared card style (same as PDF page) */
 .info-card {
   max-width: 760px;
   margin: 60px auto;
-  background: #fff;
-  padding: 36px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.08);
 }
 
-.info-card h2 {
-  margin-bottom: 12px;
-}
-
+/* Headings */
+.info-card h2,
 .info-card h3 {
-  margin-top: 24px;
+  color: #111827;
 }
 
-#comments {
-  margin-top: 32px;
+/* Paragraphs */
+.info-card p,
+.info-card li {
+  color: #6b7280;
+  font-size: 15px;
+  line-height: 1.7;
 }
 
+/* Buttons */
+button,
+#comments button {
+  background: #2563eb;
+  color: #fff;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+button:hover,
+#comments button:hover {
+  background: #1e40af;
+}
+
+/* Inputs */
 #comments input,
 #comments textarea,
 #comments select {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 14px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-}
-
-#comments button {
-  width: 100%;
-  padding: 14px;
-  border-radius: 10px;
-  background: #2563eb;
-  color: #fff;
-  font-size: 16px;
-}
-
-#comments button:hover {
-  background: #1e40af;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
 }

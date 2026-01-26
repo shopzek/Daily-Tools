@@ -8,6 +8,7 @@
 <meta name="description" content="Convert Word documents (.doc, .docx) to PDF online for free. Fast, secure Word to PDF converter.">
 
 <style>
+/* BODY */
 body{
   margin:0;
   font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
@@ -20,13 +21,11 @@ body{
   background:#ffffff;
   padding:16px 30px;
 }
-
 .logo{
   color:#2563eb;
   text-decoration:none;
   font-size:20px;
   font-weight:600;
-
 }
 
 /* TOOL CARD */
@@ -36,116 +35,136 @@ body{
   background:#fff;
   padding:32px;
   border-radius:16px;
-  box-shadow:0 15px 40px rgba(0,0,0));
+  box-shadow:0 15px 40px rgba(0,0,0,.08);
   text-align:center;
 }
-
 .tool-wrapper h2{
-  margin-bottom:8px;
+  margin-bottom:12px;
   font-size:26px;
 }
-
 .tool-desc{
   color:#6b7280;
   font-size:15px;
   margin-bottom:25px;
 }
 
+/* FILE INPUT */
 input[type=file]{
   width:100%;
   padding:14px;
   border-radius:10px;
-  border:1px  #000a0a;
+  border:1px solid #000a0a;
   background:#fcfcfc;
 }
 
+/* BUTTON */
 button{
-  width:100%;
-  margin-top:18px;
-  padding:14px;
-  border-radius:10px;
-  border:none;
+  display:inline-block;
+  padding:14px 28px;
+  border-radius:12px;
   font-size:16px;
-  background: #2563eb;
+  font-weight:500;
+  background:#2563eb;
   color:white;
   cursor:pointer;
+  border:none;
 }
-
 button:hover{
-  background:#2563eb;
+  background:#1e40af;
 }
 
+/* STATUS */
 #status{
   margin-top:15px;
   font-size:14px;
   color:#00030a;
 }
 
-/* RATING */
-#averageRating{
-  margin:18px 0 10px;
-  font-weight:500;
-  color:#dc2626;
-}
-
-.star-rating{
-  display:flex;
-  justify-content:center;
-  gap:6px;
-  font-size:26px;
-  cursor:pointer;
-}
-
-.star-rating span{
-  color:#d1d5db;
-}
-
-/* SEO */
+/* SEO CARD */
 .seo-section{
   max-width:900px;
-  margin:80px auto;
+  margin:60px auto 80px auto;
   background:white;
   padding:40px;
   border-radius:16px;
   box-shadow:0 10px 30px rgba(0,0,0,.08);
 }
 
+/* HEADINGS */
 .seo-section h2{
-  margin-bottom:10px;
+  text-align:center;
+  margin-bottom:22px;
+  color:#111827;
+}
+.seo-section h3{
+  color:#111827;
+  margin-top:28px;
+  margin-bottom:12px;
 }
 
-.seo-section p{
+/* PARAGRAPH & LIST */
+.seo-section p,
+.seo-section li{
   color:#4b5563;
+  font-size:15px;
   line-height:1.7;
 }
-
 .seo-section ul{
   padding-left:18px;
 }
 
-/* COMMENTS */
+/* COMMENTS FORM */
 #comments{
   margin-top:40px;
+  text-align:center; /* center rating + button */
 }
-
 #comments input,
-#comments textarea,
-#comments select{
+#comments textarea{
   width:100%;
-  padding:10px;
-  margin-bottom:10px;
-  border-radius:8px;
+  padding:14px;
+  margin-bottom:18px;
+  border-radius:12px;
   border:1px solid #d1d5db;
 }
 
+/* 👇 Rating dropdown same size as submit button */
+#comments select{
+  display:inline-block;
+  padding:14px 28px;
+  font-size:16px;
+  border-radius:12px;
+  border:1px solid #d1d5db;
+  background-color:#fff;
+  cursor:pointer;
+  appearance:none;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  margin-bottom:18px;
+  text-align:left;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236b7280'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z' clip-rule='evenodd'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 16px center;
+  background-size:18px;
+}
+
+/* Submit button same width as rating */
+#comments button{
+  display:inline-block;
+  padding:14px 28px;
+  font-size:16px;
+  border-radius:12px;
+}
+
+/* Comment boxes */
 .comment{
   background:#f9fafb;
   padding:12px;
   border-radius:8px;
   margin-bottom:10px;
   font-size:14px;
+  text-align:left;
 }
-
 .comment strong{
   color:#dc2626;
 }
@@ -156,6 +175,27 @@ button:hover{
   padding:20px;
   color:#6b7280;
   font-size:14px;
+}
+
+/* MOBILE RESPONSIVE */
+@media(max-width:640px){
+  .tool-wrapper{
+    margin:20px 12px;
+    padding:24px;
+    border-radius:16px;
+  }
+  .seo-section{
+    margin:30px 12px;
+    padding:24px;
+  }
+  textarea{
+    min-height:140px;
+    font-size:14px;
+  }
+  button, #comments select{
+    padding:14px 20px;
+    font-size:16px;
+  }
 }
 </style>
 </head>
@@ -176,10 +216,9 @@ button:hover{
   <input type="file" id="fileInput" accept=".doc,.docx">
   <button id="convertBtn">Convert Word to PDF</button>
   <p id="status"></p>
-
 </div>
 
-<!-- SEO -->
+<!-- SEO + COMMENTS -->
 <section class="seo-section">
   <h2>About Word to PDF Converter</h2>
   <p>
@@ -276,9 +315,7 @@ document.getElementById('commentForm').addEventListener('submit', e => {
 
   totalRating += rate;
   reviewCount++;
-  averageRating.textContent =
-    `Average Rating: ⭐ ${(totalRating/reviewCount).toFixed(1)} (${reviewCount} reviews)`;
-
+  // Optional: show average rating if you want
   e.target.reset();
 });
 </script>

@@ -8,156 +8,161 @@
 <meta name="description" content="Convert Word documents (.doc, .docx) to PDF online for free. Fast, secure Word to PDF converter.">
 
 <style>
-/* BODY */
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
-  background:#f3f4f6;
-  color:#111827;
+/* ================= BODY ================= */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f3f4f6;
+  color: #111827;
 }
 
-/* HEADER */
-.main-header{
-  background:#ffffff;
-  padding:16px 30px;
+/* ================= HEADER ================= */
+.main-header {
+  background: #ffffff;
+  padding: 16px 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
-.logo{
-  color:#2563eb;
-  text-decoration:none;
-  font-size:20px;
-  font-weight:600;
-}
-
-/* TOOL CARD */
-.tool-wrapper{
-  max-width:750px;
-  margin:40px auto;
-  background:#fff;
-  padding:28px;
-  border-radius:16px;
-  box-shadow:0 15px 40px rgba(0,0,0,.08);
-  text-align:center;
-}
-.tool-wrapper h2{
-  margin-bottom:12px;
-  font-size:26px;
-}
-.tool-desc{
-  color:#6b7280;
-  font-size:15px;
-  margin-bottom:25px;
+.logo {
+  color: #2563eb;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 600;
 }
 
-/* FILE INPUT */
-input[type=file]{
-  width:100%;
-  padding:14px;
-  border-radius:10px;
-  border:1px solid #000a0a;
-  background:#fcfcfc;
+/* ================= TOOL WRAPPER ================= */
+.tool-wrapper {
+  max-width: 750px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0,0,0,.08);
+  text-align: center;
+  transition: transform 0.25s ease;
+}
+.tool-wrapper:hover {
+  transform: translateY(-3px);
+}
+.tool-wrapper h2 {
+  margin-bottom: 12px;
+  font-size: 28px;
+  color: #111827;
+}
+.tool-desc {
+  color: #6b7280;
+  font-size: 15px;
+  margin-bottom: 25px;
 }
 
-/* BUTTON */
-button{
-  display:inline-block;
-  padding:14px 28px;
-  border-radius:12px;
-  font-size:16px;
-  font-weight:500;
-  background:#2563eb;
-  color:white;
-  cursor:pointer;
-  border:none;
+/* ================= FILE INPUT & DRAG & DROP ================= */
+#drop-area {
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 40px 20px;
+  background: #f9fafb;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  margin-bottom: 18px;
 }
-button:hover{
-  background:#1e40af;
+#drop-area.hover {
+  background: #e0f2fe;
+  border-color: #2563eb;
 }
-
-/* STATUS */
-#status{
-  margin-top:15px;
-  font-size:14px;
-  color:#00030a;
+#fileInput {
+  display: none;
 }
 
-/* SEO CARD */
-.seo-section{
-  max-width:900px;
-  margin:60px auto 80px auto;
-  background:white;
-  padding:40px;
-  border-radius:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
+/* ================= BUTTON ================= */
+button {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s ease;
+}
+button:hover {
+  background: #1e40af;
 }
 
-/* HEADINGS */
-.seo-section h2{
-  text-align:center;
-  margin-bottom:22px;
-  color:#111827;
-}
-.seo-section h3{
-  color:#111827;
-  margin-top:28px;
-  margin-bottom:12px;
+/* ================= STATUS ================= */
+#status {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #111827;
 }
 
-/* PARAGRAPH & LIST */
+/* ================= SEO SECTION ================= */
+.seo-section {
+  max-width: 900px;
+  margin: 60px auto 80px auto;
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+.seo-section h2 {
+  text-align: center;
+  margin-bottom: 22px;
+  color: #111827;
+}
+.seo-section h3 {
+  color: #111827;
+  margin-top: 28px;
+  margin-bottom: 12px;
+}
 .seo-section p,
-.seo-section li{
-  color:#4b5563;
-  font-size:15px;
-  line-height:1.7;
+.seo-section li {
+  color: #4b5563;
+  font-size: 15px;
+  line-height: 1.7;
 }
-.seo-section ul{
-  padding-left:18px;
+.seo-section ul {
+  padding-left: 18px;
 }
 
-/* COMMENTS FORM */
-#comments{
-  margin-top:40px;
-  text-align:center; /* center rating + button */
+/* ================= COMMENTS ================= */
+#comments {
+  margin-top: 40px;
+  text-align: center;
 }
 #comments input,
-#comments textarea{
-  width:100%;
-  padding:14px;
-  margin-bottom:18px;
-  border-radius:12px;
-  border:1px solid #d1d5db;
+#comments textarea {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 18px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
 }
-
-/* 👇 Rating dropdown same size as submit button */
-#comments select{
-  display:inline-block;
-  padding:14px 28px;
-  font-size:16px;
-  border-radius:12px;
-  border:1px solid #d1d5db;
-  background-color:#fff;
-  cursor:pointer;
-  appearance:none;
-  -webkit-appearance:none;
-  -moz-appearance:none;
-  margin-bottom:18px;
-  text-align:left;
-
+#comments select {
+  display: inline-block;
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background-color: #fff;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  margin-bottom: 18px;
+  text-align: left;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236b7280'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z' clip-rule='evenodd'/%3E%3C/svg%3E");
   background-repeat:no-repeat;
   background-position:right 16px center;
   background-size:18px;
 }
-
-/* Submit button same width as rating */
-#comments button{
-  display:inline-block;
-  padding:14px 28px;
-  font-size:16px;
-  border-radius:12px;
+#comments button {
+  display: inline-block;
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: 12px;
 }
-
-/* Comment boxes */
-.comment{
+.comment {
   background:#f9fafb;
   padding:12px;
   border-radius:8px;
@@ -165,24 +170,23 @@ button:hover{
   font-size:14px;
   text-align:left;
 }
-.comment strong{
-  color:#dc2626;
+.comment strong {
+  color:#2563eb;
 }
 
-/* FOOTER */
-.site-footer{
+/* ================= FOOTER ================= */
+.site-footer {
   text-align:center;
   padding:20px;
   color:#6b7280;
   font-size:14px;
 }
 
-/* MOBILE RESPONSIVE */
+/* ================= RESPONSIVE ================= */
 @media(max-width:640px){
   .tool-wrapper{
     margin:20px 12px;
     padding:24px;
-    border-radius:16px;
   }
   .seo-section{
     margin:30px 12px;
@@ -209,10 +213,10 @@ button:hover{
 <!-- TOOL -->
 <div class="tool-wrapper">
   <h2>Word to PDF Converter</h2>
-  <p class="tool-desc">
-    Convert Word documents (.doc, .docx) into high-quality PDF files instantly.
-  </p>
+  <p class="tool-desc">Convert Word documents (.doc, .docx) into high-quality PDF files instantly.</p>
 
+  <!-- Drag & Drop Area -->
+  <div id="drop-area">Drag & Drop Word File Here or Click to Browse</div>
   <input type="file" id="fileInput" accept=".doc,.docx">
   <button id="convertBtn">Convert Word to PDF</button>
   <p id="status"></p>
@@ -237,11 +241,9 @@ button:hover{
   <!-- COMMENTS -->
   <section id="comments">
     <h2>User Reviews & Rating</h2>
-
     <form id="commentForm">
       <input type="text" id="username" placeholder="Your Name" required>
       <textarea id="usercomment" rows="4" placeholder="Write your review..." required></textarea>
-
       <select id="rating" required>
         <option value="">Select Rating</option>
         <option value="5">⭐⭐⭐⭐⭐ 5</option>
@@ -250,10 +252,8 @@ button:hover{
         <option value="2">⭐⭐ 2</option>
         <option value="1">⭐ 1</option>
       </select>
-
       <button type="submit">Submit Review</button>
     </form>
-
     <div id="commentList"></div>
   </section>
 </section>
@@ -266,21 +266,52 @@ button:hover{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<!-- FUNCTIONALITY (UNCHANGED) -->
 <script>
+const dropArea = document.getElementById('drop-area');
 const fileInput = document.getElementById('fileInput');
 const convertBtn = document.getElementById('convertBtn');
 const status = document.getElementById('status');
+let selectedFile = null;
 
+// Click to browse
+dropArea.addEventListener('click', () => fileInput.click());
+
+// Drag & Drop
+['dragenter','dragover'].forEach(eventName => {
+  dropArea.addEventListener(eventName, e => {
+    e.preventDefault();
+    e.stopPropagation();
+    dropArea.classList.add('hover');
+  }, false);
+});
+['dragleave','drop'].forEach(eventName => {
+  dropArea.addEventListener(eventName, e => {
+    e.preventDefault();
+    e.stopPropagation();
+    dropArea.classList.remove('hover');
+  }, false);
+});
+dropArea.addEventListener('drop', e => {
+  selectedFile = e.dataTransfer.files[0];
+  fileInput.files = e.dataTransfer.files;
+  status.textContent = `Selected file: ${selectedFile.name}`;
+});
+
+// File input change
+fileInput.addEventListener('change', e => {
+  selectedFile = e.target.files[0];
+  if(selectedFile) status.textContent = `Selected file: ${selectedFile.name}`;
+});
+
+// Convert to PDF
 convertBtn.addEventListener('click', () => {
-  if (!fileInput.files.length) {
+  if (!selectedFile) {
     status.textContent = 'Please select a Word file first!';
     return;
   }
 
-  const file = fileInput.files[0];
+  status.textContent = 'Converting... Please wait!';
   const reader = new FileReader();
-
   reader.onload = function(e) {
     mammoth.extractRawText({ arrayBuffer: e.target.result })
       .then(result => {
@@ -288,20 +319,18 @@ convertBtn.addEventListener('click', () => {
         const pdf = new jsPDF();
         const lines = pdf.splitTextToSize(result.value, 180);
         pdf.text(lines, 10, 10);
-        pdf.save(file.name.replace(/\.(docx?|DOCX?)$/, '.pdf'));
-        status.textContent = '';
+        pdf.save(selectedFile.name.replace(/\.(docx?|DOCX?)$/, '.pdf'));
+        status.textContent = 'Conversion done! ✅';
       })
       .catch(() => {
         status.textContent = 'Error converting file.';
       });
   };
-
-  reader.readAsArrayBuffer(file);
+  reader.readAsArrayBuffer(selectedFile);
 });
 
 // COMMENTS
 let totalRating = 0, reviewCount = 0;
-
 document.getElementById('commentForm').addEventListener('submit', e => {
   e.preventDefault();
   const name = username.value;
@@ -315,7 +344,6 @@ document.getElementById('commentForm').addEventListener('submit', e => {
 
   totalRating += rate;
   reviewCount++;
-  // Optional: show average rating if you want
   e.target.reset();
 });
 </script>

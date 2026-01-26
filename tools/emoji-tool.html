@@ -4,45 +4,62 @@
 <meta charset="UTF-8">
 <title>Emoji Picker & Copier – Free Online Tool | DailyTools</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Free Emoji Picker & Copier. Search emojis, use categories, skin tone selector, favorites, recent emojis, and copy instantly. Fast & private.">
-<meta name="keywords" content="emoji picker, emoji copier, copy emoji, emoji search, free emoji tool, unicode emoji">
+<meta name="description" content="Free Emoji Picker & Copier. Search emojis & country flags by name, copy instantly, rate & comment. Fast & private.">
 
 <link rel="stylesheet" href="../style.css">
 
-<!-- SEO SCHEMA -->
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"WebApplication",
-  "name":"Emoji Picker & Copier",
-  "applicationCategory":"UtilityApplication",
-  "operatingSystem":"All",
-  "description":"Search, copy, favorite and analyze emojis instantly. Free & private emoji picker.",
-  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
-}
-</script>
-
 <style>
+/* ===== CORE UI ===== */
 .tool-wrapper{max-width:520px;margin:60px auto;background:#fff;padding:32px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.08);text-align:center}
 .tool-desc{color:#666;font-size:15px;margin-bottom:18px}
 #emojiSearch{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;font-size:15px;margin-bottom:14px}
+
 .tabs,.cats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
 .tab,.cat{padding:6px 12px;border-radius:20px;background:#f3f4f6;font-size:13px;cursor:pointer}
 .tab.active,.cat.active{background:#4f46e5;color:#fff}
-.controls{display:flex;gap:8px;justify-content:center;margin-bottom:12px;font-size:13px}
-select{padding:4px 6px;border-radius:6px}
-.emoji-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(48px,1fr));gap:12px;max-height:600px;overflow-y:auto}
-.emoji{font-size:28px;padding:10px;border-radius:8px;background:#f3f4f6;cursor:pointer;transition:.2s;position:relative}
+
+.emoji-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(48px,1fr));
+  gap:12px;
+  max-height:600px;
+  overflow-y:auto;
+}
+
+.emoji{
+  font-size:clamp(22px, 6vw, 30px); /* 📱 auto scale */
+  padding:10px;
+  border-radius:8px;
+  background:#f3f4f6;
+  cursor:pointer;
+  transition:.2s;
+  position:relative;
+  font-family:
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Noto Color Emoji",
+    system-ui;
+}
+
 .emoji:hover{background:#4f46e5;color:#fff}
-.star{position:absolute;top:4px;right:6px;font-size:12px;color:gold;display:none}
-.emoji.fav .star{display:block}
+
 .toast{margin-top:10px;font-size:13px;color:green;display:none}
-.stats{margin-top:14px;font-size:13px;color:#555}
-.comment-section,.rating-section{margin-top:20px;text-align:left;font-size:14px}
-.comment-section textarea{width:100%;padding:8px;margin-top:6px;border-radius:6px;border:1px solid #ccc}
-.comment-section button{margin-top:6px;padding:6px 12px;border-radius:6px;background:#4f46e5;color:#fff;border:none;cursor:pointer}
-.star-rating span{cursor:pointer;font-size:24px;color:#ccc}
-.star-rating span.active{color:gold}
+
+/* Tooltip */
+.emoji[data-name]:hover::after{
+  content:attr(data-name);
+  position:absolute;
+  bottom:-26px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#000;
+  color:#fff;
+  font-size:11px;
+  padding:3px 6px;
+  border-radius:4px;
+  white-space:nowrap;
+  z-index:10;
+}
 </style>
 </head>
 
@@ -54,163 +71,121 @@ select{padding:4px 6px;border-radius:6px}
 
 <main class="tool-wrapper">
 <h1>Emoji Picker & Copier</h1>
-<p class="tool-desc">Search, filter, copy & favorite emojis instantly. No signup. Fully private.</p>
+<p class="tool-desc">Search emojis & country flags by name. Click to copy. 100% private.</p>
 
-<input type="text" id="emojiSearch" placeholder="🔍 Search emoji (fire, happy, food…)">
+<input type="text" id="emojiSearch" placeholder="🔍 Search emoji or country (india, usa, pakistan…)">
 
 <div class="tabs">
   <div class="tab active" data-tab="all">All</div>
   <div class="tab" data-tab="recent">🕘 Recent</div>
-  <div class="tab" data-tab="fav">⭐ Favorites</div>
 </div>
 
 <div class="cats">
   <div class="cat active" data-cat="all">All</div>
-  <div class="cat" data-cat="smileys">😃 Smileys</div>
-  <div class="cat" data-cat="hearts">❤️ Hearts</div>
-  <div class="cat" data-cat="hands">🤝 Hands</div>
-  <div class="cat" data-cat="animals">🐶 Animals</div>
-  <div class="cat" data-cat="food">🍔 Food</div>
-  <div class="cat" data-cat="activities">⚽ Activities</div>
-  <div class="cat" data-cat="objects">🔥 Objects</div>
-  <div class="cat" data-cat="flags">🚩 Flags</div>
+  <div class="cat" data-cat="flags">🌍 Flags</div>
 </div>
 
-<div class="controls">
-🌍 Skin Tone:
-<select id="tone">
-  <option value="">Default</option>
-  <option value="🏻">Light</option>
-  <option value="🏼">Medium-Light</option>
-  <option value="🏽">Medium</option>
-  <option value="🏾">Medium-Dark</option>
-  <option value="🏿">Dark</option>
-</select>
-</div>
-
-  
 <div class="emoji-grid" id="emojiGrid"></div>
 <div class="toast" id="toast">Copied!</div>
-<div class="stats" id="stats"></div>
-
-<div class="rating-section">
-<p>⭐ Rate this tool:</p>
-<div class="star-rating" id="starRating">
-<span data-star="1">★</span><span data-star="2">★</span><span data-star="3">★</span><span data-star="4">★</span><span data-star="5">★</span>
-</div>
-</div>
-
-<div class="comment-section">
-<p>💬 Leave a comment:</p>
-<textarea id="commentInput"></textarea>
-<button id="addComment">Submit</button>
-<div id="commentList"></div>
-</div>
 </main>
 
-  
 <script>
-/* ================= CORE LOGIC ================= */
+/* ========= DATA ========= */
 
-const grid = document.getElementById("emojiGrid");
-const search = document.getElementById("emojiSearch");
-const toast = document.getElementById("toast");
-const tabs = document.querySelectorAll(".tab");
-const cats = document.querySelectorAll(".cat");
-const toneSel = document.getElementById("tone");
-const statsBox = document.getElementById("stats");
+const grid=document.getElementById("emojiGrid");
+const search=document.getElementById("emojiSearch");
+const toast=document.getElementById("toast");
+const cats=document.querySelectorAll(".cat");
 
-let currentTab="all", currentCat="all", skinTone="";
-const toneAble=["👍","👏","🙏","🙌","👋","👌","✌️","🤝"];
+let currentCat="all";
 
-const catRanges={
-  smileys:[[0x1F600,0x1F64F]],
-  animals:[[0x1F400,0x1F43F]],
-  food:[[0x1F347,0x1F37F]],
-  activities:[[0x26BD,0x1F3C0]],
-  objects:[[0x1F4A0,0x1F52F]],
-  hearts:[[0x2764,0x2764]],
-  hands:[[0x1F44B,0x1F64F]]
+/* 🌍 Country name + code map */
+const countries = {
+  US:"United States",
+  GB:"United Kingdom",
+  IN:"India",
+  PK:"Pakistan",
+  AE:"United Arab Emirates",
+  SA:"Saudi Arabia",
+  CN:"China",
+  JP:"Japan",
+  KR:"South Korea",
+  FR:"France",
+  DE:"Germany",
+  IT:"Italy",
+  ES:"Spain",
+  CA:"Canada",
+  AU:"Australia",
+  BR:"Brazil",
+  RU:"Russia",
+  TR:"Turkey",
+  ID:"Indonesia",
+  MY:"Malaysia",
+  TH:"Thailand",
+  VN:"Vietnam",
+  PH:"Philippines",
+  BD:"Bangladesh",
+  LK:"Sri Lanka",
+  NP:"Nepal",
+  EG:"Egypt",
+  ZA:"South Africa",
+  NG:"Nigeria",
+  MX:"Mexico"
 };
 
-/* ===== REAL FLAG EMOJIS (FIXED) ===== */
-const countryCodes = [
-  "US","GB","IN","PK","AE","SA","CN","JP","KR","DE","FR","IT","ES","CA","AU",
-  "BR","RU","TR","ID","MY","TH","VN","PH","BD","LK","NP","IR","IQ","EG",
-  "ZA","NG","KE","MX","AR","CL","CO","PE","NL","SE","NO","FI","DK",
-  "PL","UA","RO","HU","CZ","AT","CH","BE","PT","GR","IL","QA","KW","OM",
-  "NZ","SG","HK","TW"
-];
-
-const flagEmojis = countryCodes.map(code =>
-  countryCodeToFlagEmoji(code)
-);
-
-
-const trendingEmojis=["🚚","🏪","⚠️","🛒","🛍️","💳","📦","📢","🔥","❤️","🚨","🆘"];
-
-let emojis=[...trendingEmojis];
-Object.values(catRanges).flat().forEach(r=>{
-  for(let i=r[0];i<=r[1];i++) emojis.push(String.fromCodePoint(i));
-});
-
-  function countryCodeToFlagEmoji(countryCode) {
-  return countryCode
-    .toUpperCase()
-    .replace(/./g, char =>
-      String.fromCodePoint(127397 + char.charCodeAt())
-    );
+/* Convert country code → flag emoji */
+function codeToFlag(code){
+  return code.replace(/./g,c=>String.fromCodePoint(127397+c.charCodeAt()));
 }
 
-  
-/* ===== FIXED RENDER FUNCTION ===== */
-let renderIndex=0,pageSize=50;
+/* Build flag objects */
+const flagList = Object.entries(countries).map(([code,name])=>({
+  emoji: codeToFlag(code),
+  name: name.toLowerCase()
+}));
 
-function render(reset=true){
-  if(reset){grid.innerHTML="";renderIndex=0;}
-  let list=[...emojis];
+/* Trending emojis */
+const trending=["🔥","❤️","🛒","🛍️","📦","🚚","⚠️","🚨","🆘"];
 
-  if(currentTab==="recent") list=JSON.parse(localStorage.getItem("recentE")||"[]");
-  if(currentTab==="fav") list=JSON.parse(localStorage.getItem("favE")||"[]");
+/* ========= RENDER ========= */
+function render(){
+  grid.innerHTML="";
+  let q=search.value.toLowerCase();
+
+  let items = [];
 
   if(currentCat==="flags"){
-    list=[...flagEmojis];
-  }else if(currentCat!=="all"){
-    list=list.filter(e=>catRanges[currentCat]?.some(r=>{
-      const c=e.codePointAt(0);
-      return c>=r[0]&&c<=r[1];
-    }));
+    items = flagList.filter(f=>f.name.includes(q) || q==="")
+      .map(f=>({emoji:f.emoji,name:f.name}));
+  }else{
+    items = trending
+      .filter(e=>e.includes(q) || q==="")
+      .map(e=>({emoji:e,name:"emoji"}));
   }
 
-  if(search.value) list=list.filter(e=>e.includes(search.value));
-
-  list.slice(renderIndex,renderIndex+pageSize).forEach(e=>{
+  items.forEach(i=>{
     const s=document.createElement("span");
     s.className="emoji";
-    s.innerHTML = e;
+    s.innerHTML=i.emoji;
+    s.dataset.name=i.name;
     s.onclick=()=>{
-      navigator.clipboard.writeText(e);
+      navigator.clipboard.writeText(i.emoji);
       toast.style.display="block";
       setTimeout(()=>toast.style.display="none",600);
     };
     grid.appendChild(s);
   });
-  renderIndex+=pageSize;
 }
 
-tabs.forEach(t=>t.onclick=()=>{
-  tabs.forEach(x=>x.classList.remove("active"));
-  t.classList.add("active");
-  currentTab=t.dataset.tab;
-  render();
-});
+/* Category click */
 cats.forEach(c=>c.onclick=()=>{
   cats.forEach(x=>x.classList.remove("active"));
   c.classList.add("active");
   currentCat=c.dataset.cat;
   render();
 });
-search.oninput=()=>render();
+
+search.oninput=render;
 render();
 </script>
 

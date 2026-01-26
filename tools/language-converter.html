@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Language Converter – Translate Any Text | DailyTools</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Translate any paragraph to any language instantly. Free online language converter.">
+<meta name="description" content="Translate text into multiple languages instantly with our free online language converter.">
 
 <link rel="stylesheet" href="../style.css">
 
@@ -20,9 +20,7 @@
   text-align:center;
 }
 
-.tool-wrapper h1{
-  margin-bottom:12px;
-}
+.tool-wrapper h1{margin-bottom:12px}
 
 .tool-desc{
   color:#666;
@@ -30,7 +28,6 @@
   margin-bottom:25px;
 }
 
-/* INPUTS */
 textarea,select,button{
   width:100%;
   padding:12px;
@@ -46,13 +43,11 @@ button{
   border:none;
   cursor:pointer;
 }
-
 button:hover{background:#4338ca}
 
 #output{
   margin-top:20px;
   white-space:pre-wrap;
-  font-size:15px;
 }
 
 /* SEO SECTION */
@@ -60,9 +55,15 @@ button:hover{background:#4338ca}
   max-width:900px;
   margin:60px auto;
   background:#fff;
-  padding:30px;
+  padding:35px;
   border-radius:12px;
   box-shadow:0 4px 10px rgba(0,0,0,.08);
+  text-align:center;
+}
+
+.seo-section p{
+  color:#444;
+  line-height:1.7;
 }
 
 /* COMMENTS */
@@ -84,8 +85,25 @@ button:hover{background:#4338ca}
   border:1px solid #ccc;
 }
 
+.review-actions{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:10px;
+}
+
+.review-actions select{
+  width:auto;
+  padding:8px;
+}
+
+.review-actions button{
+  padding:8px 18px;
+  font-size:13px;
+}
+
 .review{
-  margin-bottom:15px;
+  margin-top:15px;
   border-bottom:1px solid #eee;
   padding-bottom:10px;
 }
@@ -101,9 +119,7 @@ button:hover{background:#4338ca}
 <!-- TOOL -->
 <main class="tool-wrapper">
   <h1>Language Converter</h1>
-  <p class="tool-desc">
-    Translate any paragraph into any language instantly.
-  </p>
+  <p class="tool-desc">Translate any paragraph into any language instantly.</p>
 
   <textarea id="inputText" rows="6" placeholder="Enter text here..."></textarea>
 
@@ -120,48 +136,55 @@ button:hover{background:#4338ca}
   </select>
 
   <button onclick="translateText()">Translate</button>
-
   <div id="output"></div>
 </main>
 
 <!-- SEO SECTION -->
 <section class="seo-section">
-  <h2>About Language Converter</h2>
+  <h2>About Language Converter Tool</h2>
+
   <p>
-    The DailyTools Language Converter allows you to translate any paragraph
-    into multiple languages instantly. It works on all devices and browsers
-    without registration.
+    DailyTools Language Converter is a fast, reliable, and user-friendly online
+    translation tool designed to convert text into multiple global languages
+    within seconds. This tool works directly in your browser, ensuring secure,
+    private, and hassle-free translations without any installation or signup.
   </p>
 
-  <h3>Why use DailyTools?</h3>
-  <ul>
-    <li>✔ Free and unlimited translations</li>
-    <li>✔ Supports global languages including Urdu</li>
-    <li>✔ Fast and accurate results</li>
-    <li>✔ No signup required</li>
-    <li>✔ Mobile-friendly interface</li>
+  <p>
+    Whether you are a student, professional, or content creator, this language
+    translator helps you communicate effectively across different languages
+    with accurate and high-quality results.
+  </p>
+
+  <ul style="text-align:left; max-width:600px; margin:20px auto">
+    <li>✔ Free and unlimited usage</li>
+    <li>✔ Supports Urdu and other global languages</li>
+    <li>✔ Fast and accurate translation engine</li>
+    <li>✔ Mobile and desktop friendly</li>
     <li>✔ Privacy-focused – no data stored</li>
   </ul>
 </section>
 
-<!-- COMMENTS -->
+<!-- REVIEWS -->
 <section id="comments">
-  <h2>User Reviews & Ratings</h2>
+  <h2 style="text-align:center">User Reviews & Ratings</h2>
 
   <form id="commentForm" class="comment-box">
     <input type="text" id="username" placeholder="Your Name" required>
     <textarea id="usercomment" rows="4" placeholder="Write your review..." required></textarea>
 
-    <select id="rating" required>
-      <option value="">Select Rating</option>
-      <option value="5">⭐⭐⭐⭐⭐ 5</option>
-      <option value="4">⭐⭐⭐⭐ 4</option>
-      <option value="3">⭐⭐⭐ 3</option>
-      <option value="2">⭐⭐ 2</option>
-      <option value="1">⭐ 1</option>
-    </select>
+    <div class="review-actions">
+      <select id="rating" required>
+        <option value="">Rating</option>
+        <option value="5">⭐⭐⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="1">⭐</option>
+      </select>
 
-    <button type="submit">Submit Review</button>
+      <button type="submit">Submit</button>
+    </div>
   </form>
 
   <div id="commentList"></div>
@@ -178,7 +201,6 @@ async function translateText(){
   if(!text) return alert("Enter text");
 
   output.innerText="Translating...";
-
   const res=await fetch(
     "https://api.mymemory.translated.net/get?q="+
     encodeURIComponent(text)+"&langpair=en|"+lang
@@ -187,19 +209,14 @@ async function translateText(){
   output.innerText=data.responseData.translatedText;
 }
 
-/* COMMENTS */
 commentForm.onsubmit=e=>{
   e.preventDefault();
-  const name=username.value;
-  const comment=usercomment.value;
-  const rate=rating.value;
+  if(!rating.value) return alert("Select rating");
 
-  if(!rate) return alert("Select rating");
-
-  commentList.innerHTML=
+  commentList.innerHTML =
     `<div class="review">
-      <strong>${name}</strong> (${rate}⭐)
-      <p>${comment}</p>
+      <strong>${username.value}</strong> (${rating.value}⭐)
+      <p>${usercomment.value}</p>
     </div>` + commentList.innerHTML;
 
   e.target.reset();

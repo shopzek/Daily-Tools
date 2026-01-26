@@ -1,71 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Emoji Picker & Copier – Free Tool</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Pick, search, and copy emojis online instantly. 100% browser-based and private.">
-  <link rel="stylesheet" href="../style.css">
+<meta charset="UTF-8">
+<title>Emoji Picker & Copier – Free Online Tool | DailyTools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Free Emoji Picker & Copier. Search emojis, use categories, skin tone selector, favorites, recent emojis, and copy instantly. 100% private & browser-based.">
+<meta name="keywords" content="emoji picker, emoji copier, copy emoji, emoji search, free emoji tool, unicode emoji">
 
-  <style>
-    .tool-wrapper {
-      max-width: 520px;
-      margin: 60px auto;
-      background: #fff;
-      padding: 32px;
-      border-radius: 14px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.08);
-      text-align: center;
-    }
+<link rel="stylesheet" href="../style.css">
 
-    .tool-desc { color:#666; font-size:15px; margin-bottom:24px; }
+<!-- SEO SCHEMA -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"Emoji Picker & Copier",
+  "url":"https://yourdomain.com/emoji-picker.html",
+  "applicationCategory":"UtilityApplication",
+  "operatingSystem":"All",
+  "description":"Search, copy, favorite and analyze emojis instantly. Free & private emoji picker.",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
+}
+</script>
 
-    #emojiSearch {
-      width: 100%;
-      padding: 10px 12px;
-      margin-bottom: 16px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
+<style>
+.tool-wrapper{max-width:520px;margin:60px auto;background:#fff;padding:32px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.08);text-align:center}
+.tool-desc{color:#666;font-size:15px;margin-bottom:18px}
+#emojiSearch{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;font-size:15px;margin-bottom:14px}
 
-    .emoji-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-      gap: 12px;
-      margin-bottom: 16px;
-    }
+.tabs,.cats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
+.tab,.cat{padding:6px 12px;border-radius:20px;background:#f3f4f6;font-size:13px;cursor:pointer}
+.tab.active,.cat.active{background:#4f46e5;color:#fff}
 
-    .emoji {
-      font-size: 28px;
-      padding: 12px;
-      border-radius: 8px;
-      background: #f3f4f6;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+.controls{display:flex;gap:8px;justify-content:center;margin-bottom:12px;font-size:13px}
+select{padding:4px 6px;border-radius:6px}
 
-    .emoji:hover {
-      background: #4f46e5;
-      color: #fff;
-    }
+.emoji-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(48px,1fr));gap:12px}
+.emoji{font-size:28px;padding:10px;border-radius:8px;background:#f3f4f6;cursor:pointer;transition:.2s;position:relative}
+.emoji:hover{background:#4f46e5;color:#fff}
 
-    #selectedEmoji {
-      font-size: 40px;
-      margin: 16px 0;
-    }
+.star{position:absolute;top:4px;right:6px;font-size:12px;color:gold;display:none}
+.emoji.fav .star{display:block}
 
-    button {
-      margin-top: 16px;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      background: #4f46e5;
-      color: white;
-      font-size: 15px;
-      cursor: pointer;
-    }
-  </style>
+.toast{margin-top:10px;font-size:13px;color:green;display:none}
+.stats{margin-top:14px;font-size:13px;color:#555}
+</style>
 </head>
 
 <body>
@@ -75,151 +54,152 @@
 </header>
 
 <main class="tool-wrapper">
-  <h1>Emoji Picker & Copier</h1>
-  <p class="tool-desc">
-    Search, select, and copy emojis instantly. 100% private and browser-based.
-  </p>
+<h1>Emoji Picker & Copier</h1>
+<p class="tool-desc">Search, filter, copy & favorite emojis instantly. No signup. Fully private.</p>
 
-  <input type="text" id="emojiSearch" placeholder="🔍 Search emoji by keyword…">
+<input type="text" id="emojiSearch" placeholder="🔍 Search emoji (fire, happy, food…)">
 
-  <div class="emoji-grid" id="emojiGrid"></div>
+<div class="tabs">
+  <div class="tab active" data-tab="all">All</div>
+  <div class="tab" data-tab="recent">🕘 Recent</div>
+  <div class="tab" data-tab="fav">⭐ Favorites</div>
+</div>
 
-  <div id="selectedEmoji">😀</div>
-  <button id="copyBtn">Copy Emoji</button>
+<div class="cats">
+  <div class="cat active" data-cat="all">All</div>
+  <div class="cat" data-cat="smileys">😃 Smileys</div>
+  <div class="cat" data-cat="hearts">❤️ Hearts</div>
+  <div class="cat" data-cat="hands">🤝 Hands</div>
+  <div class="cat" data-cat="animals">🐶 Animals</div>
+  <div class="cat" data-cat="food">🍔 Food</div>
+  <div class="cat" data-cat="activities">⚽ Activities</div>
+  <div class="cat" data-cat="objects">🔥 Objects</div>
+  <div class="cat" data-cat="flags">🚩 Flags</div>
+</div>
+
+<div class="controls">
+🌍 Skin Tone:
+<select id="tone">
+  <option value="">Default</option>
+  <option value="🏻">Light</option>
+  <option value="🏼">Medium-Light</option>
+  <option value="🏽">Medium</option>
+  <option value="🏾">Medium-Dark</option>
+  <option value="🏿">Dark</option>
+</select>
+</div>
+
+<div class="emoji-grid" id="emojiGrid"></div>
+<div class="toast" id="toast">Copied!</div>
+<div class="stats" id="stats"></div>
 </main>
 
 <script>
-const emojiGrid = document.getElementById("emojiGrid");
-const selectedEmojiDiv = document.getElementById("selectedEmoji");
-const copyBtn = document.getElementById("copyBtn");
-const emojiSearch = document.getElementById("emojiSearch");
+const grid=document.getElementById("emojiGrid");
+const search=document.getElementById("emojiSearch");
+const toast=document.getElementById("toast");
+const tabs=document.querySelectorAll(".tab");
+const cats=document.querySelectorAll(".cat");
+const toneSel=document.getElementById("tone");
+const statsBox=document.getElementById("stats");
 
-// List of popular emojis with keywords
-const emojis = [
-  {emoji:"😀", keywords:["grinning","smile","happy"]},
-  {emoji:"😃", keywords:["smile","happy"]},
-  {emoji:"😄", keywords:["smile","happy","joy"]},
-  {emoji:"😁", keywords:["grin","happy","teeth"]},
-  {emoji:"😆", keywords:["laugh","happy"]},
-  {emoji:"😂", keywords:["joy","tear","lol"]},
-  {emoji:"🤣", keywords:["rofl","laugh"]},
-  {emoji:"😊", keywords:["blush","happy","smile"]},
-  {emoji:"😇", keywords:["angel","innocent"]},
-  {emoji:"🙂", keywords:["smile","happy","neutral"]},
-  {emoji:"🙃", keywords:["upside-down","funny"]},
-  {emoji:"😉", keywords:["wink","flirt"]},
-  {emoji:"😍", keywords:["love","heart","eyes"]},
-  {emoji:"🥰", keywords:["love","hearts"]},
-  {emoji:"😘", keywords:["kiss","love"]},
-  {emoji:"😗", keywords:["kiss"]},
-  {emoji:"😙", keywords:["kiss","smile"]},
-  {emoji:"😚", keywords:["kiss","love"]},
-  {emoji:"😋", keywords:["yum","tongue","food"]},
-  {emoji:"😛", keywords:["tongue","playful"]},
-  {emoji:"😝", keywords:["silly","tongue"]},
-  {emoji:"😜", keywords:["wink","tongue","playful"]},
-  {emoji:"🤪", keywords:["zany","crazy"]},
-  {emoji:"🤓", keywords:["nerd","geek","glasses"]},
-  {emoji:"😎", keywords:["cool","sunglasses"]},
-  {emoji:"🥳", keywords:["party","celebrate"]},
-  {emoji:"❤️", keywords:["heart","love"]},
-  {emoji:"💔", keywords:["heart","broken","sad"]},
-  {emoji:"💖", keywords:["love","sparkle"]},
-  {emoji:"✨", keywords:["sparkle","stars"]},
-  {emoji:"🔥", keywords:["fire","hot","trending"]},
-  {emoji:"🎉", keywords:["party","celebrate","confetti"]},
-  {emoji:"💯", keywords:["100","perfect"]},
-  {emoji:"👍", keywords:["thumb","like","good"]},
-  {emoji:"👎", keywords:["thumb","dislike","bad"]},
-  {emoji:"🙏", keywords:["pray","please","thank"]},
-  {emoji:"👏", keywords:["clap","applause"]},
-  {emoji:"🙌", keywords:["hands","praise","celebrate"]},
-  {emoji:"😱", keywords:["shocked","scared"]},
-  {emoji:"🥵", keywords:["hot","sweat"]},
-  {emoji:"🥶", keywords:["cold","freeze"]}
-];
+let currentTab="all",currentCat="all",skinTone="";
 
-// Function to render emojis
-function renderEmojis(filter="") {
-  emojiGrid.innerHTML = "";
-  const filtered = emojis.filter(e => 
-    e.keywords.some(k => k.includes(filter.toLowerCase()))
-  );
-  filtered.forEach(e => {
-    const span = document.createElement("span");
-    span.className = "emoji";
-    span.textContent = e.emoji;
-    span.onclick = () => selectedEmojiDiv.textContent = e.emoji;
-    emojiGrid.appendChild(span);
-  });
-}
+const toneAble=["👍","👏","🙏","🙌","👋","👌","✌️","🤝"];
+const catRanges={
+smileys:[[0x1F600,0x1F64F]],
+animals:[[0x1F400,0x1F43F]],
+food:[[0x1F347,0x1F37F]],
+activities:[[0x26BD,0x1F3C0]],
+objects:[[0x1F4A0,0x1F52F]],
+flags:[[0x1F1E6,0x1F1FF]],
+hearts:[[0x2764,0x2764]]
+};
 
-// Initial render
-renderEmojis();
-
-// Search event
-emojiSearch.addEventListener("input", () => {
-  renderEmojis(emojiSearch.value);
+const emojis=[];
+Object.values(catRanges).flat().forEach(r=>{
+  for(let i=r[0];i<=r[1];i++) emojis.push(String.fromCodePoint(i));
 });
 
-// Copy to clipboard
-copyBtn.onclick = () => {
-  const emoji = selectedEmojiDiv.textContent;
-  navigator.clipboard.writeText(emoji).then(() => {
-    alert("Copied: " + emoji);
-  });
-};
+function get(k){return JSON.parse(localStorage.getItem(k)||"[]")}
+function set(k,v){localStorage.setItem(k,JSON.stringify(v))}
+const recentK="recentE",favK="favE",statK="statE";
+
+function applyTone(e){return skinTone&&toneAble.includes(e)?e+skinTone:e}
+
+function render(){
+  grid.innerHTML="";
+  let list=[...emojis];
+
+  if(currentTab==="recent") list=get(recentK);
+  if(currentTab==="fav") list=get(favK);
+
+  if(currentCat!=="all"){
+    list=list.filter(e=>{
+      return catRanges[currentCat]?.some(r=>{
+        const c=e.codePointAt(0);
+        return c>=r[0]&&c<=r[1];
+      });
+    });
+  }
+
+  list.filter(e=>e.includes(search.value))
+      .forEach(e=>{
+        const s=document.createElement("span");
+        s.className="emoji";
+        s.innerHTML=`${applyTone(e)}<span class="star">⭐</span>`;
+        if(get(favK).includes(e)) s.classList.add("fav");
+
+        s.onclick=()=>{
+          navigator.clipboard.writeText(applyTone(e));
+          toast.style.display="block";
+          setTimeout(()=>toast.style.display="none",700);
+
+          let r=get(recentK).filter(x=>x!==e);
+          r.unshift(e); if(r.length>25) r.pop(); set(recentK,r);
+
+          let st=get(statK); st[e]=(st[e]||0)+1; set(statK,st);
+          showStats();
+        };
+
+        s.oncontextmenu=ev=>{
+          ev.preventDefault();
+          let f=get(favK);
+          f.includes(e)?f=f.filter(x=>x!==e):f.push(e);
+          set(favK,f); render();
+        };
+
+        grid.appendChild(s);
+      });
+}
+
+function showStats(){
+  const s=get(statK);
+  const top=Object.entries(s).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  statsBox.innerHTML=top.length?"📈 Most Used: "+top.map(x=>`${x[0]}(${x[1]})`).join(" "):"";
+}
+
+tabs.forEach(t=>t.onclick=()=>{
+  tabs.forEach(x=>x.classList.remove("active"));
+  t.classList.add("active");
+  currentTab=t.dataset.tab; render();
+});
+
+cats.forEach(c=>c.onclick=()=>{
+  cats.forEach(x=>x.classList.remove("active"));
+  c.classList.add("active");
+  currentCat=c.dataset.cat; render();
+});
+
+search.oninput=render;
+toneSel.onchange=e=>{skinTone=e.target.value;render()};
+
+render(); showStats();
 </script>
 
-<section class="seo-section">
-  <h2>About Emoji Picker & Copier</h2>
-  <p>
-    The Emoji Picker & Copier allows you to search, select, and copy popular emojis directly in your browser.
-    No installation or server upload is needed—everything runs locally and privately.
-  </p>
-
-  <h3>Why use this tool?</h3>
-  <ul>
-    <li>✔ 100% free and unlimited</li>
-    <li>✔ No registration required</li>
-    <li>✔ Search emojis by keyword</li>
-    <li>✔ Copy emojis instantly with one click</li>
-    <li>✔ Works on mobile, tablet, and desktop</li>
-    <li>✔ Fully private: nothing leaves your device</li>
-  </ul>
-
-  <h3>How it works</h3>
-  <p>
-    Type a keyword in the search box, click any emoji to select it, and click "Copy Emoji".
-    The emoji is copied instantly and ready to paste anywhere.
-  </p>
-</section>
-
-<section id="comments" style="max-width:900px; margin:40px auto; background:white; padding:20px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-  <h2 style="color:#2563eb; margin-bottom:15px;">User Reviews & Comments</h2>
-  
-  <form id="commentForm">
-    <input type="text" id="username" placeholder="Your Name" required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
-    <textarea id="usercomment" rows="4" placeholder="Write your review or comment..." required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;"></textarea>
-    <label style="display:block; margin-bottom:10px;">Rating: 
-      <select id="rating" required style="padding:5px; border-radius:5px;">
-        <option value="">Select</option>
-        <option value="5">⭐⭐⭐⭐⭐ 5</option>
-        <option value="4">⭐⭐⭐⭐ 4</option>
-        <option value="3">⭐⭐⭐ 3</option>
-        <option value="2">⭐⭐ 2</option>
-        <option value="1">⭐ 1</option>
-      </select>
-    </label>
-    <button type="submit" style="background:#2563eb; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">Submit</button>
-  </form>
-
-  <div id="commentList" style="margin-top:20px;"></div>
-</section>
-
-  
 <footer class="site-footer">
-  <p>© 2026 DailyTools • 100% Free</p>
+  <p>© 2026 DailyTools • 100% Free & Private</p>
 </footer>
+
 </body>
 </html>

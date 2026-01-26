@@ -2,38 +2,164 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>PDF to Excel Converter – Free Online Tool | DailyTools</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Convert PDF files to Excel online for free. Extract tables from PDF to Excel easily.">
 
-<link rel="stylesheet" href="../style.css">
-
 <style>
-.tool-wrapper{
-  max-width:520px;margin:60px auto;background:#fff;
-  padding:32px;border-radius:14px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-  text-align:center;
-}
-.tool-desc{color:#666;font-size:15px;margin-bottom:20px}
-input,button{
-  width:100%;padding:12px;margin-top:12px;
-  border-radius:8px;border:1px solid #ccc;
-}
-button{
-  background:#4f46e5;color:#fff;border:none;cursor:pointer;
-}
-button:hover{background:#4338ca}
-#result{margin-top:20px;font-size:14px}
-
-.seo-section{
-  max-width:900px;margin:60px auto;background:#fff;
-  padding:30px;border-radius:12px;
+/* ================= BODY ================= */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f3f4f6;
+  color: #111827;
 }
 
-.star-rating span{font-size:22px;cursor:pointer}
-.comment-box input,.comment-box textarea{
-  width:100%;padding:10px;margin-bottom:10px;
+/* ================= HEADER ================= */
+.main-header {
+  background: #ffffff;
+  padding: 16px 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.logo {
+  color: #2563eb;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ================= TOOL WRAPPER ================= */
+.tool-wrapper {
+  max-width: 750px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0,0,0,.08);
+  text-align: center;
+}
+.tool-wrapper h2 {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+.tool-desc {
+  color: #6b7280;
+  font-size: 15px;
+  margin-bottom: 25px;
+}
+
+/* ================= DRAG & DROP ================= */
+#drop-area {
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 40px 20px;
+  background: #f9fafb;
+  cursor: pointer;
+  margin-bottom: 18px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+#drop-area.hover {
+  background: #e0f2fe;
+  border-color: #2563eb;
+}
+#fileInput {
+  display: none;
+}
+
+/* ================= BUTTON ================= */
+button {
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+button:hover {
+  background: #1e40af;
+}
+#status {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+/* ================= SEO SECTION ================= */
+.seo-section {
+  max-width: 900px;
+  margin: 60px auto 80px;
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+.seo-section h2 {
+  text-align: center;
+  margin-bottom: 22px;
+}
+.seo-section h3 {
+  margin-top: 28px;
+  margin-bottom: 12px;
+}
+.seo-section p,
+.seo-section li {
+  color: #4b5563;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.seo-section ul {
+  padding-left: 18px;
+}
+
+/* ================= COMMENTS ================= */
+#comments {
+  margin-top: 40px;
+  text-align: center;
+}
+#comments input,
+#comments textarea {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 18px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+}
+#comments select {
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  margin-bottom: 18px;
+}
+.comment {
+  background: #f9fafb;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-align: left;
+}
+.comment strong {
+  color: #2563eb;
+}
+
+/* ================= FOOTER ================= */
+.site-footer {
+  text-align: center;
+  padding: 20px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:640px){
+  .tool-wrapper, .seo-section {
+    margin: 20px 12px;
+    padding: 24px;
+  }
 }
 </style>
 </head>
@@ -44,61 +170,115 @@ button:hover{background:#4338ca}
   <a href="../index.html" class="logo">🚀 DailyTools</a>
 </header>
 
-<main class="tool-wrapper">
-  <h1>PDF to Excel Converter</h1>
+<!-- TOOL -->
+<div class="tool-wrapper">
+  <h2>PDF to Excel Converter</h2>
   <p class="tool-desc">
     Convert PDF tables into editable Excel spreadsheets instantly.
   </p>
 
-  <input type="file" accept="application/pdf">
-  <button onclick="alert('PDF to Excel conversion requires backend API. UI is ready.')">
-    Convert PDF to Excel
-  </button>
-
-  <div id="result">
-    <p>⚠️ Conversion engine can be connected later.</p>
+  <div id="drop-area">
+    Drag & Drop PDF File Here or Click to Browse
   </div>
-</main>
+  <input type="file" id="fileInput" accept="application/pdf">
 
-<!-- SEO -->
+  <button id="convertBtn">Convert PDF to Excel</button>
+  <p id="status"></p>
+</div>
+
+<!-- SEO + REVIEWS -->
 <section class="seo-section">
   <h2>About PDF to Excel Converter</h2>
   <p>
-    PDF to Excel tool helps extract tables and data from PDFs into Excel files.
-    This is ideal for reports, invoices, and data analysis.
+    DailyTools PDF to Excel converter helps you extract tables and structured
+    data from PDF files into Excel spreadsheets quickly and securely.
   </p>
 
+  <h3>Why use this tool?</h3>
   <ul>
-    <li>✔ Free online tool</li>
-    <li>✔ Extract tables accurately</li>
-    <li>✔ Secure & private</li>
-    <li>✔ No installation needed</li>
+    <li>✔ Free & unlimited usage</li>
+    <li>✔ Accurate table extraction</li>
+    <li>✔ Works on all devices</li>
+    <li>✔ No installation required</li>
   </ul>
-<section id="comments" style="max-width:900px; margin:40px auto; background:white; padding:20px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-  <h2 style="color:#2563eb; margin-bottom:15px;">User Reviews & Comments</h2>
-  
-  <form id="commentForm">
-    <input type="text" id="username" placeholder="Your Name" required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
-    <textarea id="usercomment" rows="4" placeholder="Write your review or comment..." required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;"></textarea>
-    <label style="display:block; margin-bottom:10px;">Rating: 
-      <select id="rating" required style="padding:5px; border-radius:5px;">
-        <option value="">Select</option>
+
+  <!-- COMMENTS -->
+  <section id="comments">
+    <h2>User Reviews & Ratings</h2>
+
+    <form id="commentForm">
+      <input type="text" id="username" placeholder="Your Name" required>
+      <textarea id="usercomment" rows="4" placeholder="Write your review..." required></textarea>
+      <select id="rating" required>
+        <option value="">Select Rating</option>
         <option value="5">⭐⭐⭐⭐⭐ 5</option>
         <option value="4">⭐⭐⭐⭐ 4</option>
         <option value="3">⭐⭐⭐ 3</option>
         <option value="2">⭐⭐ 2</option>
         <option value="1">⭐ 1</option>
       </select>
-    </label>
-    <button type="submit" style="background:#2563eb; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">Submit</button>
-  </form>
+      <button type="submit">Submit Review</button>
+    </form>
 
-  <div id="commentList" style="margin-top:20px;"></div>
+    <div id="commentList"></div>
+  </section>
 </section>
 
 <footer class="site-footer">
-  <p>© 2026 DailyTools • PDF Tools</p>
+  © 2026 DailyTools • PDF Tools
 </footer>
+
+<script>
+const dropArea = document.getElementById('drop-area');
+const fileInput = document.getElementById('fileInput');
+const status = document.getElementById('status');
+let selectedFile = null;
+
+/* Drag & Drop */
+dropArea.addEventListener('click', () => fileInput.click());
+
+['dragenter','dragover'].forEach(evt =>
+  dropArea.addEventListener(evt, e => {
+    e.preventDefault();
+    dropArea.classList.add('hover');
+  })
+);
+['dragleave','drop'].forEach(evt =>
+  dropArea.addEventListener(evt, e => {
+    e.preventDefault();
+    dropArea.classList.remove('hover');
+  })
+);
+dropArea.addEventListener('drop', e => {
+  selectedFile = e.dataTransfer.files[0];
+  fileInput.files = e.dataTransfer.files;
+  status.textContent = `Selected file: ${selectedFile.name}`;
+});
+
+fileInput.addEventListener('change', e => {
+  selectedFile = e.target.files[0];
+  if (selectedFile) status.textContent = `Selected file: ${selectedFile.name}`;
+});
+
+/* Convert Button */
+document.getElementById('convertBtn').onclick = () => {
+  if (!selectedFile) {
+    status.textContent = 'Please select a PDF file first!';
+    return;
+  }
+  status.textContent = '⚠️ PDF to Excel requires a backend API. UI is ready.';
+};
+
+/* Reviews */
+commentForm.addEventListener('submit', e => {
+  e.preventDefault();
+  const div = document.createElement('div');
+  div.className = 'comment';
+  div.innerHTML = `<strong>${username.value}</strong> (${ '⭐'.repeat(rating.value) })<br>${usercomment.value}`;
+  commentList.prepend(div);
+  e.target.reset();
+});
+</script>
 
 </body>
 </html>

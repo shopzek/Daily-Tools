@@ -212,6 +212,12 @@ button:hover,
   background: #1d4ed8;
 }
 
+/* Add gap between file input and button */
+.tool-wrapper button {
+  margin-top: 18px; /* keeps nice spacing under the file input */
+}
+
+
 /* =========================
    RESULT / MEDIA
 ========================= */

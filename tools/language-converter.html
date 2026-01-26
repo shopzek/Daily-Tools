@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <title>Language Converter – Translate Any Text | DailyTools</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Translate text into multiple languages instantly with our free online language converter.">
+<meta name="description" content="Translate any paragraph into any language instantly. Free online language converter.">
 
 <link rel="stylesheet" href="../style.css">
 
 <style>
 /* TOOL */
 .tool-wrapper{
-  max-width:750px;
+  max-width:600px;
   margin:70px auto;
   background:#fff;
   padding:35px;
@@ -36,16 +36,16 @@ textarea,select,button{
 }
 
 button{
-  background:#4f46e5;
+  background:#2563eb;
   color:#fff;
   border:none;
   cursor:pointer;
 }
-button:hover{background:#4338ca}
+button:hover{background:#1e4fd8}
 
 #output{margin-top:20px;white-space:pre-wrap}
 
-/* SEO SECTION */
+/* SEO */
 .seo-section{
   max-width:900px;
   margin:60px auto;
@@ -54,30 +54,14 @@ button:hover{background:#4338ca}
   border-radius:12px;
   box-shadow:0 4px 10px rgba(0,0,0,.08);
 }
+.seo-section h2{text-align:center;margin-bottom:20px}
 
-.seo-section h2{
-  text-align:center;
-  margin-bottom:20px;
-}
-
-.seo-section p{
-  color:#444;
-  line-height:1.7;
-  text-align:left;
-}
-
-.seo-section ul{
-  text-align:left;
-  max-width:600px;
-  margin:20px 0;
-}
-
-/* COMMENTS */
+/* REVIEWS */
 #comments{
   max-width:900px;
   margin:40px auto;
   background:#fff;
-  padding:25px;
+  padding:30px;
   border-radius:12px;
   box-shadow:0 4px 10px rgba(0,0,0,.1);
 }
@@ -85,30 +69,38 @@ button:hover{background:#4338ca}
 .comment-box input,
 .comment-box textarea{
   width:100%;
-  padding:10px;
-  margin-bottom:10px;
-  border-radius:6px;
-  border:1px solid #ccc;
+  padding:12px;
+  margin-bottom:14px;
+  border-radius:10px;
+  border:1px solid #d1d5db;
+  font-size:14px;
 }
 
+/* SAME AS SCREENSHOT */
 .review-actions{
-  display:nowrap;
+  display:flex;
   justify-content:center;
-  gap:10px;
-  margin-top:10px;
+  gap:12px;
 }
 
-.review-actions select,
+.review-actions select{
+  width:180px;
+  height:44px;
+  border-radius:12px;
+  padding:0 12px;
+}
+
 .review-actions button{
-  width:auto;
-  padding:8px;
-  font-size:13px;
+  width:180px;
+  height:44px;
+  border-radius:12px;
+  font-size:15px;
 }
 
 .review{
-  margin-top:15px;
-  border-bottom:1px solid #eee;
-  padding-bottom:10px;
+  margin-top:20px;
+  border-top:1px solid #eee;
+  padding-top:15px;
 }
 </style>
 </head>
@@ -144,25 +136,18 @@ button:hover{background:#4338ca}
 <!-- SEO -->
 <section class="seo-section">
   <h2>About Language Converter Tool</h2>
-
   <p>
-    DailyTools Language Converter is a fast and reliable online translation
-    solution designed to convert text into multiple global languages instantly.
-    The tool operates directly in your browser, ensuring privacy and security
-    without storing user data.
-  </p>
-
-  <p>
-    This language translator is ideal for students, professionals, and content
-    creators who need accurate translations quickly and effortlessly.
+    DailyTools Language Converter helps you translate text into multiple global
+    languages instantly. This browser-based translator ensures privacy,
+    speed, and professional-quality results without storing any user data.
   </p>
 
   <ul>
     <li>✔ Free and unlimited translations</li>
     <li>✔ Supports Urdu and global languages</li>
-    <li>✔ Fast and accurate results</li>
-    <li>✔ Mobile and desktop friendly</li>
-    <li>✔ No signup required</li>
+    <li>✔ Accurate and fast results</li>
+    <li>✔ No registration required</li>
+    <li>✔ Works on all devices</li>
   </ul>
 </section>
 
@@ -174,9 +159,10 @@ button:hover{background:#4338ca}
     <input type="text" id="username" placeholder="Your Name" required>
     <textarea id="usercomment" rows="4" placeholder="Write your review..." required></textarea>
 
+    <!-- SAME AS SCREENSHOT -->
     <div class="review-actions">
       <select id="rating" required>
-        <option value="">Rating</option>
+        <option value="">Select Rating</option>
         <option value="5">⭐⭐⭐⭐⭐</option>
         <option value="4">⭐⭐⭐⭐</option>
         <option value="3">⭐⭐⭐</option>

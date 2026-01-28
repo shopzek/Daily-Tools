@@ -337,7 +337,7 @@ if (longUrlInput && shortUrlOutput) {
     };
   }
 
-   /* ===============================
+  /* ===============================
    BACKGROUND & SMART OBJECT REMOVER
 ================================ */
 const imageInput = document.getElementById("imageInput");
@@ -350,9 +350,9 @@ const loading = document.getElementById("loading");
 
 let img = new Image();
 let imgOriginalData = null; // Original image data
-let marks = []; // user painted points
+let marks = [];             // User painted points
 let isPainting = false;
-let mode = null; // "smart-remove" or null
+let mode = null;            // "smart-remove" or null
 
 // ===================
 // Load Image
@@ -378,6 +378,7 @@ img.onload = () => {
   ctx.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
   ctx.drawImage(img, 0, 0, imageCanvas.width, imageCanvas.height);
   imgOriginalData = ctx.getImageData(0, 0, imageCanvas.width, imageCanvas.height);
+  
   removeBgBtn.disabled = false;
   smartRemoveBtn.disabled = false;
   clearMarksBtn.disabled = true;
@@ -387,20 +388,22 @@ img.onload = () => {
 };
 
 // ===================
-// Drag & Drop (optional)
+// Drag & Drop Support
 // ===================
 const dropZone = document.getElementById("dropZone");
-dropZone.onclick = () => imageInput.click();
-dropZone.ondragover = e => { e.preventDefault(); dropZone.classList.add("dragover"); };
-dropZone.ondragleave = () => dropZone.classList.remove("dragover");
-dropZone.ondrop = e => {
-  e.preventDefault();
-  dropZone.classList.remove("dragover");
-  if (e.dataTransfer.files.length) loadImage(e.dataTransfer.files[0]);
-};
+if (dropZone) {
+  dropZone.onclick = () => imageInput.click();
+  dropZone.ondragover = e => { e.preventDefault(); dropZone.classList.add("dragover"); };
+  dropZone.ondragleave = () => dropZone.classList.remove("dragover");
+  dropZone.ondrop = e => {
+    e.preventDefault();
+    dropZone.classList.remove("dragover");
+    if (e.dataTransfer.files.length) loadImage(e.dataTransfer.files[0]);
+  };
+}
 
 // ===================
-// Drawing for Smart Object Remove
+// Smart Object Drawing
 // ===================
 imageCanvas.onmousedown = e => { if (mode === "smart-remove") startPainting(e); };
 imageCanvas.onmouseup = e => { if (mode === "smart-remove") stopPainting(); };
@@ -420,18 +423,18 @@ function addMark(e) {
 
 function drawMarks() {
   ctx.putImageData(imgOriginalData, 0, 0);
+  if (!marks.length) return;
+
   ctx.fillStyle = "rgba(255,0,0,0.4)";
   ctx.strokeStyle = "rgba(255,0,0,0.7)";
   ctx.lineWidth = 10;
   ctx.lineJoin = "round";
   ctx.lineCap = "round";
 
-  if (marks.length > 1) {
-    ctx.beginPath();
-    ctx.moveTo(marks[0].x, marks[0].y);
-    for (let i = 1; i < marks.length; i++) ctx.lineTo(marks[i].x, marks[i].y);
-    ctx.stroke();
-  }
+  ctx.beginPath();
+  ctx.moveTo(marks[0].x, marks[0].y);
+  for (let i = 1; i < marks.length; i++) ctx.lineTo(marks[i].x, marks[i].y);
+  ctx.stroke();
 
   marks.forEach(p => {
     ctx.beginPath();
@@ -469,7 +472,7 @@ smartRemoveBtn.onclick = () => {
 };
 
 smartRemoveBtn.ondblclick = () => {
-  if (!marks.length) { alert("No marked area to remove."); return; }
+  if (!marks.length) return alert("No marked area to remove.");
   loading.textContent = "⏳ Removing marked objects...";
   smartObjectRemove();
 };
@@ -490,6 +493,8 @@ async function removeBackground() {
 }
 
 function smartObjectRemove() {
+  if (!marks.length) return;
+
   const imgData = ctx.getImageData(0, 0, imageCanvas.width, imageCanvas.height);
   const data = imgData.data;
   const radius = 20;
@@ -504,35 +509,37 @@ function smartObjectRemove() {
         if (dx * dx + dy * dy > radius * radius) continue;
 
         const neighbors = [
-          [px - 1, py], [px + 1, py], [px, py - 1], [px, py + 1],
-          [px - 1, py - 1], [px + 1, py - 1], [px - 1, py + 1], [px + 1, py + 1]
+          [px-1,py],[px+1,py],[px,py-1],[px,py+1],
+          [px-1,py-1],[px+1,py-1],[px-1,py+1],[px+1,py+1]
         ];
 
         const surroundingColors = [];
-        neighbors.forEach(([nx, ny]) => {
-          if (nx >= 0 && ny >= 0 && nx < imageCanvas.width && ny < imageCanvas.height) {
-            const idx = (ny * imageCanvas.width + nx) * 4;
-            surroundingColors.push([data[idx], data[idx + 1], data[idx + 2], data[idx + 3]]);
+        neighbors.forEach(([nx,ny])=>{
+          if(nx>=0 && ny>=0 && nx<imageCanvas.width && ny<imageCanvas.height){
+            const idx = (ny*imageCanvas.width + nx)*4;
+            surroundingColors.push([data[idx],data[idx+1],data[idx+2],data[idx+3]]);
           }
         });
 
-        if (!surroundingColors.length) continue;
+        if(!surroundingColors.length) continue;
 
-        const avg = surroundingColors.reduce((acc, c) => {
-          acc[0] += c[0]; acc[1] += c[1]; acc[2] += c[2]; acc[3] += c[3]; return acc;
-        }, [0, 0, 0, 0]).map(x => x / surroundingColors.length);
+        const avg = surroundingColors.reduce((acc,c)=>{
+          acc[0]+=c[0]; acc[1]+=c[1]; acc[2]+=c[2]; acc[3]+=c[3]; return acc;
+        },[0,0,0,0]).map(x=>x/surroundingColors.length);
 
-        const idx = (py * imageCanvas.width + px) * 4;
-        data[idx] = avg[0]; data[idx + 1] = avg[1]; data[idx + 2] = avg[2]; data[idx + 3] = avg[3];
+        const idx = (py*imageCanvas.width + px)*4;
+        data[idx]=avg[0]; data[idx+1]=avg[1]; data[idx+2]=avg[2]; data[idx+3]=avg[3];
       }
     }
   });
 
-  ctx.putImageData(imgData, 0, 0);
-  marks = [];
-  clearMarksBtn.disabled = true;
-  loading.textContent = "✅ Objects removed. Paint & remove again to refine.";
+  ctx.putImageData(imgData,0,0);
+  marks=[];
+  clearMarksBtn.disabled=true;
+  loading.textContent="✅ Objects removed. Paint & remove again to refine.";
 }
+
+
 
 
    

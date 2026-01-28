@@ -456,85 +456,28 @@ commentForm.addEventListener("submit", e => {
   commentForm.reset();
 });
 
-   const dropZone   = document.getElementById("dropZone");
-const zipInput   = document.getElementById("zipInput");
-const fileInfo   = document.getElementById("fileInfo");
-const output     = document.getElementById("output");
+
+/* ===============================
+  ZIP Tool
+================================ */
+   
+const dropZone  = document.getElementById("dropZone");
+const zipInput  = document.getElementById("zipInput");
+const fileInfo  = document.getElementById("fileInfo");
 const extractBtn = document.getElementById("extractBtn");
+const output    = document.getElementById("zipOutput");
 
-const commentForm = document.getElementById("commentForm");
-const commentList = document.getElementById("commentList");
+/* CLICK TO SELECT FILE */
+dropZone.addEventListener("click", () => {
+  zipInput.click();
+});
 
-/* DRAG & DROP */
-dropZone.onclick = () => zipInput.click();
-
-zipInput.onchange = () => {
+/* FILE SELECTED */
+zipInput.addEventListener("change", () => {
   if (zipInput.files.length) {
     fileInfo.innerText = zipInput.files[0].name;
-    output.innerHTML = "";
   }
-};
-
-dropZone.ondragover = e => {
-  e.preventDefault();
-  dropZone.classList.add("dragover");
-};
-
-dropZone.ondragleave = () => dropZone.classList.remove("dragover");
-
-dropZone.ondrop = e => {
-  e.preventDefault();
-  dropZone.classList.remove("dragover");
-  zipInput.files = e.dataTransfer.files;
-  fileInfo.innerText = zipInput.files[0].name;
-  output.innerHTML = "";
-};
-
-/* ZIP EXTRACTION */
-extractBtn.onclick = async () => {
-
-  if (!zipInput.files.length) {
-    alert("Please select a ZIP file");
-    return;
-  }
-
-  output.innerHTML = "Extracting...";
-
-  const zip = new JSZip();
-  const content = await zip.loadAsync(zipInput.files[0]);
-
-  output.innerHTML = "";
-
-  Object.keys(content.files).forEach(filename => {
-
-    content.files[filename].async("blob").then(blob => {
-
-      const url = URL.createObjectURL(blob);
-
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = filename;
-      link.textContent = "⬇ " + filename;
-
-      output.appendChild(link);
-    });
-
-  });
-};
-
-/* COMMENTS */
-commentForm.onsubmit = e => {
-  e.preventDefault();
-
-  commentList.innerHTML =
-    `<div class="review">
-      <strong>${username.value}</strong> (${rating.value}⭐)
-      <p>${usercomment.value}</p>
-    </div>` + commentList.innerHTML;
-
-  commentForm.reset();
-};
-
+});
 
    
    /* ===============================

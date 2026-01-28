@@ -43,7 +43,6 @@ select, input{
   margin-bottom:14px;
 }
 
-/* ================= BUTTONS ================= */
 button{
   width:100%;
   height:48px;
@@ -62,19 +61,10 @@ button:hover{background:#1e4fd8}
   background:#059669;
 }
 
-.download-btn:hover{
-  background:#047857;
-}
+.download-btn:hover{background:#047857}
 
-/* ================= OUTPUT ================= */
-#qrOutput{
-  margin-top:26px;
-}
-
-#qrOutput canvas{
-  display:block;
-  margin:auto;
-}
+#qrOutput{margin-top:26px}
+#qrOutput canvas{display:block;margin:auto}
 
 /* ================= SEO ================= */
 .seo-section{
@@ -86,27 +76,10 @@ button:hover{background:#1e4fd8}
   box-shadow:0 4px 10px rgba(0,0,0,.08);
 }
 
-.seo-section h2{
-  text-align:center;
-  font-size:22px;
-  margin-bottom:28px;
-}
-
-.seo-section h3{
-  margin-top:26px;
-  margin-bottom:14px;
-  font-size:18px;
-}
-
-.seo-section ul{
-  padding-left:22px;
-}
-
-.seo-section li{
-  margin-bottom:12px;
-  font-size:15px;
-  line-height:1.6;
-}
+.seo-section h2{text-align:center;font-size:22px;margin-bottom:28px}
+.seo-section h3{margin-top:26px;margin-bottom:14px;font-size:18px}
+.seo-section ul{padding-left:22px}
+.seo-section li{margin-bottom:12px;font-size:15px;line-height:1.6}
 
 /* ================= REVIEWS ================= */
 #comments{
@@ -118,10 +91,7 @@ button:hover{background:#1e4fd8}
   box-shadow:0 4px 10px rgba(0,0,0,.1);
 }
 
-#comments h2{
-  text-align:center;
-  margin-bottom:20px;
-}
+#comments h2{text-align:center;margin-bottom:20px}
 
 .comment-box input,
 .comment-box textarea{
@@ -172,7 +142,7 @@ button:hover{background:#1e4fd8}
   <input type="text" id="qrInput" placeholder="Enter text, link, or number">
 
   <div class="options">
-    <input type="number" id="qrSize" value="220" placeholder="QR Size (px)">
+    <input type="number" id="qrSize" value="220">
     <input type="color" id="qrColor" value="#000000">
   </div>
 
@@ -184,122 +154,89 @@ button:hover{background:#1e4fd8}
   <div id="qrOutput"></div>
 </main>
 
-<!-- QR LIBRARY -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-<!-- ✅ FIXED SCRIPT (NO NESTED SCRIPT TAG) -->
 <script>
 let qrCanvas = null;
 
-function generateQR() {
-  const type = qrType.value;
+function generateQR(){
   const input = qrInput.value.trim();
-  const size = parseInt(qrSize.value) || 220;
-  const color = qrColor.value;
-  const output = document.getElementById("qrOutput");
-
-  if (!input) return alert("Please enter a value");
+  if(!input) return alert("Please enter a value");
 
   let data = input;
-  if (type === "url") data = input.startsWith("http") ? input : "https://" + input;
-  if (type === "whatsapp") data = "https://wa.me/" + input.replace(/\D/g, "");
-  if (type === "phone") data = "tel:" + input;
-  if (type === "email") data = "mailto:" + input;
+  if(qrType.value==="url") data = input.startsWith("http")?input:"https://"+input;
+  if(qrType.value==="whatsapp") data = "https://wa.me/"+input.replace(/\D/g,"");
+  if(qrType.value==="phone") data = "tel:"+input;
+  if(qrType.value==="email") data = "mailto:"+input;
 
-  output.innerHTML = "";
+  qrOutput.innerHTML = "";
 
-  new QRCode(output, {
-    text: data,
-    width: size,
-    height: size,
-    colorDark: color,
-    colorLight: "#ffffff"
+  new QRCode(qrOutput,{
+    text:data,
+    width:+qrSize.value||220,
+    height:+qrSize.value||220,
+    colorDark:qrColor.value,
+    colorLight:"#fff",
+    render:"canvas"   /* ✅ CRITICAL FIX */
   });
 
-  setTimeout(convertToCanvasAndAddLogo, 500);
+  setTimeout(()=>{
+    qrCanvas = qrOutput.querySelector("canvas");
+    addLogo();
+  },100);
 }
 
-function convertToCanvasAndAddLogo() {
-  const output = document.getElementById("qrOutput");
-  let canvas = output.querySelector("canvas");
-  let img = output.querySelector("img");
-
-  if (!canvas && img) {
-    canvas = document.createElement("canvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0);
-    output.innerHTML = "";
-    output.appendChild(canvas);
-  }
-
-  qrCanvas = canvas;
-  addLogo();
-}
-
-function addLogo() {
+function addLogo(){
   const file = logoInput.files[0];
-  if (!file || !qrCanvas) return;
+  if(!file||!qrCanvas) return;
 
   const ctx = qrCanvas.getContext("2d");
   const img = new Image();
 
-  img.onload = () => {
-    const size = qrCanvas.width;
-    const logoSize = size * 0.22;
-    const x = (size - logoSize) / 2;
-    const y = (size - logoSize) / 2;
-
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(x - 6, y - 6, logoSize + 12, logoSize + 12);
-    ctx.drawImage(img, x, y, logoSize, logoSize);
+  img.onload = ()=>{
+    const s = qrCanvas.width*0.22;
+    const x = (qrCanvas.width-s)/2;
+    const y = (qrCanvas.height-s)/2;
+    ctx.fillStyle="#fff";
+    ctx.fillRect(x-6,y-6,s+12,s+12);
+    ctx.drawImage(img,x,y,s,s);
   };
 
   img.src = URL.createObjectURL(file);
 }
 
-logoInput.addEventListener("change", () => {
-  if (qrCanvas) addLogo();
-});
+logoInput.addEventListener("change",()=>qrCanvas&&addLogo());
 
-function downloadQR() {
-  if (!qrCanvas) return alert("Generate QR first");
-  const a = document.createElement("a");
-  a.download = "dailytools-qr.png";
-  a.href = qrCanvas.toDataURL("image/png");
+function downloadQR(){
+  if(!qrCanvas) return alert("Generate QR first");
+  const a=document.createElement("a");
+  a.download="dailytools-qr.png";
+  a.href=qrCanvas.toDataURL();
   a.click();
 }
 </script>
 
-<!-- ================= SEO ================= -->
 <section class="seo-section">
   <h2>About QR Code Generator Tool</h2>
-
   <p>
     DailyTools QR Code Generator helps you create QR codes instantly for websites,
-    WhatsApp numbers, phone calls, emails, and text. All processing happens
-    inside your browser for maximum privacy.
+    WhatsApp numbers, phone calls, emails, and text.
   </p>
 
   <h3>Why use this tool?</h3>
   <ul>
     <li>✔ Free and unlimited QR code generation</li>
-    <li>✔ No signup or installation required</li>
-    <li>✔ Supports links, WhatsApp, phone & email</li>
-    <li>✔ Custom size, color and logo support</li>
-    <li>✔ Instant high-quality downloads</li>
+    <li>✔ No signup required</li>
+    <li>✔ Logo, color & size support</li>
+    <li>✔ Instant download</li>
   </ul>
 </section>
 
-<!-- ================= REVIEWS ================= -->
 <section id="comments">
   <h2>User Reviews & Ratings</h2>
-
   <form class="comment-box">
     <input placeholder="Your Name" required>
     <textarea rows="4" placeholder="Write your review..." required></textarea>
-
     <div class="review-actions">
       <select required>
         <option value="">Select Rating</option>
@@ -312,8 +249,6 @@ function downloadQR() {
       <button type="submit">Submit Review</button>
     </div>
   </form>
-
-  <div id="commentList"></div>
 </section>
 
 <footer class="site-footer">

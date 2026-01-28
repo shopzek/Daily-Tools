@@ -1,25 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
-  <script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"SoftwareApplication",
-  "name":"PNG to JPG Converter",
-  "operatingSystem":"All",
-  "applicationCategory":"UtilityApplication",
-  "description":"Convert PNG images to JPG instantly. Free, private, browser-based tool.",
-  "url":"https://dailytools.example/png-to-jpg",
-  "offers":{
-    "@type":"Offer",
-    "price":"0",
-    "priceCurrency":"USD"
-  }
-}
-</script>
-
-  
 <head>
+
 <meta charset="UTF-8">
 <title>PNG to JPG Converter – Free Online Tool | DailyTools</title>
 
@@ -28,144 +10,24 @@
 
 <link rel="stylesheet" href="../style.css">
 
-<style>
-/* TOOL CARD */
-.tool-wrapper{
-  max-width:750px;
-  margin:34px auto;
-  background:#fff;
-  padding:40px;
-  border-radius:14px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-  text-align:center;
+<!-- SOFTWARE APPLICATION SCHEMA -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"SoftwareApplication",
+  "name":"PNG to JPG Converter",
+  "operatingSystem":"All",
+  "applicationCategory":"UtilityApplication",
+  "description":"Convert PNG images to JPG instantly. Free, private, browser-based tool.",
+  "url":"https://yourdomain.com/png-to-jpg",
+  "offers":{
+    "@type":"Offer",
+    "price":"0",
+    "priceCurrency":"USD"
+  }
 }
+</script>
 
-.tool-desc{
-  color:#666;
-  font-size:15px;
-  margin-top:16px;
-  margin-bottom:36px;
-}
-
-/* DRAG & DROP */
-.drop-zone{
-  border:2px dashed #ccc;
-  border-radius:12px;
-  padding:34px;
-  cursor:pointer;
-  transition:.3s;
-  margin-bottom:18px;
-}
-
-.drop-zone:hover{
-  border-color:#2563eb;
-  background:#f5f7ff;
-}
-
-.drop-zone.dragover{
-  border-color:#2563eb;
-  background:#eef2ff;
-}
-
-.drop-zone p{
-  font-size:15px;
-  color:#444;
-}
-
-.file-info{
-  margin-top:10px;
-  font-size:13px;
-  color:#333;
-}
-
-/* BUTTON */
-button{
-  width:200px;
-  height:46px;
-  border-radius:12px;
-  font-size:15px;
-  background:#2563eb;
-  color:#fff;
-  border:none;
-  cursor:pointer;
-}
-button:hover{background:#1e4fd8}
-
-/* OUTPUT */
-#pngOutput{
-  margin-top:22px;
-}
-#pngOutput img{
-  max-width:100%;
-  border-radius:10px;
-  margin-bottom:14px;
-}
-#pngOutput a{
-  display:inline-block;
-  padding:10px 18px;
-  background:#2563eb;
-  color:#fff;
-  border-radius:10px;
-  text-decoration:none;
-}
-#pngOutput a:hover{background:#1e4fd8}
-
-/* SEO */
-.seo-section{
-  max-width:900px;
-  margin:60px auto;
-  background:#fff;
-  padding:35px;
-  border-radius:12px;
-  box-shadow:0 4px 10px rgba(0,0,0,.08);
-}
-.seo-section h2{text-align:center;margin-bottom:18px}
-
-/* REVIEWS */
-#comments{
-  max-width:900px;
-  margin:40px auto;
-  background:#fff;
-  padding:30px;
-  border-radius:12px;
-  box-shadow:0 4px 10px rgba(0,0,0,.1);
-}
-
-.comment-box input,
-.comment-box textarea{
-  width:100%;
-  padding:12px;
-  margin-bottom:14px;
-  border-radius:10px;
-  border:1px solid #d1d5db;
-  font-size:13px;
-}
-
-.review-actions{
-  display:flex;
-  justify-content:center;
-  gap:14px;
-}
-
-.review-actions select,
-.review-actions button{
-  width:200px;
-  height:50px;
-  border-radius:12px;
-}
-
-.review-actions button{
-  background:#2563eb;
-  color:#fff;
-  border:none;
-}
-
-.review{
-  margin-top:20px;
-  border-top:1px solid #eee;
-  padding-top:15px;
-}
-</style>
 </head>
 
 <body>
@@ -185,7 +47,7 @@ button:hover{background:#1e4fd8}
     <div class="file-info" id="fileInfo"></div>
   </div>
 
-  <button onclick="convertPngToJpg()">Convert to JPG</button>
+  <button id="convertBtn">Convert to JPG</button>
 
   <div id="pngOutput"></div>
 </main>
@@ -236,67 +98,72 @@ button:hover{background:#1e4fd8}
 </footer>
 
 <script>
-const dropZone=document.getElementById("dropZone");
-const fileInput=document.getElementById("pngInput");
-const fileInfo=document.getElementById("fileInfo");
-const pngOutput=document.getElementById("pngOutput");
+const dropZone = document.getElementById("dropZone");
+const fileInput = document.getElementById("pngInput");
+const fileInfo = document.getElementById("fileInfo");
+const pngOutput = document.getElementById("pngOutput");
+const convertBtn = document.getElementById("convertBtn");
+const commentForm = document.getElementById("commentForm");
+const commentList = document.getElementById("commentList");
 
-dropZone.onclick=()=>fileInput.click();
+dropZone.onclick = () => fileInput.click();
 
-fileInput.onchange=()=>{
-  if(fileInput.files.length)
-    fileInfo.innerText=fileInput.files[0].name;
+fileInput.onchange = () => {
+  if (fileInput.files.length)
+    fileInfo.innerText = fileInput.files[0].name;
 };
 
-dropZone.ondragover=e=>{
+dropZone.ondragover = e => {
   e.preventDefault();
   dropZone.classList.add("dragover");
 };
-dropZone.ondragleave=()=>dropZone.classList.remove("dragover");
-dropZone.ondrop=e=>{
+
+dropZone.ondragleave = () => dropZone.classList.remove("dragover");
+
+dropZone.ondrop = e => {
   e.preventDefault();
   dropZone.classList.remove("dragover");
-  fileInput.files=e.dataTransfer.files;
-  fileInfo.innerText=fileInput.files[0].name;
+  fileInput.files = e.dataTransfer.files;
+  fileInfo.innerText = fileInput.files[0].name;
 };
 
-function convertPngToJpg(){
-  if(!fileInput.files.length) return alert("Select a PNG file");
-  const file=fileInput.files[0];
-  const reader=new FileReader();
+convertBtn.onclick = () => {
+  if (!fileInput.files.length) return alert("Select a PNG file");
 
-  pngOutput.innerText="Converting...";
+  const reader = new FileReader();
+  pngOutput.innerText = "Converting...";
 
-  reader.onload=()=>{
-    const img=new Image();
-    img.onload=()=>{
-      const canvas=document.createElement("canvas");
-      canvas.width=img.width;
-      canvas.height=img.height;
-      const ctx=canvas.getContext("2d");
-      ctx.fillStyle="#fff";
+  reader.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+
+      ctx.fillStyle = "#fff";
       ctx.fillRect(0,0,canvas.width,canvas.height);
       ctx.drawImage(img,0,0);
 
-      const jpg=canvas.toDataURL("image/jpeg",0.95);
-      pngOutput.innerHTML=`
-        <img src="${jpg}">
+      const jpg = canvas.toDataURL("image/jpeg",0.95);
+      pngOutput.innerHTML = `
+        <img src="${jpg}" alt="Converted JPG image">
         <br>
         <a href="${jpg}" download="converted.jpg">⬇ Download JPG</a>`;
     };
-    img.src=reader.result;
+    img.src = reader.result;
   };
-  reader.readAsDataURL(file);
-}
+  reader.readAsDataURL(fileInput.files[0]);
+};
 
-commentForm.onsubmit=e=>{
+commentForm.onsubmit = e => {
   e.preventDefault();
-  commentList.innerHTML=
+  commentList.innerHTML =
     `<div class="review">
       <strong>${username.value}</strong> (${rating.value}⭐)
       <p>${usercomment.value}</p>
-    </div>`+commentList.innerHTML;
-  e.target.reset();
+    </div>` + commentList.innerHTML;
+  commentForm.reset();
 };
 </script>
 

@@ -36,7 +36,7 @@ content="Extract ZIP files or convert JPG, PDF, Word, Excel files into ZIP insta
   padding:36px;
   cursor:pointer;
   transition:.3s;
-  margin-bottom:20px;
+  margin-bottom:24px;
 }
 
 .drop-zone:hover,
@@ -84,35 +84,47 @@ button:hover{background:#1e4fd8}
   font-size:14px;
 }
 
-/* ================= SEO ================= */
+/* ================= SEO SECTION ================= */
 .seo-section{
   max-width:900px;
-  margin:30px auto;
+  margin:60px auto;
   background:#fff;
-  padding:45px;
+  padding:45px 50px;
   border-radius:12px;
   box-shadow:0 4px 10px rgba(0,0,0,.08);
 }
 
-.seo-section h2{text-align:center}
-  margin-bottom:35px; /* 🔧 adjust gap here */
-  margin-top:10px;
+.seo-section h2{
+  text-align:center;
+  font-size:22px;
+  margin-bottom:28px; /* ✅ clean gap */
 }
 
+.seo-section ul{
+  margin:0;
+  padding-left:22px;
+}
+
+.seo-section li{
+  margin-bottom:12px;
+  font-size:15px;
+  color:#333;
+  line-height:1.6;
+}
 
 /* ================= REVIEWS ================= */
 #comments{
-  max-width:900px;
-  margin:40px auto;
+  max-width:900px;          /* SAME as SEO */
+  margin:60px auto;         /* SAME spacing */
   background:#fff;
-  padding:36px;
+  padding:45px 50px;        /* SAME padding */
   border-radius:12px;
   box-shadow:0 4px 10px rgba(0,0,0,.1);
 }
 
 .comment-box input,
 .comment-box textarea{
-  width:900px;
+  width:100%;
   padding:12px;
   margin-bottom:14px;
   border-radius:10px;
@@ -123,14 +135,16 @@ button:hover{background:#1e4fd8}
   display:flex;
   justify-content:center;
   gap:14px;
+  margin-top:10px;
 }
 
 .review-actions select,
 .review-actions button{
   width:200px;
-  height:50px;
+  height:48px;
   border-radius:12px;
 }
+
 </style>
 </head>
 
@@ -146,7 +160,7 @@ button:hover{background:#1e4fd8}
 
 <p class="tool-desc">
 Extract ZIP files or convert JPG, PDF, Word, Excel and other files into ZIP.
-Everything runs inside your browser.
+Everything runs securely inside your browser.
 </p>
 
 <div class="drop-zone" id="dropZone">
@@ -164,24 +178,24 @@ Everything runs inside your browser.
 
 </main>
 
-<!-- SEO -->
+<!-- ================= SEO ================= -->
 <section class="seo-section">
   <h2>About ZIP Extractor & File to ZIP Converter Tool</h2>
 
   <ul>
-    <li> Easily extract ZIP files directly in your browser</li>
-    <li> Convert files like JPG, PNG, PDF, Word, Excel, and more into ZIP</li>
-    <li> 100% browser-based — no file uploads or server processing</li>
-    <li> Drag & drop or select files with one click</li>
-    <li> Fast processing with no file size limitations</li>
-    <li> Works on mobile, tablet, and desktop devices</li>
-    <li> No software installation or registration required</li>
-    <li> Privacy-first tool — your files never leave your device</li>
-    <li> Free to use for unlimited conversions and extractions</li>
+    <li>✔ Easily extract ZIP files directly in your browser</li>
+    <li>✔ Convert JPG, PNG, PDF, Word, Excel and more into ZIP</li>
+    <li>✔ 100% browser-based — no uploads or server processing</li>
+    <li>✔ Drag & drop or one-click file selection</li>
+    <li>✔ Fast processing with no file size limitations</li>
+    <li>✔ Works on mobile, tablet and desktop devices</li>
+    <li>✔ No software installation or registration required</li>
+    <li>✔ Privacy-first tool — your files never leave your device</li>
+    <li>✔ Free to use for unlimited conversions and extractions</li>
   </ul>
 </section>
 
-<!-- REVIEWS -->
+<!-- ================= REVIEWS ================= -->
 <section id="comments">
 <h2 style="text-align:center">User Reviews & Ratings</h2>
 
@@ -209,12 +223,11 @@ Everything runs inside your browser.
 <p>© 2026 DailyTools • ZIP Tools</p>
 </footer>
 
-<!-- JSZip library -->
+<!-- JSZip -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
-<!-- Your tool logic -->
+<!-- Tool Logic -->
 <script src="app.js"></script>
-
 
 </body>
 </html>

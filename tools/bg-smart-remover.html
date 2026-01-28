@@ -2,17 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Background Remover – DailyTools</title>
-
+<title>Offline Background Remover – DailyTools</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Free online background remover tool. Remove image backgrounds instantly. Fast, private, no signup.">
+<meta name="description" content="Offline background remover using U²-Net. Remove backgrounds instantly without internet.">
 
 <!-- SEO Schema -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "Background Remover",
+  "name": "Offline Background Remover",
   "applicationCategory": "UtilityApplication",
   "operatingSystem": "All",
   "offers": {
@@ -24,193 +23,79 @@
 </script>
 
 <style>
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f5f7fa;
+body {
+  margin:0; font-family:Arial,sans-serif; background:#f5f7fa;
 }
-
-/* TOOL */
 .tool-wrapper{
-  max-width:750px;
-  margin:40px auto;
-  background:#fff;
-  padding:40px;
-  border-radius:14px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-  text-align:center;
+  max-width:900px; margin:40px auto; background:#fff; padding:40px; border-radius:14px; box-shadow:0 10px 30px rgba(0,0,0,.08); text-align:center;
 }
-h1{margin-bottom:10px;}
-.tool-desc{color:#666;margin-bottom:30px;}
-
+h1, h2{margin-bottom:15px;}
+.tool-desc{color:#666; margin-bottom:30px;}
 .drop-zone{
-  border:2px dashed #ccc;
-  padding:35px;
-  border-radius:12px;
-  cursor:pointer;
-  transition:.3s;
+  border:2px dashed #ccc; padding:35px; border-radius:12px; cursor:pointer; transition:.3s; margin-bottom:20px;
 }
-.drop-zone:hover{
-  border-color:#2563eb;
-  background:#f0f4ff;
-}
-.drop-zone.dragover{
-  border-color:#2563eb;
-}
-
+.drop-zone:hover{border-color:#2563eb;background:#f0f4ff;}
+#fileName{margin-top:10px;font-weight:bold;}
 button{
-  margin-top:20px;
-  padding:14px 26px;
-  border:none;
-  border-radius:12px;
-  background:#2563eb;
-  color:#fff;
-  font-size:15px;
-  cursor:pointer;
+  margin-top:15px; padding:14px 26px; border:none; border-radius:12px; background:#2563eb; color:#fff; font-size:15px; cursor:pointer;
 }
-button:disabled{
-  background:#aaa;
-  cursor:not-allowed;
-}
-
-#bgStatus{
-  margin-top:15px;
-  font-weight:bold;
-}
-
-/* RESULT WITH TRANSPARENT CHECKERBOARD */
-#bgResult{
-  margin-top:25px;
-  padding:20px;
-  border-radius:14px;
-  background:
-    linear-gradient(45deg,#eee 25%,transparent 25%),
-    linear-gradient(-45deg,#eee 25%,transparent 25%),
-    linear-gradient(45deg,transparent 75%,#eee 75%),
-    linear-gradient(-45deg,transparent 75%,#eee 75%);
-  background-size:20px 20px;
-  background-position:0 0,0 10px,10px -10px,-10px 0px;
-}
-
-#bgResult img{
-  max-width:100%;
-  border-radius:12px;
-  box-shadow:0 6px 16px rgba(0,0,0,.15);
-}
-
-.primary-btn{
-  display:inline-block;
-  margin-top:15px;
-  padding:12px 24px;
-  background:#16a34a;
-  color:#fff;
-  border-radius:10px;
-  text-decoration:none;
-}
-
-/* SEO */
-.seo-section{
-  max-width:900px;
-  margin:40px auto;
-  background:#fff;
-  padding:30px;
-  border-radius:12px;
-}
-.seo-section h2{
-  text-align:center;
-}
-
-/* REVIEWS */
-#comments{
-  max-width:900px;
-  margin:40px auto;
-  background:#fff;
-  padding:30px;
-  border-radius:12px;
-}
-#comments h2{
-  text-align:center;
-}
-
-.comment-box input,
-.comment-box textarea{
-  width:100%;
-  padding:12px;
-  margin-bottom:12px;
-  border-radius:10px;
-  border:1px solid #ccc;
-}
-
-/* Rating + Submit same line */
-.review-actions{
-  display:flex;
-  justify-content:center;
-  gap:15px;
-}
-.review-actions select,
-.review-actions button{
-  width:200px;
-  height:48px;
-  border-radius:10px;
-  font-size:14px;
-}
-
-.site-footer{
-  margin-top:60px;
-  padding:20px;
-  text-align:center;
-  background:#f0f0f0;
-}
+button:disabled{background:#aaa; cursor:not-allowed;}
+#status{margin-top:15px;font-weight:bold;}
+#result img{margin-top:20px; max-width:100%; border-radius:12px; box-shadow:0 6px 16px rgba(0,0,0,.15);}
+.primary-btn{display:inline-block;margin-top:15px;padding:12px 24px;background:#16a34a;color:#fff;border-radius:10px;text-decoration:none;}
+.seo-section, #comments{max-width:900px; margin:40px auto; background:#fff; padding:30px; border-radius:12px;}
+.comment-box input,.comment-box textarea,.comment-box select{width:100%; padding:12px; margin-bottom:12px; border-radius:10px; border:1px solid #ccc;}
+.comment-box .review-actions{display:flex; gap:10px; justify-content:center; margin-bottom:12px;}
+.comment-box .review-actions select, .comment-box .review-actions button{flex:1; height:50px; border-radius:12px;}
+.site-footer{margin-top:60px; padding:20px; text-align:center; background:#f0f0f0;}
+#commentList{max-height:300px; overflow-y:auto;}
 </style>
+
+<!-- TensorFlow.js -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.12.0/dist/tf.min.js"></script>
 </head>
 
 <body>
-
-<!-- TOOL -->
 <div class="tool-wrapper">
-  <h1>Background Remover</h1>
-  <p class="tool-desc">Remove image backgrounds instantly. 100% browser based.</p>
+  <h1>Offline Background Remover</h1>
+  <p class="tool-desc">Remove image backgrounds instantly. Works offline in your browser.</p>
 
-  <div class="drop-zone" id="bgDropZone">
-    📂 Drag & drop image here<br>or click to upload
-    <input type="file" id="bgInput" accept="image/*" hidden>
+  <div class="drop-zone" id="dropZone">📂 Drag & drop image here<br>or click to select
+    <input type="file" id="inputFile" accept="image/*" hidden>
   </div>
+  <div id="fileName"></div>
 
-  <button id="bgRemoveBtn" disabled>Remove Background</button>
-  <div id="bgStatus"></div>
-  <div id="bgResult"></div>
+  <button id="removeBtn" disabled>Remove Background</button>
+  <div id="status"></div>
+  <div id="result"></div>
 </div>
 
-<!-- SEO -->
 <section class="seo-section">
-<h2>Why Use Our Background Remover?</h2>
-<ul>
-<li>✔ Fast AI background removal</li>
-<li>✔ No signup required</li>
-<li>✔ Free daily usage</li>
-<li>✔ High-quality transparent PNG</li>
-</ul>
+  <h2 style="text-align:center">Why Use Our Background Remover?</h2>
+  <ul>
+    <li>✔ Works offline with U²-Net AI</li>
+    <li>✔ High-quality transparent PNG</li>
+    <li>✔ Drag & drop support</li>
+    <li>✔ Free & private</li>
+  </ul>
 </section>
 
-<!-- REVIEWS -->
 <section id="comments">
-<h2>User Reviews</h2>
-<form id="commentForm" class="comment-box">
-<input id="username" placeholder="Your name" required>
-<textarea id="usercomment" placeholder="Your review" required></textarea>
-
-<div class="review-actions">
-  <select id="rating" required>
-    <option value="">Rating</option>
-    <option>⭐⭐⭐⭐⭐</option>
-    <option>⭐⭐⭐⭐</option>
-    <option>⭐⭐⭐</option>
-  </select>
-  <button type="submit">Submit Review</button>
-</div>
-</form>
-
-<div id="commentList"></div>
+  <h2 style="text-align:center">User Reviews</h2>
+  <form id="commentForm" class="comment-box">
+    <input id="username" placeholder="Your name" required>
+    <textarea id="usercomment" placeholder="Your review" required></textarea>
+    <div class="review-actions">
+      <select id="rating" required>
+        <option value="">Rating</option>
+        <option value="5">⭐⭐⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+      </select>
+      <button>Submit Review</button>
+    </div>
+  </form>
+  <div id="commentList"></div>
 </section>
 
 <footer class="site-footer">
@@ -218,79 +103,74 @@ button:disabled{
 </footer>
 
 <script>
-/* BG REMOVER */
-const API_KEY = "Ag1xUEcJiP5VcVrQh15xCHfA";
-const LIMIT = 20;
+let file=null;
+const dropZone=document.getElementById("dropZone");
+const input=document.getElementById("inputFile");
+const btn=document.getElementById("removeBtn");
+const fileName=document.getElementById("fileName");
+const status=document.getElementById("status");
+const result=document.getElementById("result");
 
-const dropZone = document.getElementById("bgDropZone");
-const input = document.getElementById("bgInput");
-const btn = document.getElementById("bgRemoveBtn");
-const status = document.getElementById("bgStatus");
-const result = document.getElementById("bgResult");
+dropZone.onclick=()=>input.click();
+input.onchange=()=>{file=input.files[0]; btn.disabled=!file; fileName.innerText=file?file.name:"";};
+dropZone.ondragover=e=>{e.preventDefault(); dropZone.classList.add("dragover");};
+dropZone.ondragleave=e=>dropZone.classList.remove("dragover");
+dropZone.ondrop=e=>{e.preventDefault(); dropZone.classList.remove("dragover"); file=e.dataTransfer.files[0]; btn.disabled=!file; fileName.innerText=file?file.name:"";};
 
-let file = null;
+// Load U2Net model
+let model=null;
+status.innerText="Loading AI model...";
+tf.loadGraphModel("models/u2net/u2net.json").then(m=>{
+  model=m;
+  status.innerText="Model loaded. Upload image to start.";
+}).catch(e=>{status.innerText="❌ Failed to load model."; console.error(e);});
 
-const used = () => Number(localStorage.getItem("bg_used") || 0);
-const addUse = () => localStorage.setItem("bg_used", used()+1);
-
-dropZone.onclick = () => input.click();
-input.onchange = () => { file = input.files[0]; btn.disabled=!file; };
-
-dropZone.ondragover = e => { e.preventDefault(); dropZone.classList.add("dragover"); };
-dropZone.ondragleave = () => dropZone.classList.remove("dragover");
-dropZone.ondrop = e => {
-  e.preventDefault();
-  dropZone.classList.remove("dragover");
-  file = e.dataTransfer.files[0];
-  btn.disabled=!file;
-};
-
-btn.onclick = async () => {
-  if(used() >= LIMIT){
-    status.innerText="⚠️ Daily free limit reached";
-    return;
-  }
+// Process Image
+btn.onclick=async()=>{
+  if(!file || !model) return;
   status.innerText="⏳ Processing...";
   btn.disabled=true;
 
-  const fd = new FormData();
-  fd.append("image_file",file);
-  fd.append("size","full"); // HD quality
+  const img = new Image();
+  img.src = URL.createObjectURL(file);
+  img.onload=async()=>{
+    const canvas=document.createElement("canvas");
+    canvas.width=img.width; canvas.height=img.height;
+    const ctx=canvas.getContext("2d");
+    ctx.drawImage(img,0,0);
+    let inputTensor=tf.browser.fromPixels(canvas).toFloat().div(255).expandDims(0);
 
-  try{
-    const res = await fetch("https://api.remove.bg/v1.0/removebg",{
-      method:"POST",
-      headers:{ "X-Api-Key":API_KEY },
-      body:fd
-    });
-    if(!res.ok) throw "error";
+    // Predict mask
+    let pred=model.predict(inputTensor);
+    pred=pred.squeeze(); // shape [h,w,1]
+    const maskTensor=tf.mul(pred,255).toInt();
+    const maskData=await tf.browser.toPixels(maskTensor);
+    
+    // Apply mask
+    const outCanvas=document.createElement("canvas");
+    outCanvas.width=img.width; outCanvas.height=img.height;
+    const outCtx=outCanvas.getContext("2d");
+    const imgData=ctx.getImageData(0,0,img.width,img.height);
+    for(let i=0;i<imgData.data.length;i+=4){
+      const alpha=maskData[i/4];
+      imgData.data[i+3]=alpha;
+    }
+    outCtx.putImageData(imgData,0,0);
 
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    addUse();
-
-    result.innerHTML = `
-      <img src="${url}">
-      <br>
-      <a href="${url}" download="bg-removed.png" class="primary-btn">
-        ⬇ Download PNG
-      </a>`;
-    status.innerText="✅ Done";
-  }catch{
-    status.innerText="❌ Failed. Try again later.";
+    const url=outCanvas.toDataURL("image/png");
+    result.innerHTML=`<img src="${url}"><br><a href="${url}" download="bg-removed.png" class="primary-btn">⬇ Download PNG</a>`;
+    status.innerText="✅ Background removed!";
     btn.disabled=false;
   }
 };
 
 /* Reviews */
-commentForm.onsubmit = e=>{
+document.getElementById("commentForm").onsubmit=e=>{
   e.preventDefault();
-  commentList.innerHTML =
-    `<p><strong>${username.value}</strong> (${rating.value})<br>${usercomment.value}</p>` 
-    + commentList.innerHTML;
+  const u=username.value, c=usercomment.value, r=rating.value;
+  commentList.innerHTML = `<p><strong>${u}</strong> (${r}⭐)<br>${c}</p>` + commentList.innerHTML;
   e.target.reset();
 };
 </script>
-
 </body>
 </html>

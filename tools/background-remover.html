@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <title>Background Remover – Free Online Tool | DailyTools</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="Remove image backgrounds instantly online. Free, browser-based, and private background remover tool." />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Remove image backgrounds instantly online. Free, browser-based, and private background remover tool.">
 
 <!-- SEO Schema -->
 <script type="application/ld+json">
@@ -25,157 +25,132 @@
 }
 </script>
 
-<link rel="stylesheet" href="../style.css" />
+<link rel="stylesheet" href="../style.css">
 
 <style>
-  /* TOOL CARD */
-  .tool-wrapper {
-    max-width: 750px;
-    margin: 34px auto;
-    background: #fff;
-    padding: 40px;
-    border-radius: 14px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
-    text-align: center;
-  }
+/* TOOL CARD */
+.tool-wrapper{
+  max-width:750px;
+  margin:34px auto;
+  background:#fff;
+  padding:40px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  text-align:center;
+}
 
-  .tool-wrapper h1 {
-    margin-bottom: 10px;
-  }
+.tool-wrapper h1{margin-bottom:10px;}
+.tool-desc{
+  color:#666;
+  font-size:15px;
+  margin-top:16px;
+  margin-bottom:36px;
+}
 
-  .tool-desc {
-    color: #666;
-    font-size: 15px;
-    margin-top: 16px;
-    margin-bottom: 36px;
-  }
+/* DRAG & DROP */
+.drop-zone{
+  border:2px dashed #ccc;
+  border-radius:12px;
+  padding:34px;
+  cursor:pointer;
+  transition:.3s;
+  margin-bottom:18px;
+}
+.drop-zone:hover{border-color:#2563eb;background:#f5f7ff;}
+.drop-zone.dragover{border-color:#2563eb;background:#eef2ff;}
+.drop-zone p{font-size:15px;color:#444;}
+.file-info{margin-top:10px;font-size:13px;color:#333;}
 
-  /* DRAG & DROP */
-  .drop-zone {
-    border: 2px dashed #ccc;
-    border-radius: 12px;
-    padding: 34px;
-    cursor: pointer;
-    transition: .3s;
-    margin-bottom: 18px;
-  }
+/* BUTTON */
+button{
+  width:220px;
+  height:46px;
+  border-radius:12px;
+  font-size:15px;
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  cursor:pointer;
+}
+button:hover{background:#1e4fd8}
 
-  .drop-zone:hover {
-    border-color: #2563eb;
-    background: #f5f7ff;
-  }
+/* OUTPUT */
+#bgOutput{
+  margin-top:22px;
+}
+#bgOutput img{
+  max-width:100%;
+  border-radius:10px;
+  margin-bottom:14px;
+}
+#bgOutput a{
+  display:inline-block;
+  padding:10px 18px;
+  background:#2563eb;
+  color:#fff;
+  border-radius:10px;
+  text-decoration:none;
+}
+#bgOutput a:hover{background:#1e4fd8}
 
-  .drop-zone.dragover {
-    border-color: #2563eb;
-    background: #eef2ff;
-  }
+/* SEO */
+.seo-section{
+  max-width:900px;
+  margin:60px auto;
+  background:#fff;
+  padding:35px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+.seo-section h2{text-align:center;margin-bottom:18px;}
 
-  #fileInfo {
-    margin-top: 10px;
-    font-size: 13px;
-    color: #333;
-  }
+/* REVIEWS */
+#comments{
+  max-width:900px;
+  margin:40px auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
 
-  button {
-    width: 220px;
-    height: 46px;
-    border-radius: 12px;
-    font-size: 15px;
-    background: #2563eb;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
+.comment-box input,
+.comment-box textarea{
+  width:100%;
+  padding:12px;
+  margin-bottom:14px;
+  border-radius:10px;
+  border:1px solid #d1d5db;
+  font-size:13px;
+}
 
-  button:hover {
-    background: #1e4fd8;
-  }
+.review-actions{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+}
 
-  /* OUTPUT */
-  #bgOutput {
-    margin-top: 22px;
-  }
+.review-actions select,
+.review-actions button{
+  width:200px;
+  height:50px;
+  border-radius:12px;
+}
 
-  #bgOutput img {
-    max-width: 100%;
-    border-radius: 10px;
-    margin-bottom: 14px;
-  }
+.review-actions button{
+  background:#2563eb;
+  color:#fff;
+  border:none;
+}
 
-  #bgOutput a {
-    display: inline-block;
-    padding: 10px 18px;
-    background: #2563eb;
-    color: #fff;
-    border-radius: 10px;
-    text-decoration: none;
-  }
-
-  #bgOutput a:hover {
-    background: #1e4fd8;
-  }
-
-  /* SEO */
-  .seo-section {
-    max-width: 900px;
-    margin: 60px auto;
-    background: #fff;
-    padding: 35px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, .08);
-  }
-
-  .seo-section h2 {
-    text-align: center;
-    margin-bottom: 18px;
-  }
-
-  /* REVIEWS */
-  #comments {
-    max-width: 900px;
-    margin: 40px auto;
-    background: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, .1);
-  }
-
-  .comment-box input,
-  .comment-box textarea {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 14px;
-    border-radius: 10px;
-    border: 1px solid #d1d5db;
-    font-size: 13px;
-  }
-
-  .review-actions {
-    display: flex;
-    justify-content: center;
-    gap: 14px;
-  }
-
-  .review-actions select,
-  .review-actions button {
-    width: 200px;
-    height: 50px;
-    border-radius: 12px;
-  }
-
-  .review-actions button {
-    background: #2563eb;
-    color: #fff;
-    border: none;
-  }
-
-  .review {
-    margin-top: 20px;
-    border-top: 1px solid #eee;
-    padding-top: 15px;
-  }
+.review{
+  margin-top:20px;
+  border-top:1px solid #eee;
+  padding-top:15px;
+}
 </style>
 
+<!-- TensorFlow.js & BodyPix for AI background removal -->
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0.5/dist/body-pix.min.js"></script>
 
@@ -193,23 +168,22 @@
 
   <div class="drop-zone" id="dropZone">
     <p>📂 Drag & drop an image here<br>or click to select</p>
-    <input type="file" id="imageInput" accept="image/*" hidden />
-    <div id="fileInfo"></div>
+    <input type="file" id="imageInput" accept="image/*" hidden>
+    <div class="file-info" id="fileInfo"></div>
   </div>
 
   <button onclick="removeBackground()">Remove Background</button>
 
-  <div id="bgOutput">Loading AI model...</div>
+  <div id="bgOutput">⏳ Loading optimized AI model...</div>
 </main>
 
 <!-- SEO Section -->
 <section class="seo-section">
   <h2>About Background Remover Tool</h2>
   <p>
-    DailyTools Background Remover uses advanced AI to remove image backgrounds instantly in your browser.
-    The tool is fast, secure, and requires no uploads or registration.
+    DailyTools Background Remover uses AI to remove image backgrounds instantly in your browser.
+    No uploads, free, private, and works on all devices.
   </p>
-
   <ul>
     <li>✔ Full HD image support</li>
     <li>✔ True transparent background</li>
@@ -223,7 +197,7 @@
   <h2 style="text-align:center">User Reviews & Ratings</h2>
 
   <form id="commentForm" class="comment-box">
-    <input type="text" id="username" placeholder="Your Name" required />
+    <input type="text" id="username" placeholder="Your Name" required>
     <textarea id="usercomment" rows="4" placeholder="Write your review..." required></textarea>
 
     <div class="review-actions">
@@ -248,131 +222,97 @@
 </footer>
 
 <script>
-  const dropZone = document.getElementById("dropZone");
-  const fileInput = document.getElementById("imageInput");
-  const fileInfo = document.getElementById("fileInfo");
-  const bgOutput = document.getElementById("bgOutput");
+// Elements
+const dropZone = document.getElementById("dropZone");
+const fileInput = document.getElementById("imageInput");
+const fileInfo = document.getElementById("fileInfo");
+const bgOutput = document.getElementById("bgOutput");
 
-  dropZone.onclick = () => fileInput.click();
-  fileInput.onchange = () => {
-    if (fileInput.files.length) {
-      fileInfo.textContent = fileInput.files[0].name;
-    }
-  };
-  dropZone.ondragover = e => {
-    e.preventDefault();
-    dropZone.classList.add("dragover");
-  };
-  dropZone.ondragleave = () => dropZone.classList.remove("dragover");
-  dropZone.ondrop = e => {
-    e.preventDefault();
-    dropZone.classList.remove("dragover");
-    fileInput.files = e.dataTransfer.files;
-    if (fileInput.files.length) {
-      fileInfo.textContent = fileInput.files[0].name;
-    }
-  };
+// Drag & Drop
+dropZone.onclick = () => fileInput.click();
+fileInput.onchange = () => {
+  if(fileInput.files.length) fileInfo.innerText = fileInput.files[0].name;
+};
+dropZone.ondragover = e => { e.preventDefault(); dropZone.classList.add("dragover"); };
+dropZone.ondragleave = () => dropZone.classList.remove("dragover");
+dropZone.ondrop = e => {
+  e.preventDefault();
+  dropZone.classList.remove("dragover");
+  fileInput.files = e.dataTransfer.files;
+  fileInfo.innerText = fileInput.files[0].name;
+};
 
-  let net;
-  async function loadModel() {
-    bgOutput.textContent = "⏳ Loading optimized AI model...";
-    net = await bodyPix.load({
-      architecture: 'MobileNetV1',
-      outputStride: 16,
-      multiplier: 0.75,
-      quantBytes: 2
-    });
-    bgOutput.textContent = "✅ Model loaded. Select an image to remove background.";
-  }
-  loadModel();
+// Load BodyPix model
+let net;
+async function loadModel() {
+  bgOutput.textContent = "⏳ Loading optimized AI model...";
+  net = await bodyPix.load({
+    architecture:'MobileNetV1',
+    outputStride:16,
+    multiplier:1.0
+  });
+  bgOutput.textContent = "✅ AI model loaded. Select an image to remove background.";
+}
+loadModel();
 
-  async function removeBackground() {
-    if (!fileInput.files.length) {
-      alert("Please select an image first.");
-      return;
-    }
-    if (!net) {
-      alert("Model is not loaded yet. Please wait.");
-      return;
-    }
+// Remove Background function (transparent)
+async function removeBackground() {
+  if(!fileInput.files.length) return alert("Please select an image.");
+  if(!net) return alert("AI model not loaded yet.");
 
-    bgOutput.textContent = "⏳ Processing image...";
+  const file = fileInput.files[0];
+  bgOutput.textContent = "⏳ Processing image...";
 
-    const file = fileInput.files[0];
-    const reader = new FileReader();
+  const reader = new FileReader();
+  reader.onload = () => {
+    const img = new Image();
+    img.src = reader.result;
 
-    reader.onload = () => {
-      const img = new Image();
-      img.src = reader.result;
+    img.onload = async () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
 
-      img.onload = async () => {
-        try {
-          const canvas = document.createElement("canvas");
-          canvas.width = img.width;
-          canvas.height = img.height;
-          const ctx = canvas.getContext("2d");
+      const segmentation = await net.segmentPerson(img, {
+        internalResolution: 'medium',
+        segmentationThreshold: 0.7
+      });
 
-          // Segment person from the image
-          const segmentation = await net.segmentPerson(img, {
-            internalResolution: 'medium',
-            segmentationThreshold: 0.7,
-          });
+      const imgData = ctx.getImageData(0,0,canvas.width,canvas.height);
+      const data = imgData.data;
 
-          // Create mask for background removal
-          const foregroundColor = { r: 0, g: 0, b: 0, a: 0 }; // transparent
-          const backgroundColor = { r: 0, g: 0, b: 0, a: 255 }; // opaque
-          const mask = bodyPix.toMask(segmentation, foregroundColor, backgroundColor);
-
-          // Draw mask to canvas
-          bodyPix.drawMask(canvas, img, mask, 1, 0, false);
-
-          const outputUrl = canvas.toDataURL("image/png");
-          bgOutput.innerHTML = `
-            <img src="${outputUrl}" alt="Background removed image" />
-            <br><a href="${outputUrl}" download="transparent.png">⬇ Download PNG</a>
-          `;
-        } catch (error) {
-          bgOutput.textContent = "Error during processing: " + error.message;
-          console.error(error);
+      // Transparent background
+      for(let i=0; i<data.length; i+=4){
+        const pixelIndex = i/4;
+        if(segmentation.data[pixelIndex] === 0){
+          data[i+3] = 0;
         }
-      };
+      }
 
-      img.onerror = () => {
-        alert("Failed to load image.");
-      };
+      ctx.putImageData(imgData, 0, 0);
+      const url = canvas.toDataURL("image/png");
+
+      bgOutput.innerHTML = `<img src="${url}" alt="Background removed image" />
+                            <br><a href="${url}" download="transparent.png">⬇ Download PNG</a>`;
     };
-
-    reader.onerror = () => {
-      alert("Failed to read image file.");
-    };
-
-    reader.readAsDataURL(file);
-  }
-
-  // Reviews form logic
-  const commentForm = document.getElementById("commentForm");
-  const commentList = document.getElementById("commentList");
-  commentForm.onsubmit = e => {
-    e.preventDefault();
-
-    const username = document.getElementById("username").value.trim();
-    const usercomment = document.getElementById("usercomment").value.trim();
-    const rating = document.getElementById("rating").value;
-
-    if (!username || !usercomment || !rating) return;
-
-    const reviewHTML = `
-      <div class="review">
-        <strong>${username}</strong> (${rating}⭐)
-        <p>${usercomment}</p>
-      </div>
-    `;
-
-    commentList.innerHTML = reviewHTML + commentList.innerHTML;
-    commentForm.reset();
   };
+  reader.readAsDataURL(file);
+}
+
+// Reviews
+const commentForm = document.getElementById("commentForm");
+const commentList = document.getElementById("commentList");
+commentForm.onsubmit = e => {
+  e.preventDefault();
+  commentList.innerHTML = `<div class="review">
+                              <strong>${username.value}</strong> (${rating.value}⭐)
+                              <p>${usercomment.value}</p>
+                            </div>` + commentList.innerHTML;
+  e.target.reset();
+};
 </script>
 
 </body>
-
 </html>

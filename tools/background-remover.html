@@ -10,17 +10,17 @@
 <!-- SEO Schema -->
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Background Remover",
-  "operatingSystem": "All",
-  "applicationCategory": "UtilityApplication",
-  "description": "Remove image backgrounds instantly online. Free, private, browser-based tool.",
-  "url": "https://dailytools.example/background-remover",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
+  "@context":"https://schema.org",
+  "@type":"SoftwareApplication",
+  "name":"Background Remover",
+  "operatingSystem":"All",
+  "applicationCategory":"UtilityApplication",
+  "description":"Remove image backgrounds instantly online. Free, private, browser-based tool.",
+  "url":"https://dailytools.example/background-remover",
+  "offers":{
+    "@type":"Offer",
+    "price":"0",
+    "priceCurrency":"USD"
   }
 }
 </script>
@@ -70,18 +70,12 @@
     background: #eef2ff;
   }
 
-  .drop-zone p {
-    font-size: 15px;
-    color: #444;
-  }
-
-  .file-info {
+  #fileInfo {
     margin-top: 10px;
     font-size: 13px;
     color: #333;
   }
 
-  /* BUTTON */
   button {
     width: 220px;
     height: 46px;
@@ -94,7 +88,7 @@
   }
 
   button:hover {
-    background: #1e4fd8
+    background: #1e4fd8;
   }
 
   /* OUTPUT */
@@ -118,7 +112,7 @@
   }
 
   #bgOutput a:hover {
-    background: #1e4fd8
+    background: #1e4fd8;
   }
 
   /* SEO */
@@ -182,7 +176,6 @@
   }
 </style>
 
-<!-- TensorFlow.js & BodyPix for AI background removal -->
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0.5/dist/body-pix.min.js"></script>
 
@@ -201,7 +194,7 @@
   <div class="drop-zone" id="dropZone">
     <p>📂 Drag & drop an image here<br>or click to select</p>
     <input type="file" id="imageInput" accept="image/*" hidden />
-    <div class="file-info" id="fileInfo"></div>
+    <div id="fileInfo"></div>
   </div>
 
   <button onclick="removeBackground()">Remove Background</button>
@@ -255,15 +248,17 @@
 </footer>
 
 <script>
-  // Elements
   const dropZone = document.getElementById("dropZone");
   const fileInput = document.getElementById("imageInput");
   const fileInfo = document.getElementById("fileInfo");
   const bgOutput = document.getElementById("bgOutput");
 
-  // Drag & Drop
   dropZone.onclick = () => fileInput.click();
-  fileInput.onchange = () => fileInput.files.length && (fileInfo.innerText = fileInput.files[0].name);
+  fileInput.onchange = () => {
+    if (fileInput.files.length) {
+      fileInfo.textContent = fileInput.files[0].name;
+    }
+  };
   dropZone.ondragover = e => {
     e.preventDefault();
     dropZone.classList.add("dragover");
@@ -273,31 +268,37 @@
     e.preventDefault();
     dropZone.classList.remove("dragover");
     fileInput.files = e.dataTransfer.files;
-    fileInfo.innerText = fileInput.files[0].name;
+    if (fileInput.files.length) {
+      fileInfo.textContent = fileInput.files[0].name;
+    }
   };
 
-  // Load BodyPix model
   let net;
   async function loadModel() {
-    bgOutput.innerText = "⏳ Loading optimized AI model...";
+    bgOutput.textContent = "⏳ Loading optimized AI model...";
     net = await bodyPix.load({
       architecture: 'MobileNetV1',
       outputStride: 16,
-      multiplier: 1.0,
+      multiplier: 0.75,
       quantBytes: 2
     });
-    bgOutput.innerText = "✅ Model loaded. Select an image to remove background.";
+    bgOutput.textContent = "✅ Model loaded. Select an image to remove background.";
   }
   loadModel();
 
-  // Remove Background function with debug and improved scaling
   async function removeBackground() {
-    if (!fileInput.files.length) return alert("Select an image");
-    if (!net) return alert("AI model not loaded yet");
+    if (!fileInput.files.length) {
+      alert("Please select an image first.");
+      return;
+    }
+    if (!net) {
+      alert("Model is not loaded yet. Please wait.");
+      return;
+    }
+
+    bgOutput.textContent = "⏳ Processing image...";
 
     const file = fileInput.files[0];
-    bgOutput.innerHTML = "⏳ Processing image...";
-
     const reader = new FileReader();
 
     reader.onload = () => {
@@ -306,109 +307,69 @@
 
       img.onload = async () => {
         try {
-          console.log("Image loaded:", img.width, "x", img.height);
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
 
-          // Original image canvas
-          const originalCanvas = document.createElement("canvas");
-          originalCanvas.width = img.width;
-          originalCanvas.height = img.height;
-          const originalCtx = originalCanvas.getContext("2d");
-          originalCtx.drawImage(img, 0, 0);
-
-          // Scale for segmentation (max 512px width or height)
-          const scale = Math.min(512 / img.width, 512 / img.height, 1);
-          console.log("Scale for segmentation:", scale);
-
-          const smallCanvas = document.createElement("canvas");
-          smallCanvas.width = img.width * scale;
-          smallCanvas.height = img.height * scale;
-          const smallCtx = smallCanvas.getContext("2d");
-          smallCtx.drawImage(img, 0, 0, smallCanvas.width, smallCanvas.height);
-
-          // Run segmentation
-          console.log("Running segmentation...");
-          const segmentation = await net.segmentPerson(smallCanvas, {
+          // Segment person from the image
+          const segmentation = await net.segmentPerson(img, {
             internalResolution: 'medium',
-            segmentationThreshold: 0.7
+            segmentationThreshold: 0.7,
           });
 
-          if (!segmentation || !segmentation.data) {
-            throw new Error("Segmentation failed or returned no data.");
-          }
-          console.log("Segmentation complete");
+          // Create mask for background removal
+          const foregroundColor = { r: 0, g: 0, b: 0, a: 0 }; // transparent
+          const backgroundColor = { r: 0, g: 0, b: 0, a: 255 }; // opaque
+          const mask = bodyPix.toMask(segmentation, foregroundColor, backgroundColor);
 
-          // Create alpha mask full size
-          const maskCanvas = document.createElement("canvas");
-          maskCanvas.width = img.width;
-          maskCanvas.height = img.height;
-          const maskCtx = maskCanvas.getContext("2d");
-          const maskImgData = maskCtx.createImageData(img.width, img.height);
-          const maskData = maskImgData.data;
+          // Draw mask to canvas
+          bodyPix.drawMask(canvas, img, mask, 1, 0, false);
 
-          for (let y = 0; y < img.height; y++) {
-            for (let x = 0; x < img.width; x++) {
-              const origIndex = (y * img.width + x) * 4;
-              const smallX = Math.floor(x * scale);
-              const smallY = Math.floor(y * scale);
-              const segIndex = smallY * smallCanvas.width + smallX;
-              const isPerson = segmentation.data[segIndex];
-              maskData[origIndex] = 0;
-              maskData[origIndex + 1] = 0;
-              maskData[origIndex + 2] = 0;
-              maskData[origIndex + 3] = isPerson ? 255 : 0;
-            }
-          }
-
-          maskCtx.putImageData(maskImgData, 0, 0);
-
-          // Apply alpha mask to original image
-          const finalCanvas = document.createElement("canvas");
-          finalCanvas.width = img.width;
-          finalCanvas.height = img.height;
-          const finalCtx = finalCanvas.getContext("2d");
-
-          finalCtx.drawImage(img, 0, 0);
-          const finalData = finalCtx.getImageData(0, 0, img.width, img.height);
-          const maskDataFinal = maskCtx.getImageData(0, 0, img.width, img.height).data;
-
-          for (let i = 0; i < finalData.data.length; i += 4) {
-            finalData.data[i + 3] = maskDataFinal[i + 3];
-          }
-
-          finalCtx.putImageData(finalData, 0, 0);
-
-          const url = finalCanvas.toDataURL("image/png");
-          bgOutput.innerHTML = `<img src="${url}" alt="Result image"><br><a href="${url}" download="transparent.png">⬇ Download PNG</a>`;
-
-          console.log("Background removal completed successfully.");
+          const outputUrl = canvas.toDataURL("image/png");
+          bgOutput.innerHTML = `
+            <img src="${outputUrl}" alt="Background removed image" />
+            <br><a href="${outputUrl}" download="transparent.png">⬇ Download PNG</a>
+          `;
         } catch (error) {
-          bgOutput.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
-          console.error("Error during background removal:", error);
+          bgOutput.textContent = "Error during processing: " + error.message;
+          console.error(error);
         }
       };
 
       img.onerror = () => {
-        alert("Failed to load the image file. Try a different image.");
-        console.error("Image load error.");
+        alert("Failed to load image.");
       };
     };
 
     reader.onerror = () => {
-      alert("Failed to read the image file.");
-      console.error("FileReader error.");
+      alert("Failed to read image file.");
     };
 
     reader.readAsDataURL(file);
   }
 
-  // Reviews
+  // Reviews form logic
   const commentForm = document.getElementById("commentForm");
   const commentList = document.getElementById("commentList");
   commentForm.onsubmit = e => {
     e.preventDefault();
-    commentList.innerHTML =
-      `<div class="review"><strong>${username.value}</strong> (${rating.value}⭐)<p>${usercomment.value}</p></div>` + commentList.innerHTML;
-    e.target.reset();
+
+    const username = document.getElementById("username").value.trim();
+    const usercomment = document.getElementById("usercomment").value.trim();
+    const rating = document.getElementById("rating").value;
+
+    if (!username || !usercomment || !rating) return;
+
+    const reviewHTML = `
+      <div class="review">
+        <strong>${username}</strong> (${rating}⭐)
+        <p>${usercomment}</p>
+      </div>
+    `;
+
+    commentList.innerHTML = reviewHTML + commentList.innerHTML;
+    commentForm.reset();
   };
 </script>
 

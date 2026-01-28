@@ -1,59 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>QR Code Generator Online – Free QR Maker | DailyTools</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>QR Code Generator Online – Free QR Maker | DailyTools</title>
 
-  <!-- SEO -->
-  <meta name="description" content="Free QR Code Generator online. Create QR codes for links, WhatsApp, phone, email and text. Download high-quality QR codes instantly.">
-  <meta name="keywords" content="QR code generator, free QR maker, WhatsApp QR, link QR code, download QR">
-  <link rel="canonical" href="https://shopzek.github.io/Daily-Tools/tools/qr-code-generator.html">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Free QR Code Generator online. Create QR codes for links, WhatsApp, phone, email and text. Download high-quality QR codes instantly.">
 
-  <link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../style.css">
 
-  <style>
-    .tool-wrapper {
-      max-width: 520px;
-      margin: 60px auto;
-      background: #fff;
-      padding: 32px;
-      border-radius: 14px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.08);
-      text-align: center;
-    }
-    .tool-desc { color: #666; font-size: 15px; margin-bottom: 20px; }
-    select, input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 12px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
-    .options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-    button {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      background: #4f46e5;
-      color: white;
-      font-size: 15px;
-      cursor: pointer;
-      margin-top: 6px;
-    }
-    button:hover { background: #4338ca; }
-    .download-btn { background: #059669; }
-    .download-btn:hover { background: #047857; }
-    #qrOutput { margin-top: 20px; }
-    #qrOutput canvas { margin: auto; display: block; }
-  </style>
+<style>
+/* ================= TOOL ================= */
+.tool-wrapper{
+  max-width:520px;
+  margin:60px auto;
+  background:#fff;
+  padding:36px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  text-align:center;
+}
+
+.tool-desc{
+  color:#666;
+  font-size:15px;
+  margin:16px 0 28px;
+}
+
+select, input{
+  width:100%;
+  padding:12px;
+  margin-bottom:14px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  font-size:14px;
+}
+
+.options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:14px;
+}
+
+/* ================= BUTTONS ================= */
+button{
+  width:100%;
+  height:48px;
+  border-radius:12px;
+  font-size:15px;
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  cursor:pointer;
+  margin-top:8px;
+}
+
+button:hover{background:#1e4fd8}
+
+.download-btn{
+  background:#059669;
+}
+
+.download-btn:hover{
+  background:#047857;
+}
+
+/* ================= OUTPUT ================= */
+#qrOutput{
+  margin-top:26px;
+}
+
+#qrOutput canvas{
+  display:block;
+  margin:auto;
+}
+
+/* ================= SEO ================= */
+.seo-section{
+  max-width:900px;
+  margin:60px auto;
+  background:#fff;
+  padding:45px 50px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+
+.seo-section h2{
+  text-align:center;
+  font-size:22px;
+  margin-bottom:28px;
+}
+
+.seo-section h3{
+  margin-top:26px;
+  margin-bottom:14px;
+  font-size:18px;
+}
+
+.seo-section ul{
+  padding-left:22px;
+}
+
+.seo-section li{
+  margin-bottom:12px;
+  font-size:15px;
+  line-height:1.6;
+}
+
+/* ================= REVIEWS ================= */
+#comments{
+  max-width:900px;
+  margin:50px auto;
+  background:#fff;
+  padding:36px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+
+#comments h2{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.comment-box input,
+.comment-box textarea{
+  width:100%;
+  padding:12px;
+  margin-bottom:14px;
+  border-radius:10px;
+  border:1px solid #d1d5db;
+}
+
+.review-actions{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+}
+
+.review-actions select,
+.review-actions button{
+  width:200px;
+  height:48px;
+  border-radius:12px;
+}
+</style>
 </head>
+
 <body>
 
 <header class="main-header">
@@ -62,9 +155,10 @@
 
 <main class="tool-wrapper">
   <h1>QR Code Generator</h1>
+
   <p class="tool-desc">
     Generate and download QR codes for links, WhatsApp, phone, email and text.
-    Customize size, color and add logo.
+    Everything works securely inside your browser.
   </p>
 
   <select id="qrType">
@@ -96,113 +190,113 @@
 <script>
 let currentQRCanvas = null;
 
-function generateQR() {
+function generateQR(){
   const type = qrType.value;
   const input = qrInput.value.trim();
   const size = parseInt(qrSize.value) || 220;
   const color = qrColor.value;
   const output = document.getElementById("qrOutput");
 
-  if (!input) return alert("Please enter a value");
+  if(!input){ alert("Please enter a value"); return; }
 
   let data = "";
-  switch (type) {
+  switch(type){
     case "url": data = input.startsWith("http") ? input : "https://" + input; break;
-    case "whatsapp": data = "https://wa.me/" + input.replace(/\D/g, ""); break;
+    case "whatsapp": data = "https://wa.me/" + input.replace(/\D/g,""); break;
     case "phone": data = "tel:" + input; break;
     case "email": data = "mailto:" + input; break;
     default: data = input;
   }
 
   output.innerHTML = "";
-  new QRCode(output, {
-    text: data,
-    width: size,
-    height: size,
-    colorDark: color,
-    colorLight: "#ffffff"
+  new QRCode(output,{
+    text:data,
+    width:size,
+    height:size,
+    colorDark:color,
+    colorLight:"#ffffff"
   });
 
-  setTimeout(() => {
+  setTimeout(()=>{
     currentQRCanvas = output.querySelector("canvas");
     addLogoIfAny();
-  }, 300);
+  },300);
 }
 
-function addLogoIfAny() {
+function addLogoIfAny(){
   const file = logoInput.files[0];
-  if (!file || !currentQRCanvas) return;
+  if(!file || !currentQRCanvas) return;
 
   const ctx = currentQRCanvas.getContext("2d");
   const img = new Image();
 
-  img.onload = () => {
-    const size = currentQRCanvas.width;
-    const logoSize = size * 0.22;
-    const x = (size - logoSize) / 2;
-    const y = (size - logoSize) / 2;
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(x, y, logoSize, logoSize);
-    ctx.drawImage(img, x, y, logoSize, logoSize);
+  img.onload = ()=>{
+    const s = currentQRCanvas.width * 0.22;
+    const x = (currentQRCanvas.width - s)/2;
+    const y = (currentQRCanvas.height - s)/2;
+    ctx.fillStyle="#fff";
+    ctx.fillRect(x,y,s,s);
+    ctx.drawImage(img,x,y,s,s);
   };
 
   img.src = URL.createObjectURL(file);
 }
 
-function downloadQR() {
-  if (!currentQRCanvas) return alert("Generate QR first");
+function downloadQR(){
+  if(!currentQRCanvas){ alert("Generate QR first"); return; }
   const a = document.createElement("a");
-  a.download = "dailytools-qr-code.png";
-  a.href = currentQRCanvas.toDataURL("image/png");
+  a.download="dailytools-qr-code.png";
+  a.href=currentQRCanvas.toDataURL("image/png");
   a.click();
 }
 </script>
 
-<!-- SEO SECTION -->
+<!-- ================= SEO ================= -->
 <section class="seo-section">
-  <h2>About QR Code Generator</h2>
+  <h2>About QR Code Generator Tool</h2>
+
   <p>
-    DailyTools QR Code Generator allows you to create QR codes instantly for
-    websites, WhatsApp numbers, phone calls, emails, and text. All processing
-    happens inside your browser, keeping your data private.
+    DailyTools QR Code Generator helps you create QR codes instantly for websites,
+    WhatsApp numbers, phone calls, emails, and text. All processing happens
+    inside your browser for maximum privacy.
   </p>
 
-  <h3>Why use this QR Code Generator?</h3>
+  <h3>Why use this tool?</h3>
   <ul>
-    <li>✔ 100% free and unlimited</li>
-    <li>✔ No signup required</li>
-    <li>✔ Supports WhatsApp, links, phone & email</li>
-    <li>✔ Custom size, color and logo</li>
-    <li>✔ Instant download</li>
+    <li>✔ Free and unlimited QR code generation</li>
+    <li>✔ No signup or installation required</li>
+    <li>✔ Supports links, WhatsApp, phone & email</li>
+    <li>✔ Custom size, color and logo support</li>
+    <li>✔ Instant high-quality downloads</li>
   </ul>
 </section>
 
-<!-- COMMENTS -->
-<section id="comments" style="max-width:900px;margin:40px auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,.1);">
-  <h2 style="color:#2563eb;">User Reviews & Ratings</h2>
+<!-- ================= REVIEWS ================= -->
+<section id="comments">
+  <h2>User Reviews & Ratings</h2>
 
-  <form>
-    <input type="text" placeholder="Your Name" required style="width:100%;padding:10px;margin-bottom:10px;">
-    <textarea placeholder="Write your review..." required style="width:100%;padding:10px;margin-bottom:10px;"></textarea>
+  <form class="comment-box">
+    <input placeholder="Your Name" required>
+    <textarea rows="4" placeholder="Write your review..." required></textarea>
 
-    <label>Rating:
+    <div class="review-actions">
       <select required>
-        <option value="">Select</option>
+        <option value="">Select Rating</option>
         <option>⭐⭐⭐⭐⭐</option>
         <option>⭐⭐⭐⭐</option>
         <option>⭐⭐⭐</option>
         <option>⭐⭐</option>
         <option>⭐</option>
       </select>
-    </label>
-
-    <br><br>
-    <button type="submit">Submit Review</button>
+      <button type="submit">Submit Review</button>
+    </div>
   </form>
+
+  <div id="commentList"></div>
 </section>
 
 <footer class="site-footer">
-  <p>© 2026 DailyTools • 100% Free</p>
+  <p>© 2026 DailyTools • Free Online Tools</p>
 </footer>
 
 </body>

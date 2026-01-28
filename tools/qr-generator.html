@@ -187,7 +187,7 @@ button:hover{background:#1e4fd8}
 <!-- QR LIBRARY -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-<script>
+<!-- ✅ FIXED SCRIPT (NO NESTED SCRIPT TAG) -->
 <script>
 let qrCanvas = null;
 
@@ -198,10 +198,7 @@ function generateQR() {
   const color = qrColor.value;
   const output = document.getElementById("qrOutput");
 
-  if (!input) {
-    alert("Please enter a value");
-    return;
-  }
+  if (!input) return alert("Please enter a value");
 
   let data = input;
   if (type === "url") data = input.startsWith("http") ? input : "https://" + input;
@@ -222,35 +219,25 @@ function generateQR() {
   setTimeout(convertToCanvasAndAddLogo, 500);
 }
 
-/* CONVERT IMG TO CANVAS (CRITICAL FIX) */
 function convertToCanvasAndAddLogo() {
   const output = document.getElementById("qrOutput");
-  let img = output.querySelector("img");
   let canvas = output.querySelector("canvas");
+  let img = output.querySelector("img");
 
-  if (canvas) {
-    qrCanvas = canvas;
-    addLogo();
-    return;
+  if (!canvas && img) {
+    canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    output.innerHTML = "";
+    output.appendChild(canvas);
   }
-
-  if (!img) return;
-
-  canvas = document.createElement("canvas");
-  canvas.width = img.width;
-  canvas.height = img.height;
-
-  const ctx = canvas.getContext("2d");
-  ctx.drawImage(img, 0, 0);
-
-  output.innerHTML = "";
-  output.appendChild(canvas);
 
   qrCanvas = canvas;
   addLogo();
 }
 
-/* ADD LOGO */
 function addLogo() {
   const file = logoInput.files[0];
   if (!file || !qrCanvas) return;
@@ -264,7 +251,7 @@ function addLogo() {
     const x = (size - logoSize) / 2;
     const y = (size - logoSize) / 2;
 
-    ctx.fillStyle = "#ffffff";
+    ctx.fillStyle = "#fff";
     ctx.fillRect(x - 6, y - 6, logoSize + 12, logoSize + 12);
     ctx.drawImage(img, x, y, logoSize, logoSize);
   };
@@ -272,25 +259,17 @@ function addLogo() {
   img.src = URL.createObjectURL(file);
 }
 
-/* UPDATE LOGO AFTER QR */
 logoInput.addEventListener("change", () => {
   if (qrCanvas) addLogo();
 });
 
-/* DOWNLOAD */
 function downloadQR() {
-  if (!qrCanvas) {
-    alert("Generate QR first");
-    return;
-  }
-
+  if (!qrCanvas) return alert("Generate QR first");
   const a = document.createElement("a");
   a.download = "dailytools-qr.png";
   a.href = qrCanvas.toDataURL("image/png");
   a.click();
 }
-</script>
-
 </script>
 
 <!-- ================= SEO ================= -->

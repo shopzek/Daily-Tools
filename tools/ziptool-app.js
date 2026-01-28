@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  console.log("✅ app.js loaded");
+  console.log("✅ ZIP Tool JS loaded");
 
   const dropZone   = document.getElementById("dropZone");
   const fileInput  = document.getElementById("fileInput");
@@ -9,10 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const zipBtn     = document.getElementById("zipBtn");
   const output     = document.getElementById("output");
 
-  if (!dropZone || !fileInput) {
-    alert("HTML IDs not found — JS stopped");
-    return;
-  }
+  let selectedFiles = []; // ✅ SAFE STORAGE
 
   /* CLICK TO OPEN FILE PICKER */
   dropZone.addEventListener("click", () => {
@@ -21,7 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* FILE SELECT */
   fileInput.addEventListener("change", () => {
-    fileInfo.textContent = `${fileInput.files.length} file(s) selected`;
+    selectedFiles = Array.from(fileInput.files);
+    fileInfo.textContent = `${selectedFiles.length} file(s) selected`;
   });
 
   /* DRAG & DROP */
@@ -37,25 +35,26 @@ document.addEventListener("DOMContentLoaded", () => {
   dropZone.addEventListener("drop", e => {
     e.preventDefault();
     dropZone.classList.remove("dragover");
-    fileInput.files = e.dataTransfer.files;
-    fileInfo.textContent = `${fileInput.files.length} file(s) selected`;
+
+    selectedFiles = Array.from(e.dataTransfer.files);
+    fileInfo.textContent = `${selectedFiles.length} file(s) selected`;
   });
 
-  /* CONVERT TO ZIP */
+  /* CONVERT FILES TO ZIP */
   zipBtn.addEventListener("click", async () => {
 
-    if (!fileInput.files.length) {
-      alert("Select files first");
+    if (!selectedFiles.length) {
+      alert("Please select files first");
       return;
     }
 
     const zip = new JSZip();
 
-    for (const file of fileInput.files) {
+    selectedFiles.forEach(file => {
       zip.file(file.name, file);
-    }
+    });
 
-    output.innerHTML = "Creating ZIP...";
+    output.innerHTML = "Creating ZIP file...";
 
     const blob = await zip.generateAsync({ type: "blob" });
     const url = URL.createObjectURL(blob);
@@ -70,15 +69,15 @@ document.addEventListener("DOMContentLoaded", () => {
   /* EXTRACT ZIP */
   extractBtn.addEventListener("click", async () => {
 
-    if (!fileInput.files.length) {
-      alert("Select a ZIP file");
+    if (!selectedFiles.length) {
+      alert("Please select a ZIP file");
       return;
     }
 
-    const file = fileInput.files[0];
+    const file = selectedFiles[0];
 
-    if (!file.name.endsWith(".zip")) {
-      alert("This is not a ZIP file");
+    if (!file.name.toLowerCase().endsWith(".zip")) {
+      alert("Selected file is not a ZIP");
       return;
     }
 
@@ -88,12 +87,17 @@ document.addEventListener("DOMContentLoaded", () => {
     output.innerHTML = "";
 
     for (const name in zip.files) {
+
+      if (zip.files[name].dir) continue;
+
       const blob = await zip.files[name].async("blob");
       const url = URL.createObjectURL(blob);
 
       output.innerHTML += `
-        <p>📄 ${name} —
-        <a href="${url}" download="${name}">Download</a></p>
+        <p>
+          📄 ${name} —
+          <a href="${url}" download="${name}">Download</a>
+        </p>
       `;
     }
   });

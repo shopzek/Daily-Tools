@@ -461,22 +461,107 @@ commentForm.addEventListener("submit", e => {
   ZIP Tool
 ================================ */
    
-const dropZone  = document.getElementById("dropZone");
-const zipInput  = document.getElementById("zipInput");
-const fileInfo  = document.getElementById("fileInfo");
+const dropZone   = document.getElementById("dropZone");
+const fileInput  = document.getElementById("fileInput");
+const fileInfo   = document.getElementById("fileInfo");
+const output     = document.getElementById("output");
 const extractBtn = document.getElementById("extractBtn");
-const output    = document.getElementById("zipOutput");
+const zipBtn     = document.getElementById("zipBtn");
 
-/* CLICK TO SELECT FILE */
+/* ================= CLICK TO ADD FILE ================= */
 dropZone.addEventListener("click", () => {
-  zipInput.click();
+  fileInput.click();
 });
 
-/* FILE SELECTED */
-zipInput.addEventListener("change", () => {
-  if (zipInput.files.length) {
-    fileInfo.innerText = zipInput.files[0].name;
+/* ================= FILE SELECT ================= */
+fileInput.addEventListener("change", () => {
+  if (!fileInput.files.length) return;
+  fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
+  output.innerHTML = "";
+});
+
+/* ================= DRAG & DROP ================= */
+dropZone.addEventListener("dragover", e => {
+  e.preventDefault();
+  dropZone.classList.add("dragover");
+});
+
+dropZone.addEventListener("dragleave", () => {
+  dropZone.classList.remove("dragover");
+});
+
+dropZone.addEventListener("drop", e => {
+  e.preventDefault();
+  dropZone.classList.remove("dragover");
+  fileInput.files = e.dataTransfer.files;
+  fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
+  output.innerHTML = "";
+});
+
+/* ================= EXTRACT ZIP ================= */
+extractBtn.addEventListener("click", async () => {
+
+  if (!fileInput.files.length) {
+    alert("Please select a ZIP file");
+    return;
   }
+
+  const file = fileInput.files[0];
+
+  if (!file.name.endsWith(".zip")) {
+    alert("Selected file is not a ZIP");
+    return;
+  }
+
+  output.innerHTML = "⏳ Extracting ZIP...";
+
+  const zip = await JSZip.loadAsync(file);
+  output.innerHTML = "";
+
+  for (const name in zip.files) {
+    const zipFile = zip.files[name];
+
+    if (!zipFile.dir) {
+      const blob = await zipFile.async("blob");
+      const url = URL.createObjectURL(blob);
+
+      output.innerHTML += `
+        <p>
+          📄 ${name}
+          <a href="${url}" download="${name}">⬇ Download</a>
+        </p>
+      `;
+    }
+  }
+});
+
+/* ================= FILE → ZIP ================= */
+zipBtn.addEventListener("click", async () => {
+
+  if (!fileInput.files.length) {
+    alert("Please select file(s) to ZIP");
+    return;
+  }
+
+  output.innerHTML = "⏳ Creating ZIP...";
+
+  const zip = new JSZip();
+
+  Array.from(fileInput.files).forEach(file => {
+    zip.file(file.name, file);
+  });
+
+  const zipBlob = await zip.generateAsync({ type: "blob" });
+  const zipUrl  = URL.createObjectURL(zipBlob);
+
+  output.innerHTML = `
+    <p>✅ ZIP file ready</p>
+    <a href="${zipUrl}" download="DailyTools-ZIP.zip"
+       style="display:inline-block;padding:10px 18px;
+       background:#2563eb;color:#fff;border-radius:10px;text-decoration:none">
+       ⬇ Download ZIP
+    </a>
+  `;
 });
 
    

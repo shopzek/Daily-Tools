@@ -4,11 +4,11 @@
 
   <!-- ================= BASIC META ================= -->
   <meta charset="UTF-8">
-  <title>Merge PDF – Combine PDF Files Online | DailyTools</title>
+  <title>Image Converter – Convert Images Online | DailyTools</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description"
-        content="Merge multiple PDF files into one instantly. Free, private, browser-based PDF merger.">
+        content="Convert images to different formats online instantly. Free, private, browser-based image converter.">
 
   <link rel="stylesheet" href="../style.css">
 
@@ -17,11 +17,11 @@
   {
     "@context":"https://schema.org",
     "@type":"SoftwareApplication",
-    "name":"Merge PDF",
+    "name":"Image Converter",
     "operatingSystem":"All",
     "applicationCategory":"UtilityApplication",
-    "description":"Merge multiple PDF files into one instantly. Free, private, browser-based PDF tool.",
-    "url":"https://yourdomain.com/merge-pdf",
+    "description":"Convert images to different formats online instantly. Free, private, browser-based image converter.",
+    "url":"https://yourdomain.com/image-converter",
     "offers":{
       "@type":"Offer",
       "price":"0",
@@ -101,6 +101,12 @@
       font-size:15px;
     }
 
+    #output img{
+      max-width:100%;
+      border-radius:10px;
+      margin-bottom:14px;
+    }
+
     #output a{
       display:inline-block;
       padding:10px 18px;
@@ -114,7 +120,7 @@
       background:#1e4fd8;
     }
 
-    /* ================= SEO SECTION (MATCHED) ================= */
+    /* ================= SEO SECTION ================= */
     .seo-section{
       max-width:900px;
       margin:60px auto;
@@ -129,7 +135,7 @@
       margin-bottom:18px;
     }
 
-    /* ================= REVIEWS (MATCHED) ================= */
+    /* ================= REVIEWS ================= */
     #comments{
       max-width:900px;
       margin:40px auto;
@@ -186,20 +192,25 @@
 <!-- ================= TOOL ================= -->
 <main class="tool-wrapper">
 
-  <h1>Merge PDF</h1>
+  <h1>Image Converter</h1>
 
   <p class="tool-desc">
-    Combine multiple PDF files into one document instantly.
-    Files stay on your device.
+    Convert images to JPG, PNG, GIF, or WebP formats instantly. Files stay on your device.
   </p>
 
   <div class="drop-zone" id="dropZone">
-    <p>📂 Drag & drop PDF files here<br>or click to select</p>
-    <input type="file" id="pdfInput" accept="application/pdf" multiple hidden>
+    <p>📂 Drag & drop an image here<br>or click to select</p>
+    <input type="file" id="imageInput" accept="image/*" hidden>
     <div class="file-info" id="fileInfo"></div>
   </div>
 
-  <button id="mergeBtn">Merge PDFs</button>
+  <select id="formatSelect" style="width:220px; height:46px; border-radius:12px; font-size:15px; margin-bottom:18px;">
+    <option value="image/jpeg">Convert to JPG</option>
+    <option value="image/png">Convert to PNG</option>
+    <option value="image/webp">Convert to WebP</option>
+  </select>
+
+  <button id="convertBtn">Convert Image</button>
 
   <div id="output"></div>
 
@@ -207,18 +218,18 @@
 
 <!-- ================= SEO ================= -->
 <section class="seo-section">
-  <h2>About Merge PDF Tool</h2>
+  <h2>About Image Converter Tool</h2>
 
   <p>
-    DailyTools Merge PDF lets you combine multiple PDF files into one document
-    directly in your browser. The tool is fast, secure, and requires no uploads.
+    DailyTools Image Converter lets you convert images to different formats directly in your browser.
+    The tool is fast, secure, and requires no uploads or registration.
   </p>
 
   <ul>
-    <li>✔ Free and unlimited merging</li>
+    <li>✔ Free and unlimited conversions</li>
     <li>✔ No file uploads</li>
     <li>✔ Works on all devices</li>
-    <li>✔ High-quality PDF output</li>
+    <li>✔ High-quality output</li>
   </ul>
 </section>
 
@@ -258,72 +269,72 @@
 </section>
 
 <footer class="site-footer">
-  <p>© 2026 DailyTools • PDF Tools</p>
+  <p>© 2026 DailyTools • Image Tools</p>
 </footer>
-
-<!-- ================= PDF LIB ================= -->
-<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
 <!-- ================= SCRIPT ================= -->
 <script>
 
   const dropZone = document.getElementById("dropZone");
-  const pdfInput = document.getElementById("pdfInput");
+  const imageInput = document.getElementById("imageInput");
   const fileInfo = document.getElementById("fileInfo");
-  const mergeBtn = document.getElementById("mergeBtn");
-  const output   = document.getElementById("output");
+  const formatSelect = document.getElementById("formatSelect");
+  const convertBtn = document.getElementById("convertBtn");
+  const output = document.getElementById("output");
 
-  dropZone.onclick = () => pdfInput.click();
+  dropZone.onclick = () => imageInput.click();
 
   dropZone.ondragover = e => {
     e.preventDefault();
     dropZone.classList.add("dragover");
   };
 
-  dropZone.ondragleave = () => {
-    dropZone.classList.remove("dragover");
-  };
+  dropZone.ondragleave = () => dropZone.classList.remove("dragover");
 
   dropZone.ondrop = e => {
     e.preventDefault();
     dropZone.classList.remove("dragover");
-    pdfInput.files = e.dataTransfer.files;
-    fileInfo.innerText = `${pdfInput.files.length} file(s) selected`;
+    imageInput.files = e.dataTransfer.files;
+    fileInfo.innerText = imageInput.files[0].name;
   };
 
-  pdfInput.onchange = () => {
-    if (pdfInput.files.length) {
-      fileInfo.innerText = `${pdfInput.files.length} file(s) selected`;
+  imageInput.onchange = () => {
+    if (imageInput.files.length) {
+      fileInfo.innerText = imageInput.files[0].name;
     }
   };
 
-  mergeBtn.onclick = async () => {
+  convertBtn.onclick = () => {
+    if (!imageInput.files.length) return alert("Select an image");
 
-    if (!pdfInput.files.length) {
-      alert("Please select PDF files");
-      return;
-    }
+    const file = imageInput.files[0];
+    const reader = new FileReader();
 
-    output.innerText = "Merging PDFs...";
+    output.innerText = "Converting...";
 
-    const mergedPdf = await PDFLib.PDFDocument.create();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
 
-    for (const file of pdfInput.files) {
-      const bytes = await file.arrayBuffer();
-      const pdf   = await PDFLib.PDFDocument.load(bytes);
-      const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-      pages.forEach(p => mergedPdf.addPage(p));
-    }
+        const format = formatSelect.value;
+        const convertedUrl = canvas.toDataURL(format, 0.95);
 
-    const mergedBytes = await mergedPdf.save();
-    const blob = new Blob([mergedBytes], { type:"application/pdf" });
-    const url  = URL.createObjectURL(blob);
-
-    output.innerHTML = `
-      <a href="${url}" download="merged.pdf">
-        ⬇ Download Merged PDF
-      </a>
-    `;
+        output.innerHTML = `
+          <img src="${convertedUrl}" alt="Converted Image">
+          <br>
+          <a href="${convertedUrl}" download="converted.${format.split("/")[1]}">
+            ⬇ Download Image
+          </a>
+        `;
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
   };
 
   commentForm.onsubmit = e => {

@@ -1,81 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>URL Shortener – Free Tool</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Shorten URLs instantly for free. Copy and share your links. 100% browser-based.">
-  <link rel="stylesheet" href="../style.css">
+<meta charset="UTF-8">
+<title>URL Shortener – Free Tool | DailyTools</title>
 
-  <style>
-    .tool-wrapper {
-      max-width: 520px;
-      margin: 60px auto;
-      background: #fff;
-      padding: 32px;
-      border-radius: 14px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.08);
-      text-align: center;
-    }
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Shorten URLs instantly for free. Copy and share your links. 100% browser-based.">
 
-    .tool-desc { color:#666; font-size:15px; margin-bottom:24px; }
+<link rel="stylesheet" href="../style.css">
 
-    input[type="url"] {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 16px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
+<style>
+/* ================= TOOL ================= */
+.tool-wrapper{
+  max-width:520px;
+  margin:60px auto;
+  background:#fff;
+  padding:36px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  text-align:center;
+}
 
-    button {
-      margin-top: 8px;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      background: #4f46e5;
-      color: white;
-      font-size: 15px;
-      cursor: pointer;
-    }
+.tool-desc{
+  color:#666;
+  font-size:15px;
+  margin:16px 0 28px;
+}
 
-    #shortenedLinks {
-      margin-top: 24px;
-      text-align: left;
-    }
+input[type="url"]{
+  width:100%;
+  padding:12px;
+  font-size:15px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  margin-bottom:16px;
+}
 
-    .link-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #f3f4f6;
-      padding: 8px 12px;
-      border-radius: 8px;
-      margin-bottom: 12px;
-      word-break: break-all;
-    }
+/* ================= BUTTON ================= */
+button{
+  width:100%;
+  height:48px;
+  border-radius:12px;
+  font-size:15px;
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  cursor:pointer;
+}
 
-    .link-item a {
-      color: #1d4ed8;
-      text-decoration: none;
-      font-weight: 500;
-    }
+button:hover{background:#1e4fd8}
 
-    .copy-btn {
-      background: #4f46e5;
-      color: #fff;
-      border: none;
-      padding: 6px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-    }
+/* ================= OUTPUT ================= */
+#shortenedLinks{
+  margin-top:30px;
+  text-align:left;
+}
 
-    .copy-btn:hover {
-      background: #3730a3;
-    }
-  </style>
+.link-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#f3f4f6;
+  padding:10px 14px;
+  border-radius:10px;
+  margin-bottom:12px;
+  gap:10px;
+}
+
+.link-item a{
+  color:#1d4ed8;
+  font-weight:500;
+  word-break:break-all;
+  text-decoration:none;
+}
+
+.copy-btn{
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  padding:6px 12px;
+  border-radius:8px;
+  font-size:14px;
+  cursor:pointer;
+}
+
+.copy-btn:hover{background:#1e4fd8}
+
+/* ================= SEO ================= */
+.seo-section{
+  max-width:900px;
+  margin:60px auto;
+  background:#fff;
+  padding:45px 50px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+
+.seo-section h2{
+  text-align:center;
+  font-size:22px;
+  margin-bottom:28px;
+}
+
+.seo-section h3{
+  margin-top:26px;
+  margin-bottom:14px;
+  font-size:18px;
+}
+
+.seo-section ul{
+  padding-left:22px;
+}
+
+.seo-section li{
+  margin-bottom:12px;
+  font-size:15px;
+  line-height:1.6;
+}
+
+/* ================= REVIEWS ================= */
+#comments{
+  max-width:900px;
+  margin:50px auto;
+  background:#fff;
+  padding:36px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+
+#comments h2{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.comment-box input,
+.comment-box textarea{
+  width:100%;
+  padding:12px;
+  margin-bottom:14px;
+  border-radius:10px;
+  border:1px solid #d1d5db;
+}
+
+.review-actions{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+}
+
+.review-actions select,
+.review-actions button{
+  width:200px;
+  height:48px;
+  border-radius:12px;
+}
+</style>
 </head>
 
 <body>
@@ -86,48 +165,39 @@
 
 <main class="tool-wrapper">
   <h1>URL Shortener</h1>
+
   <p class="tool-desc">
-    Shorten any long URL instantly. Copy and share your links easily. 100% private.
+    Shorten long URLs instantly. Copy and share links easily. 100% private.
   </p>
 
   <input type="url" id="urlInput" placeholder="Paste your long URL here..." required>
-  <br>
   <button id="shortenBtn">Shorten URL</button>
 
   <div id="shortenedLinks"></div>
 </main>
 
 <script>
-// Elements
 const urlInput = document.getElementById("urlInput");
 const shortenBtn = document.getElementById("shortenBtn");
 const shortenedLinks = document.getElementById("shortenedLinks");
 
-// Base URL for short links (for demo purposes, local)
 const baseURL = window.location.origin + "/s/";
 
-// Function to generate short code
-function generateShortCode(length = 6) {
+function generateShortCode(length = 6){
   const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let code = "";
-  for (let i = 0; i < length; i++) {
-    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  for(let i=0;i<length;i++){
+    code += chars[Math.floor(Math.random()*chars.length)];
   }
   return code;
 }
 
-// Shorten URL
 shortenBtn.onclick = () => {
   const longUrl = urlInput.value.trim();
-  if (!longUrl) {
-    alert("Please enter a URL");
-    return;
-  }
+  if(!longUrl){ alert("Please enter a URL"); return; }
 
-  const shortCode = generateShortCode();
-  const shortUrl = baseURL + shortCode;
+  const shortUrl = baseURL + generateShortCode();
 
-  // Display shortened link
   const div = document.createElement("div");
   div.className = "link-item";
   div.innerHTML = `
@@ -136,9 +206,8 @@ shortenBtn.onclick = () => {
   `;
 
   div.querySelector(".copy-btn").onclick = () => {
-    navigator.clipboard.writeText(shortUrl).then(() => {
-      alert("Copied: " + shortUrl);
-    });
+    navigator.clipboard.writeText(shortUrl);
+    alert("Copied!");
   };
 
   shortenedLinks.prepend(div);
@@ -146,52 +215,58 @@ shortenBtn.onclick = () => {
 };
 </script>
 
+<!-- ================= SEO ================= -->
 <section class="seo-section">
-  <h2>About URL Shortener</h2>
+  <h2>About URL Shortener Tool</h2>
+
   <p>
-    This URL Shortener allows you to instantly create short, shareable links.
-    It runs completely in your browser, so your URLs are private and not uploaded to any server.
+    This URL Shortener helps you create short, shareable links instantly.
+    Everything runs inside your browser, keeping your data private.
   </p>
 
   <h3>Why use this tool?</h3>
   <ul>
-    <li>✔ 100% free and unlimited</li>
-    <li>✔ No registration required</li>
-    <li>✔ Copy links instantly with one click</li>
-    <li>✔ Works on mobile, tablet, and desktop</li>
-    <li>✔ Fully private: nothing leaves your device</li>
+    <li>✔ Free and unlimited usage</li>
+    <li>✔ No sign-up or login required</li>
+    <li>✔ One-click copy feature</li>
+    <li>✔ Works on all devices</li>
+    <li>✔ 100% privacy-focused</li>
   </ul>
 
   <h3>How it works</h3>
   <p>
-    Paste a long URL into the input box, click "Shorten URL", and your short link is generated instantly.
-    Click "Copy" to copy it to your clipboard and share anywhere.
+    Paste your long URL, click the shorten button, and instantly get a short link
+    ready to copy and share anywhere.
   </p>
 </section>
-<section id="comments" style="max-width:900px; margin:40px auto; background:white; padding:20px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-  <h2 style="color:#2563eb; margin-bottom:15px;">User Reviews & Comments</h2>
-  
-  <form id="commentForm">
-    <input type="text" id="username" placeholder="Your Name" required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
-    <textarea id="usercomment" rows="4" placeholder="Write your review or comment..." required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;"></textarea>
-    <label style="display:block; margin-bottom:10px;">Rating: 
-      <select id="rating" required style="padding:5px; border-radius:5px;">
-        <option value="">Select</option>
-        <option value="5">⭐⭐⭐⭐⭐ 5</option>
-        <option value="4">⭐⭐⭐⭐ 4</option>
-        <option value="3">⭐⭐⭐ 3</option>
-        <option value="2">⭐⭐ 2</option>
-        <option value="1">⭐ 1</option>
+
+<!-- ================= REVIEWS ================= -->
+<section id="comments">
+  <h2>User Reviews & Ratings</h2>
+
+  <form id="commentForm" class="comment-box">
+    <input id="username" placeholder="Your Name" required>
+    <textarea id="usercomment" rows="4" placeholder="Write your review..." required></textarea>
+
+    <div class="review-actions">
+      <select id="rating" required>
+        <option value="">Select Rating</option>
+        <option value="5">⭐⭐⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="1">⭐</option>
       </select>
-    </label>
-    <button type="submit" style="background:#2563eb; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">Submit</button>
+      <button type="submit">Submit Review</button>
+    </div>
   </form>
 
-  <div id="commentList" style="margin-top:20px;"></div>
+  <div id="commentList"></div>
 </section>
 
 <footer class="site-footer">
-  <p>© 2026 DailyTools • 100% Free</p>
+  <p>© 2026 DailyTools • 100% Free Tools</p>
 </footer>
+
 </body>
 </html>

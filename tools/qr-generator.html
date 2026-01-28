@@ -188,9 +188,9 @@ button:hover{background:#1e4fd8}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script>
-let currentQRCanvas = null;
+<script>
+let qrCanvas = null;
 
-/* GENERATE QR */
 function generateQR() {
   const type = qrType.value;
   const input = qrInput.value.trim();
@@ -216,31 +216,55 @@ function generateQR() {
     width: size,
     height: size,
     colorDark: color,
-    colorLight: "#ffffff",
-    useSVG: false
+    colorLight: "#ffffff"
   });
 
-  setTimeout(() => {
-    currentQRCanvas = output.querySelector("canvas");
-    if (currentQRCanvas) addLogo();
-  }, 500);
+  setTimeout(convertToCanvasAndAddLogo, 500);
+}
+
+/* CONVERT IMG TO CANVAS (CRITICAL FIX) */
+function convertToCanvasAndAddLogo() {
+  const output = document.getElementById("qrOutput");
+  let img = output.querySelector("img");
+  let canvas = output.querySelector("canvas");
+
+  if (canvas) {
+    qrCanvas = canvas;
+    addLogo();
+    return;
+  }
+
+  if (!img) return;
+
+  canvas = document.createElement("canvas");
+  canvas.width = img.width;
+  canvas.height = img.height;
+
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(img, 0, 0);
+
+  output.innerHTML = "";
+  output.appendChild(canvas);
+
+  qrCanvas = canvas;
+  addLogo();
 }
 
 /* ADD LOGO */
 function addLogo() {
   const file = logoInput.files[0];
-  if (!file || !currentQRCanvas) return;
+  if (!file || !qrCanvas) return;
 
-  const ctx = currentQRCanvas.getContext("2d");
+  const ctx = qrCanvas.getContext("2d");
   const img = new Image();
 
   img.onload = () => {
-    const s = currentQRCanvas.width;
-    const logoSize = s * 0.22;
-    const x = (s - logoSize) / 2;
-    const y = (s - logoSize) / 2;
+    const size = qrCanvas.width;
+    const logoSize = size * 0.22;
+    const x = (size - logoSize) / 2;
+    const y = (size - logoSize) / 2;
 
-    ctx.fillStyle = "#fff";
+    ctx.fillStyle = "#ffffff";
     ctx.fillRect(x - 6, y - 6, logoSize + 12, logoSize + 12);
     ctx.drawImage(img, x, y, logoSize, logoSize);
   };
@@ -248,22 +272,25 @@ function addLogo() {
   img.src = URL.createObjectURL(file);
 }
 
-/* UPDATE LOGO ON CHANGE */
+/* UPDATE LOGO AFTER QR */
 logoInput.addEventListener("change", () => {
-  if (currentQRCanvas) addLogo();
+  if (qrCanvas) addLogo();
 });
 
 /* DOWNLOAD */
 function downloadQR() {
-  if (!currentQRCanvas) {
+  if (!qrCanvas) {
     alert("Generate QR first");
     return;
   }
+
   const a = document.createElement("a");
-  a.download = "dailytools-qr-code.png";
-  a.href = currentQRCanvas.toDataURL("image/png");
+  a.download = "dailytools-qr.png";
+  a.href = qrCanvas.toDataURL("image/png");
   a.click();
 }
+</script>
+
 </script>
 
 <!-- ================= SEO ================= -->

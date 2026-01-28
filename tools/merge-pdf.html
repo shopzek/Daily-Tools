@@ -4,11 +4,11 @@
 
   <!-- ================= BASIC META ================= -->
   <meta charset="UTF-8">
-  <title>Merge PDF Files – Free Online Tool | DailyTools</title>
+  <title>Merge PDF – Combine PDF Files Online | DailyTools</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description"
-        content="Merge multiple PDF files into one instantly. Free, private, browser-based PDF merger.">
+        content="Merge multiple PDF files into one document instantly. Free, private, browser-based PDF merger.">
 
   <link rel="stylesheet" href="../style.css">
 
@@ -17,10 +17,10 @@
   {
     "@context":"https://schema.org",
     "@type":"SoftwareApplication",
-    "name":"PDF Merger",
+    "name":"Merge PDF",
     "operatingSystem":"All",
     "applicationCategory":"UtilityApplication",
-    "description":"Merge multiple PDF files into one instantly. Free, private, browser-based tool.",
+    "description":"Merge multiple PDF files into one instantly. Free, private, browser-based PDF tool.",
     "url":"https://yourdomain.com/merge-pdf",
     "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
   }
@@ -34,10 +34,10 @@
     "mainEntity":[
       {
         "@type":"Question",
-        "name":"Is this PDF merger free?",
+        "name":"Is this PDF merge tool free?",
         "acceptedAnswer":{
           "@type":"Answer",
-          "text":"Yes, DailyTools PDF Merger is 100% free with unlimited usage."
+          "text":"Yes, DailyTools Merge PDF is completely free with unlimited usage."
         }
       },
       {
@@ -45,18 +45,37 @@
         "name":"Are my PDF files uploaded?",
         "acceptedAnswer":{
           "@type":"Answer",
-          "text":"No. All PDF merging happens directly in your browser."
+          "text":"No. All PDF merging happens locally in your browser."
         }
       }
     ]
   }
   </script>
 
-  <!-- ================= PAGE STYLES ================= -->
+  <!-- ================= PAGE-SPECIFIC STYLES (MATCHED) ================= -->
   <style>
 
+    /* SAME TOOL CARD AS PNG → JPG */
+    .tool-wrapper{
+      max-width:750px;
+      margin:34px auto;
+      background:#fff;
+      padding:40px;
+      border-radius:14px;
+      box-shadow:0 10px 30px rgba(0,0,0,.08);
+      text-align:center;
+    }
+
+    .tool-desc{
+      color:#666;
+      font-size:15px;
+      margin-top:16px;
+      margin-bottom:36px;
+    }
+
+    /* SAME DRAG & DROP */
     .drop-zone{
-      border:2px dashed #d1d5db;
+      border:2px dashed #ccc;
       border-radius:12px;
       padding:34px;
       cursor:pointer;
@@ -70,14 +89,37 @@
       background:#eef2ff;
     }
 
-    .file-list{
-      margin-top:14px;
-      text-align:left;
-      font-size:13px;
+    .drop-zone p{
+      font-size:15px;
+      color:#444;
     }
 
-    .file-list li{
-      margin-bottom:6px;
+    .file-info{
+      margin-top:10px;
+      font-size:13px;
+      color:#333;
+    }
+
+    /* SAME BUTTON */
+    button{
+      width:200px;
+      height:46px;
+      border-radius:12px;
+      font-size:15px;
+      background:#2563eb;
+      color:#fff;
+      border:none;
+      cursor:pointer;
+    }
+
+    button:hover{
+      background:#1e4fd8;
+    }
+
+    /* OUTPUT */
+    #output{
+      margin-top:22px;
+      font-size:15px;
     }
 
   </style>
@@ -93,11 +135,11 @@
 <!-- ================= TOOL ================= -->
 <main class="tool-wrapper">
 
-  <h1>Merge PDF Files</h1>
+  <h1>Merge PDF</h1>
 
   <p class="tool-desc">
-    Combine multiple PDF files into one document.
-    Secure, fast, and works entirely in your browser.
+    Combine multiple PDF files into one document instantly.
+    Files stay on your device.
   </p>
 
   <div class="drop-zone" id="dropZone">
@@ -112,26 +154,25 @@
            multiple
            hidden>
 
-    <ul class="file-list" id="fileList"></ul>
+    <div class="file-info" id="fileInfo"></div>
   </div>
 
   <button id="mergeBtn">
     Merge PDFs
   </button>
 
-  <div id="output" class="output"></div>
+  <div id="output"></div>
 
 </main>
 
-<!-- ================= SEO CONTENT ================= -->
+<!-- ================= SEO ================= -->
 <section class="seo-section">
-
-  <h2>About PDF Merger Tool</h2>
+  <h2>About Merge PDF Tool</h2>
 
   <p>
-    DailyTools PDF Merger allows you to combine multiple PDF files into a single
-    document instantly. All processing happens locally in your browser, ensuring
-    maximum privacy and security.
+    DailyTools Merge PDF allows you to combine multiple PDF files into a single
+    document directly in your browser. This tool is fast, secure, and does not
+    upload files to any server.
   </p>
 
   <ul>
@@ -140,22 +181,10 @@
     <li>✔ Works on all devices</li>
     <li>✔ High-quality output</li>
   </ul>
-
-</section>
-
-<!-- ================= INTERNAL LINKS ================= -->
-<section class="seo-section">
-  <h2>Related Tools</h2>
-  <ul>
-    <li><a href="/png-to-jpg">PNG to JPG Converter</a></li>
-    <li><a href="/jpg-to-png">JPG to PNG Converter</a></li>
-    <li><a href="/image-compressor">Image Compressor</a></li>
-  </ul>
 </section>
 
 <!-- ================= REVIEWS ================= -->
 <section id="comments">
-
   <h2 style="text-align:center">User Reviews & Ratings</h2>
 
   <form id="commentForm" class="comment-box">
@@ -178,14 +207,15 @@
         <option value="1">⭐</option>
       </select>
 
-      <button type="submit">Submit Review</button>
+      <button type="submit">
+        Submit Review
+      </button>
 
     </div>
 
   </form>
 
   <div id="commentList"></div>
-
 </section>
 
 <footer class="site-footer">
@@ -200,7 +230,7 @@
 
   const dropZone  = document.getElementById("dropZone");
   const pdfInput  = document.getElementById("pdfInput");
-  const fileList  = document.getElementById("fileList");
+  const fileInfo  = document.getElementById("fileInfo");
   const mergeBtn  = document.getElementById("mergeBtn");
   const output    = document.getElementById("output");
 
@@ -211,23 +241,22 @@
     dropZone.classList.add("dragover");
   };
 
-  dropZone.ondragleave = () => dropZone.classList.remove("dragover");
+  dropZone.ondragleave = () => {
+    dropZone.classList.remove("dragover");
+  };
 
   dropZone.ondrop = e => {
     e.preventDefault();
     dropZone.classList.remove("dragover");
     pdfInput.files = e.dataTransfer.files;
-    listFiles();
+    fileInfo.innerText = `${pdfInput.files.length} file(s) selected`;
   };
 
-  pdfInput.onchange = listFiles;
-
-  function listFiles(){
-    fileList.innerHTML = "";
-    [...pdfInput.files].forEach(f=>{
-      fileList.innerHTML += `<li>📄 ${f.name}</li>`;
-    });
-  }
+  pdfInput.onchange = () => {
+    if (pdfInput.files.length) {
+      fileInfo.innerText = `${pdfInput.files.length} file(s) selected`;
+    }
+  };
 
   mergeBtn.onclick = async () => {
 

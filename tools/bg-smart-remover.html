@@ -2,305 +2,242 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Background & Smart Object Remover – DailyTools</title>
+<title>Background Remover – DailyTools</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Remove image backgrounds & unwanted objects instantly online. Free, browser-based, private tool.">
+<meta name="description" content="Free online background remover tool. Remove image backgrounds instantly. Fast, private, no signup.">
 
 <!-- SEO Schema -->
 <script type="application/ld+json">
 {
-  "@context":"https://schema.org",
-  "@type":"SoftwareApplication",
-  "name":"Background & Smart Object Remover",
-  "operatingSystem":"All",
-  "applicationCategory":"UtilityApplication",
-  "description":"Remove image backgrounds and unwanted objects instantly online. Free, private, browser-based tool.",
-  "url":"https://dailytools.example/background-smart-remover",
-  "offers":{
-    "@type":"Offer",
-    "price":"0",
-    "priceCurrency":"USD"
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Background Remover",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
   }
 }
 </script>
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f5f7fa;
-  margin: 0; padding: 20px;
-  text-align: center;
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f7fa;
 }
-.tool-wrapper {
-  max-width: 750px;
-  margin: 0 auto 60px;
-  background: #fff;
-  padding: 40px;
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.08);
-}
-h1 {margin-bottom: 10px;}
-.tool-desc {color:#666;font-size:15px;margin-bottom:30px;}
-.drop-zone {
-  border: 2px dashed #ccc;
-  border-radius: 12px;
-  padding: 34px;
-  cursor: pointer;
-  transition: .3s;
-  margin-bottom: 18px;
-}
-.drop-zone:hover {border-color:#2563eb;background:#f5f7ff;}
-.drop-zone.dragover {border-color:#2563eb;background:#eef2ff;}
-.drop-zone p {font-size:15px;color:#444;margin:0;}
-#fileInfo {margin-top: 10px;font-size:13px;color:#333;}
-#canvasContainer {position: relative; display: inline-block; margin-top: 20px;}
-canvas {max-width: 100%; border-radius: 12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); cursor:crosshair;}
-button {margin:10px 8px;padding:12px 24px;border-radius:12px;font-size:15px;background:#2563eb;color:#fff;border:none;cursor:pointer;min-width:160px;}
-button:hover {background:#1e4fd8;}
-#modeButtons {margin-top: 20px;}
-#loading {margin-top: 10px;font-weight: bold;color: #2563eb;}
-/* SEO & Reviews */
-.seo-section{
+.tool-wrapper{
   max-width:900px;
-  margin:60px auto;
+  margin:40px auto;
   background:#fff;
+  padding:40px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  text-align:center;
+}
+h1{margin-bottom:10px;}
+.tool-desc{color:#666;margin-bottom:30px;}
+
+.drop-zone{
+  border:2px dashed #ccc;
   padding:35px;
   border-radius:12px;
-  box-shadow:0 4px 10px rgba(0,0,0,.08);
+  cursor:pointer;
+  transition:.3s;
 }
-.seo-section h2{text-align:center;margin-bottom:18px;}
+.drop-zone:hover{
+  border-color:#2563eb;
+  background:#f0f4ff;
+}
+.drop-zone.dragover{
+  border-color:#2563eb;
+}
+button{
+  margin-top:20px;
+  padding:14px 26px;
+  border:none;
+  border-radius:12px;
+  background:#2563eb;
+  color:#fff;
+  font-size:15px;
+  cursor:pointer;
+}
+button:disabled{
+  background:#aaa;
+  cursor:not-allowed;
+}
+#bgStatus{
+  margin-top:15px;
+  font-weight:bold;
+}
+#bgResult img{
+  margin-top:20px;
+  max-width:100%;
+  border-radius:12px;
+  box-shadow:0 6px 16px rgba(0,0,0,.15);
+}
+.primary-btn{
+  display:inline-block;
+  margin-top:15px;
+  padding:12px 24px;
+  background:#16a34a;
+  color:#fff;
+  border-radius:10px;
+  text-decoration:none;
+}
+.site-footer{
+  margin-top:60px;
+  padding:20px;
+  text-align:center;
+  background:#f0f0f0;
+}
+.seo-section{
+  max-width:900px;
+  margin:40px auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+}
 #comments{
   max-width:900px;
   margin:40px auto;
   background:#fff;
   padding:30px;
   border-radius:12px;
-  box-shadow:0 4px 10px rgba(0,0,0,.1);
 }
 .comment-box input,
-.comment-box textarea{
+.comment-box textarea,
+.comment-box select{
   width:100%;
   padding:12px;
-  margin-bottom:14px;
+  margin-bottom:12px;
   border-radius:10px;
-  border:1px solid #d1d5db;
-  font-size:13px;
-}
-.review-actions{
-  display:flex;
-  justify-content:center;
-  gap:14px;
-}
-.review-actions select,
-.review-actions button{
-  width:200px;
-  height:50px;
-  border-radius:12px;
-}
-.review-actions button{
-  background:#2563eb;
-  color:#fff;
-  border:none;
-}
-.review{
-  margin-top:20px;
-  border-top:1px solid #eee;
-  padding-top:15px;
+  border:1px solid #ccc;
 }
 </style>
 </head>
 
 <body>
+
+<!-- TOOL -->
 <div class="tool-wrapper">
-  <h1>Background & Smart Object Remover</h1>
-  <p class="tool-desc">Remove image backgrounds instantly and erase unwanted objects by painting on the image.</p>
+  <h1>Background Remover</h1>
+  <p class="tool-desc">Remove image backgrounds instantly. 100% browser based.</p>
 
-  <div class="drop-zone" id="dropZone">
-    <p>📂 Drag & drop an image here<br>or click to select</p>
-    <input type="file" id="imageInput" accept="image/*" hidden>
-    <div id="fileInfo"></div>
+  <div class="drop-zone" id="bgDropZone">
+    📂 Drag & drop image here<br>or click to upload
+    <input type="file" id="bgInput" accept="image/*" hidden>
   </div>
 
-  <div id="canvasContainer">
-    <canvas id="imageCanvas"></canvas>
-  </div>
-
-  <div id="modeButtons">
-    <button id="removeBgBtn" disabled>Remove Background</button>
-    <button id="smartRemoveBtn" disabled>Smart Object Remove</button>
-    <button id="clearMarksBtn" disabled>Clear Marks</button>
-  </div>
-
-  <div id="loading"></div>
+  <button id="bgRemoveBtn" disabled>Remove Background</button>
+  <div id="bgStatus"></div>
+  <div id="bgResult"></div>
 </div>
 
-<!-- SEO Section -->
+<!-- SEO -->
 <section class="seo-section">
-  <h2>About Background & Smart Object Remover Tool</h2>
-  <p>
-    DailyTools lets you remove image backgrounds instantly and erase unwanted objects directly in your browser.
-    No uploads, free and private.
-  </p>
-  <ul>
-    <li>✔ Free and unlimited usage</li>
-    <li>✔ Supports PNG & JPG images</li>
-    <li>✔ Works on all devices</li>
-    <li>✔ 100% private & secure</li>
-  </ul>
+<h2>Why Use Our Background Remover?</h2>
+<ul>
+<li>✔ Fast AI background removal</li>
+<li>✔ No signup required</li>
+<li>✔ Free daily usage</li>
+<li>✔ High-quality transparent PNG</li>
+</ul>
 </section>
 
-<!-- Reviews Section -->
+<!-- REVIEWS -->
 <section id="comments">
-  <h2 style="text-align:center">User Reviews & Ratings</h2>
-  <form id="commentForm" class="comment-box">
-    <input type="text" id="username" placeholder="Your Name" required>
-    <textarea id="usercomment" rows="4" placeholder="Write your review..." required></textarea>
-    <div class="review-actions">
-      <select id="rating" required>
-        <option value="">Select Rating</option>
-        <option value="5">⭐⭐⭐⭐⭐</option>
-        <option value="4">⭐⭐⭐⭐</option>
-        <option value="3">⭐⭐⭐</option>
-        <option value="2">⭐⭐</option>
-        <option value="1">⭐</option>
-      </select>
-      <button type="submit">Submit Review</button>
-    </div>
-  </form>
-  <div id="commentList"></div>
+<h2>User Reviews</h2>
+<form id="commentForm" class="comment-box">
+<input id="username" placeholder="Your name" required>
+<textarea id="usercomment" placeholder="Your review" required></textarea>
+<select id="rating" required>
+<option value="">Rating</option>
+<option>5</option><option>4</option><option>3</option>
+</select>
+<button>Submit</button>
+</form>
+<div id="commentList"></div>
 </section>
 
 <footer class="site-footer">
-  <p>© 2026 DailyTools • Image Tools</p>
+<p>© 2026 DailyTools</p>
 </footer>
 
 <script>
-// Elements
-const dropZone = document.getElementById("dropZone");
-const fileInput = document.getElementById("imageInput");
-const fileInfo = document.getElementById("fileInfo");
-const imageCanvas = document.getElementById("imageCanvas");
-const ctx = imageCanvas.getContext("2d");
-const removeBgBtn = document.getElementById("removeBgBtn");
-const smartRemoveBtn = document.getElementById("smartRemoveBtn");
-const clearMarksBtn = document.getElementById("clearMarksBtn");
-const loading = document.getElementById("loading");
+/* ===============================
+   BG REMOVER (REAL API)
+================================ */
+const API_KEY = "Ag1xUEcJiP5VcVrQh15xCHfA";
+const LIMIT = 20;
 
-let img = new Image();
-let imgOriginalData = null;
-let marks = [];
-let isPainting = false;
-let mode = null;
+const dropZone = document.getElementById("bgDropZone");
+const input = document.getElementById("bgInput");
+const btn = document.getElementById("bgRemoveBtn");
+const status = document.getElementById("bgStatus");
+const result = document.getElementById("bgResult");
 
-// Drag & Drop
-dropZone.onclick = () => fileInput.click();
-fileInput.onchange = () => { if(fileInput.files.length) loadImage(fileInput.files[0]); };
-dropZone.ondragover = e => { e.preventDefault(); dropZone.classList.add("dragover"); };
-dropZone.ondragleave = () => dropZone.classList.remove("dragover");
-dropZone.ondrop = e => { e.preventDefault(); dropZone.classList.remove("dragover"); if(e.dataTransfer.files.length) loadImage(e.dataTransfer.files[0]); };
+let file = null;
 
-function loadImage(file){
-  fileInfo.textContent = file.name;
-  loading.textContent = "";
-  const reader = new FileReader();
-  reader.onload = e => { img.src = e.target.result; };
-  reader.readAsDataURL(file);
-}
+const used = () => Number(localStorage.getItem("bg_used") || 0);
+const addUse = () => localStorage.setItem("bg_used", used()+1);
 
-img.onload = () => {
-  const maxWidth = 700;
-  const scale = img.width > maxWidth ? maxWidth / img.width : 1;
-  imageCanvas.width = img.width * scale;
-  imageCanvas.height = img.height * scale;
-  ctx.clearRect(0,0,imageCanvas.width,imageCanvas.height);
-  ctx.drawImage(img,0,0,imageCanvas.width,imageCanvas.height);
-  imgOriginalData = ctx.getImageData(0,0,imageCanvas.width,imageCanvas.height);
-  removeBgBtn.disabled = false;
-  smartRemoveBtn.disabled = false;
-  clearMarksBtn.disabled = true;
-  marks = [];
-  mode = null;
-  loading.textContent = "";
-};
+dropZone.onclick = () => input.click();
+input.onchange = () => { file = input.files[0]; btn.disabled=!file; };
 
-// Painting for Smart Object Remove
-imageCanvas.onmousedown = e => { if(mode==="smart-remove"){isPainting=true; addMark(e);} };
-imageCanvas.onmouseup = e => { if(mode==="smart-remove") isPainting=false; };
-imageCanvas.onmouseout = e => { if(mode==="smart-remove") isPainting=false; };
-imageCanvas.onmousemove = e => { if(mode==="smart-remove" && isPainting) addMark(e); };
-
-function addMark(e){
-  const rect = imageCanvas.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  marks.push({x,y});
-  drawMarks();
-}
-
-function drawMarks(){
-  ctx.putImageData(imgOriginalData,0,0);
-  ctx.fillStyle = "rgba(255,0,0,0.4)";
-  ctx.strokeStyle = "rgba(255,0,0,0.7)";
-  ctx.lineWidth = 10; ctx.lineJoin="round"; ctx.lineCap="round";
-  if(marks.length>1){ ctx.beginPath(); ctx.moveTo(marks[0].x,marks[0].y); for(let i=1;i<marks.length;i++) ctx.lineTo(marks[i].x,marks[i].y); ctx.stroke(); }
-  marks.forEach(p=>{ctx.beginPath(); ctx.arc(p.x,p.y,8,0,2*Math.PI); ctx.fill();});
-  clearMarksBtn.disabled = marks.length===0;
-}
-
-clearMarksBtn.onclick = ()=>{marks=[];ctx.putImageData(imgOriginalData,0,0);clearMarksBtn.disabled=true;loading.textContent="";};
-
-// Remove background
-removeBgBtn.onclick = async () => {
-  if(!img.src) return alert("Please load an image first.");
-  mode=null; marks=[]; clearMarksBtn.disabled=true; loading.textContent="Processing background removal...";
-  const imgData = ctx.getImageData(0,0,imageCanvas.width,imageCanvas.height);
-  const data = imgData.data;
-  for(let i=0;i<data.length;i+=4){if(data[i]>240 && data[i+1]>240 && data[i+2]>240)data[i+3]=0;}
-  ctx.putImageData(imgData,0,0);
-  imgOriginalData = ctx.getImageData(0,0,imageCanvas.width,imageCanvas.height);
-  loading.textContent="Background removed.";
-};
-
-// Smart Object Remove
-smartRemoveBtn.onclick = () => { if(!img.src) return alert("Please load an image first."); mode="smart-remove"; loading.textContent="Paint over objects to remove."; };
-smartRemoveBtn.ondblclick = () => {
-  if(marks.length===0){alert("No marked area to remove. Paint first."); return;}
-  loading.textContent="Removing marked objects...";
-  const imgData = ctx.getImageData(0,0,imageCanvas.width,imageCanvas.height);
-  const data = imgData.data;
-  const radius=20;
-  marks.forEach(({x,y})=>{
-    const cx=Math.round(x), cy=Math.round(y);
-    for(let dy=-radius;dy<=radius;dy++){
-      for(let dx=-radius;dx<=radius;dx++){
-        const px=cx+dx, py=cy+dy;
-        if(px<0||py<0||px>=imageCanvas.width||py>=imageCanvas.height) continue;
-        if(dx*dx+dy*dy>radius*radius) continue;
-        const neighbors=[[px-1,py],[px+1,py],[px,py-1],[px,py+1],[px-1,py-1],[px+1,py-1],[px-1,py+1],[px+1,py+1]];
-        const surroundingColors=[];
-        neighbors.forEach(([nx,ny])=>{if(nx>=0&&ny>=0&&nx<imageCanvas.width&&ny<imageCanvas.height){const idx=(ny*imageCanvas.width+nx)*4; surroundingColors.push([data[idx],data[idx+1],data[idx+2],data[idx+3]]);}});
-        if(surroundingColors.length===0) continue;
-        const avg=surroundingColors.reduce((acc,c)=>{acc[0]+=c[0];acc[1]+=c[1];acc[2]+=c[2];acc[3]+=c[3];return acc;},[0,0,0,0]).map(x=>x/surroundingColors.length);
-        const idx=(py*imageCanvas.width+px)*4; data[idx]=avg[0]; data[idx+1]=avg[1]; data[idx+2]=avg[2]; data[idx+3]=avg[3];
-      }
-    }
-  });
-  ctx.putImageData(imgData,0,0);
-  marks=[]; clearMarksBtn.disabled=true;
-  loading.textContent="Objects removed (basic). You can refine by painting again and double-click Smart Object Remove.";
-};
-
-// Reviews
-const commentForm = document.getElementById("commentForm");
-const commentList = document.getElementById("commentList");
-commentForm.onsubmit = e => {
+dropZone.ondragover = e => e.preventDefault();
+dropZone.ondrop = e => {
   e.preventDefault();
-  const username = document.getElementById("username").value;
-  const usercomment = document.getElementById("usercomment").value;
-  const rating = document.getElementById("rating").value;
-  commentList.innerHTML=`<div class="review"><strong>${username}</strong> (${rating}⭐)<p>${usercomment}</p></div>` + commentList.innerHTML;
+  file = e.dataTransfer.files[0];
+  btn.disabled=!file;
+};
+
+btn.onclick = async () => {
+  if(used()>=LIMIT){
+    status.innerText="⚠️ Daily free limit reached";
+    return;
+  }
+  status.innerText="⏳ Processing...";
+  btn.disabled=true;
+  const fd = new FormData();
+  fd.append("image_file",file);
+  fd.append("size","auto");
+
+  try{
+    const res = await fetch("https://api.remove.bg/v1.0/removebg",{
+      method:"POST",
+      headers:{ "X-Api-Key":API_KEY },
+      body:fd
+    });
+    if(!res.ok) throw "error";
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    addUse();
+    result.innerHTML = `
+      <img src="${url}">
+      <br>
+      <a href="${url}" download="bg-removed.png" class="primary-btn">
+        ⬇ Download PNG
+      </a>`;
+    status.innerText="✅ Done";
+  }catch{
+    status.innerText="❌ Failed. Try again later.";
+    btn.disabled=false;
+  }
+};
+
+/* Reviews */
+document.getElementById("commentForm").onsubmit = e=>{
+  e.preventDefault();
+  const u=username.value,c=usercomment.value,r=rating.value;
+  commentList.innerHTML =
+    `<p><strong>${u}</strong> (${r}⭐)<br>${c}</p>` + commentList.innerHTML;
   e.target.reset();
 };
 </script>
+
 </body>
 </html>

@@ -337,65 +337,205 @@ if (longUrlInput && shortUrlOutput) {
     };
   }
 
-/* ===============================
-   BACKGROUND REMOVER
+   /* ===============================
+   BACKGROUND & SMART OBJECT REMOVER
 ================================ */
-const bgInput = document.getElementById("imageInput");
-const bgOutput = document.getElementById("bgOutput");
+const imageInput = document.getElementById("imageInput");
+const imageCanvas = document.getElementById("imageCanvas");
+const ctx = imageCanvas.getContext("2d");
+const removeBgBtn = document.getElementById("removeBgBtn");
+const smartRemoveBtn = document.getElementById("smartRemoveBtn");
+const clearMarksBtn = document.getElementById("clearMarksBtn");
+const loading = document.getElementById("loading");
 
-if (bgInput && bgOutput) {
-  window.removeBackground = () => {
-    if (!bgInput.files.length) {
-      alert("Select an image");
-      return;
-    }
+let img = new Image();
+let imgOriginalData = null; // Original image data
+let marks = []; // user painted points
+let isPainting = false;
+let mode = null; // "smart-remove" or null
 
-    bgOutput.innerHTML = "⏳ Processing...";
+// ===================
+// Load Image
+// ===================
+imageInput.onchange = () => {
+  if (!imageInput.files.length) return;
+  loadImage(imageInput.files[0]);
+};
 
-    const file = bgInput.files[0];
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext("2d");
-
-        // Draw image on canvas
-        ctx.drawImage(img, 0, 0);
-
-        // Get image data
-        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imgData.data;
-
-        // Simple white background removal (adjust threshold if needed)
-        for (let i = 0; i < data.length; i += 4) {
-          if (data[i] > 240 && data[i + 1] > 240 && data[i + 2] > 240) {
-            data[i + 3] = 0; // make pixel transparent
-          }
-        }
-
-        ctx.putImageData(imgData, 0, 0);
-
-        const url = canvas.toDataURL("image/png");
-
-        bgOutput.innerHTML = `
-          <img src="${url}" style="max-width:100%;border-radius:8px">
-          <br>
-          <a href="${url}" download="transparent.png" class="primary-btn">
-            ⬇ Download PNG
-          </a>
-        `;
-      };
-      img.src = reader.result;
-    };
-
-    reader.readAsDataURL(file);
+function loadImage(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    img.src = e.target.result;
   };
+  reader.readAsDataURL(file);
 }
 
+img.onload = () => {
+  const maxWidth = 700;
+  const scale = img.width > maxWidth ? maxWidth / img.width : 1;
+  imageCanvas.width = img.width * scale;
+  imageCanvas.height = img.height * scale;
+  ctx.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
+  ctx.drawImage(img, 0, 0, imageCanvas.width, imageCanvas.height);
+  imgOriginalData = ctx.getImageData(0, 0, imageCanvas.width, imageCanvas.height);
+  removeBgBtn.disabled = false;
+  smartRemoveBtn.disabled = false;
+  clearMarksBtn.disabled = true;
+  marks = [];
+  mode = null;
+  loading.textContent = "";
+};
+
+// ===================
+// Drag & Drop (optional)
+// ===================
+const dropZone = document.getElementById("dropZone");
+dropZone.onclick = () => imageInput.click();
+dropZone.ondragover = e => { e.preventDefault(); dropZone.classList.add("dragover"); };
+dropZone.ondragleave = () => dropZone.classList.remove("dragover");
+dropZone.ondrop = e => {
+  e.preventDefault();
+  dropZone.classList.remove("dragover");
+  if (e.dataTransfer.files.length) loadImage(e.dataTransfer.files[0]);
+};
+
+// ===================
+// Drawing for Smart Object Remove
+// ===================
+imageCanvas.onmousedown = e => { if (mode === "smart-remove") startPainting(e); };
+imageCanvas.onmouseup = e => { if (mode === "smart-remove") stopPainting(); };
+imageCanvas.onmouseout = e => { if (mode === "smart-remove") stopPainting(); };
+imageCanvas.onmousemove = e => { if (mode === "smart-remove" && isPainting) addMark(e); };
+
+function startPainting(e) { isPainting = true; addMark(e); }
+function stopPainting() { isPainting = false; }
+
+function addMark(e) {
+  const rect = imageCanvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  marks.push({ x, y });
+  drawMarks();
+}
+
+function drawMarks() {
+  ctx.putImageData(imgOriginalData, 0, 0);
+  ctx.fillStyle = "rgba(255,0,0,0.4)";
+  ctx.strokeStyle = "rgba(255,0,0,0.7)";
+  ctx.lineWidth = 10;
+  ctx.lineJoin = "round";
+  ctx.lineCap = "round";
+
+  if (marks.length > 1) {
+    ctx.beginPath();
+    ctx.moveTo(marks[0].x, marks[0].y);
+    for (let i = 1; i < marks.length; i++) ctx.lineTo(marks[i].x, marks[i].y);
+    ctx.stroke();
+  }
+
+  marks.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 8, 0, 2 * Math.PI);
+    ctx.fill();
+  });
+
+  clearMarksBtn.disabled = marks.length === 0;
+}
+
+// ===================
+// Buttons
+// ===================
+clearMarksBtn.onclick = () => {
+  marks = [];
+  ctx.putImageData(imgOriginalData, 0, 0);
+  clearMarksBtn.disabled = true;
+  loading.textContent = "";
+};
+
+removeBgBtn.onclick = async () => {
+  if (!img.src) return alert("Please load an image first.");
+  mode = null;
+  marks = [];
+  clearMarksBtn.disabled = true;
+  loading.textContent = "⏳ Processing background removal...";
+  await removeBackground();
+  loading.textContent = "✅ Background removed.";
+};
+
+smartRemoveBtn.onclick = () => {
+  if (!img.src) return alert("Please load an image first.");
+  mode = "smart-remove";
+  loading.textContent = "🖌️ Paint over objects to remove, then double-click Smart Remove.";
+};
+
+smartRemoveBtn.ondblclick = () => {
+  if (!marks.length) { alert("No marked area to remove."); return; }
+  loading.textContent = "⏳ Removing marked objects...";
+  smartObjectRemove();
+};
+
+// ===================
+// Functions
+// ===================
+async function removeBackground() {
+  const imgData = ctx.getImageData(0, 0, imageCanvas.width, imageCanvas.height);
+  const data = imgData.data;
+
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i] > 240 && data[i + 1] > 240 && data[i + 2] > 240) data[i + 3] = 0;
+  }
+
+  ctx.putImageData(imgData, 0, 0);
+  imgOriginalData = ctx.getImageData(0, 0, imageCanvas.width, imageCanvas.height);
+}
+
+function smartObjectRemove() {
+  const imgData = ctx.getImageData(0, 0, imageCanvas.width, imageCanvas.height);
+  const data = imgData.data;
+  const radius = 20;
+
+  marks.forEach(({ x, y }) => {
+    const cx = Math.round(x), cy = Math.round(y);
+
+    for (let dy = -radius; dy <= radius; dy++) {
+      for (let dx = -radius; dx <= radius; dx++) {
+        const px = cx + dx, py = cy + dy;
+        if (px < 0 || py < 0 || px >= imageCanvas.width || py >= imageCanvas.height) continue;
+        if (dx * dx + dy * dy > radius * radius) continue;
+
+        const neighbors = [
+          [px - 1, py], [px + 1, py], [px, py - 1], [px, py + 1],
+          [px - 1, py - 1], [px + 1, py - 1], [px - 1, py + 1], [px + 1, py + 1]
+        ];
+
+        const surroundingColors = [];
+        neighbors.forEach(([nx, ny]) => {
+          if (nx >= 0 && ny >= 0 && nx < imageCanvas.width && ny < imageCanvas.height) {
+            const idx = (ny * imageCanvas.width + nx) * 4;
+            surroundingColors.push([data[idx], data[idx + 1], data[idx + 2], data[idx + 3]]);
+          }
+        });
+
+        if (!surroundingColors.length) continue;
+
+        const avg = surroundingColors.reduce((acc, c) => {
+          acc[0] += c[0]; acc[1] += c[1]; acc[2] += c[2]; acc[3] += c[3]; return acc;
+        }, [0, 0, 0, 0]).map(x => x / surroundingColors.length);
+
+        const idx = (py * imageCanvas.width + px) * 4;
+        data[idx] = avg[0]; data[idx + 1] = avg[1]; data[idx + 2] = avg[2]; data[idx + 3] = avg[3];
+      }
+    }
+  });
+
+  ctx.putImageData(imgData, 0, 0);
+  marks = [];
+  clearMarksBtn.disabled = true;
+  loading.textContent = "✅ Objects removed. Paint & remove again to refine.";
+}
+
+
+   
    /* ===============================
    EMOJI TOOL
 ================================ */

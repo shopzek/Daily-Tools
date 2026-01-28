@@ -38,8 +38,14 @@
   box-shadow:0 10px 30px rgba(0,0,0,.08);
   text-align:center;
 }
+
 .tool-wrapper h1{margin-bottom:10px;}
-.tool-desc{color:#666;font-size:15px;margin-top:16px;margin-bottom:36px;}
+.tool-desc{
+  color:#666;
+  font-size:15px;
+  margin-top:16px;
+  margin-bottom:36px;
+}
 
 /* DRAG & DROP */
 .drop-zone{
@@ -50,6 +56,7 @@
   transition:.3s;
   margin-bottom:18px;
 }
+
 .drop-zone:hover{border-color:#2563eb;background:#f5f7ff;}
 .drop-zone.dragover{border-color:#2563eb;background:#eef2ff;}
 .drop-zone p{font-size:15px;color:#444;}
@@ -87,13 +94,6 @@ button:hover{background:#1e4fd8}
 }
 #bgOutput a:hover{background:#1e4fd8}
 
-/* Loader */
-#loader{
-  font-size:16px;
-  color:#2563eb;
-  margin-top:20px;
-}
-
 /* SEO */
 .seo-section{
   max-width:900px;
@@ -114,6 +114,7 @@ button:hover{background:#1e4fd8}
   border-radius:12px;
   box-shadow:0 4px 10px rgba(0,0,0,.1);
 }
+
 .comment-box input,
 .comment-box textarea{
   width:100%;
@@ -123,22 +124,26 @@ button:hover{background:#1e4fd8}
   border:1px solid #d1d5db;
   font-size:13px;
 }
+
 .review-actions{
   display:flex;
   justify-content:center;
   gap:14px;
 }
+
 .review-actions select,
 .review-actions button{
   width:200px;
   height:50px;
   border-radius:12px;
 }
+
 .review-actions button{
   background:#2563eb;
   color:#fff;
   border:none;
 }
+
 .review{
   margin-top:20px;
   border-top:1px solid #eee;
@@ -169,7 +174,7 @@ button:hover{background:#1e4fd8}
   </div>
 
   <button onclick="removeBackground()">Remove Background</button>
-  <div id="loader"></div>
+  <div id="loader">⏳ Loading optimized AI model...</div>
   <div id="bgOutput"></div>
 </main>
 
@@ -180,6 +185,7 @@ button:hover{background:#1e4fd8}
     DailyTools Background Remover uses advanced AI to remove image backgrounds instantly in your browser.
     The tool is fast, secure, and requires no uploads or registration.
   </p>
+
   <ul>
     <li>✔ Full HD image support</li>
     <li>✔ True transparent background</li>
@@ -191,9 +197,11 @@ button:hover{background:#1e4fd8}
 <!-- Reviews Section -->
 <section id="comments">
   <h2 style="text-align:center">User Reviews & Ratings</h2>
+
   <form id="commentForm" class="comment-box">
     <input type="text" id="username" placeholder="Your Name" required>
     <textarea id="usercomment" rows="4" placeholder="Write your review..." required></textarea>
+
     <div class="review-actions">
       <select id="rating" required>
         <option value="">Select Rating</option>
@@ -203,9 +211,11 @@ button:hover{background:#1e4fd8}
         <option value="2">⭐⭐</option>
         <option value="1">⭐</option>
       </select>
+
       <button type="submit">Submit Review</button>
     </div>
   </form>
+
   <div id="commentList"></div>
 </section>
 
@@ -226,8 +236,7 @@ dropZone.onclick = () => fileInput.click();
 fileInput.onchange = () => {
   if (!fileInput.files.length) return;
   fileInfo.innerText = fileInput.files[0].name;
-
-  if (!net) loadModel(); // load AI model on-demand
+  if (!net) loadModel();
 };
 dropZone.ondragover = e => { e.preventDefault(); dropZone.classList.add("dragover"); };
 dropZone.ondragleave = () => dropZone.classList.remove("dragover");
@@ -236,7 +245,6 @@ dropZone.ondrop = e => {
   dropZone.classList.remove("dragover");
   fileInput.files = e.dataTransfer.files;
   fileInfo.innerText = fileInput.files[0].name;
-
   if (!net) loadModel();
 };
 
@@ -244,7 +252,7 @@ dropZone.ondrop = e => {
 let net;
 async function loadModel() {
   loader.innerText = "⏳ Loading optimized AI model...";
-  net = await bodyPix.load({ architecture:'MobileNetV1', outputStride:16, multiplier:0.75 });
+  net = await bodyPix.load({ architecture:'MobileNetV1', outputStride:16, multiplier:1.0 });
   loader.innerText = "✅ AI model ready! Click 'Remove Background'.";
 }
 
@@ -261,39 +269,82 @@ async function removeBackground() {
     const img = new Image();
     img.src = reader.result;
     img.onload = async () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img,0,0);
 
-      const segmentation = await net.segmentPerson(canvas, {
-        internalResolution:'full',
+      // Step 1: Original image canvas
+      const originalCanvas = document.createElement("canvas");
+      originalCanvas.width = img.width;
+      originalCanvas.height = img.height;
+      const originalCtx = originalCanvas.getContext("2d");
+      originalCtx.drawImage(img,0,0);
+
+      // Step 2: Scaled-down canvas for segmentation
+      const scale = Math.min(512 / img.width, 512 / img.height, 1);
+      const smallCanvas = document.createElement("canvas");
+      smallCanvas.width = img.width * scale;
+      smallCanvas.height = img.height * scale;
+      const smallCtx = smallCanvas.getContext("2d");
+      smallCtx.drawImage(img,0,0, smallCanvas.width, smallCanvas.height);
+
+      // Step 3: Run segmentation
+      const segmentation = await net.segmentPerson(smallCanvas, {
+        internalResolution:'medium',
         segmentationThreshold:0.7
       });
 
-      const imgData = ctx.getImageData(0,0,canvas.width,canvas.height);
-      const data = imgData.data;
-      for(let i=0;i<data.length;i+=4){
-        const pixelIndex = i/4;
-        if(segmentation.data[pixelIndex] === 0) data[i+3]=0;
-      }
-      ctx.putImageData(imgData,0,0);
+      // Step 4: Create alpha mask full size
+      const maskCanvas = document.createElement("canvas");
+      maskCanvas.width = img.width;
+      maskCanvas.height = img.height;
+      const maskCtx = maskCanvas.getContext("2d");
+      const maskImgData = maskCtx.createImageData(img.width, img.height);
+      const maskData = maskImgData.data;
 
-      const url = canvas.toDataURL("image/png");
+      for(let y=0; y<img.height; y++){
+        for(let x=0; x<img.width; x++){
+          const origIndex = (y * img.width + x) * 4;
+          const smallX = Math.floor(x * scale);
+          const smallY = Math.floor(y * scale);
+          const segIndex = smallY * smallCanvas.width + smallX;
+          maskData[origIndex] = 0;
+          maskData[origIndex+1] = 0;
+          maskData[origIndex+2] = 0;
+          maskData[origIndex+3] = segmentation.data[segIndex] ? 255 : 0;
+        }
+      }
+
+      maskCtx.putImageData(maskImgData,0,0);
+
+      // Step 5: Apply alpha mask to original image
+      const finalCanvas = document.createElement("canvas");
+      finalCanvas.width = img.width;
+      finalCanvas.height = img.height;
+      const finalCtx = finalCanvas.getContext("2d");
+
+      finalCtx.drawImage(img,0,0);
+      const finalData = finalCtx.getImageData(0,0,img.width,img.height);
+      const maskDataFinal = maskCtx.getImageData(0,0,img.width,img.height).data;
+
+      for(let i=0;i<finalData.data.length;i+=4){
+        finalData.data[i+3] = maskDataFinal[i+3]; // apply alpha
+      }
+
+      finalCtx.putImageData(finalData,0,0);
+
+      const url = finalCanvas.toDataURL("image/png");
       loader.innerText = "";
       bgOutput.innerHTML = `<img src="${url}"><br><a href="${url}" download="transparent.png">⬇ Download PNG</a>`;
     };
   };
   reader.readAsDataURL(file);
-}
+};
 
 // Reviews
 const commentForm = document.getElementById("commentForm");
 const commentList = document.getElementById("commentList");
 commentForm.onsubmit = e => {
   e.preventDefault();
-  commentList.innerHTML = `<div class="review"><strong>${username.value}</strong> (${rating.value}⭐)<p>${usercomment.value}</p></div>` + commentList.innerHTML;
+  commentList.innerHTML =
+    `<div class="review"><strong>${username.value}</strong> (${rating.value}⭐)<p>${usercomment.value}</p></div>` + commentList.innerHTML;
   e.target.reset();
 };
 </script>

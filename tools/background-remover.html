@@ -150,6 +150,11 @@ button:hover{background:#1e4fd8}
   padding-top:15px;
 }
 </style>
+
+<!-- TensorFlow.js & BodyPix for AI background removal -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0.5/dist/body-pix.min.js"></script>
+
 </head>
 
 <body>
@@ -160,7 +165,7 @@ button:hover{background:#1e4fd8}
 
 <main class="tool-wrapper">
   <h1>Background Remover</h1>
-  <p class="tool-desc">Remove image backgrounds instantly. Works for PNG & JPG images.</p>
+  <p class="tool-desc">Remove image backgrounds instantly in Full HD. Works for PNG & JPG images.</p>
 
   <div class="drop-zone" id="dropZone">
     <p>📂 Drag & drop an image here<br>or click to select</p>
@@ -170,26 +175,26 @@ button:hover{background:#1e4fd8}
 
   <button onclick="removeBackground()">Remove Background</button>
 
-  <div id="bgOutput"></div>
+  <div id="bgOutput">Loading AI model...</div>
 </main>
 
-<!-- SEO -->
+<!-- SEO Section -->
 <section class="seo-section">
   <h2>About Background Remover Tool</h2>
   <p>
-    DailyTools Background Remover lets you remove image backgrounds instantly in your browser.
+    DailyTools Background Remover uses advanced AI to remove image backgrounds instantly in your browser.
     The tool is fast, secure, and requires no uploads or registration.
   </p>
 
   <ul>
-    <li>✔ Free and unlimited usage</li>
-    <li>✔ Supports PNG & JPG images</li>
+    <li>✔ Full HD image support</li>
+    <li>✔ True transparent background</li>
     <li>✔ Works on all devices</li>
     <li>✔ 100% private & secure</li>
   </ul>
 </section>
 
-<!-- REVIEWS -->
+<!-- Reviews Section -->
 <section id="comments">
   <h2 style="text-align:center">User Reviews & Ratings</h2>
 
@@ -237,39 +242,58 @@ dropZone.ondrop=e=>{
   fileInfo.innerText=fileInput.files[0].name;
 };
 
-// Remove background function (basic transparent background using color key)
-function removeBackground(){
-  if(!fileInput.files.length) return alert("Select an image");
-  const file=fileInput.files[0];
-  const reader=new FileReader();
-  bgOutput.innerText="Processing...";
+// Load BodyPix model
+let net;
+async function loadModel(){
+  bgOutput.innerText = "⏳ Loading AI model...";
+  net = await bodyPix.load({architecture:'MobileNetV1',outputStride:16,multiplier:1.0});
+  bgOutput.innerText = "✅ Model loaded. Select an image to remove background.";
+}
+loadModel();
 
-  reader.onload=()=>{
-    const img=new Image();
-    img.onload=()=>{
-      const canvas=document.createElement("canvas");
-      canvas.width=img.width;
-      canvas.height=img.height;
-      const ctx=canvas.getContext("2d");
+// Remove Background function
+async function removeBackground(){
+  if(!fileInput.files.length) return alert("Select an image");
+  if(!net) return alert("AI model not loaded yet");
+
+  const file = fileInput.files[0];
+  bgOutput.innerText = "⏳ Processing image...";
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    const img = new Image();
+    img.src = reader.result;
+    img.onload = async () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
       ctx.drawImage(img,0,0);
 
-      const imgData=ctx.getImageData(0,0,canvas.width,canvas.height);
-      const data=imgData.data;
-      // Simple white background removal
+      // Perform segmentation
+      const segmentation = await net.segmentPerson(canvas, {
+        internalResolution:'full',
+        segmentationThreshold:0.7
+      });
+
+      const imgData = ctx.getImageData(0,0,canvas.width,canvas.height);
+      const data = imgData.data;
       for(let i=0;i<data.length;i+=4){
-        if(data[i]>240 && data[i+1]>240 && data[i+2]>240){data[i+3]=0;}
+        const pixelIndex = i/4;
+        if(segmentation.data[pixelIndex] === 0){data[i+3]=0;}
       }
       ctx.putImageData(imgData,0,0);
 
-      const url=canvas.toDataURL("image/png");
-      bgOutput.innerHTML=`<img src="${url}"><br><a href="${url}" download="transparent.png">⬇ Download PNG</a>`;
+      const url = canvas.toDataURL("image/png");
+      bgOutput.innerHTML = `<img src="${url}"><br><a href="${url}" download="transparent.png">⬇ Download PNG</a>`;
     };
-    img.src=reader.result;
   };
   reader.readAsDataURL(file);
 }
 
 // Reviews
+const commentForm=document.getElementById("commentForm");
+const commentList=document.getElementById("commentList");
 commentForm.onsubmit=e=>{
   e.preventDefault();
   commentList.innerHTML=

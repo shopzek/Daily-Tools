@@ -336,210 +336,125 @@ if (longUrlInput && shortUrlOutput) {
       shortUrlOutput.innerText = "❌ Failed to shorten URL";
     };
   }
-
-  /* ===============================
-   BACKGROUND & SMART OBJECT REMOVER
+/* ===============================
+   ELEMENTS
 ================================ */
-const imageInput = document.getElementById("imageInput");
-const imageCanvas = document.getElementById("imageCanvas");
-const ctx = imageCanvas.getContext("2d");
-const removeBgBtn = document.getElementById("removeBgBtn");
-const smartRemoveBtn = document.getElementById("smartRemoveBtn");
-const clearMarksBtn = document.getElementById("clearMarksBtn");
-const loading = document.getElementById("loading");
+const dropZone    = document.getElementById("dropZone");
+const imgInput    = document.getElementById("imgInput");
+const fileInfo    = document.getElementById("fileInfo");
+const output      = document.getElementById("output");
+const quality     = document.getElementById("quality");
+const qualityText = document.getElementById("qualityText");
+const compressBtn = document.getElementById("compressBtn");
 
-let img = new Image();
-let imgOriginalData = null; // Original image data
-let marks = [];             // User painted points
-let isPainting = false;
-let mode = null;            // "smart-remove" or null
+const commentForm = document.getElementById("commentForm");
+const commentList = document.getElementById("commentList");
 
-// ===================
-// Load Image
-// ===================
-imageInput.onchange = () => {
-  if (!imageInput.files.length) return;
-  loadImage(imageInput.files[0]);
-};
+/* ===============================
+   QUALITY SLIDER
+================================ */
+quality.addEventListener("input", () => {
+  qualityText.innerText = `Quality: ${quality.value}%`;
+});
 
-function loadImage(file) {
-  const reader = new FileReader();
-  reader.onload = e => {
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
+/* ===============================
+   DRAG & DROP
+================================ */
+dropZone.addEventListener("click", () => imgInput.click());
 
-img.onload = () => {
-  const maxWidth = 700;
-  const scale = img.width > maxWidth ? maxWidth / img.width : 1;
-  imageCanvas.width = img.width * scale;
-  imageCanvas.height = img.height * scale;
-  ctx.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
-  ctx.drawImage(img, 0, 0, imageCanvas.width, imageCanvas.height);
-  imgOriginalData = ctx.getImageData(0, 0, imageCanvas.width, imageCanvas.height);
-  
-  removeBgBtn.disabled = false;
-  smartRemoveBtn.disabled = false;
-  clearMarksBtn.disabled = true;
-  marks = [];
-  mode = null;
-  loading.textContent = "";
-};
+imgInput.addEventListener("change", () => {
+  if (imgInput.files.length) {
+    fileInfo.innerText = imgInput.files[0].name;
+    output.innerHTML = "";
+  }
+});
 
-// ===================
-// Drag & Drop Support
-// ===================
-const dropZone = document.getElementById("dropZone");
-if (dropZone) {
-  dropZone.onclick = () => imageInput.click();
-  dropZone.ondragover = e => { e.preventDefault(); dropZone.classList.add("dragover"); };
-  dropZone.ondragleave = () => dropZone.classList.remove("dragover");
-  dropZone.ondrop = e => {
-    e.preventDefault();
-    dropZone.classList.remove("dragover");
-    if (e.dataTransfer.files.length) loadImage(e.dataTransfer.files[0]);
-  };
-}
+dropZone.addEventListener("dragover", e => {
+  e.preventDefault();
+  dropZone.classList.add("dragover");
+});
 
-// ===================
-// Smart Object Drawing
-// ===================
-imageCanvas.onmousedown = e => { if (mode === "smart-remove") startPainting(e); };
-imageCanvas.onmouseup = e => { if (mode === "smart-remove") stopPainting(); };
-imageCanvas.onmouseout = e => { if (mode === "smart-remove") stopPainting(); };
-imageCanvas.onmousemove = e => { if (mode === "smart-remove" && isPainting) addMark(e); };
+dropZone.addEventListener("dragleave", () => {
+  dropZone.classList.remove("dragover");
+});
 
-function startPainting(e) { isPainting = true; addMark(e); }
-function stopPainting() { isPainting = false; }
+dropZone.addEventListener("drop", e => {
+  e.preventDefault();
+  dropZone.classList.remove("dragover");
 
-function addMark(e) {
-  const rect = imageCanvas.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  marks.push({ x, y });
-  drawMarks();
-}
+  imgInput.files = e.dataTransfer.files;
+  fileInfo.innerText = imgInput.files[0].name;
+  output.innerHTML = "";
+});
 
-function drawMarks() {
-  ctx.putImageData(imgOriginalData, 0, 0);
-  if (!marks.length) return;
+/* ===============================
+   IMAGE COMPRESSION
+================================ */
+compressBtn.addEventListener("click", () => {
 
-  ctx.fillStyle = "rgba(255,0,0,0.4)";
-  ctx.strokeStyle = "rgba(255,0,0,0.7)";
-  ctx.lineWidth = 10;
-  ctx.lineJoin = "round";
-  ctx.lineCap = "round";
-
-  ctx.beginPath();
-  ctx.moveTo(marks[0].x, marks[0].y);
-  for (let i = 1; i < marks.length; i++) ctx.lineTo(marks[i].x, marks[i].y);
-  ctx.stroke();
-
-  marks.forEach(p => {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, 8, 0, 2 * Math.PI);
-    ctx.fill();
-  });
-
-  clearMarksBtn.disabled = marks.length === 0;
-}
-
-// ===================
-// Buttons
-// ===================
-clearMarksBtn.onclick = () => {
-  marks = [];
-  ctx.putImageData(imgOriginalData, 0, 0);
-  clearMarksBtn.disabled = true;
-  loading.textContent = "";
-};
-
-removeBgBtn.onclick = async () => {
-  if (!img.src) return alert("Please load an image first.");
-  mode = null;
-  marks = [];
-  clearMarksBtn.disabled = true;
-  loading.textContent = "⏳ Processing background removal...";
-  await removeBackground();
-  loading.textContent = "✅ Background removed.";
-};
-
-smartRemoveBtn.onclick = () => {
-  if (!img.src) return alert("Please load an image first.");
-  mode = "smart-remove";
-  loading.textContent = "🖌️ Paint over objects to remove, then double-click Smart Remove.";
-};
-
-smartRemoveBtn.ondblclick = () => {
-  if (!marks.length) return alert("No marked area to remove.");
-  loading.textContent = "⏳ Removing marked objects...";
-  smartObjectRemove();
-};
-
-// ===================
-// Functions
-// ===================
-async function removeBackground() {
-  const imgData = ctx.getImageData(0, 0, imageCanvas.width, imageCanvas.height);
-  const data = imgData.data;
-
-  for (let i = 0; i < data.length; i += 4) {
-    if (data[i] > 240 && data[i + 1] > 240 && data[i + 2] > 240) data[i + 3] = 0;
+  if (!imgInput.files.length) {
+    alert("Please select an image");
+    return;
   }
 
-  ctx.putImageData(imgData, 0, 0);
-  imgOriginalData = ctx.getImageData(0, 0, imageCanvas.width, imageCanvas.height);
-}
+  output.innerHTML = "Compressing...";
 
-function smartObjectRemove() {
-  if (!marks.length) return;
+  const reader = new FileReader();
 
-  const imgData = ctx.getImageData(0, 0, imageCanvas.width, imageCanvas.height);
-  const data = imgData.data;
-  const radius = 20;
+  reader.onload = () => {
+    const img = new Image();
 
-  marks.forEach(({ x, y }) => {
-    const cx = Math.round(x), cy = Math.round(y);
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width  = img.width;
+      canvas.height = img.height;
 
-    for (let dy = -radius; dy <= radius; dy++) {
-      for (let dx = -radius; dx <= radius; dx++) {
-        const px = cx + dx, py = cy + dy;
-        if (px < 0 || py < 0 || px >= imageCanvas.width || py >= imageCanvas.height) continue;
-        if (dx * dx + dy * dy > radius * radius) continue;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
 
-        const neighbors = [
-          [px-1,py],[px+1,py],[px,py-1],[px,py+1],
-          [px-1,py-1],[px+1,py-1],[px-1,py+1],[px+1,py+1]
-        ];
+      const compressedImage = canvas.toDataURL(
+        "image/jpeg",
+        quality.value / 100
+      );
 
-        const surroundingColors = [];
-        neighbors.forEach(([nx,ny])=>{
-          if(nx>=0 && ny>=0 && nx<imageCanvas.width && ny<imageCanvas.height){
-            const idx = (ny*imageCanvas.width + nx)*4;
-            surroundingColors.push([data[idx],data[idx+1],data[idx+2],data[idx+3]]);
-          }
-        });
+      output.innerHTML = `
+        <img src="${compressedImage}" alt="Compressed Image">
+        <br>
+        <a href="${compressedImage}" download="compressed-image.jpg">
+          ⬇ Download Image
+        </a>
+      `;
+    };
 
-        if(!surroundingColors.length) continue;
+    img.src = reader.result;
+  };
 
-        const avg = surroundingColors.reduce((acc,c)=>{
-          acc[0]+=c[0]; acc[1]+=c[1]; acc[2]+=c[2]; acc[3]+=c[3]; return acc;
-        },[0,0,0,0]).map(x=>x/surroundingColors.length);
+  reader.readAsDataURL(imgInput.files[0]);
+});
 
-        const idx = (py*imageCanvas.width + px)*4;
-        data[idx]=avg[0]; data[idx+1]=avg[1]; data[idx+2]=avg[2]; data[idx+3]=avg[3];
-      }
-    }
-  });
+/* ===============================
+   COMMENTS & RATINGS
+================================ */
+commentForm.addEventListener("submit", e => {
+  e.preventDefault();
 
-  ctx.putImageData(imgData,0,0);
-  marks=[];
-  clearMarksBtn.disabled=true;
-  loading.textContent="✅ Objects removed. Paint & remove again to refine.";
-}
+  const name   = document.getElementById("username").value;
+  const review = document.getElementById("usercomment").value;
+  const rate   = document.getElementById("rating").value;
 
+  if (!rate) {
+    alert("Please select a rating");
+    return;
+  }
 
+  commentList.innerHTML =
+    `<div class="review">
+      <strong>${name}</strong> (${rate}⭐)
+      <p>${review}</p>
+    </div>` + commentList.innerHTML;
+
+  commentForm.reset();
+});
 
 
    

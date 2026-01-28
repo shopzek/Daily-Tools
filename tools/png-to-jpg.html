@@ -1,104 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>PNG to JPG Converter – Free Online Tool</title>
+<meta charset="UTF-8">
+<title>PNG to JPG Converter – Free Online Tool | DailyTools</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description"
-        content="Convert PNG images to JPG online for free. 100% browser-based and private. No files are uploaded.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Convert PNG images to JPG instantly. Free, private, browser-based PNG to JPG converter.">
 
-  <link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../style.css">
 
-  <style>
-    /* PAGE LAYOUT */
-    .tool-wrapper {
-      max-width: 520px;
-      margin: 60px auto;
-      background: #fff;
-      padding: 32px;
-      border-radius: 14px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.08);
-      text-align: center;
-    }
+<style>
+/* TOOL CARD */
+.tool-wrapper{
+  max-width:750px;
+  margin:34px auto;
+  background:#fff;
+  padding:40px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  text-align:center;
+}
 
-    .tool-wrapper h1 {
-      margin-bottom: 10px;
-    }
+.tool-desc{
+  color:#666;
+  font-size:15px;
+  margin-top:16px;
+  margin-bottom:36px;
+}
 
-    .tool-desc {
-      color: #666;
-      font-size: 15px;
-      margin-bottom: 24px;
-    }
+/* DRAG & DROP */
+.drop-zone{
+  border:2px dashed #ccc;
+  border-radius:12px;
+  padding:34px;
+  cursor:pointer;
+  transition:.3s;
+  margin-bottom:18px;
+}
 
-    /* DRAG & DROP */
-    .drop-zone {
-      border: 2px dashed #ccc;
-      border-radius: 12px;
-      padding: 30px;
-      cursor: pointer;
-      transition: 0.3s;
-      margin-bottom: 16px;
-    }
+.drop-zone:hover{
+  border-color:#2563eb;
+  background:#f5f7ff;
+}
 
-    .drop-zone:hover {
-      border-color: #4f46e5;
-      background: #f5f7ff;
-    }
+.drop-zone.dragover{
+  border-color:#2563eb;
+  background:#eef2ff;
+}
 
-    .drop-zone.dragover {
-      border-color: #4f46e5;
-      background: #eef2ff;
-    }
+.drop-zone p{
+  font-size:15px;
+  color:#444;
+}
 
-    .drop-zone p {
-      margin: 0;
-      font-size: 14px;
-      color: #444;
-    }
+.file-info{
+  margin-top:10px;
+  font-size:13px;
+  color:#333;
+}
 
-    .file-info {
-      margin-top: 10px;
-      font-size: 13px;
-      color: #333;
-    }
+/* BUTTON */
+button{
+  width:200px;
+  height:46px;
+  border-radius:12px;
+  font-size:15px;
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  cursor:pointer;
+}
+button:hover{background:#1e4fd8}
 
-    button {
-      margin-top: 16px;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      background: #4f46e5;
-      color: white;
-      font-size: 15px;
-      cursor: pointer;
-    }
+/* OUTPUT */
+#pngOutput{
+  margin-top:22px;
+}
+#pngOutput img{
+  max-width:100%;
+  border-radius:10px;
+  margin-bottom:14px;
+}
+#pngOutput a{
+  display:inline-block;
+  padding:10px 18px;
+  background:#2563eb;
+  color:#fff;
+  border-radius:10px;
+  text-decoration:none;
+}
+#pngOutput a:hover{background:#1e4fd8}
 
-    button:hover {
-      background: #4338ca;
-    }
+/* SEO */
+.seo-section{
+  max-width:900px;
+  margin:60px auto;
+  background:#fff;
+  padding:35px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+.seo-section h2{text-align:center;margin-bottom:18px}
 
-    #pngOutput img {
-      max-width: 100%;
-      margin-bottom: 12px;
-      border-radius: 8px;
-    }
+/* REVIEWS */
+#comments{
+  max-width:900px;
+  margin:40px auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
 
-    #pngOutput a {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 8px 16px;
-      background: #4f46e5;
-      color: #fff;
-      border-radius: 6px;
-      text-decoration: none;
-    }
+.comment-box input,
+.comment-box textarea{
+  width:100%;
+  padding:12px;
+  margin-bottom:14px;
+  border-radius:10px;
+  border:1px solid #d1d5db;
+  font-size:13px;
+}
 
-    #pngOutput a:hover {
-      background: #4338ca;
-    }
-  </style>
+.review-actions{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+}
+
+.review-actions select,
+.review-actions button{
+  width:200px;
+  height:50px;
+  border-radius:12px;
+}
+
+.review-actions button{
+  background:#2563eb;
+  color:#fff;
+  border:none;
+}
+
+.review{
+  margin-top:20px;
+  border-top:1px solid #eee;
+  padding-top:15px;
+}
+</style>
 </head>
 
 <body>
@@ -107,141 +155,131 @@
   <a href="../index.html" class="logo">🚀 DailyTools</a>
 </header>
 
+<!-- TOOL -->
 <main class="tool-wrapper">
-
   <h1>PNG to JPG Converter</h1>
-  <p class="tool-desc">
-    Convert PNG images into JPG instantly.  
-    Files stay on your device — 100% private.
-  </p>
+  <p class="tool-desc">Convert PNG images into JPG instantly. Files stay on your device.</p>
 
-  <!-- DRAG & DROP -->
   <div class="drop-zone" id="dropZone">
     <p>📂 Drag & drop a PNG file here<br>or click to select</p>
     <input type="file" id="pngInput" accept="image/png" hidden>
     <div class="file-info" id="fileInfo"></div>
   </div>
 
-  <button onclick="convertPngToJpg()">Convert PNG to JPG</button>
+  <button onclick="convertPngToJpg()">Convert to JPG</button>
 
   <div id="pngOutput"></div>
-
 </main>
 
-<script>
-  // Elements
-  const dropZone = document.getElementById("dropZone");
-  const fileInput = document.getElementById("pngInput");
-  const fileInfo = document.getElementById("fileInfo");
-  const pngOutput = document.getElementById("pngOutput");
-
-  // Click to select file
-  dropZone.addEventListener("click", () => fileInput.click());
-
-  // Update info when file selected
-  fileInput.addEventListener("change", () => {
-    if (fileInput.files.length > 0) {
-      fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
-      pngOutput.innerHTML = "";
-    }
-  });
-
-  // Drag & drop
-  dropZone.addEventListener("dragover", e => {
-    e.preventDefault();
-    dropZone.classList.add("dragover");
-  });
-
-  dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
-
-  dropZone.addEventListener("drop", e => {
-    e.preventDefault();
-    dropZone.classList.remove("dragover");
-    fileInput.files = e.dataTransfer.files;
-    if (fileInput.files.length > 0) {
-      fileInfo.innerText = `${fileInput.files.length} file(s) selected`;
-      pngOutput.innerHTML = "";
-    }
-  });
-
-  // Convert PNG → JPG
-  function convertPngToJpg() {
-    if (!fileInput.files.length) return alert("Please select a PNG image");
-    const file = fileInput.files[0];
-    if (file.type !== "image/png") return alert("Only PNG files allowed");
-
-    pngOutput.innerHTML = "⏳ Converting...";
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext("2d");
-
-        // Fill white background (remove transparency)
-        ctx.fillStyle = "#fff";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0);
-
-        const jpgUrl = canvas.toDataURL("image/jpeg", 0.95);
-
-        pngOutput.innerHTML = `
-          <img src="${jpgUrl}" alt="Converted JPG">
-          <br>
-          <a href="${jpgUrl}" download="converted.jpg">⬇ Download JPG</a>
-        `;
-      };
-      img.src = reader.result;
-    };
-    reader.readAsDataURL(file);
-  }
-</script>
-
+<!-- SEO -->
 <section class="seo-section">
   <h2>About PNG to JPG Converter</h2>
   <p>
-    The PNG to JPG Converter allows you to quickly convert PNG images into JPG format directly in your browser.  
-    Everything runs locally, ensuring full privacy and security.
+    DailyTools PNG to JPG Converter lets you convert PNG images into JPG format directly in your browser.
+    The tool is fast, secure, and requires no uploads or registration.
   </p>
 
-  <h3>Why use this tool?</h3>
   <ul>
-    <li>✔ 100% free and unlimited</li>
-    <li>✔ No registration required</li>
-    <li>✔ Works on mobile, tablet, and desktop</li>
-    <li>✔ Files never leave your device</li>
+    <li>✔ Free and unlimited conversions</li>
+    <li>✔ No file uploads</li>
+    <li>✔ Works on all devices</li>
+    <li>✔ High-quality JPG output</li>
   </ul>
 </section>
 
-<section id="comments" style="max-width:900px; margin:40px auto; background:white; padding:20px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-  <h2 style="color:#2563eb; margin-bottom:15px;">User Reviews & Comments</h2>
-  
-  <form id="commentForm">
-    <input type="text" id="username" placeholder="Your Name" required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
-    <textarea id="usercomment" rows="4" placeholder="Write your review or comment..." required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;"></textarea>
-    <label style="display:block; margin-bottom:10px;">Rating: 
-      <select id="rating" required style="padding:5px; border-radius:5px;">
-        <option value="">Select</option>
-        <option value="5">⭐⭐⭐⭐⭐ 5</option>
-        <option value="4">⭐⭐⭐⭐ 4</option>
-        <option value="3">⭐⭐⭐ 3</option>
-        <option value="2">⭐⭐ 2</option>
-        <option value="1">⭐ 1</option>
+<!-- REVIEWS -->
+<section id="comments">
+  <h2 style="text-align:center">User Reviews & Ratings</h2>
+
+  <form id="commentForm" class="comment-box">
+    <input type="text" id="username" placeholder="Your Name" required>
+    <textarea id="usercomment" rows="4" placeholder="Write your review..." required></textarea>
+
+    <div class="review-actions">
+      <select id="rating" required>
+        <option value="">Select Rating</option>
+        <option value="5">⭐⭐⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="1">⭐</option>
       </select>
-    </label>
-    <button type="submit" style="background:#2563eb; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">Submit</button>
+
+      <button type="submit">Submit Review</button>
+    </div>
   </form>
 
-  <div id="commentList" style="margin-top:20px;"></div>
+  <div id="commentList"></div>
 </section>
 
-  
 <footer class="site-footer">
-  <p>© 2026 DailyTools • 100% Free</p>
+  <p>© 2026 DailyTools • Image Tools</p>
 </footer>
+
+<script>
+const dropZone=document.getElementById("dropZone");
+const fileInput=document.getElementById("pngInput");
+const fileInfo=document.getElementById("fileInfo");
+const pngOutput=document.getElementById("pngOutput");
+
+dropZone.onclick=()=>fileInput.click();
+
+fileInput.onchange=()=>{
+  if(fileInput.files.length)
+    fileInfo.innerText=fileInput.files[0].name;
+};
+
+dropZone.ondragover=e=>{
+  e.preventDefault();
+  dropZone.classList.add("dragover");
+};
+dropZone.ondragleave=()=>dropZone.classList.remove("dragover");
+dropZone.ondrop=e=>{
+  e.preventDefault();
+  dropZone.classList.remove("dragover");
+  fileInput.files=e.dataTransfer.files;
+  fileInfo.innerText=fileInput.files[0].name;
+};
+
+function convertPngToJpg(){
+  if(!fileInput.files.length) return alert("Select a PNG file");
+  const file=fileInput.files[0];
+  const reader=new FileReader();
+
+  pngOutput.innerText="Converting...";
+
+  reader.onload=()=>{
+    const img=new Image();
+    img.onload=()=>{
+      const canvas=document.createElement("canvas");
+      canvas.width=img.width;
+      canvas.height=img.height;
+      const ctx=canvas.getContext("2d");
+      ctx.fillStyle="#fff";
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.drawImage(img,0,0);
+
+      const jpg=canvas.toDataURL("image/jpeg",0.95);
+      pngOutput.innerHTML=`
+        <img src="${jpg}">
+        <br>
+        <a href="${jpg}" download="converted.jpg">⬇ Download JPG</a>`;
+    };
+    img.src=reader.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+commentForm.onsubmit=e=>{
+  e.preventDefault();
+  commentList.innerHTML=
+    `<div class="review">
+      <strong>${username.value}</strong> (${rating.value}⭐)
+      <p>${usercomment.value}</p>
+    </div>`+commentList.innerHTML;
+  e.target.reset();
+};
+</script>
 
 </body>
 </html>

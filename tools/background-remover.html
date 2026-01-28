@@ -1,427 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8" />
-<title>Background Remover – Free Online Tool | DailyTools</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="Remove image backgrounds instantly online. Free, browser-based, and private background remover tool." />
-
+<title>Remove Background - Free Online</title>
 <style>
   body {
-    background: #f3f4f6;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    margin: 0;
-    padding: 0;
-    color: #222;
-  }
-
-  .tool-wrapper {
-    max-width: 700px;
-    margin: 40px auto;
-    background: white;
-    padding: 36px;
-    border-radius: 16px;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: #f5f7fa;
     text-align: center;
   }
-
-  h1 {
-    margin-bottom: 8px;
+  #inputImage {
+    max-width: 400px;
+    margin: 20px auto;
+    display: block;
   }
-
-  .tool-desc {
-    margin-bottom: 30px;
-    color: #444;
-    font-size: 16px;
+  #outputCanvas {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    max-width: 400px;
   }
-
-  /* Drag & drop box */
-  .drop-zone {
-    border: 2px dashed #ccc;
-    border-radius: 14px;
-    padding: 40px 24px;
-    cursor: pointer;
-    margin-bottom: 25px;
-    user-select: none;
-  }
-
-  .drop-zone.dragover {
-    border-color: #2563eb;
-    background-color: #ebf0ff;
-  }
-
-  .drop-zone p {
-    font-size: 16px;
-    color: #555;
-  }
-
-  /* File info text */
-  #fileInfo {
-    margin-bottom: 22px;
-    font-size: 14px;
-    color: #222;
-    font-weight: 600;
-  }
-
-  /* Remove background button */
   button {
-    background: #2563eb;
-    border: none;
-    color: white;
-    font-weight: 600;
-    font-size: 15px;
-    padding: 14px 28px;
-    border-radius: 12px;
-    cursor: pointer;
-    margin-bottom: 25px;
-  }
-
-  button:hover {
-    background: #1c3dbd;
-  }
-
-  /* Status message above output */
-  #statusMsg {
-    font-size: 15px;
-    color: #1e40af;
-    margin-bottom: 14px;
-    min-height: 24px;
-  }
-
-  /* Output container with checkerboard */
-  #bgOutput {
-    margin: 0 auto;
-    width: 400px;
-    height: 400px;
-    background-color: #fff;
-    background-image:
-      linear-gradient(45deg, #ccc 25%, transparent 25%),
-      linear-gradient(-45deg, #ccc 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, #ccc 75%),
-      linear-gradient(-45deg, transparent 75%, #ccc 75%);
-    background-size: 30px 30px;
-    background-position: 0 0, 0 15px, 15px -15px, -15px 0px;
-    border-radius: 14px;
-    box-shadow: inset 0 0 12px rgba(0,0,0,0.07);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  #bgOutput img {
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 14px;
-  }
-
-  #downloadLink {
-    display: inline-block;
-    margin-top: 15px;
-    background: #2563eb;
-    color: white;
-    padding: 10px 22px;
-    border-radius: 12px;
-    text-decoration: none;
-    font-weight: 600;
-  }
-
-  #downloadLink:hover {
-    background: #1c3dbd;
-  }
-
-  /* Reviews section */
-  .reviews-section {
-    max-width: 700px;
-    margin: 40px auto 80px;
-    padding: 30px;
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
-  }
-
-  .reviews-section h2 {
-    margin-bottom: 20px;
-    color: #1e3a8a;
-  }
-
-  .review {
-    margin-bottom: 18px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 15px;
-    text-align: left;
-  }
-
-  .review:last-child {
-    border: none;
-  }
-
-  .review .name {
-    font-weight: 700;
-    color: #2563eb;
-  }
-
-  .review .rating {
-    color: #fbbf24; /* gold */
-    margin-left: 6px;
-  }
-
-  /* FAQ Section for SEO */
-  .faq-section {
-    max-width: 700px;
-    margin: 0 auto 40px;
-    background: white;
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
-  }
-
-  .faq-section h2 {
-    margin-bottom: 20px;
-    color: #1e3a8a;
-  }
-
-  .faq-section details {
-    margin-bottom: 14px;
-  }
-
-  .faq-section summary {
-    font-weight: 600;
-    cursor: pointer;
+    padding: 12px 24px;
     font-size: 16px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
   }
-
-  .faq-section p {
-    margin-top: 8px;
-    color: #444;
-    font-size: 15px;
-    line-height: 1.4;
+  #loading {
+    margin: 10px;
   }
 </style>
-
-<!-- Load TensorFlow.js and BodyPix -->
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0/dist/tf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0.5/dist/body-pix.min.js"></script>
-
-<!-- Structured data for SEO -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "DailyTools Background Remover",
-  "url": "https://shopzek.github.io/Daily-Tools/tools/background-remover.html",
-  "description": "Free online background remover tool for images. Remove backgrounds instantly with AI.",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://shopzek.github.io/Daily-Tools/tools/background-remover.html?search={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-}
-</script>
-
 </head>
-
 <body>
 
-  <main class="tool-wrapper" role="main" aria-label="Background remover tool">
-    <h1>Background Remover</h1>
-    <p class="tool-desc">Remove image backgrounds instantly in Full HD. Works for PNG & JPG images.</p>
+<h1>Remove Background from Person (Free, Browser)</h1>
+<input type="file" id="fileInput" accept="image/*" />
+<br />
+<button id="removeBtn" disabled>Remove Background</button>
+<div id="loading"></div>
+<canvas id="outputCanvas"></canvas>
 
-    <div class="drop-zone" id="dropZone" tabindex="0" aria-label="Drag and drop an image here or click to select a file">
-      <p>📂 Drag & drop an image here or click to select</p>
-      <input type="file" id="imageInput" accept="image/*" hidden aria-hidden="true" />
-    </div>
+<!-- TensorFlow.js and BodyPix -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.8.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.2.0/dist/body-pix.min.js"></script>
 
-    <div id="fileInfo" role="status" aria-live="polite"></div>
+<script>
+  const fileInput = document.getElementById('fileInput');
+  const removeBtn = document.getElementById('removeBtn');
+  const loading = document.getElementById('loading');
+  const outputCanvas = document.getElementById('outputCanvas');
+  const ctx = outputCanvas.getContext('2d');
+  let img = new Image();
 
-    <button id="removeBtn" aria-label="Remove background from selected image">Remove Background</button>
+  let net;
 
-    <div id="statusMsg" role="status" aria-live="polite">⏳ Loading AI model...</div>
-
-    <div id="bgOutput" aria-label="Background removed image output"></div>
-  </main>
-
-  <!-- Reviews Section -->
-  <section class="reviews-section" aria-label="User reviews for background remover">
-    <h2>User Reviews</h2>
-    <article class="review" itemscope itemtype="https://schema.org/Review">
-      <p><span class="name" itemprop="author">Alice M.</span>
-      <span class="rating" aria-label="5 stars">⭐⭐⭐⭐⭐</span></p>
-      <p itemprop="reviewBody">This background remover works amazingly well! Super fast and accurate.</p>
-    </article>
-
-    <article class="review" itemscope itemtype="https://schema.org/Review">
-      <p><span class="name" itemprop="author">John D.</span>
-      <span class="rating" aria-label="4 stars">⭐⭐⭐⭐</span></p>
-      <p itemprop="reviewBody">Really handy tool, easy to use, perfect for quick edits.</p>
-    </article>
-
-    <article class="review" itemscope itemtype="https://schema.org/Review">
-      <p><span class="name" itemprop="author">Sophia L.</span>
-      <span class="rating" aria-label="5 stars">⭐⭐⭐⭐⭐</span></p>
-      <p itemprop="reviewBody">Saved me tons of time removing backgrounds for my product photos.</p>
-    </article>
-  </section>
-
-  <!-- FAQ Section for SEO -->
-  <section class="faq-section" aria-label="Frequently Asked Questions about background remover">
-    <h2>Frequently Asked Questions</h2>
-
-    <details>
-      <summary>How does the background remover work?</summary>
-      <p>Our background remover uses advanced AI segmentation models to detect the main subject in your image and make the background transparent.</p>
-    </details>
-
-    <details>
-      <summary>Is this tool free to use?</summary>
-      <p>Yes, our background remover is completely free and runs entirely in your browser for privacy and speed.</p>
-    </details>
-
-    <details>
-      <summary>What image formats are supported?</summary>
-      <p>We support PNG, JPG, JPEG, and many other common image formats.</p>
-    </details>
-
-    <details>
-      <summary>Can I download the image with transparent background?</summary>
-      <p>Yes, after removing the background, you can download your image as a transparent PNG file.</p>
-    </details>
-  </section>
-
-  <script>
-    const dropZone = document.getElementById("dropZone");
-    const fileInput = document.getElementById("imageInput");
-    const fileInfo = document.getElementById("fileInfo");
-    const statusMsg = document.getElementById("statusMsg");
-    const bgOutput = document.getElementById("bgOutput");
-    const removeBtn = document.getElementById("removeBtn");
-
-    // Drag & Drop events
-    dropZone.addEventListener("click", () => fileInput.click());
-
-    dropZone.addEventListener("dragover", e => {
-      e.preventDefault();
-      dropZone.classList.add("dragover");
+  // Load BodyPix model on page load
+  async function loadModel() {
+    loading.textContent = '⏳ Loading AI model... please wait';
+    net = await bodyPix.load({
+      architecture: 'MobileNetV1',
+      outputStride: 16,
+      multiplier: 0.75,
+      quantBytes: 2
     });
+    loading.textContent = '✅ Model loaded. Select an image.';
+    removeBtn.disabled = false;
+  }
+  loadModel();
 
-    dropZone.addEventListener("dragleave", e => {
-      e.preventDefault();
-      dropZone.classList.remove("dragover");
-    });
-
-    dropZone.addEventListener("drop", e => {
-      e.preventDefault();
-      dropZone.classList.remove("dragover");
-      if (e.dataTransfer.files.length) {
-        fileInput.files = e.dataTransfer.files;
-        updateFileInfo();
-      }
-    });
-
-    fileInput.addEventListener("change", updateFileInfo);
-
-    function updateFileInfo() {
-      if (fileInput.files.length > 0) {
-        fileInfo.textContent = `Selected file: ${fileInput.files[0].name}`;
-        statusMsg.textContent = "✅ Model loaded. Click 'Remove Background' to start.";
-        bgOutput.innerHTML = "";  // Clear output preview
-      } else {
-        fileInfo.textContent = "";
-        statusMsg.textContent = "";
-        bgOutput.innerHTML = "";
-      }
-    }
-
-    // Load BodyPix model
-    let net;
-    async function loadModel() {
-      statusMsg.textContent = "⏳ Loading AI model...";
-      net = await bodyPix.load({
-        architecture: "MobileNetV1",
-        outputStride: 16,
-        multiplier: 0.75,
-        quantBytes: 2,
-      });
-      statusMsg.textContent = "✅ Model loaded. Select an image to remove background.";
-    }
-    loadModel();
-
-    // Remove Background function
-    async function removeBackground() {
-      if (!fileInput.files.length) {
-        alert("Please select an image first.");
-        return;
-      }
-      if (!net) {
-        alert("Model not loaded yet. Please wait.");
-        return;
-      }
-
-      statusMsg.textContent = "⏳ Processing image, please wait...";
-
-      const file = fileInput.files[0];
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        const img = new Image();
-        img.src = reader.result;
-
-        img.onload = async () => {
-          // Create canvas matching image size
-          const canvas = document.createElement("canvas");
-          canvas.width = img.width;
-          canvas.height = img.height;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0);
-
-          // Run segmentation
-          try {
-            const segmentation = await net.segmentPerson(canvas, {
-              internalResolution: "medium",
-              segmentationThreshold: 0.7,
-            });
-
-            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const pixels = imgData.data;
-
-            for (let i = 0; i < pixels.length; i += 4) {
-              const pixelIndex = i / 4;
-              if (segmentation.data[pixelIndex] === 0) {
-                pixels[i + 3] = 0; // Make background pixels transparent
-              }
-            }
-
-            ctx.putImageData(imgData, 0, 0);
-
-            // Show result image with checkerboard behind
-            const resultUrl = canvas.toDataURL("image/png");
-
-            bgOutput.innerHTML = `
-              <img src="${resultUrl}" alt="Background removed image" />
-              <br />
-              <a id="downloadLink" href="${resultUrl}" download="transparent.png" title="Download transparent PNG">⬇ Download PNG</a>
-            `;
-
-            statusMsg.textContent = "✅ Background removed successfully.";
-          } catch (e) {
-            statusMsg.textContent = "❌ Error processing image.";
-            console.error(e);
-          }
-        };
-
-        img.onerror = () => {
-          statusMsg.textContent = "❌ Unable to load image. Please select a valid image file.";
-          bgOutput.innerHTML = "";
-        };
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      img.src = e.target.result;
+      img.onload = () => {
+        outputCanvas.width = img.width;
+        outputCanvas.height = img.height;
+        ctx.clearRect(0, 0, outputCanvas.width, outputCanvas.height);
+        ctx.drawImage(img, 0, 0);
+        loading.textContent = '';
       };
+    };
+    reader.readAsDataURL(file);
+  });
 
-      reader.readAsDataURL(file);
+  removeBtn.addEventListener('click', async () => {
+    if (!img.src) return alert('Please select an image first.');
+
+    loading.textContent = '⏳ Removing background...';
+    // Segment person from background
+    const segmentation = await net.segmentPerson(img, {
+      internalResolution: 'medium',
+      segmentationThreshold: 0.7
+    });
+
+    // Create new ImageData with transparent background outside person
+    const imgWidth = img.width;
+    const imgHeight = img.height;
+
+    const imgCanvas = document.createElement('canvas');
+    imgCanvas.width = imgWidth;
+    imgCanvas.height = imgHeight;
+    const imgCtx = imgCanvas.getContext('2d');
+    imgCtx.drawImage(img, 0, 0);
+
+    const imageData = imgCtx.getImageData(0, 0, imgWidth, imgHeight);
+    const pixels = imageData.data;
+    const mask = segmentation.data;
+
+    for (let i = 0; i < mask.length; i++) {
+      const pixelIndex = i * 4;
+      if (mask[i] === 0) {
+        // Background pixel, set alpha to 0 (transparent)
+        pixels[pixelIndex + 3] = 0;
+      }
     }
+    imgCtx.putImageData(imageData, 0, 0);
 
-    removeBtn.addEventListener("click", removeBackground);
-  </script>
+    // Show output on main canvas
+    outputCanvas.width = imgWidth;
+    outputCanvas.height = imgHeight;
+    ctx.clearRect(0, 0, imgWidth, imgHeight);
+    ctx.drawImage(imgCanvas, 0, 0);
+
+    loading.textContent = '✅ Background removed!';
+  });
+</script>
 
 </body>
-
 </html>

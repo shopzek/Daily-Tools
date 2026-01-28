@@ -1,28 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <title>ZIP Extractor & File to ZIP Converter | DailyTools</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description"
-      content="Extract ZIP files or convert JPG, PDF, Word, Excel files into ZIP instantly. Free browser-based ZIP tool.">
+content="Extract ZIP files or convert JPG, PDF, Word, Excel files into ZIP instantly. Free browser-based ZIP tool.">
 
 <link rel="stylesheet" href="../style.css">
 
-<!-- JSZip Library (REQUIRED) -->
+<!-- JSZip (REQUIRED) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
-<!-- Tool JavaScript -->
-<script src="app.js"></script>
-</body>
-</html>
 
 <style>
 /* ================= TOOL ================= */
 .tool-wrapper{
   max-width:750px;
-  margin:34px auto;
+  margin:40px auto;
   background:#fff;
   padding:40px;
   border-radius:14px;
@@ -83,9 +78,7 @@ button{
   cursor:pointer;
 }
 
-button:hover{
-  background:#1e4fd8;
-}
+button:hover{background:#1e4fd8}
 
 /* ================= OUTPUT ================= */
 #output{
@@ -104,10 +97,7 @@ button:hover{
   box-shadow:0 4px 10px rgba(0,0,0,.08);
 }
 
-.seo-section h2{
-  text-align:center;
-  margin-bottom:18px;
-}
+.seo-section h2{text-align:center}
 
 /* ================= REVIEWS ================= */
 #comments{
@@ -126,7 +116,6 @@ button:hover{
   margin-bottom:14px;
   border-radius:10px;
   border:1px solid #d1d5db;
-  font-size:13px;
 }
 
 .review-actions{
@@ -141,14 +130,7 @@ button:hover{
   height:50px;
   border-radius:12px;
 }
-
-.review{
-  margin-top:20px;
-  border-top:1px solid #eee;
-  padding-top:15px;
-}
 </style>
-
 </head>
 
 <body>
@@ -157,7 +139,6 @@ button:hover{
   <a href="../index.html" class="logo">🚀 DailyTools</a>
 </header>
 
-<!-- ================= TOOL ================= -->
 <main class="tool-wrapper">
 
 <h1>ZIP Extractor & File to ZIP Converter</h1>
@@ -182,36 +163,22 @@ Everything runs inside your browser.
 
 </main>
 
-<!-- ================= SEO SECTION ================= -->
+<!-- SEO -->
 <section class="seo-section">
-
 <h2>About ZIP Extractor Tool</h2>
-
 <p>
-DailyTools ZIP Extractor allows you to extract ZIP files and create ZIP archives
-directly in your browser. No uploads, no tracking, and no file size limits.
+DailyTools ZIP Extractor allows you to extract ZIP files or create ZIP archives
+without uploading files. Everything works offline inside your browser.
 </p>
-
-<ul>
-  <li>✔ Extract ZIP files instantly</li>
-  <li>✔ Convert JPG, PDF, Word, Excel to ZIP</li>
-  <li>✔ Works fully offline in browser</li>
-  <li>✔ Safe and privacy-friendly</li>
-</ul>
-
 </section>
 
-<!-- ================= REVIEWS ================= -->
+<!-- REVIEWS -->
 <section id="comments">
-
 <h2 style="text-align:center">User Reviews & Ratings</h2>
 
 <form id="commentForm" class="comment-box">
-
-<input type="text" id="username" placeholder="Your Name" required>
-
-<textarea id="usercomment" rows="4"
-          placeholder="Write your review..." required></textarea>
+<input id="username" placeholder="Your Name" required>
+<textarea id="usercomment" rows="4" placeholder="Write your review..." required></textarea>
 
 <div class="review-actions">
   <select id="rating" required>
@@ -222,20 +189,18 @@ directly in your browser. No uploads, no tracking, and no file size limits.
     <option value="2">⭐⭐</option>
     <option value="1">⭐</option>
   </select>
-
   <button type="submit">Submit Review</button>
 </div>
-
 </form>
 
 <div id="commentList"></div>
-
 </section>
 
 <footer class="site-footer">
 <p>© 2026 DailyTools • ZIP Tools</p>
 </footer>
 
+<!-- TOOL JS (LAST LINE – VERY IMPORTANT) -->
 <script src="app.js"></script>
 
 </body>

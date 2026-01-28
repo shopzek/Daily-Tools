@@ -1,136 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Remove Background - Free Online</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background: #f5f7fa;
-    text-align: center;
+<meta charset="UTF-8">
+<title>Background & Smart Object Remover – DailyTools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Remove image backgrounds & unwanted objects instantly online. Free, browser-based, private tool.">
+
+<!-- SEO Schema -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"SoftwareApplication",
+  "name":"Background & Smart Object Remover",
+  "operatingSystem":"All",
+  "applicationCategory":"UtilityApplication",
+  "description":"Remove image backgrounds and unwanted objects instantly online. Free, private, browser-based tool.",
+  "url":"https://dailytools.example/background-smart-remover",
+  "offers":{
+    "@type":"Offer",
+    "price":"0",
+    "priceCurrency":"USD"
   }
-  #inputImage {
-    max-width: 400px;
-    margin: 20px auto;
-    display: block;
-  }
-  #outputCanvas {
-    margin-top: 20px;
-    border: 1px solid #ddd;
-    max-width: 400px;
-  }
-  button {
-    padding: 12px 24px;
-    font-size: 16px;
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  #loading {
-    margin: 10px;
-  }
-</style>
-</head>
-<body>
-
-<h1>Remove Background from Person (Free, Browser)</h1>
-<input type="file" id="fileInput" accept="image/*" />
-<br />
-<button id="removeBtn" disabled>Remove Background</button>
-<div id="loading"></div>
-<canvas id="outputCanvas"></canvas>
-
-<!-- TensorFlow.js and BodyPix -->
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.8.0/dist/tf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.2.0/dist/body-pix.min.js"></script>
-
-<script>
-  const fileInput = document.getElementById('fileInput');
-  const removeBtn = document.getElementById('removeBtn');
-  const loading = document.getElementById('loading');
-  const outputCanvas = document.getElementById('outputCanvas');
-  const ctx = outputCanvas.getContext('2d');
-  let img = new Image();
-
-  let net;
-
-  // Load BodyPix model on page load
-  async function loadModel() {
-    loading.textContent = '⏳ Loading AI model... please wait';
-    net = await bodyPix.load({
-      architecture: 'MobileNetV1',
-      outputStride: 16,
-      multiplier: 0.75,
-      quantBytes: 2
-    });
-    loading.textContent = '✅ Model loaded. Select an image.';
-    removeBtn.disabled = false;
-  }
-  loadModel();
-
-  fileInput.addEventListener('change', () => {
-    const file = fileInput.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      img.src = e.target.result;
-      img.onload = () => {
-        outputCanvas.width = img.width;
-        outputCanvas.height = img.height;
-        ctx.clearRect(0, 0, outputCanvas.width, outputCanvas.height);
-        ctx.drawImage(img, 0, 0);
-        loading.textContent = '';
-      };
-    };
-    reader.readAsDataURL(file);
-  });
-
-  removeBtn.addEventListener('click', async () => {
-    if (!img.src) return alert('Please select an image first.');
-
-    loading.textContent = '⏳ Removing background...';
-    // Segment person from background
-    const segmentation = await net.segmentPerson(img, {
-      internalResolution: 'medium',
-      segmentationThreshold: 0.7
-    });
-
-    // Create new ImageData with transparent background outside person
-    const imgWidth = img.width;
-    const imgHeight = img.height;
-
-    const imgCanvas = document.createElement('canvas');
-    imgCanvas.width = imgWidth;
-    imgCanvas.height = imgHeight;
-    const imgCtx = imgCanvas.getContext('2d');
-    imgCtx.drawImage(img, 0, 0);
-
-    const imageData = imgCtx.getImageData(0, 0, imgWidth, imgHeight);
-    const pixels = imageData.data;
-    const mask = segmentation.data;
-
-    for (let i = 0; i < mask.length; i++) {
-      const pixelIndex = i * 4;
-      if (mask[i] === 0) {
-        // Background pixel, set alpha to 0 (transparent)
-        pixels[pixelIndex + 3] = 0;
-      }
-    }
-    imgCtx.putImageData(imageData, 0, 0);
-
-    // Show output on main canvas
-    outputCanvas.width = imgWidth;
-    outputCanvas.height = imgHeight;
-    ctx.clearRect(0, 0, imgWidth, imgHeight);
-    ctx.drawImage(imgCanvas, 0, 0);
-
-    loading.textContent = '✅ Background removed!';
-  });
+}
 </script>
 
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7fa;
+  margin: 0; padding: 20px;
+  text-align: center;
+}
+.tool-wrapper {
+  max-width: 750px;
+  margin: 0 auto 60px;
+  background: #fff;
+  padding: 40px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+h1 {margin-bottom: 10px;}
+.tool-desc {color:#666;font-size:15px;margin-bottom:30px;}
+.drop-zone {
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  padding: 34px;
+  cursor: pointer;
+  transition: .3s;
+  margin-bottom: 18px;
+}
+.drop-zone:hover {border-color:#2563eb;background:#f5f7ff;}
+.drop-zone.dragover {border-color:#2563eb;background:#eef2ff;}
+.drop-zone p {font-size:15px;color:#444;margin:0;}
+#fileInfo {margin-top: 10px;font-size:13px;color:#333;}
+#canvasContainer {position: relative; display: inline-block; margin-top: 20px;}
+canvas {max-width: 100%; border-radius: 12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); cursor:crosshair;}
+button {margin:10px 8px;padding:12px 24px;border-radius:12px;font-size:15px;background:#2563eb;color:#fff;border:none;cursor:pointer;min-width:160px;}
+button:hover {background:#1e4fd8;}
+#modeButtons {margin-top: 20px;}
+#loading {margin-top: 10px;font-weight: bold;color: #2563eb;}
+/* SEO & Reviews */
+.seo-section{
+  max-width:900px;
+  margin:60px auto;
+  background:#fff;
+  padding:35px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+.seo-section h2{text-align:center;margin-bottom:18px;}
+#comments{
+  max-width:900px;
+  margin:40px auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+.comment-box input,
+.comment-box textarea{
+  width:100%;
+  padding:12px;
+  margin-bottom:14px;
+  border-radius:10px;
+  border:1px solid #d1d5db;
+  font-size:13px;
+}
+.review-actions{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+}
+.review-actions select,
+.review-actions button{
+  width:200px;
+  height:50px;
+  border-radius:12px;
+}
+.review-actions button{
+  background:#2563eb;
+  color:#fff;
+  border:none;
+}
+.review{
+  margin-top:20px;
+  border-top:1px solid #eee;
+  padding-top:15px;
+}
+</style>
+</head>
+
+<body>
+<div class="tool-wrapper">
+  <h1>Background & Smart Object Remover</h1>
+  <p class="tool-desc">Remove image backgrounds instantly and erase unwanted objects by painting on the image.</p>
+
+  <div class="drop-zone" id="dropZone">
+    <p>📂 Drag & drop an image here<br>or click to select</p>
+    <input type="file" id="imageInput" accept="image/*" hidden>
+    <div id="fileInfo"></div>
+  </div>
+
+  <div id="canvasContainer">
+    <canvas id="imageCanvas"></canvas>
+  </div>
+
+  <div id="modeButtons">
+    <button id="removeBgBtn" disabled>Remove Background</button>
+    <button id="smartRemoveBtn" disabled>Smart Object Remove</button>
+    <button id="clearMarksBtn" disabled>Clear Marks</button>
+  </div>
+
+  <div id="loading"></div>
+</div>
+
+<!-- SEO Section -->
+<section class="seo-section">
+  <h2>About Background & Smart Object Remover Tool</h2>
+  <p>
+    DailyTools lets you remove image backgrounds instantly and erase unwanted objects directly in your browser.
+    No uploads, free and private.
+  </p>
+  <ul>
+    <li>✔ Free and unlimited usage</li>
+    <li>✔ Supports PNG & JPG images</li>
+    <li>✔ Works on all devices</li>
+    <li>✔ 100% private & secure</li>
+  </ul>
+</section>
+
+<!-- Reviews Section -->
+<section id="comments">
+  <h2 style="text-align:center">User Reviews & Ratings</h2>
+  <form id="commentForm" class="comment-box">
+    <input type="text" id="username" placeholder="Your Name" required>
+    <textarea id="usercomment" rows="4" placeholder="Write your review..." required></textarea>
+    <div class="review-actions">
+      <select id="rating" required>
+        <option value="">Select Rating</option>
+        <option value="5">⭐⭐⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="1">⭐</option>
+      </select>
+      <button type="submit">Submit Review</button>
+    </div>
+  </form>
+  <div id="commentList"></div>
+</section>
+
+<footer class="site-footer">
+  <p>© 2026 DailyTools • Image Tools</p>
+</footer>
+
+<script>
+// Elements
+const dropZone = document.getElementById("dropZone");
+const fileInput = document.getElementById("imageInput");
+const fileInfo = document.getElementById("fileInfo");
+const imageCanvas = document.getElementById("imageCanvas");
+const ctx = imageCanvas.getContext("2d");
+const removeBgBtn = document.getElementById("removeBgBtn");
+const smartRemoveBtn = document.getElementById("smartRemoveBtn");
+const clearMarksBtn = document.getElementById("clearMarksBtn");
+const loading = document.getElementById("loading");
+
+let img = new Image();
+let imgOriginalData = null;
+let marks = [];
+let isPainting = false;
+let mode = null;
+
+// Drag & Drop
+dropZone.onclick = () => fileInput.click();
+fileInput.onchange = () => { if(fileInput.files.length) loadImage(fileInput.files[0]); };
+dropZone.ondragover = e => { e.preventDefault(); dropZone.classList.add("dragover"); };
+dropZone.ondragleave = () => dropZone.classList.remove("dragover");
+dropZone.ondrop = e => { e.preventDefault(); dropZone.classList.remove("dragover"); if(e.dataTransfer.files.length) loadImage(e.dataTransfer.files[0]); };
+
+function loadImage(file){
+  fileInfo.textContent = file.name;
+  loading.textContent = "";
+  const reader = new FileReader();
+  reader.onload = e => { img.src = e.target.result; };
+  reader.readAsDataURL(file);
+}
+
+img.onload = () => {
+  const maxWidth = 700;
+  const scale = img.width > maxWidth ? maxWidth / img.width : 1;
+  imageCanvas.width = img.width * scale;
+  imageCanvas.height = img.height * scale;
+  ctx.clearRect(0,0,imageCanvas.width,imageCanvas.height);
+  ctx.drawImage(img,0,0,imageCanvas.width,imageCanvas.height);
+  imgOriginalData = ctx.getImageData(0,0,imageCanvas.width,imageCanvas.height);
+  removeBgBtn.disabled = false;
+  smartRemoveBtn.disabled = false;
+  clearMarksBtn.disabled = true;
+  marks = [];
+  mode = null;
+  loading.textContent = "";
+};
+
+// Painting for Smart Object Remove
+imageCanvas.onmousedown = e => { if(mode==="smart-remove"){isPainting=true; addMark(e);} };
+imageCanvas.onmouseup = e => { if(mode==="smart-remove") isPainting=false; };
+imageCanvas.onmouseout = e => { if(mode==="smart-remove") isPainting=false; };
+imageCanvas.onmousemove = e => { if(mode==="smart-remove" && isPainting) addMark(e); };
+
+function addMark(e){
+  const rect = imageCanvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  marks.push({x,y});
+  drawMarks();
+}
+
+function drawMarks(){
+  ctx.putImageData(imgOriginalData,0,0);
+  ctx.fillStyle = "rgba(255,0,0,0.4)";
+  ctx.strokeStyle = "rgba(255,0,0,0.7)";
+  ctx.lineWidth = 10; ctx.lineJoin="round"; ctx.lineCap="round";
+  if(marks.length>1){ ctx.beginPath(); ctx.moveTo(marks[0].x,marks[0].y); for(let i=1;i<marks.length;i++) ctx.lineTo(marks[i].x,marks[i].y); ctx.stroke(); }
+  marks.forEach(p=>{ctx.beginPath(); ctx.arc(p.x,p.y,8,0,2*Math.PI); ctx.fill();});
+  clearMarksBtn.disabled = marks.length===0;
+}
+
+clearMarksBtn.onclick = ()=>{marks=[];ctx.putImageData(imgOriginalData,0,0);clearMarksBtn.disabled=true;loading.textContent="";};
+
+// Remove background
+removeBgBtn.onclick = async () => {
+  if(!img.src) return alert("Please load an image first.");
+  mode=null; marks=[]; clearMarksBtn.disabled=true; loading.textContent="Processing background removal...";
+  const imgData = ctx.getImageData(0,0,imageCanvas.width,imageCanvas.height);
+  const data = imgData.data;
+  for(let i=0;i<data.length;i+=4){if(data[i]>240 && data[i+1]>240 && data[i+2]>240)data[i+3]=0;}
+  ctx.putImageData(imgData,0,0);
+  imgOriginalData = ctx.getImageData(0,0,imageCanvas.width,imageCanvas.height);
+  loading.textContent="Background removed.";
+};
+
+// Smart Object Remove
+smartRemoveBtn.onclick = () => { if(!img.src) return alert("Please load an image first."); mode="smart-remove"; loading.textContent="Paint over objects to remove."; };
+smartRemoveBtn.ondblclick = () => {
+  if(marks.length===0){alert("No marked area to remove. Paint first."); return;}
+  loading.textContent="Removing marked objects...";
+  const imgData = ctx.getImageData(0,0,imageCanvas.width,imageCanvas.height);
+  const data = imgData.data;
+  const radius=20;
+  marks.forEach(({x,y})=>{
+    const cx=Math.round(x), cy=Math.round(y);
+    for(let dy=-radius;dy<=radius;dy++){
+      for(let dx=-radius;dx<=radius;dx++){
+        const px=cx+dx, py=cy+dy;
+        if(px<0||py<0||px>=imageCanvas.width||py>=imageCanvas.height) continue;
+        if(dx*dx+dy*dy>radius*radius) continue;
+        const neighbors=[[px-1,py],[px+1,py],[px,py-1],[px,py+1],[px-1,py-1],[px+1,py-1],[px-1,py+1],[px+1,py+1]];
+        const surroundingColors=[];
+        neighbors.forEach(([nx,ny])=>{if(nx>=0&&ny>=0&&nx<imageCanvas.width&&ny<imageCanvas.height){const idx=(ny*imageCanvas.width+nx)*4; surroundingColors.push([data[idx],data[idx+1],data[idx+2],data[idx+3]]);}});
+        if(surroundingColors.length===0) continue;
+        const avg=surroundingColors.reduce((acc,c)=>{acc[0]+=c[0];acc[1]+=c[1];acc[2]+=c[2];acc[3]+=c[3];return acc;},[0,0,0,0]).map(x=>x/surroundingColors.length);
+        const idx=(py*imageCanvas.width+px)*4; data[idx]=avg[0]; data[idx+1]=avg[1]; data[idx+2]=avg[2]; data[idx+3]=avg[3];
+      }
+    }
+  });
+  ctx.putImageData(imgData,0,0);
+  marks=[]; clearMarksBtn.disabled=true;
+  loading.textContent="Objects removed (basic). You can refine by painting again and double-click Smart Object Remove.";
+};
+
+// Reviews
+const commentForm = document.getElementById("commentForm");
+const commentList = document.getElementById("commentList");
+commentForm.onsubmit = e => {
+  e.preventDefault();
+  const username = document.getElementById("username").value;
+  const usercomment = document.getElementById("usercomment").value;
+  const rating = document.getElementById("rating").value;
+  commentList.innerHTML=`<div class="review"><strong>${username}</strong> (${rating}⭐)<p>${usercomment}</p></div>` + commentList.innerHTML;
+  e.target.reset();
+};
+</script>
 </body>
 </html>

@@ -2,153 +2,184 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <title>Background Remover – Free Online Tool | DailyTools</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Remove image backgrounds instantly online. Free, browser-based, and private background remover tool.">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Remove image backgrounds instantly online. Free, browser-based, and private background remover tool." />
 
 <!-- SEO Schema -->
 <script type="application/ld+json">
 {
-  "@context":"https://schema.org",
-  "@type":"SoftwareApplication",
-  "name":"Background Remover",
-  "operatingSystem":"All",
-  "applicationCategory":"UtilityApplication",
-  "description":"Remove image backgrounds instantly online. Free, private, browser-based tool.",
-  "url":"https://dailytools.example/background-remover",
-  "offers":{
-    "@type":"Offer",
-    "price":"0",
-    "priceCurrency":"USD"
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Background Remover",
+  "operatingSystem": "All",
+  "applicationCategory": "UtilityApplication",
+  "description": "Remove image backgrounds instantly online. Free, private, browser-based tool.",
+  "url": "https://dailytools.example/background-remover",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
   }
 }
 </script>
 
-<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../style.css" />
 
 <style>
-/* TOOL CARD */
-.tool-wrapper{
-  max-width:750px;
-  margin:34px auto;
-  background:#fff;
-  padding:40px;
-  border-radius:14px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-  text-align:center;
-}
+  /* TOOL CARD */
+  .tool-wrapper {
+    max-width: 750px;
+    margin: 34px auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+    text-align: center;
+  }
 
-.tool-wrapper h1{margin-bottom:10px;}
-.tool-desc{
-  color:#666;
-  font-size:15px;
-  margin-top:16px;
-  margin-bottom:36px;
-}
+  .tool-wrapper h1 {
+    margin-bottom: 10px;
+  }
 
-/* DRAG & DROP */
-.drop-zone{
-  border:2px dashed #ccc;
-  border-radius:12px;
-  padding:34px;
-  cursor:pointer;
-  transition:.3s;
-  margin-bottom:18px;
-}
+  .tool-desc {
+    color: #666;
+    font-size: 15px;
+    margin-top: 16px;
+    margin-bottom: 36px;
+  }
 
-.drop-zone:hover{border-color:#2563eb;background:#f5f7ff;}
-.drop-zone.dragover{border-color:#2563eb;background:#eef2ff;}
-.drop-zone p{font-size:15px;color:#444;}
-.file-info{margin-top:10px;font-size:13px;color:#333;}
+  /* DRAG & DROP */
+  .drop-zone {
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    padding: 34px;
+    cursor: pointer;
+    transition: .3s;
+    margin-bottom: 18px;
+  }
 
-/* BUTTON */
-button{
-  width:220px;
-  height:46px;
-  border-radius:12px;
-  font-size:15px;
-  background:#2563eb;
-  color:#fff;
-  border:none;
-  cursor:pointer;
-}
-button:hover{background:#1e4fd8}
+  .drop-zone:hover {
+    border-color: #2563eb;
+    background: #f5f7ff;
+  }
 
-/* OUTPUT */
-#bgOutput{
-  margin-top:22px;
-}
-#bgOutput img{
-  max-width:100%;
-  border-radius:10px;
-  margin-bottom:14px;
-}
-#bgOutput a{
-  display:inline-block;
-  padding:10px 18px;
-  background:#2563eb;
-  color:#fff;
-  border-radius:10px;
-  text-decoration:none;
-}
-#bgOutput a:hover{background:#1e4fd8}
+  .drop-zone.dragover {
+    border-color: #2563eb;
+    background: #eef2ff;
+  }
 
-/* SEO */
-.seo-section{
-  max-width:900px;
-  margin:60px auto;
-  background:#fff;
-  padding:35px;
-  border-radius:12px;
-  box-shadow:0 4px 10px rgba(0,0,0,.08);
-}
-.seo-section h2{text-align:center;margin-bottom:18px;}
+  .drop-zone p {
+    font-size: 15px;
+    color: #444;
+  }
 
-/* REVIEWS */
-#comments{
-  max-width:900px;
-  margin:40px auto;
-  background:#fff;
-  padding:30px;
-  border-radius:12px;
-  box-shadow:0 4px 10px rgba(0,0,0,.1);
-}
+  .file-info {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #333;
+  }
 
-.comment-box input,
-.comment-box textarea{
-  width:100%;
-  padding:12px;
-  margin-bottom:14px;
-  border-radius:10px;
-  border:1px solid #d1d5db;
-  font-size:13px;
-}
+  /* BUTTON */
+  button {
+    width: 220px;
+    height: 46px;
+    border-radius: 12px;
+    font-size: 15px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
 
-.review-actions{
-  display:flex;
-  justify-content:center;
-  gap:14px;
-}
+  button:hover {
+    background: #1e4fd8
+  }
 
-.review-actions select,
-.review-actions button{
-  width:200px;
-  height:50px;
-  border-radius:12px;
-}
+  /* OUTPUT */
+  #bgOutput {
+    margin-top: 22px;
+  }
 
-.review-actions button{
-  background:#2563eb;
-  color:#fff;
-  border:none;
-}
+  #bgOutput img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 14px;
+  }
 
-.review{
-  margin-top:20px;
-  border-top:1px solid #eee;
-  padding-top:15px;
-}
+  #bgOutput a {
+    display: inline-block;
+    padding: 10px 18px;
+    background: #2563eb;
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+  }
+
+  #bgOutput a:hover {
+    background: #1e4fd8
+  }
+
+  /* SEO */
+  .seo-section {
+    max-width: 900px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .08);
+  }
+
+  .seo-section h2 {
+    text-align: center;
+    margin-bottom: 18px;
+  }
+
+  /* REVIEWS */
+  #comments {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .1);
+  }
+
+  .comment-box input,
+  .comment-box textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 14px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    font-size: 13px;
+  }
+
+  .review-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .review-actions select,
+  .review-actions button {
+    width: 200px;
+    height: 50px;
+    border-radius: 12px;
+  }
+
+  .review-actions button {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+  }
+
+  .review {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+  }
 </style>
 
 <!-- TensorFlow.js & BodyPix for AI background removal -->
@@ -169,13 +200,13 @@ button:hover{background:#1e4fd8}
 
   <div class="drop-zone" id="dropZone">
     <p>📂 Drag & drop an image here<br>or click to select</p>
-    <input type="file" id="imageInput" accept="image/*" hidden>
+    <input type="file" id="imageInput" accept="image/*" hidden />
     <div class="file-info" id="fileInfo"></div>
   </div>
 
   <button onclick="removeBackground()">Remove Background</button>
-  <div id="loader">⏳ Loading optimized AI model...</div>
-  <div id="bgOutput"></div>
+
+  <div id="bgOutput">Loading AI model...</div>
 </main>
 
 <!-- SEO Section -->
@@ -199,7 +230,7 @@ button:hover{background:#1e4fd8}
   <h2 style="text-align:center">User Reviews & Ratings</h2>
 
   <form id="commentForm" class="comment-box">
-    <input type="text" id="username" placeholder="Your Name" required>
+    <input type="text" id="username" placeholder="Your Name" required />
     <textarea id="usercomment" rows="4" placeholder="Write your review..." required></textarea>
 
     <div class="review-actions">
@@ -224,130 +255,163 @@ button:hover{background:#1e4fd8}
 </footer>
 
 <script>
-// Elements
-const dropZone = document.getElementById("dropZone");
-const fileInput = document.getElementById("imageInput");
-const fileInfo = document.getElementById("fileInfo");
-const bgOutput = document.getElementById("bgOutput");
-const loader = document.getElementById("loader");
+  // Elements
+  const dropZone = document.getElementById("dropZone");
+  const fileInput = document.getElementById("imageInput");
+  const fileInfo = document.getElementById("fileInfo");
+  const bgOutput = document.getElementById("bgOutput");
 
-// Drag & Drop
-dropZone.onclick = () => fileInput.click();
-fileInput.onchange = () => {
-  if (!fileInput.files.length) return;
-  fileInfo.innerText = fileInput.files[0].name;
-  if (!net) loadModel();
-};
-dropZone.ondragover = e => { e.preventDefault(); dropZone.classList.add("dragover"); };
-dropZone.ondragleave = () => dropZone.classList.remove("dragover");
-dropZone.ondrop = e => {
-  e.preventDefault();
-  dropZone.classList.remove("dragover");
-  fileInput.files = e.dataTransfer.files;
-  fileInfo.innerText = fileInput.files[0].name;
-  if (!net) loadModel();
-};
-
-// Load BodyPix AI model
-let net;
-async function loadModel() {
-  loader.innerText = "⏳ Loading optimized AI model...";
-  net = await bodyPix.load({ architecture:'MobileNetV1', outputStride:16, multiplier:1.0 });
-  loader.innerText = "✅ AI model ready! Click 'Remove Background'.";
-}
-
-// Remove Background
-async function removeBackground() {
-  if (!fileInput.files.length) return alert("Select an image");
-  if (!net) return alert("AI model not loaded yet");
-
-  const file = fileInput.files[0];
-  loader.innerText = "⏳ Processing image...";
-  const reader = new FileReader();
-
-  reader.onload = () => {
-    const img = new Image();
-    img.src = reader.result;
-    img.onload = async () => {
-
-      // Step 1: Original image canvas
-      const originalCanvas = document.createElement("canvas");
-      originalCanvas.width = img.width;
-      originalCanvas.height = img.height;
-      const originalCtx = originalCanvas.getContext("2d");
-      originalCtx.drawImage(img,0,0);
-
-      // Step 2: Scaled-down canvas for segmentation
-      const scale = Math.min(512 / img.width, 512 / img.height, 1);
-      const smallCanvas = document.createElement("canvas");
-      smallCanvas.width = img.width * scale;
-      smallCanvas.height = img.height * scale;
-      const smallCtx = smallCanvas.getContext("2d");
-      smallCtx.drawImage(img,0,0, smallCanvas.width, smallCanvas.height);
-
-      // Step 3: Run segmentation
-      const segmentation = await net.segmentPerson(smallCanvas, {
-        internalResolution:'medium',
-        segmentationThreshold:0.7
-      });
-
-      // Step 4: Create alpha mask full size
-      const maskCanvas = document.createElement("canvas");
-      maskCanvas.width = img.width;
-      maskCanvas.height = img.height;
-      const maskCtx = maskCanvas.getContext("2d");
-      const maskImgData = maskCtx.createImageData(img.width, img.height);
-      const maskData = maskImgData.data;
-
-      for(let y=0; y<img.height; y++){
-        for(let x=0; x<img.width; x++){
-          const origIndex = (y * img.width + x) * 4;
-          const smallX = Math.floor(x * scale);
-          const smallY = Math.floor(y * scale);
-          const segIndex = smallY * smallCanvas.width + smallX;
-          maskData[origIndex] = 0;
-          maskData[origIndex+1] = 0;
-          maskData[origIndex+2] = 0;
-          maskData[origIndex+3] = segmentation.data[segIndex] ? 255 : 0;
-        }
-      }
-
-      maskCtx.putImageData(maskImgData,0,0);
-
-      // Step 5: Apply alpha mask to original image
-      const finalCanvas = document.createElement("canvas");
-      finalCanvas.width = img.width;
-      finalCanvas.height = img.height;
-      const finalCtx = finalCanvas.getContext("2d");
-
-      finalCtx.drawImage(img,0,0);
-      const finalData = finalCtx.getImageData(0,0,img.width,img.height);
-      const maskDataFinal = maskCtx.getImageData(0,0,img.width,img.height).data;
-
-      for(let i=0;i<finalData.data.length;i+=4){
-        finalData.data[i+3] = maskDataFinal[i+3]; // apply alpha
-      }
-
-      finalCtx.putImageData(finalData,0,0);
-
-      const url = finalCanvas.toDataURL("image/png");
-      loader.innerText = "";
-      bgOutput.innerHTML = `<img src="${url}"><br><a href="${url}" download="transparent.png">⬇ Download PNG</a>`;
-    };
+  // Drag & Drop
+  dropZone.onclick = () => fileInput.click();
+  fileInput.onchange = () => fileInput.files.length && (fileInfo.innerText = fileInput.files[0].name);
+  dropZone.ondragover = e => {
+    e.preventDefault();
+    dropZone.classList.add("dragover");
   };
-  reader.readAsDataURL(file);
-};
+  dropZone.ondragleave = () => dropZone.classList.remove("dragover");
+  dropZone.ondrop = e => {
+    e.preventDefault();
+    dropZone.classList.remove("dragover");
+    fileInput.files = e.dataTransfer.files;
+    fileInfo.innerText = fileInput.files[0].name;
+  };
 
-// Reviews
-const commentForm = document.getElementById("commentForm");
-const commentList = document.getElementById("commentList");
-commentForm.onsubmit = e => {
-  e.preventDefault();
-  commentList.innerHTML =
-    `<div class="review"><strong>${username.value}</strong> (${rating.value}⭐)<p>${usercomment.value}</p></div>` + commentList.innerHTML;
-  e.target.reset();
-};
+  // Load BodyPix model
+  let net;
+  async function loadModel() {
+    bgOutput.innerText = "⏳ Loading optimized AI model...";
+    net = await bodyPix.load({
+      architecture: 'MobileNetV1',
+      outputStride: 16,
+      multiplier: 1.0,
+      quantBytes: 2
+    });
+    bgOutput.innerText = "✅ Model loaded. Select an image to remove background.";
+  }
+  loadModel();
+
+  // Remove Background function with debug and improved scaling
+  async function removeBackground() {
+    if (!fileInput.files.length) return alert("Select an image");
+    if (!net) return alert("AI model not loaded yet");
+
+    const file = fileInput.files[0];
+    bgOutput.innerHTML = "⏳ Processing image...";
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const img = new Image();
+      img.src = reader.result;
+
+      img.onload = async () => {
+        try {
+          console.log("Image loaded:", img.width, "x", img.height);
+
+          // Original image canvas
+          const originalCanvas = document.createElement("canvas");
+          originalCanvas.width = img.width;
+          originalCanvas.height = img.height;
+          const originalCtx = originalCanvas.getContext("2d");
+          originalCtx.drawImage(img, 0, 0);
+
+          // Scale for segmentation (max 512px width or height)
+          const scale = Math.min(512 / img.width, 512 / img.height, 1);
+          console.log("Scale for segmentation:", scale);
+
+          const smallCanvas = document.createElement("canvas");
+          smallCanvas.width = img.width * scale;
+          smallCanvas.height = img.height * scale;
+          const smallCtx = smallCanvas.getContext("2d");
+          smallCtx.drawImage(img, 0, 0, smallCanvas.width, smallCanvas.height);
+
+          // Run segmentation
+          console.log("Running segmentation...");
+          const segmentation = await net.segmentPerson(smallCanvas, {
+            internalResolution: 'medium',
+            segmentationThreshold: 0.7
+          });
+
+          if (!segmentation || !segmentation.data) {
+            throw new Error("Segmentation failed or returned no data.");
+          }
+          console.log("Segmentation complete");
+
+          // Create alpha mask full size
+          const maskCanvas = document.createElement("canvas");
+          maskCanvas.width = img.width;
+          maskCanvas.height = img.height;
+          const maskCtx = maskCanvas.getContext("2d");
+          const maskImgData = maskCtx.createImageData(img.width, img.height);
+          const maskData = maskImgData.data;
+
+          for (let y = 0; y < img.height; y++) {
+            for (let x = 0; x < img.width; x++) {
+              const origIndex = (y * img.width + x) * 4;
+              const smallX = Math.floor(x * scale);
+              const smallY = Math.floor(y * scale);
+              const segIndex = smallY * smallCanvas.width + smallX;
+              const isPerson = segmentation.data[segIndex];
+              maskData[origIndex] = 0;
+              maskData[origIndex + 1] = 0;
+              maskData[origIndex + 2] = 0;
+              maskData[origIndex + 3] = isPerson ? 255 : 0;
+            }
+          }
+
+          maskCtx.putImageData(maskImgData, 0, 0);
+
+          // Apply alpha mask to original image
+          const finalCanvas = document.createElement("canvas");
+          finalCanvas.width = img.width;
+          finalCanvas.height = img.height;
+          const finalCtx = finalCanvas.getContext("2d");
+
+          finalCtx.drawImage(img, 0, 0);
+          const finalData = finalCtx.getImageData(0, 0, img.width, img.height);
+          const maskDataFinal = maskCtx.getImageData(0, 0, img.width, img.height).data;
+
+          for (let i = 0; i < finalData.data.length; i += 4) {
+            finalData.data[i + 3] = maskDataFinal[i + 3];
+          }
+
+          finalCtx.putImageData(finalData, 0, 0);
+
+          const url = finalCanvas.toDataURL("image/png");
+          bgOutput.innerHTML = `<img src="${url}" alt="Result image"><br><a href="${url}" download="transparent.png">⬇ Download PNG</a>`;
+
+          console.log("Background removal completed successfully.");
+        } catch (error) {
+          bgOutput.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+          console.error("Error during background removal:", error);
+        }
+      };
+
+      img.onerror = () => {
+        alert("Failed to load the image file. Try a different image.");
+        console.error("Image load error.");
+      };
+    };
+
+    reader.onerror = () => {
+      alert("Failed to read the image file.");
+      console.error("FileReader error.");
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  // Reviews
+  const commentForm = document.getElementById("commentForm");
+  const commentList = document.getElementById("commentList");
+  commentForm.onsubmit = e => {
+    e.preventDefault();
+    commentList.innerHTML =
+      `<div class="review"><strong>${username.value}</strong> (${rating.value}⭐)<p>${usercomment.value}</p></div>` + commentList.innerHTML;
+    e.target.reset();
+  };
 </script>
 
 </body>
+
 </html>

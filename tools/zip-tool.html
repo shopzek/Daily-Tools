@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>ZIP Extractor & File to ZIP Converter | DailyTools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description"
+      content="Extract ZIP files or convert JPG, PDF, Word, Excel files into ZIP instantly. Free browser-based ZIP tool.">
+
+<link rel="stylesheet" href="../style.css">
+
+<!-- JSZip -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<style>
+/* ================= TOOL ================= */
+.tool-wrapper{
+  max-width:750px;
+  margin:34px auto;
+  background:#fff;
+  padding:40px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  text-align:center;
+}
+
+.tool-desc{
+  color:#666;
+  font-size:15px;
+  margin-top:18px;
+  margin-bottom:36px;
+}
+
+/* ================= DROP ZONE ================= */
+.drop-zone{
+  border:2px dashed #ccc;
+  border-radius:12px;
+  padding:36px;
+  cursor:pointer;
+  transition:.3s;
+  margin-bottom:20px;
+}
+
+.drop-zone:hover,
+.drop-zone.dragover{
+  border-color:#2563eb;
+  background:#f5f7ff;
+}
+
+.drop-zone p{
+  font-size:15px;
+  color:#444;
+}
+
+.file-info{
+  margin-top:10px;
+  font-size:13px;
+  color:#333;
+}
+
+/* ================= BUTTONS ================= */
+.action-buttons{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+
+button{
+  width:220px;
+  height:48px;
+  border-radius:12px;
+  font-size:15px;
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#1e4fd8;
+}
+
+/* ================= OUTPUT ================= */
+#output{
+  margin-top:30px;
+  text-align:left;
+  font-size:14px;
+}
+
+/* ================= SEO ================= */
+.seo-section{
+  max-width:900px;
+  margin:60px auto;
+  background:#fff;
+  padding:35px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+
+.seo-section h2{
+  text-align:center;
+  margin-bottom:18px;
+}
+
+/* ================= REVIEWS ================= */
+#comments{
+  max-width:900px;
+  margin:40px auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+
+.comment-box input,
+.comment-box textarea{
+  width:100%;
+  padding:12px;
+  margin-bottom:14px;
+  border-radius:10px;
+  border:1px solid #d1d5db;
+  font-size:13px;
+}
+
+.review-actions{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+}
+
+.review-actions select,
+.review-actions button{
+  width:200px;
+  height:50px;
+  border-radius:12px;
+}
+
+.review{
+  margin-top:20px;
+  border-top:1px solid #eee;
+  padding-top:15px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header class="main-header">
+  <a href="../index.html" class="logo">🚀 DailyTools</a>
+</header>
+
+<!-- ================= TOOL ================= -->
+<main class="tool-wrapper">
+
+<h1>ZIP Extractor & File to ZIP Converter</h1>
+
+<p class="tool-desc">
+Extract ZIP files or convert JPG, PDF, Word, Excel and other files into ZIP.
+Everything runs inside your browser.
+</p>
+
+<div class="drop-zone" id="dropZone">
+  <p>📂 Drag & drop files here<br>or click to select</p>
+  <input type="file" id="fileInput" multiple hidden>
+  <div class="file-info" id="fileInfo"></div>
+</div>
+
+<div class="action-buttons">
+  <button id="extractBtn">Extract ZIP</button>
+  <button id="zipBtn">Convert to ZIP</button>
+</div>
+
+<div id="output"></div>
+
+</main>
+
+<!-- ================= SEO SECTION ================= -->
+<section class="seo-section">
+
+<h2>About ZIP Extractor Tool</h2>
+
+<p>
+DailyTools ZIP Extractor allows you to extract ZIP files and create ZIP archives
+directly in your browser. No uploads, no tracking, and no file size limits.
+</p>
+
+<ul>
+  <li>✔ Extract ZIP files instantly</li>
+  <li>✔ Convert JPG, PDF, Word, Excel to ZIP</li>
+  <li>✔ Works fully offline in browser</li>
+  <li>✔ Safe and privacy-friendly</li>
+</ul>
+
+</section>
+
+<!-- ================= REVIEWS ================= -->
+<section id="comments">
+
+<h2 style="text-align:center">User Reviews & Ratings</h2>
+
+<form id="commentForm" class="comment-box">
+
+<input type="text" id="username" placeholder="Your Name" required>
+
+<textarea id="usercomment" rows="4"
+          placeholder="Write your review..." required></textarea>
+
+<div class="review-actions">
+  <select id="rating" required>
+    <option value="">Select Rating</option>
+    <option value="5">⭐⭐⭐⭐⭐</option>
+    <option value="4">⭐⭐⭐⭐</option>
+    <option value="3">⭐⭐⭐</option>
+    <option value="2">⭐⭐</option>
+    <option value="1">⭐</option>
+  </select>
+
+  <button type="submit">Submit Review</button>
+</div>
+
+</form>
+
+<div id="commentList"></div>
+
+</section>
+
+<footer class="site-footer">
+<p>© 2026 DailyTools • ZIP Tools</p>
+</footer>
+
+<script src="app.js"></script>
+
+</body>
+</html>

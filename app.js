@@ -337,45 +337,62 @@ if (longUrlInput && shortUrlOutput) {
     };
   }
 
-   /* ===============================
-   IMAGE → WEBP
+/* ===============================
+   BACKGROUND REMOVER
 ================================ */
-const webpInput = document.getElementById("webpInput");
-const webpQuality = document.getElementById("webpQuality");
-const webpOutput = document.getElementById("webpOutput");
+const bgInput = document.getElementById("imageInput");
+const bgOutput = document.getElementById("bgOutput");
 
-if (webpInput && webpOutput) {
-  window.convertToWebp = () => {
-    if (!webpInput.files.length) {
+if (bgInput && bgOutput) {
+  window.removeBackground = () => {
+    if (!bgInput.files.length) {
       alert("Select an image");
       return;
     }
 
-    const quality = Math.min(Math.max((webpQuality.value || 80) / 100, 0.1), 1);
-    webpOutput.innerHTML = "⏳ Converting...";
+    bgOutput.innerHTML = "⏳ Processing...";
 
+    const file = bgInput.files[0];
     const reader = new FileReader();
+
     reader.onload = () => {
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement("canvas");
         canvas.width = img.width;
         canvas.height = img.height;
-        canvas.getContext("2d").drawImage(img, 0, 0);
+        const ctx = canvas.getContext("2d");
 
-        const webpUrl = canvas.toDataURL("image/webp", quality);
+        // Draw image on canvas
+        ctx.drawImage(img, 0, 0);
 
-        webpOutput.innerHTML = `
-          <img src="${webpUrl}" style="max-width:100%;border-radius:8px">
+        // Get image data
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imgData.data;
+
+        // Simple white background removal (adjust threshold if needed)
+        for (let i = 0; i < data.length; i += 4) {
+          if (data[i] > 240 && data[i + 1] > 240 && data[i + 2] > 240) {
+            data[i + 3] = 0; // make pixel transparent
+          }
+        }
+
+        ctx.putImageData(imgData, 0, 0);
+
+        const url = canvas.toDataURL("image/png");
+
+        bgOutput.innerHTML = `
+          <img src="${url}" style="max-width:100%;border-radius:8px">
           <br>
-          <a href="${webpUrl}" download="converted.webp" class="primary-btn">
-            ⬇ Download WEBP
+          <a href="${url}" download="transparent.png" class="primary-btn">
+            ⬇ Download PNG
           </a>
         `;
       };
       img.src = reader.result;
     };
-    reader.readAsDataURL(webpInput.files[0]);
+
+    reader.readAsDataURL(file);
   };
 }
 

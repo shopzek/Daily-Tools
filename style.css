@@ -499,7 +499,7 @@ button:hover,
 /* Button height match */
 #comments button {
   display: inline-block;           /* same as select */
-  padding: 25px 258px;              /* same horizontal padding */
+  padding: 25px 25px;              /* same horizontal padding */
   font-size: 16px;
   border-radius: 12px;
 }

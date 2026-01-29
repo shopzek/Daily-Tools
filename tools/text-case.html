@@ -124,23 +124,27 @@
 .review-actions{
   display:flex;
   justify-content:center;
+  align-items:center;
   gap:14px;
 }
 
+/* SAME WIDTH + SAME HEIGHT */
 .review-actions select,
 .review-actions button{
-  width:200px;
-  height:48px;
+  width:220px;          /* ✅ EXACT SAME WIDTH */
+  height:48px;          /* ✅ SAME HEIGHT */
   border-radius:12px;
   font-size:15px;
   border:none;
 }
 
-/* RATING LOOKS LIKE BUTTON */
+/* STYLE SELECT LIKE BUTTON */
 .review-actions select{
   background:#2563eb;
   color:#fff;
   cursor:pointer;
+  appearance:none;
+  text-align:center;
 }
 
 /* SUBMIT BUTTON */
@@ -154,6 +158,7 @@
 .review-actions select:hover{
   background:#1e4fd8;
 }
+
 
     }
   </style>

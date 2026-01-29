@@ -475,16 +475,15 @@ button:hover,
 /* 👇 Rating select box same width as Submit Review button and centered */
 #comments select {
   display: inline-block;           /* shrink to button size */
-  padding: 14px 28px;              /* same horizontal padding as button */
+  padding: 25px 25px;              /* same horizontal padding as button */
   font-size: 16px;
   border-radius: 12px;
   border: 1px solid #e5e7eb;
   background-color: #fff;
   cursor: pointer;
   box-sizing: border-box;
-
-  appearance: none;
-  -webkit-appearance: none;
+ 
+   -webkit-appearance: none;
   -moz-appearance: none;
 
 
@@ -500,7 +499,7 @@ button:hover,
 /* Button height match */
 #comments button {
   display: inline-block;           /* same as select */
-  padding: 14px 28px;              /* same horizontal padding */
+  padding: 25px 258px;              /* same horizontal padding */
   font-size: 16px;
   border-radius: 12px;
 }

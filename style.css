@@ -550,13 +550,5 @@ button:hover,
     width: auto;   /* keep same as button width */
   }
 }
-/* FORCE rating + submit on same line */
-#comments .review-actions{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:16px;
-  flex-wrap:wrap; /* mobile safe */
-}
 
 

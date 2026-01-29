@@ -61,7 +61,7 @@
       font-size: 15px;
     }
 
-    /* ================= SEO (MATCH PREVIOUS TOOLS) ================= */
+    /* ================= SEO ================= */
     .seo-section{
       max-width:900px;
       margin:60px auto;
@@ -93,73 +93,68 @@
       line-height:1.6;
     }
 
-    /* ================= REVIEWS (MATCH PREVIOUS TOOLS) ================= */
-#comments{
-  max-width:900px;
-  margin:50px auto;
-  background:#fff;
-  padding:36px;
-  border-radius:12px;
-  box-shadow:0 4px 10px rgba(0,0,0,.1);
-}
+    /* ================= REVIEWS ================= */
+    #comments{
+      max-width:900px;
+      margin:50px auto;
+      background:#fff;
+      padding:36px;
+      border-radius:12px;
+      box-shadow:0 4px 10px rgba(0,0,0,.1);
+      text-align:center;
+    }
 
-#comments h2{
-  text-align:center;
-  margin-bottom:20px;
-  color:#000; /* ✅ BLACK like previous tools */
-}
+    #comments h2{
+      margin-bottom:20px;
+      color:#000; /* black like previous tools */
+    }
 
-#comments input,
-#comments textarea,
-#comments select{
-  width:100%;
-  padding:12px;
-  margin-bottom:14px;
-  border-radius:10px;
-  border:1px solid #d1d5db;
-  font-size:14px;
-}
+    #comments input,
+    #comments textarea{
+      width:100%;
+      padding:12px;
+      margin-bottom:14px;
+      border-radius:10px;
+      border:1px solid #d1d5db;
+      font-size:14px;
+    }
 
-/* SAME LINE + SAME STYLE */
-.review-actions{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:14px;
-}
+    /* SAME LINE */
+    .review-actions{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:14px;
+      margin-top:10px;
+    }
 
-/* SAME WIDTH + SAME HEIGHT */
-.review-actions select,
-.review-actions button{
-  width:220px;          /* ✅ EXACT SAME WIDTH */
-  height:48px;          /* ✅ SAME HEIGHT */
-  border-radius:12px;
-  font-size:15px;
-  border:none;
-}
+    /* SAME WIDTH + HEIGHT */
+    .review-actions select,
+    .review-actions button{
+      width:220px !important;
+      height:48px;
+      border-radius:12px;
+      font-size:15px;
+      border:none;
+      cursor:pointer;
+    }
 
-/* STYLE SELECT LIKE BUTTON */
-.review-actions select{
-  background:#2563eb;
-  color:#fff;
-  cursor:pointer;
-  appearance:none;
-  text-align:center;
-}
+    /* STYLE SELECT LIKE BUTTON */
+    .review-actions select{
+      background:#2563eb;
+      color:#fff;
+      appearance:none;
+      text-align:center;
+    }
 
-/* SUBMIT BUTTON */
-.review-actions button{
-  background:#2563eb;
-  color:#fff;
-  cursor:pointer;
-}
+    .review-actions button{
+      background:#2563eb;
+      color:#fff;
+    }
 
-.review-actions button:hover,
-.review-actions select:hover{
-  background:#1e4fd8;
-}
-
-
+    .review-actions button:hover,
+    .review-actions select:hover{
+      background:#1e4fd8;
     }
   </style>
 </head>
@@ -201,7 +196,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <section class="seo-section">
   <h2>About Text Case Converter</h2>
-
   <p>
     The Text Case Converter allows you to quickly change the case of your text online.
     All processing is done inside your browser to keep your data private.
@@ -233,6 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <option>⭐⭐</option>
         <option>⭐</option>
       </select>
+
       <button type="submit">Submit Review</button>
     </div>
   </form>

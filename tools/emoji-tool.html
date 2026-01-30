@@ -234,6 +234,9 @@
 
 <script>
 /* ===== EMOJI LOGIC ===== */
+<script>
+/* ===== EMOJI LOGIC (500–700 TRENDING & DAILY USE) ===== */
+
 const emojis = [
 /* 😀 Smileys & Emotions */
 "😀","😁","😂","🤣","😊","😍","🥰","😘","😗","😙","😚","🙂","🤗","🤔","😐","😑",
@@ -281,6 +284,7 @@ const emojis = [
 "🔥","✨","⚡","💥","💯","✅","❌","⚠️","🚨","🆘","📢","📣","🟢","🔴","🟡",
 "🟣","🔵","🟠","🟤"
 ];
+
 const grid = document.getElementById("emojiGrid");
 const search = document.getElementById("emojiSearch");
 const toast = document.getElementById("toast");
@@ -301,12 +305,14 @@ function render(list){
 }
 
 search.addEventListener("input",()=>{
-  const q=search.value.toLowerCase();
+  const q=search.value.trim();
   render(emojis.filter(e=>e.includes(q)));
 });
 
 render(emojis);
 </script>
+
+
 
 </body>
 </html>

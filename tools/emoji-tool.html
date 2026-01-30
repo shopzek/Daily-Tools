@@ -1,49 +1,167 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Emoji Picker & Copier – Free Online Tool | DailyTools</title>
+<title>Emoji Picker & Copier – Free Online Tool</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Free Emoji Picker & Copier. Search emojis, use categories, skin tone selector, favorites, recent emojis, and copy instantly. Fast & private.">
-<meta name="keywords" content="emoji picker, emoji copier, copy emoji, emoji search, free emoji tool, unicode emoji">
+<meta name="description" content="Search, copy and use emojis instantly. Free Emoji Picker & Copier tool.">
 
 <link rel="stylesheet" href="../style.css">
 
-<!-- SEO SCHEMA -->
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"WebApplication",
-  "name":"Emoji Picker & Copier",
-  "applicationCategory":"UtilityApplication",
-  "operatingSystem":"All",
-  "description":"Search, copy, favorite and analyze emojis instantly. Free & private emoji picker.",
-  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
-}
-</script>
-
 <style>
-.tool-wrapper{max-width:520px;margin:60px auto;background:#fff;padding:32px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.08);text-align:center}
-.tool-desc{color:#666;font-size:15px;margin-bottom:18px}
-#emojiSearch{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;font-size:15px;margin-bottom:14px}
-.tabs,.cats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
-.tab,.cat{padding:6px 12px;border-radius:20px;background:#f3f4f6;font-size:13px;cursor:pointer}
-.tab.active,.cat.active{background:#4f46e5;color:#fff}
-.controls{display:flex;gap:8px;justify-content:center;margin-bottom:12px;font-size:13px}
-select{padding:4px 6px;border-radius:6px}
-.emoji-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(48px,1fr));gap:12px;max-height:600px;overflow-y:auto}
-.emoji{font-size:28px;padding:10px;border-radius:8px;background:#f3f4f6;cursor:pointer;transition:.2s;position:relative}
-.emoji:hover{background:#4f46e5;color:#fff}
-.star{position:absolute;top:4px;right:6px;font-size:12px;color:gold;display:none}
-.emoji.fav .star{display:block}
-.toast{margin-top:10px;font-size:13px;color:green;display:none}
-.stats{margin-top:14px;font-size:13px;color:#555}
-.comment-section,.rating-section{margin-top:20px;text-align:left;font-size:14px}
-.comment-section textarea{width:100%;padding:8px;margin-top:6px;border-radius:6px;border:1px solid #ccc}
-.comment-section button{margin-top:6px;padding:6px 12px;border-radius:6px;background:#4f46e5;color:#fff;border:none;cursor:pointer}
-.star-rating span{cursor:pointer;font-size:24px;color:#ccc}
-.star-rating span.active{color:gold}
+/* ================= TOOL ================= */
+.tool-wrapper{
+  max-width:750px;
+  margin:40px auto;
+  background:#fff;
+  padding:32px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  text-align:center;
+}
+
+.tool-desc{
+  color:#666;
+  font-size:15px;
+  margin-bottom:24px;
+}
+
+#emojiSearch{
+  width:100%;
+  padding:14px;
+  font-size:15px;
+  border-radius:10px;
+  border:1px solid #d1d5db;
+  margin-bottom:20px;
+}
+
+/* Emoji Grid */
+.emoji-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(48px,1fr));
+  gap:12px;
+  max-height:420px;
+  overflow-y:auto;
+  margin-bottom:16px;
+}
+
+.emoji{
+  font-size:26px;
+  padding:10px;
+  border-radius:10px;
+  background:#f5f7ff;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.emoji:hover{
+  background:#2563eb;
+  color:#fff;
+}
+
+.toast{
+  font-size:14px;
+  color:#16a34a;
+  margin-bottom:14px;
+  display:none;
+}
+
+/* ================= SEO ================= */
+.seo-section{
+  max-width:900px;
+  margin:60px auto;
+  background:#fff;
+  padding:45px 50px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+
+.seo-section h2{
+  text-align:center;
+  font-size:22px;
+  margin-bottom:28px;
+}
+
+.seo-section h3{
+  margin-top:26px;
+  margin-bottom:14px;
+  font-size:18px;
+}
+
+.seo-section ul{
+  padding-left:22px;
+}
+
+.seo-section li{
+  margin-bottom:12px;
+  font-size:15px;
+  line-height:1.6;
+}
+
+/* ================= REVIEWS (EXACT SAME STYLE) ================= */
+#comments{
+  max-width:900px;
+  margin:50px auto;
+  background:#fff;
+  padding:36px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+  text-align:center;
+}
+
+#comments h2{
+  margin-bottom:20px;
+  color:#000;
+}
+
+#comments input,
+#comments textarea{
+  width:100%;
+  padding:12px;
+  margin-bottom:14px;
+  border-radius:10px;
+  border:1px solid #d1d5db;
+  font-size:14px;
+}
+
+.review-actions{
+  display:flex;
+  justify-content:center;
+  align-items:stretch;
+  gap:14px;
+  margin-top:10px;
+}
+
+.review-actions select,
+.review-actions button{
+  width:220px;
+  height:48px;
+  border-radius:12px;
+  font-size:15px;
+  border:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.review-actions select{
+  background:#2563eb;
+  color:#fff;
+  appearance:none;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+}
+
+.review-actions button{
+  background:#2563eb;
+  color:#fff;
+}
+
+.review-actions button:hover,
+.review-actions select:hover{
+  background:#1e4fd8;
+}
 </style>
 </head>
 
@@ -54,170 +172,100 @@ select{padding:4px 6px;border-radius:6px}
 </header>
 
 <main class="tool-wrapper">
-<h1>Emoji Picker & Copier</h1>
-<p class="tool-desc">Search, filter, copy & favorite emojis instantly. No signup. Fully private.</p>
+  <h1>Emoji Picker & Copier</h1>
+  <p class="tool-desc">
+    Search, click, and copy emojis instantly. Everything works offline in your browser.
+  </p>
 
-<input type="text" id="emojiSearch" placeholder="🔍 Search emoji (fire, happy, food…)">
+  <input id="emojiSearch" placeholder="Search emoji (smile, fire, heart...)">
 
-<div class="tabs">
-  <div class="tab active" data-tab="all">All</div>
-  <div class="tab" data-tab="recent">🕘 Recent</div>
-  <div class="tab" data-tab="fav">⭐ Favorites</div>
-</div>
-
-<div class="cats">
-  <div class="cat active" data-cat="all">All</div>
-  <div class="cat" data-cat="smileys">😃 Smileys</div>
-  <div class="cat" data-cat="hearts">❤️ Hearts</div>
-  <div class="cat" data-cat="hands">🤝 Hands</div>
-  <div class="cat" data-cat="animals">🐶 Animals</div>
-  <div class="cat" data-cat="food">🍔 Food</div>
-  <div class="cat" data-cat="activities">⚽ Activities</div>
-  <div class="cat" data-cat="objects">🔥 Objects</div>
-  <div class="cat" data-cat="flags">🚩 Flags</div>
-</div>
-
-<div class="controls">
-🌍 Skin Tone:
-<select id="tone">
-  <option value="">Default</option>
-  <option value="🏻">Light</option>
-  <option value="🏼">Medium-Light</option>
-  <option value="🏽">Medium</option>
-  <option value="🏾">Medium-Dark</option>
-  <option value="🏿">Dark</option>
-</select>
-</div>
-
-  
-<div class="emoji-grid" id="emojiGrid"></div>
-<div class="toast" id="toast">Copied!</div>
-<div class="stats" id="stats"></div>
-
-<div class="rating-section">
-<p>⭐ Rate this tool:</p>
-<div class="star-rating" id="starRating">
-<span data-star="1">★</span><span data-star="2">★</span><span data-star="3">★</span><span data-star="4">★</span><span data-star="5">★</span>
-</div>
-</div>
-
-<div class="comment-section">
-<p>💬 Leave a comment:</p>
-<textarea id="commentInput"></textarea>
-<button id="addComment">Submit</button>
-<div id="commentList"></div>
-</div>
+  <div class="emoji-grid" id="emojiGrid"></div>
+  <div class="toast" id="toast">✅ Copied to clipboard</div>
 </main>
 
-  
+<section class="seo-section">
+  <h2>About Emoji Picker Tool</h2>
+  <p>
+    This Emoji Picker tool helps you quickly find and copy emojis for social media,
+    chat apps, websites, and documents. No login or tracking required.
+  </p>
+
+  <h3>Why use this tool?</h3>
+  <ul>
+    <li>✔ Free & unlimited</li>
+    <li>✔ Works offline</li>
+    <li>✔ Fast emoji copying</li>
+    <li>✔ Mobile & desktop friendly</li>
+  </ul>
+
+  <h3>How it works</h3>
+  <p>
+    Click any emoji to copy it instantly. Paste anywhere you want.
+  </p>
+</section>
+
+<section id="comments">
+  <h2>User Reviews & Ratings</h2>
+
+  <form>
+    <input placeholder="Your Name" required>
+    <textarea rows="4" placeholder="Write your review..." required></textarea>
+
+    <div class="review-actions">
+      <select required>
+        <option value="">Select Rating</option>
+        <option>⭐⭐⭐⭐⭐</option>
+        <option>⭐⭐⭐⭐</option>
+        <option>⭐⭐⭐</option>
+        <option>⭐⭐</option>
+        <option>⭐</option>
+      </select>
+
+      <button type="submit">Submit Review</button>
+    </div>
+  </form>
+
+  <div id="commentList"></div>
+</section>
+
+<footer class="site-footer">
+  <p>© 2026 DailyTools • 100% Free</p>
+</footer>
+
 <script>
-/* ================= CORE LOGIC ================= */
+/* ===== EMOJI LOGIC ===== */
+const emojis = [
+  "😀","😁","😂","🤣","😊","😍","😎","🤔","😢","😭","😡","👍","👏","🙏","🔥",
+  "❤️","💔","⭐","⚡","🎉","🎯","🚀","📦","🛒","💡","📢","⚠️","✅","❌",
+  "🐶","🐱","🍕","🍔","🍎","🍰","☕","⚽","🎮","🎵","📱","💻","⌚"
+];
 
 const grid = document.getElementById("emojiGrid");
 const search = document.getElementById("emojiSearch");
 const toast = document.getElementById("toast");
-const tabs = document.querySelectorAll(".tab");
-const cats = document.querySelectorAll(".cat");
-const toneSel = document.getElementById("tone");
-const statsBox = document.getElementById("stats");
 
-let currentTab="all", currentCat="all", skinTone="";
-const toneAble=["👍","👏","🙏","🙌","👋","👌","✌️","🤝"];
-
-const catRanges={
-  smileys:[[0x1F600,0x1F64F]],
-  animals:[[0x1F400,0x1F43F]],
-  food:[[0x1F347,0x1F37F]],
-  activities:[[0x26BD,0x1F3C0]],
-  objects:[[0x1F4A0,0x1F52F]],
-  hearts:[[0x2764,0x2764]],
-  hands:[[0x1F44B,0x1F64F]]
-};
-
-/* ===== REAL FLAG EMOJIS (FIXED) ===== */
-const countryCodes = [
-  "US","GB","IN","PK","AE","SA","CN","JP","KR","DE","FR","IT","ES","CA","AU",
-  "BR","RU","TR","ID","MY","TH","VN","PH","BD","LK","NP","IR","IQ","EG",
-  "ZA","NG","KE","MX","AR","CL","CO","PE","NL","SE","NO","FI","DK",
-  "PL","UA","RO","HU","CZ","AT","CH","BE","PT","GR","IL","QA","KW","OM",
-  "NZ","SG","HK","TW"
-];
-
-const flagEmojis = countryCodes.map(code =>
-  countryCodeToFlagEmoji(code)
-);
-
-
-const trendingEmojis=["🚚","🏪","⚠️","🛒","🛍️","💳","📦","📢","🔥","❤️","🚨","🆘"];
-
-let emojis=[...trendingEmojis];
-Object.values(catRanges).flat().forEach(r=>{
-  for(let i=r[0];i<=r[1];i++) emojis.push(String.fromCodePoint(i));
-});
-
-  function countryCodeToFlagEmoji(countryCode) {
-  return countryCode
-    .toUpperCase()
-    .replace(/./g, char =>
-      String.fromCodePoint(127397 + char.charCodeAt())
-    );
-}
-
-  
-/* ===== FIXED RENDER FUNCTION ===== */
-let renderIndex=0,pageSize=50;
-
-function render(reset=true){
-  if(reset){grid.innerHTML="";renderIndex=0;}
-  let list=[...emojis];
-
-  if(currentTab==="recent") list=JSON.parse(localStorage.getItem("recentE")||"[]");
-  if(currentTab==="fav") list=JSON.parse(localStorage.getItem("favE")||"[]");
-
-  if(currentCat==="flags"){
-    list=[...flagEmojis];
-  }else if(currentCat!=="all"){
-    list=list.filter(e=>catRanges[currentCat]?.some(r=>{
-      const c=e.codePointAt(0);
-      return c>=r[0]&&c<=r[1];
-    }));
-  }
-
-  if(search.value) list=list.filter(e=>e.includes(search.value));
-
-  list.slice(renderIndex,renderIndex+pageSize).forEach(e=>{
-    const s=document.createElement("span");
-    s.className="emoji";
-    s.innerHTML = e;
-    s.onclick=()=>{
+function render(list){
+  grid.innerHTML="";
+  list.forEach(e=>{
+    const span=document.createElement("span");
+    span.className="emoji";
+    span.textContent=e;
+    span.onclick=()=>{
       navigator.clipboard.writeText(e);
       toast.style.display="block";
-      setTimeout(()=>toast.style.display="none",600);
+      setTimeout(()=>toast.style.display="none",700);
     };
-    grid.appendChild(s);
+    grid.appendChild(span);
   });
-  renderIndex+=pageSize;
 }
 
-tabs.forEach(t=>t.onclick=()=>{
-  tabs.forEach(x=>x.classList.remove("active"));
-  t.classList.add("active");
-  currentTab=t.dataset.tab;
-  render();
+search.addEventListener("input",()=>{
+  const q=search.value.toLowerCase();
+  render(emojis.filter(e=>e.includes(q)));
 });
-cats.forEach(c=>c.onclick=()=>{
-  cats.forEach(x=>x.classList.remove("active"));
-  c.classList.add("active");
-  currentCat=c.dataset.cat;
-  render();
-});
-search.oninput=()=>render();
-render();
-</script>
 
-<footer class="site-footer">
-<p>© 2026 DailyTools — Free & Private Online Utilities</p>
-</footer>
+render(emojis);
+</script>
 
 </body>
 </html>

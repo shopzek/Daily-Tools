@@ -20,11 +20,7 @@
   text-align:center;
 }
 
-.tool-desc{
-  color:#666;
-  font-size:15px;
-  margin-bottom:24px;
-}
+.tool-desc{color:#666;font-size:15px;margin-bottom:24px;}
 
 #emojiSearch{
   width:100%;
@@ -35,7 +31,7 @@
   margin-bottom:16px;
 }
 
-/* CATEGORY BUTTONS (MINIMAL) */
+/* CATEGORY BUTTONS */
 .emoji-cats{
   display:flex;
   flex-wrap:wrap;
@@ -74,10 +70,7 @@
   cursor:pointer;
   transition:.2s;
 }
-.emoji:hover{
-  background:#2563eb;
-  color:#fff;
-}
+.emoji:hover{background:#2563eb;color:#fff;}
 
 .toast{
   font-size:14px;
@@ -86,7 +79,7 @@
   display:none;
 }
 
-  /* ================= SEO ================= */
+/* ================= SEO ================= */
 .seo-section{
   max-width:900px;
   margin:60px auto;
@@ -96,29 +89,12 @@
   box-shadow:0 4px 10px rgba(0,0,0,.08);
 }
 
-.seo-section h2{
-  text-align:center;
-  font-size:22px;
-  margin-bottom:28px;
-}
+.seo-section h2{text-align:center;font-size:22px;margin-bottom:28px;}
+.seo-section h3{margin-top:26px;margin-bottom:14px;font-size:18px;}
+.seo-section ul{padding-left:22px;}
+.seo-section li{margin-bottom:12px;font-size:15px;line-height:1.6;}
 
-.seo-section h3{
-  margin-top:26px;
-  margin-bottom:14px;
-  font-size:18px;
-}
-
-.seo-section ul{
-  padding-left:22px;
-}
-
-.seo-section li{
-  margin-bottom:12px;
-  font-size:15px;
-  line-height:1.6;
-}
-
-/* ================= REVIEWS (EXACT SAME STYLE) ================= */
+/* ================= REVIEWS ================= */
 #comments{
   max-width:900px;
   margin:50px auto;
@@ -127,11 +103,6 @@
   border-radius:12px;
   box-shadow:0 4px 10px rgba(0,0,0,.1);
   text-align:center;
-}
-
-#comments h2{
-  margin-bottom:20px;
-  color:#000;
 }
 
 #comments input,
@@ -160,17 +131,11 @@
   font-size:15px;
   border:none;
   cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
 }
 
 .review-actions select{
   background:#2563eb;
   color:#020617;
-  appearance:none;
-  -webkit-appearance:none;
-  -moz-appearance:none;
 }
 
 .review-actions button{
@@ -193,16 +158,16 @@
 
 <main class="tool-wrapper">
   <h1>Emoji Picker & Copier</h1>
-  <p class="tool-desc">
-    Search, click, and copy emojis instantly. Everything works offline in your browser.
-  </p>
+  <p class="tool-desc">Search, click, and copy emojis instantly. Everything works offline.</p>
 
   <input id="emojiSearch" placeholder="Search emoji (smile, fire, heart...)">
 
+  <div class="emoji-cats" id="emojiCats"></div>
   <div class="emoji-grid" id="emojiGrid"></div>
   <div class="toast" id="toast">✅ Copied to clipboard</div>
 </main>
 
+<!-- ================= SEO SECTION ================= -->
 <section class="seo-section">
   <h2>About Emoji Picker Tool</h2>
   <p>
@@ -219,11 +184,10 @@
   </ul>
 
   <h3>How it works</h3>
-  <p>
-    Click any emoji to copy it instantly. Paste anywhere you want.
-  </p>
+  <p>Click any emoji to copy it instantly. Paste anywhere you want.</p>
 </section>
 
+<!-- ================= REVIEWS ================= -->
 <section id="comments">
   <h2>User Reviews & Ratings</h2>
 
@@ -240,7 +204,6 @@
         <option>⭐⭐</option>
         <option>⭐</option>
       </select>
-
       <button type="submit">Submit Review</button>
     </div>
   </form>
@@ -248,85 +211,28 @@
   <div id="commentList"></div>
 </section>
 
-</style>
-</head>
-
-<body>
-
-<header class="main-header">
-  <a href="../index.html" class="logo">🚀 DailyTools</a>
-</header>
-
-<main class="tool-wrapper">
-  <h1>Emoji Picker & Copier</h1>
-  <p class="tool-desc">
-    Search, click, and copy emojis instantly. Everything works offline in your browser.
-  </p>
-
-  <input id="emojiSearch" placeholder="Search emoji (smile, fire, heart...)">
-
-  <div class="emoji-cats" id="emojiCats"></div>
-  <div class="emoji-grid" id="emojiGrid"></div>
-  <div class="toast" id="toast">✅ Copied to clipboard</div>
-</main>
-
 <script>
-/* ===== EMOJI LOGIC (CATEGORIZED ~260 EMOJIS) ===== */
+/* ========= EMOJI DATA (DEDUPED) ========= */
 
 const emojiData = {
-  Smileys: [
-    "😀","😁","😂","🤣","😊","😍","🥰","😘","😗","😙","😚","🙂","🤗","🤔","😐","😑",
-    "🙄","😏","😣","😥","😮","😯","😪","😫","🥱","😴","😛","😜","😝","🤤","😒",
-    "😔","😕","🙃","😲","😖","😞","😟","😤","😢","😭","😦","😧","😨","😩","😬",
-    "😰","😱","🥵","🥶","😳","🤪","🥴","😠","😡","🤬","😷","🤒","🤕","🤢","🤮",
-    "😇","🥳","😎","🤓","🧐","🤠"
-  ],
-
-  Hearts: [
-    "❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","💔","❣️","💕","💞","💓","💗",
-    "💖","💘","💝","💟","🔥","✨","💯"
-  ],
-
-  Hands: [
-    "👍","👎","👊","✊","🤛","🤜","👏","🙌","👐","🤲","🙏","✌️","🤞","🤟","🤘","👌",
-    "🤌","🤏","👈","👉","👆","👇","☝️","✋","🤚","🖐️","👋","🤙","💪","🦾","🖕"
-  ],
-
-  People: [
-    "👶","🧒","👦","👧","🧑","👨","👩","🧔","👴","👵","🙍","🙎","🙅","🙆","💁",
-    "🙋","🙇","🤦","🤷","🧑‍💻","🧑‍🎓","🧑‍🏫","🧑‍⚕️","🧑‍🚀","🧑‍🍳","🧑‍🎨"
-  ],
-
-  Animals: [
-    "🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵",
-    "🐔","🐧","🐦","🦆","🦉","🦄","🐝","🦋","🐌"
-  ],
-
-  Food: [
-    "🍎","🍌","🍉","🍇","🍓","🍒","🥭","🍍","🥥","🥑","🍅","🥕","🌽","🍔","🍟",
-    "🍕","🌭","🥪","🌮","🌯","🍿","🥓","🥩","🍗","🍖","🍤","🍣","🍜","🍝","🍛",
-    "🍚","🍰","🎂","🧁","🍪","🍩","🍫","🍬","🍭","☕","🥤","🍺","🍷"
-  ],
-
-  Travel: [
-    "🚗","🚕","🚌","🏎️","🚓","🚑","🚒","🚚","🛵","🏍️","✈️","🚀","🚁","🚢","⛵",
-    "🗺️","🗽","🏰","🏝️","🏖️","⛰️","🌋"
-  ],
-
-  Tech: [
-    "📱","💻","🖥️","⌨️","🖱️","📷","📸","🎥","📹","🔋","🔌","💡","🧯","🛒","📦",
-    "🔒","🔑","🧾"
-  ]
+  Smileys:["😀","😁","😂","🤣","😊","😇","🙂","🙃","😉","😌","😍","🥰","😘","😗","😙","😚","😋","😛","😜","🤪","😝","🤑","🤗","🤭","🤫","🤔","🤐","😐","😑","😶","🙄","😏","😒","😔","😕","😟","😢","😭","😤","😠","😡","🤬","🥳","😎","🤓","🧐"],
+  Hearts:["❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","💔","❣️","💕","💞","💓","💗","💖","💘","💝","💟"],
+  Hands:["👍","👎","👊","✊","🤛","🤜","👏","🙌","👐","🤲","🙏","✌️","🤞","🤟","🤘","👌","🤌","🤏","👈","👉","👆","👇","☝️","✋","🤚","🖐️","👋","🤙","💪"],
+  People:["👶","🧒","👦","👧","🧑","👨","👩","🧔","👴","👵","🙍","🙎","🙅","🙆","💁","🙋","🙇","🤦","🤷","🧑‍💻","🧑‍🎓","🧑‍🏫","🧑‍⚕️","🧑‍🚀","🧑‍🍳","🧑‍🎨"],
+  Animals:["🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🐔","🐧","🐦","🦆","🦉","🦄","🐝","🦋","🐌","🐢","🐍","🦖","🦕"],
+  Food:["🍎","🍌","🍉","🍇","🍓","🍒","🥭","🍍","🥥","🥑","🍅","🥕","🌽","🍔","🍟","🍕","🌭","🥪","🌮","🌯","🍿","🥓","🥩","🍗","🍖","🍤","🍣","🍜","🍝","🍛","🍚","🍰","🎂","🧁","🍪","🍩","🍫","🍬","🍭","☕","🥤"],
+  Travel:["🚗","🚕","🚌","🏎️","🚓","🚑","🚒","🚚","🛵","🏍️","✈️","🚀","🚁","🚢","⛵","🗺️","🗽","🏰","🏝️","🏖️","⛰️","🌋"],
+  Tech:["📱","💻","🖥️","⌨️","🖱️","📷","📸","🎥","📹","🔋","🔌","💡","🧯","🛒","📦","🔒","🔑","🧾"]
 };
 
-const grid = document.getElementById("emojiGrid");
-const search = document.getElementById("emojiSearch");
-const toast = document.getElementById("toast");
-const cats = document.getElementById("emojiCats");
+const grid=document.getElementById("emojiGrid");
+const search=document.getElementById("emojiSearch");
+const toast=document.getElementById("toast");
+const cats=document.getElementById("emojiCats");
 
-let currentCat = "Smileys";
+let currentCat="Smileys";
 
-/* RENDER CATEGORY BUTTONS */
+/* CATEGORY BUTTONS */
 Object.keys(emojiData).forEach(cat=>{
   const b=document.createElement("button");
   b.textContent=cat;
@@ -335,12 +241,13 @@ Object.keys(emojiData).forEach(cat=>{
     document.querySelectorAll(".emoji-cats button").forEach(x=>x.classList.remove("active"));
     b.classList.add("active");
     currentCat=cat;
+    search.value="";
     render(emojiData[cat]);
   };
   cats.appendChild(b);
 });
 
-/* RENDER EMOJIS */
+/* RENDER */
 function render(list){
   grid.innerHTML="";
   list.forEach(e=>{
@@ -360,7 +267,7 @@ function render(list){
 search.addEventListener("input",()=>{
   const q=search.value.trim();
   if(!q) return render(emojiData[currentCat]);
-  const all=Object.values(emojiData).flat();
+  const all=[...new Set(Object.values(emojiData).flat())];
   render(all.filter(e=>e.includes(q)));
 });
 

@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="../style.css">
 
 <style>
+/* ================= TOOL ================= */
 .tool-wrapper{
   max-width:560px;
   margin:60px auto;
@@ -18,31 +19,42 @@
   box-shadow:0 10px 30px rgba(0,0,0,.08);
   text-align:center;
 }
+
+.tool-desc{
+  color:#666;
+  font-size:15px;
+  margin-bottom:20px;
+}
+
 .timer-display{
   font-size:44px;
   font-weight:700;
   color:#4f46e5;
   margin:20px 0;
 }
+
 .time-inputs{
   display:flex;
   gap:10px;
   justify-content:center;
   margin-bottom:15px;
 }
+
 .time-inputs input{
   width:90px;
   padding:10px;
   text-align:center;
   border-radius:8px;
-  border:1px solid #ddd;
+  border:1px solid #d1d5db;
 }
+
 .controls{
   display:flex;
   gap:10px;
   justify-content:center;
   margin-top:10px;
 }
+
 button{
   padding:12px 18px;
   border:none;
@@ -51,14 +63,114 @@ button{
   font-size:14px;
   cursor:pointer;
 }
+
 .start{background:#16a34a}
 .pause{background:#f59e0b}
 .reset{background:#dc2626}
 .stop{background:#2563eb}
 button:hover{opacity:.9}
+
 .divider{
   margin:35px 0;
   border-top:1px solid #eee;
+}
+
+/* ================= SEO ================= */
+.seo-section{
+  max-width:900px;
+  margin:60px auto;
+  background:#fff;
+  padding:45px 50px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+
+.seo-section h2{
+  text-align:center;
+  font-size:22px;
+  margin-bottom:28px;
+}
+
+.seo-section h3{
+  margin-top:26px;
+  margin-bottom:14px;
+  font-size:18px;
+}
+
+.seo-section ul{
+  padding-left:22px;
+}
+
+.seo-section li{
+  margin-bottom:12px;
+  font-size:15px;
+  line-height:1.6;
+}
+
+/* ================= REVIEWS (SAME AS ALL TOOLS) ================= */
+#comments{
+  max-width:900px;
+  margin:50px auto;
+  background:#fff;
+  padding:36px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+  text-align:center;
+}
+
+#comments h2{
+  margin-bottom:20px;
+  color:#000;
+}
+
+#comments input,
+#comments textarea{
+  width:100%;
+  padding:12px;
+  margin-bottom:14px;
+  border-radius:10px;
+  border:1px solid #d1d5db;
+  font-size:14px;
+}
+
+.review-actions{
+  display:flex;
+  justify-content:center;
+  align-items:stretch;
+  gap:14px;
+  margin-top:10px;
+}
+
+.review-actions select,
+.review-actions button{
+  width:220px;
+  height:48px;
+  border-radius:12px;
+  font-size:15px;
+  border:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.review-actions select{
+  background:#2563eb;
+  color:#fff;
+  appearance:none;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  text-align:center;
+}
+
+.review-actions button{
+  background:#2563eb;
+  color:#fff;
+}
+
+.review-actions button:hover,
+.review-actions select:hover{
+  background:#1e4fd8;
 }
 </style>
 </head>
@@ -70,89 +182,87 @@ button:hover{opacity:.9}
 </header>
 
 <main class="tool-wrapper">
+  <h1>Timer & Stopwatch</h1>
+  <p class="tool-desc">Use countdown timer or fast stopwatch. Works instantly in your browser.</p>
 
-<h1>Timer & Stopwatch</h1>
-<p class="tool-desc">Use countdown timer or fast stopwatch. Works instantly in your browser.</p>
+  <!-- COUNTDOWN TIMER -->
+  <h2>⏳ Countdown Timer</h2>
 
-<!-- COUNTDOWN TIMER -->
-<h2>⏳ Countdown Timer</h2>
+  <div class="time-inputs">
+    <input type="number" id="minInput" placeholder="Minutes" min="0">
+    <input type="number" id="secInput" placeholder="Seconds" min="0" max="59">
+  </div>
 
-<div class="time-inputs">
-  <input type="number" id="minInput" placeholder="Minutes" min="0">
-  <input type="number" id="secInput" placeholder="Seconds" min="0" max="59">
-</div>
+  <div class="timer-display" id="countdownDisplay">00:00</div>
 
-<div class="timer-display" id="countdownDisplay">00:00</div>
+  <div class="controls">
+    <button class="start" onclick="startCountdown()">Start</button>
+    <button class="pause" onclick="pauseCountdown()">Pause</button>
+    <button class="reset" onclick="resetCountdown()">Reset</button>
+  </div>
 
-<div class="controls">
-  <button class="start" onclick="startCountdown()">Start</button>
-  <button class="pause" onclick="pauseCountdown()">Pause</button>
-  <button class="reset" onclick="resetCountdown()">Reset</button>
-</div>
+  <div class="divider"></div>
 
-<div class="divider"></div>
+  <!-- STOPWATCH -->
+  <h2>⏱ Stopwatch</h2>
 
-<!-- STOPWATCH -->
-<h2>⏱ Stopwatch</h2>
+  <div class="timer-display" id="stopwatchDisplay">00:00:00</div>
 
-<div class="timer-display" id="stopwatchDisplay">00:00:00</div>
-
-<div class="controls">
-  <button class="start" onclick="startStopwatch()">Start</button>
-  <button class="stop" onclick="stopStopwatch()">Stop</button>
-  <button class="reset" onclick="resetStopwatch()">Reset</button>
-</div>
-
+  <div class="controls">
+    <button class="start" onclick="startStopwatch()">Start</button>
+    <button class="stop" onclick="stopStopwatch()">Stop</button>
+    <button class="reset" onclick="resetStopwatch()">Reset</button>
+  </div>
 </main>
 
-<!-- SEO -->
 <section class="seo-section">
-<h2>About Timer & Stopwatch Tool</h2>
-<p>
-This free online timer and stopwatch helps you track time accurately for work,
-study, workouts, cooking, and productivity. Everything runs locally in your browser.
-</p>
+  <h2>About Timer & Stopwatch Tool</h2>
+  <p>
+    This free online timer and stopwatch helps you track time accurately for work,
+    study, workouts, cooking, and productivity. Everything runs locally in your browser.
+  </p>
 
-<h3>Why use this tool?</h3>
-<ul>
-<li>✔ 100% free & unlimited</li>
-<li>✔ Countdown timer & stopwatch</li>
-<li>✔ No installation required</li>
-<li>✔ Works on mobile & desktop</li>
-</ul>
+  <h3>Why use this tool?</h3>
+  <ul>
+    <li>✔ 100% free & unlimited</li>
+    <li>✔ Countdown timer & stopwatch</li>
+    <li>✔ No installation required</li>
+    <li>✔ Works on mobile & desktop</li>
+  </ul>
 
-<h3>How it works</h3>
-<p>
-Set minutes and seconds for countdown or use stopwatch to track elapsed time.
-Start, pause, or reset anytime.
-</p>
+  <h3>How it works</h3>
+  <p>
+    Set minutes and seconds for countdown or use stopwatch to track elapsed time.
+    Start, pause, or reset anytime.
+  </p>
 </section>
 
-<section id="comments" style="max-width:900px; margin:40px auto; background:white; padding:20px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-  <h2 style="color:#2563eb; margin-bottom:15px;">User Reviews & Comments</h2>
-  
-  <form id="commentForm">
-    <input type="text" id="username" placeholder="Your Name" required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
-    <textarea id="usercomment" rows="4" placeholder="Write your review or comment..." required style="width:100%; padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;"></textarea>
-    <label style="display:block; margin-bottom:10px;">Rating: 
-      <select id="rating" required style="padding:5px; border-radius:5px;">
-        <option value="">Select</option>
-        <option value="5">⭐⭐⭐⭐⭐ 5</option>
-        <option value="4">⭐⭐⭐⭐ 4</option>
-        <option value="3">⭐⭐⭐ 3</option>
-        <option value="2">⭐⭐ 2</option>
-        <option value="1">⭐ 1</option>
+<section id="comments">
+  <h2>User Reviews & Ratings</h2>
+
+  <form>
+    <input placeholder="Your Name" required>
+    <textarea rows="4" placeholder="Write your review..." required></textarea>
+
+    <div class="review-actions">
+      <select required>
+        <option value="">Select Rating</option>
+        <option>⭐⭐⭐⭐⭐</option>
+        <option>⭐⭐⭐⭐</option>
+        <option>⭐⭐⭐</option>
+        <option>⭐⭐</option>
+        <option>⭐</option>
       </select>
-    </label>
-    <button type="submit" style="background:#2563eb; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">Submit</button>
+
+      <button type="submit">Submit Review</button>
+    </div>
   </form>
 
-  <div id="commentList" style="margin-top:20px;"></div>
+  <div id="commentList"></div>
 </section>
 
-  
 <footer class="site-footer">
-<p>© 2026 DailyTools • 100% Free</p>
+  <p>© 2026 DailyTools • 100% Free</p>
 </footer>
 
 <script>

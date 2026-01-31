@@ -7,6 +7,9 @@
 <title>Word to PDF Converter – Free Online Tool | DailyTools</title>
 <meta name="description" content="Convert Word documents (.doc, .docx) to PDF online for free. Fast, secure Word to PDF converter.">
 
+<!-- DOCX PREVIEW LIB -->
+<script src="https://cdn.jsdelivr.net/npm/docx-preview@0.1.15/dist/docx-preview.min.js"></script>
+
 <style>
 /* ================= BODY ================= */
 body {
@@ -38,15 +41,10 @@ body {
   border-radius: 16px;
   box-shadow: 0 15px 40px rgba(0,0,0,.08);
   text-align: center;
-  transition: transform 0.25s ease;
-}
-.tool-wrapper:hover {
-  transform: translateY(-3px);
 }
 .tool-wrapper h2 {
   margin-bottom: 12px;
   font-size: 28px;
-  color: #111827;
 }
 .tool-desc {
   color: #6b7280;
@@ -54,14 +52,14 @@ body {
   margin-bottom: 25px;
 }
 
-/* ================= FILE INPUT & DRAG & DROP ================= */
+/* ================= DROP AREA ================= */
 #drop-area {
   border: 2px dashed #cbd5e1;
   border-radius: 12px;
   padding: 40px 20px;
   background: #f9fafb;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  transition: 0.2s;
   margin-bottom: 18px;
 }
 #drop-area.hover {
@@ -74,16 +72,13 @@ body {
 
 /* ================= BUTTON ================= */
 button {
-  display: inline-block;
   padding: 14px 28px;
   border-radius: 12px;
   font-size: 16px;
-  font-weight: 500;
   background: #2563eb;
-  color: white;
-  cursor: pointer;
+  color: #fff;
   border: none;
-  transition: background 0.2s ease;
+  cursor: pointer;
 }
 button:hover {
   background: #1e40af;
@@ -93,13 +88,23 @@ button:hover {
 #status {
   margin-top: 15px;
   font-size: 14px;
-  color: #111827;
 }
 
-/* ================= SEO SECTION ================= */
+/* ================= PREVIEW ================= */
+#preview {
+  max-width: 900px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  display: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+
+/* ================= SEO ================= */
 .seo-section {
   max-width: 900px;
-  margin: 60px auto 80px auto;
+  margin: 60px auto;
   background: white;
   padding: 40px;
   border-radius: 16px;
@@ -107,22 +112,15 @@ button:hover {
 }
 .seo-section h2 {
   text-align: center;
-  margin-bottom: 22px;
-  color: #111827;
 }
 .seo-section h3 {
-  color: #111827;
   margin-top: 28px;
-  margin-bottom: 12px;
 }
 .seo-section p,
 .seo-section li {
   color: #4b5563;
   font-size: 15px;
   line-height: 1.7;
-}
-.seo-section ul {
-  padding-left: 18px;
 }
 
 /* ================= COMMENTS ================= */
@@ -131,43 +129,19 @@ button:hover {
   text-align: center;
 }
 #comments input,
-#comments textarea {
+#comments textarea,
+#comments select {
   width: 100%;
   padding: 14px;
   margin-bottom: 18px;
   border-radius: 12px;
   border: 1px solid #d1d5db;
 }
-#comments select {
-  display: inline-block;
-  padding: 14px 28px;
-  font-size: 16px;
-  border-radius: 12px;
-  border: 1px solid #d1d5db;
-  background-color: #fff;
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  margin-bottom: 18px;
-  text-align: left;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236b7280'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z' clip-rule='evenodd'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;
-  background-position:right 16px center;
-  background-size:18px;
-}
-#comments button {
-  display: inline-block;
-  padding: 14px 28px;
-  font-size: 16px;
-  border-radius: 12px;
-}
 .comment {
   background:#f9fafb;
   padding:12px;
   border-radius:8px;
   margin-bottom:10px;
-  font-size:14px;
   text-align:left;
 }
 .comment strong {
@@ -184,21 +158,9 @@ button:hover {
 
 /* ================= RESPONSIVE ================= */
 @media(max-width:640px){
-  .tool-wrapper{
+  .tool-wrapper, .seo-section {
     margin:20px 12px;
     padding:24px;
-  }
-  .seo-section{
-    margin:30px 12px;
-    padding:24px;
-  }
-  textarea{
-    min-height:140px;
-    font-size:14px;
-  }
-  button, #comments select{
-    padding:14px 20px;
-    font-size:16px;
   }
 }
 </style>
@@ -210,40 +172,39 @@ button:hover {
   <a href="../index.html" class="logo">🚀 DailyTools</a>
 </header>
 
-<!-- TOOL -->
 <div class="tool-wrapper">
   <h2>Word to PDF Converter</h2>
   <p class="tool-desc">Convert Word documents (.doc, .docx) into high-quality PDF files instantly.</p>
 
-  <!-- Drag & Drop Area -->
   <div id="drop-area">Drag & Drop Word File Here or Click to Browse</div>
   <input type="file" id="fileInput" accept=".doc,.docx">
+
   <button id="convertBtn">Convert Word to PDF</button>
   <p id="status"></p>
 </div>
 
-<!-- SEO + COMMENTS -->
+<div id="preview"></div>
+
 <section class="seo-section">
   <h2>About Word to PDF Converter</h2>
   <p>
-    DailyTools Word to PDF converter lets you transform Word documents into
-    professional PDF files directly in your browser. No uploads. No tracking.
+    DailyTools Word to PDF converter transforms Word documents into clean PDFs
+    directly in your browser. No uploads. No tracking.
   </p>
 
   <h3>Why use this tool?</h3>
   <ul>
     <li>✔ Free & unlimited</li>
     <li>✔ Works on all devices</li>
-    <li>✔ No installation required</li>
-    <li>✔ Fast & secure</li>
+    <li>✔ No installation</li>
+    <li>✔ Secure & private</li>
   </ul>
 
-  <!-- COMMENTS -->
   <section id="comments">
     <h2>User Reviews & Rating</h2>
     <form id="commentForm">
       <input type="text" id="username" placeholder="Your Name" required>
-      <textarea id="usercomment" rows="4" placeholder="Write your review..." required></textarea>
+      <textarea id="usercomment" placeholder="Write your review..." required></textarea>
       <select id="rating" required>
         <option value="">Select Rating</option>
         <option value="5">⭐⭐⭐⭐⭐ 5</option>
@@ -262,88 +223,67 @@ button:hover {
   © 2026 DailyTools • Word Tools
 </footer>
 
-<!-- LIBRARIES -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <script>
 const dropArea = document.getElementById('drop-area');
 const fileInput = document.getElementById('fileInput');
 const convertBtn = document.getElementById('convertBtn');
 const status = document.getElementById('status');
+const preview = document.getElementById('preview');
+
 let selectedFile = null;
 
-// Click to browse
+/* Select file */
 dropArea.addEventListener('click', () => fileInput.click());
 
-// Drag & Drop
-['dragenter','dragover'].forEach(eventName => {
-  dropArea.addEventListener(eventName, e => {
-    e.preventDefault();
-    e.stopPropagation();
+['dragenter','dragover'].forEach(e =>
+  dropArea.addEventListener(e, ev => {
+    ev.preventDefault();
     dropArea.classList.add('hover');
-  }, false);
-});
-['dragleave','drop'].forEach(eventName => {
-  dropArea.addEventListener(eventName, e => {
-    e.preventDefault();
-    e.stopPropagation();
+  })
+);
+['dragleave','drop'].forEach(e =>
+  dropArea.addEventListener(e, ev => {
+    ev.preventDefault();
     dropArea.classList.remove('hover');
-  }, false);
-});
+  })
+);
+
 dropArea.addEventListener('drop', e => {
   selectedFile = e.dataTransfer.files[0];
   fileInput.files = e.dataTransfer.files;
   status.textContent = `Selected file: ${selectedFile.name}`;
 });
 
-// File input change
 fileInput.addEventListener('change', e => {
   selectedFile = e.target.files[0];
-  if(selectedFile) status.textContent = `Selected file: ${selectedFile.name}`;
+  status.textContent = `Selected file: ${selectedFile.name}`;
 });
 
-// Convert to PDF
+/* Convert */
 convertBtn.addEventListener('click', () => {
   if (!selectedFile) {
     status.textContent = 'Please select a Word file first!';
     return;
   }
+  preview.style.display = 'block';
+  preview.innerHTML = '';
+  status.textContent = 'Rendering preview...';
 
-  status.textContent = 'Converting... Please wait!';
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    mammoth.extractRawText({ arrayBuffer: e.target.result })
-      .then(result => {
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF();
-        const lines = pdf.splitTextToSize(result.value, 180);
-        pdf.text(lines, 10, 10);
-        pdf.save(selectedFile.name.replace(/\.(docx?|DOCX?)$/, '.pdf'));
-        status.textContent = 'Conversion done! ✅';
-      })
-      .catch(() => {
-        status.textContent = 'Error converting file.';
-      });
-  };
-  reader.readAsArrayBuffer(selectedFile);
+  docx.renderAsync(selectedFile, preview).then(() => {
+    status.innerHTML = 'Preview ready ✅<br>Use Print → Save as PDF';
+    window.print();
+  }).catch(() => {
+    status.textContent = 'Failed to render document.';
+  });
 });
 
-// COMMENTS
-let totalRating = 0, reviewCount = 0;
+/* COMMENTS */
 document.getElementById('commentForm').addEventListener('submit', e => {
   e.preventDefault();
-  const name = username.value;
-  const text = usercomment.value;
-  const rate = parseInt(rating.value);
-
   const div = document.createElement('div');
   div.className = 'comment';
-  div.innerHTML = `<strong>${name}</strong> (${ '⭐'.repeat(rate) })<br>${text}`;
+  div.innerHTML = `<strong>${username.value}</strong> (${ '⭐'.repeat(rating.value) })<br>${usercomment.value}`;
   commentList.prepend(div);
-
-  totalRating += rate;
-  reviewCount++;
   e.target.reset();
 });
 </script>

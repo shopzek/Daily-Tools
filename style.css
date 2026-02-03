@@ -295,23 +295,6 @@ hr {
 }
 
 /* =========================
-   FOOTER
-========================= */
-.site-footer {
-  text-align: center;
-  padding: 25px 15px;
-  font-size: 14px;
-  color: #64748b;
-}
-
-.footer-links a {
-  margin: 0 10px;
-  text-decoration: none;
-  color: inherit;
-  font-weight: 500;
-}
-
-/* =========================
    ANIMATIONS
 ========================= */
 .fade {
@@ -534,4 +517,28 @@ button:hover,
   }
 }
 
+  /* ================= FOOTER ================= */
+    .site-footer {
+      text-align: center;
+      padding: 20px;
+      background: #f8f8f8;
+      margin-top: 40px;
+    }
 
+    body.dark .site-footer {
+      background: #1e1e1e;
+      color: #fff;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .footer-links a {
+      color: #007bff;
+      text-decoration: none;
+    }

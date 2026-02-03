@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 
@@ -17,153 +19,6 @@
 <meta property="og:url" content="https://getfreetools.online/tools/emoji-tool.html">
 
 <link rel="stylesheet" href="../style.css">
-
-<style>
-
-  
-/* ================= TOOL ================= */
-.tool-wrapper{
-  max-width:750px;
-  margin:40px auto;
-  background:#fff;
-  padding:32px;
-  border-radius:14px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-  text-align:center;
-}
-
-.tool-desc{
-  color:#666;
-  font-size:15px;
-  margin-bottom:24px;
-}
-
-#emojiSearch{
-  width:100%;
-  padding:14px;
-  font-size:15px;
-  border-radius:10px;
-  border:1px solid #d1d5db;
-  margin-bottom:16px;
-}
-
-/* CATEGORY BUTTONS */
-.emoji-cats{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  justify-content:center;
-  margin-bottom:16px;
-}
-.emoji-cats button{
-  padding:6px 12px;
-  border-radius:20px;
-  border:none;
-  cursor:pointer;
-  background:#1d4ed8;
-  font-size:13px;
-}
-.emoji-cats button.active{
-  background:#2563eb;
-  color:#fff;
-}
-
-/* Emoji Grid */
-.emoji-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(48px,1fr));
-  gap:12px;
-  max-height:420px;
-  overflow-y:auto;
-  margin-bottom:16px;
-}
-
-.emoji{
-  font-size:26px;
-  padding:10px;
-  border-radius:10px;
-  background:#f5f7ff;
-  cursor:pointer;
-  transition:.2s;
-}
-.emoji:hover{background:#2563eb;color:#fff;}
-
-.toast{
-  font-size:14px;
-  color:#16a34a;
-  margin-bottom:14px;
-  display:none;
-}
-
-/* ================= SEO ================= */
-.seo-section{
-  max-width:900px;
-  margin:60px auto;
-  background:#fff;
-  padding:45px 50px;
-  border-radius:12px;
-  box-shadow:0 4px 10px rgba(0,0,0,.08);
-}
-
-.seo-section h2{text-align:center;font-size:22px;margin-bottom:28px;}
-.seo-section h3{margin-top:26px;margin-bottom:14px;font-size:18px;}
-.seo-section ul{padding-left:22px;}
-.seo-section li{margin-bottom:12px;font-size:15px;line-height:1.6;}
-
-/* ================= REVIEWS ================= */
-#comments{
-  max-width:900px;
-  margin:50px auto;
-  background:#fff;
-  padding:36px;
-  border-radius:12px;
-  box-shadow:0 4px 10px rgba(0,0,0,.1);
-  text-align:center;
-}
-
-#comments input,
-#comments textarea{
-  width:100%;
-  padding:12px;
-  margin-bottom:14px;
-  border-radius:10px;
-  border:1px solid #d1d5db;
-  font-size:14px;
-}
-
-.review-actions{
-  display:flex;
-  justify-content:center;
-  align-items:stretch;
-  gap:14px;
-  margin-top:10px;
-}
-
-.review-actions select,
-.review-actions button{
-  width:200px;
-  height:50px;
-  border-radius:12px;
-  font-size:15px;
-  border:none;
-  cursor:pointer;
-}
-
-.review-actions select{
-  background:#2563eb;
-  color:#020617;
-}
-
-.review-actions button{
-  background:#2563eb;
-  color:#fff;
-}
-
-.review-actions button:hover,
-.review-actions select:hover{
-  background:#1e4fd8;
-}
-</style>
 </head>
 
 <body>
@@ -172,52 +27,47 @@
   <a href="../index.html" class="logo">🚀 DailyTools</a>
 </header>
 
+<!-- ================= TOOL ================= -->
 <main class="tool-wrapper">
   <h1>Emoji Picker & Copier</h1>
   <p class="tool-desc">Search, click, and copy emojis instantly. Everything works offline.</p>
 
   <input id="emojiSearch" placeholder="Search emoji (smile, fire, heart...)">
 
-  <div class="tool-area">
-  <!-- tool inputs / buttons / results -->
-</div>
-
   <div class="emoji-cats" id="emojiCats"></div>
   <div class="emoji-grid" id="emojiGrid"></div>
   <div class="toast" id="toast">✅ Copied to clipboard</div>
-  
 </main>
 
 <!-- ================= SEO SECTION ================= -->
 <section class="info-card" id="seo-content">
   <h2>About Emoji Picker Tool</h2>
+
   <p>
     This Emoji Picker tool helps you quickly find and copy emojis for social media,
     chat apps, websites, and documents. No login or tracking required.
   </p>
 
   <h3>Who can use this Emoji Picker?</h3>
-<ul>
-  <li>Social media users</li>
-  <li>Content creators</li>
-  <li>Developers and designers</li>
-  <li>Students and bloggers</li>
-</ul>
+  <ul>
+    <li>Social media users</li>
+    <li>Content creators</li>
+    <li>Developers and designers</li>
+    <li>Students and bloggers</li>
+  </ul>
 
-<h3>Frequently Asked Questions</h3>
-<p><strong>Is this emoji picker free?</strong><br>Yes, this tool is completely free with no limits.</p>
-
-<p><strong>Does it work on mobile?</strong><br>Yes, it works perfectly on Android, iOS, and desktop devices.</p>
-
-<p><strong>Do I need to sign up?</strong><br>No registration or login is required.</p>
+  <h3>Frequently Asked Questions</h3>
+  <p><strong>Is this emoji picker free?</strong><br>Yes, this tool is completely free with no limits.</p>
+  <p><strong>Does it work on mobile?</strong><br>Yes, it works perfectly on Android, iOS, and desktop devices.</p>
+  <p><strong>Do I need to sign up?</strong><br>No registration or login is required.</p>
 
   <h3>Try Our Other Free Tools</h3>
-<ul>
-  <li><a href="/word-counter">Word Counter</a></li>
-  <li><a href="/image-compressor">Image Compressor</a></li>
-  <li><a href="/password-generator">Password Generator</a></li>
-</ul>
-
+  <ul>
+    <li><a href="/word-counter.html">Word Counter</a></li>
+    <li><a href="/image-compressor.html">Image Compressor</a></li>
+    <li><a href="/password-generator.html">Password Generator</a></li>
+  </ul>
+</section>
 
 <!-- ================= REVIEWS ================= -->
 <section class="info-card" id="comments">
@@ -242,19 +92,27 @@
 
   <div id="commentList"></div>
 </section>
-  
-<script>
-/* ========= EMOJI DATA (DEDUPED) ========= */
 
+<!-- ================= FOOTER (ALWAYS LAST) ================= -->
+<footer class="site-footer">
+  <p>© 2026 GetFreeTools.online — Free Online Tools</p>
+
+  <div class="footer-links">
+    <a href="/privacy-policy.html">Privacy Policy</a>
+    <a href="/terms.html">Terms & Conditions</a>
+    <a href="/disclaimer.html">Disclaimer</a>
+    <a href="/about.html">About</a>
+    <a href="/contact.html">Contact</a>
+  </div>
+</footer>
+
+<script>
+/* ========= EMOJI DATA ========= */
 const emojiData = {
-  Smileys:["😀","😁","😂","🤣","😊","😇","🙂","🙃","😉","😌","😍","🥰","😘","😗","😙","😚","😋","😛","😜","🤪","😝","🤑","🤗","🤭","🤫","🤔","🤐","😐","😑","😶","🙄","😏","😒","😔","😕","😟","😢","😭","😤","😠","😡","🤬","🥳","😎","🤓","🧐"],
-  Hearts:["❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","💔","❣️","💕","💞","💓","💗","💖","💘","💝","💟"],
-  Hands:["👍","👎","👊","✊","🤛","🤜","👏","🙌","👐","🤲","🙏","✌️","🤞","🤟","🤘","👌","🤌","🤏","👈","👉","👆","👇","☝️","✋","🤚","🖐️","👋","🤙","💪"],
-  People:["👶","🧒","👦","👧","🧑","👨","👩","🧔","👴","👵","🙍","🙎","🙅","🙆","💁","🙋","🙇","🤦","🤷","🧑‍💻","🧑‍🎓","🧑‍🏫","🧑‍⚕️","🧑‍🚀","🧑‍🍳","🧑‍🎨"],
-  Animals:["🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🐔","🐧","🐦","🦆","🦉","🦄","🐝","🦋","🐌","🐢","🐍","🦖","🦕"],
-  Food:["🍎","🍌","🍉","🍇","🍓","🍒","🥭","🍍","🥥","🥑","🍅","🥕","🌽","🍔","🍟","🍕","🌭","🥪","🌮","🌯","🍿","🥓","🥩","🍗","🍖","🍤","🍣","🍜","🍝","🍛","🍚","🍰","🎂","🧁","🍪","🍩","🍫","🍬","🍭","☕","🥤"],
-  Travel:["🚗","🚕","🚌","🏎️","🚓","🚑","🚒","🚚","🛵","🏍️","✈️","🚀","🚁","🚢","⛵","🗺️","🗽","🏰","🏝️","🏖️","⛰️","🌋"],
-  Tech:["📱","💻","🖥️","⌨️","🖱️","📷","📸","🎥","📹","🔋","🔌","💡","🧯","🛒","📦","🔒","🔑","🧾"]
+  Smileys:["😀","😁","😂","🤣","😊","😇","🙂","🙃","😉","😌","😍","🥰","😘","😜","🤪","😎","🥳"],
+  Hearts:["❤️","🧡","💛","💚","💙","💜","🤍","💔","💕","💖"],
+  Hands:["👍","👎","👏","🙌","🙏","✌️","🤞","👌","🤙","💪"],
+  Food:["🍔","🍕","🍟","🌮","🍩","🍪","🍰","☕","🥤"]
 };
 
 const grid=document.getElementById("emojiGrid");
@@ -264,7 +122,6 @@ const cats=document.getElementById("emojiCats");
 
 let currentCat="Smileys";
 
-/* CATEGORY BUTTONS */
 Object.keys(emojiData).forEach(cat=>{
   const b=document.createElement("button");
   b.textContent=cat;
@@ -279,7 +136,6 @@ Object.keys(emojiData).forEach(cat=>{
   cats.appendChild(b);
 });
 
-/* RENDER */
 function render(list){
   grid.innerHTML="";
   list.forEach(e=>{
@@ -295,7 +151,6 @@ function render(list){
   });
 }
 
-/* SEARCH */
 search.addEventListener("input",()=>{
   const q=search.value.trim();
   if(!q) return render(emojiData[currentCat]);
@@ -303,26 +158,8 @@ search.addEventListener("input",()=>{
   render(all.filter(e=>e.includes(q)));
 });
 
-/* INIT */
 render(emojiData[currentCat]);
 </script>
 
-<footer class="site-footer">
-  <p>© 2026 Free Online Tools</p>
-
-  <div class="footer-links">
-    <a href="/privacy-policy.html">Privacy Policy</a>
-    <a href="/terms.html">Terms & Conditions</a>
-    <a href="/disclaimer.html">Disclaimer</a>
-    <a href="/about.html">About</a>
-    <a href="/contact.html">Contact</a>
-  </div>
-</footer>
-
-
-
-
 </body>
 </html>
-
-

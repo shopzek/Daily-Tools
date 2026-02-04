@@ -77,12 +77,10 @@ body.dark .search-box {
   .navbar {
     display: none;
     position: absolute;
-    top: 60px;
+    top: 12px;
     left: 0;
     right: 0;
-    background: #fff;
-    flex-direction: column;
-    padding: 10px;
+  
   }
 
   .navbar.show {

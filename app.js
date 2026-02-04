@@ -488,26 +488,35 @@ if (emojiGrid && selectedEmoji) {
     navigator.clipboard.writeText(selectedEmoji.innerText);
     alert("Emoji copied!");
   };
+/* ===============================
+   Emoji Download as PNG
+================================= */
+const selectedEmoji = document.getElementById("selectedEmoji");
 
-  window.downloadEmoji = () => {
-    if (!selectedEmoji.innerText) return alert("Select an emoji");
+window.downloadEmoji = () => {
+  if (!selectedEmoji || !selectedEmoji.innerText.trim()) {
+    alert("Select an emoji");
+    return;
+  }
 
-    const canvas = document.createElement("canvas");
-    canvas.width = 256;
-    canvas.height = 256;
-    const ctx = canvas.getContext("2d");
-    ctx.font = "200px serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(selectedEmoji.innerText, 128, 140);
+  const canvas = document.createElement("canvas");
+  canvas.width = 256;
+  canvas.height = 256;
 
-    const link = document.createElement("a");
-    link.href = canvas.toDataURL("image/png");
-    link.download = "emoji.png";
-    link.click();
-  });
-} 
-});
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, 256, 256);
+  ctx.font = "200px serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  ctx.fillText(selectedEmoji.innerText.trim(), 128, 140);
+
+  const link = document.createElement("a");
+  link.href = canvas.toDataURL("image/png");
+  link.download = "emoji.png";
+  link.click();
+};
+
 /* ================= WHY US TOGGLE ================= */
 function toggleWhy(btn) {
   const grid = document.getElementById("whyGrid");

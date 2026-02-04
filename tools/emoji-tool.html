@@ -1,16 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-
 <title>Emoji Picker & Copier – Free Online Emoji Tool</title>
-
 <meta name="description" content="Free emoji picker & copier tool to copy and paste emojis instantly. No login required. Fast, simple and mobile-friendly.">
-
 <meta name="keywords" content="emoji picker, emoji copier, copy paste emoji, free emoji tool, emoji picker online">
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <link rel="canonical" href="https://getfreetools.online/tools/emoji-tool.html">
-
 <meta property="og:title" content="Emoji Picker & Copier – Free Online Emoji Tool">
 <meta property="og:description" content="Copy and paste emojis instantly using our free emoji picker tool. No login required.">
 <meta property="og:type" content="website">
@@ -18,9 +14,11 @@
 
 <link rel="stylesheet" href="../style.css">
 
-<style>
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXX"
+crossorigin="anonymous"></script>
 
-  
+<style>
 /* ================= TOOL ================= */
 .tool-wrapper{
   max-width:750px;
@@ -163,6 +161,74 @@
 .review-actions select:hover{
   background:#1e4fd8;
 }
+
+/* ================= ADS ================= */
+.ad-box{
+  margin:30px auto;
+  text-align:center;
+  max-width:100%;
+}
+
+/* Vertical header ad */
+.ad-vertical{
+  display:inline-block;
+  width:120px;
+  height:240px;
+  margin:16px auto;
+}
+
+/* Footer sticky ad */
+#footerAd{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:#fff;
+  box-shadow:0 -4px 10px rgba(0,0,0,.1);
+  text-align:center;
+  padding:10px 0;
+  display:none;
+  z-index:9999;
+}
+
+#footerAd button{
+  position:absolute;
+  right:10px;
+  top:5px;
+  background:#ff4d4f;
+  border:none;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  padding:2px 6px;
+  border-radius:4px;
+}
+
+/* Side vertical ad */
+#sideAd{
+  position:fixed;
+  top:150px;
+  right:0;
+  width:120px;
+  height:300px;
+  background:#fff;
+  box-shadow:-2px 2px 8px rgba(0,0,0,.1);
+  z-index:9998;
+  display:none;
+}
+
+#sideAd button{
+  position:absolute;
+  top:2px;
+  left:-28px;
+  background:#ff4d4f;
+  border:none;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  padding:2px 6px;
+  border-radius:4px;
+}
 </style>
 </head>
 
@@ -174,24 +240,32 @@
 
 <main class="tool-wrapper">
   <h1>Emoji Picker & Copier</h1>
+
+  <!-- Header Vertical Ad -->
+  <div class="ad-box ad-vertical">
+    ADSENSE_CODE_HERE
+  </div>
+
   <p class="tool-desc">Search, click, and copy emojis instantly. Everything works offline.</p>
 
   <input id="emojiSearch" placeholder="Search emoji (smile, fire, heart...)">
 
-  <div class="tool-area">
-  <!-- tool inputs / buttons / results -->
-</div>
+  <div class="tool-area"></div>
 
   <div class="emoji-cats" id="emojiCats"></div>
   <div class="emoji-grid" id="emojiGrid"></div>
   <div class="toast" id="toast">✅ Copied to clipboard</div>
-  
+
+  <!-- After Tool Grid Ad -->
+  <div class="ad-box">
+    ADSENSE_CODE_HERE
+  </div>
+
 </main>
 
 <!-- ================= SEO SECTION ================= -->
-<section class="info-card" id="seo-content">
+<section class="seo-section" id="seo-content">
   <h2>About Emoji Picker Tool</h2>
-
   <p>
     This Emoji Picker tool helps you quickly find and copy emojis for social media,
     chat apps, websites, and documents. No login or tracking required.
@@ -219,6 +293,10 @@
 
 </section>
 
+<!-- Content Bottom Ad -->
+<div class="ad-box">
+  ADSENSE_CODE_HERE
+</div>
 
 <!-- ================= REVIEWS ================= -->
 <section class="info-card" id="comments">
@@ -243,24 +321,32 @@
 
   <div id="commentList"></div>
 </section>
-  
-  <!-- ================= FOOTER (ALWAYS LAST) ================= -->
-  
-  <footer class="site-footer">
-  <p>© 2026 Free Online Tools</p>
 
+<!-- Footer -->
+<footer class="site-footer">
+  <p>© 2026 Free Online Tools</p>
   <div class="footer-links">
-    <a href="/privacy-policy.html">Privacy Policy</a>
-    <a href="/terms.html">Terms & Conditions</a>
-    <a href="/about.html">About</a>
-    <a href="/contact.html">Contact</a>
+    <a href="../privacy-policy.html">Privacy Policy</a>
+    <a href="../terms.html">Terms & Conditions</a>
+    <a href="../about.html">About</a>
+    <a href="../contact.html">Contact</a>
   </div>
 </footer>
 
+<!-- Footer Sticky Ad -->
+<div id="footerAd">
+  <button onclick="document.getElementById('footerAd').style.display='none'">✕</button>
+  ADSENSE_CODE_HERE
+</div>
+
+<!-- Side Vertical Ad -->
+<div id="sideAd">
+  <button onclick="document.getElementById('sideAd').style.display='none'">✕</button>
+  ADSENSE_CODE_HERE
+</div>
+
 <script>
-
 /* ========= EMOJI DATA (DEDUPED) ========= */
-
 const emojiData = {
   Smileys:["😀","😁","😂","🤣","😊","😇","🙂","🙃","😉","😌","😍","🥰","😘","😗","😙","😚","😋","😛","😜","🤪","😝","🤑","🤗","🤭","🤫","🤔","🤐","😐","😑","😶","🙄","😏","😒","😔","😕","😟","😢","😭","😤","😠","😡","🤬","🥳","😎","🤓","🧐"],
   Hearts:["❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","💔","❣️","💕","💞","💓","💗","💖","💘","💝","💟"],
@@ -276,7 +362,6 @@ const grid=document.getElementById("emojiGrid");
 const search=document.getElementById("emojiSearch");
 const toast=document.getElementById("toast");
 const cats=document.getElementById("emojiCats");
-
 let currentCat="Smileys";
 
 /* CATEGORY BUTTONS */
@@ -320,9 +405,15 @@ search.addEventListener("input",()=>{
 
 /* INIT */
 render(emojiData[currentCat]);
-</script>
 
+/* ================= AD DISPLAY LOGIC ================= */
+/* Show footer and side ads after 3 seconds */
+setTimeout(()=>{
+  document.getElementById('footerAd').style.display='block';
+  document.getElementById('sideAd').style.display='block';
+},3000);
+
+</script>
 
 </body>
 </html>
-

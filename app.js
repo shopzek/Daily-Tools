@@ -292,17 +292,18 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  /* ===============================
-     Word Counter
-  ================================= */
-  const countInput = document.getElementById("countInput");
-  const countResult = document.getElementById("countResult");
-  if (countInput && countResult) {
-    countInput.addEventListener("input", () => {
-      const text = countInput.value.trim();
-      countResult.innerText = `Words: ${text?text.split(/\s+/).length:0} | Characters: ${countInput.value.length}`;
-    };
-  }
+/* ===============================
+   Word Counter
+================================= */
+const countInput = document.getElementById("countInput");
+const countResult = document.getElementById("countResult");
+
+if (countInput && countResult) {
+  countInput.addEventListener("input", () => {
+    const text = countInput.value.trim();
+    countResult.innerText = `Words: ${text ? text.split(/\s+/).length : 0} | Characters: ${countInput.value.length}`;
+  });
+}
 
 /* ===============================
    URL SHORTENER

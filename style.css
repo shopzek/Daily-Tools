@@ -519,11 +519,11 @@ button:hover,
 .site-footer{
   width:100%;
   text-align:center;
-  padding:22px 15px;
+  padding:0px 0px;
   background:#f8f8f8;
   margin-top:60px;
-  font-size:14px;
-  line-height:1.6;
+  font-size:12px;
+  line-height: 0.7;
 }
 
 /* Dark mode */

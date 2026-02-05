@@ -533,9 +533,12 @@ body.dark .site-footer{
 }
 
 /* Footer text */
-.site-footer p{
-  margin:0;
-  font-weight:500;
+.site-footer p {
+  margin: 0;
+  font-weight: 500;
+  color: #555; 
+}
+
  
 }
 

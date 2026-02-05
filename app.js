@@ -335,8 +335,10 @@ if (longUrlInput && shortUrlOutput) {
       `;
     } catch {
       shortUrlOutput.innerText = "❌ Failed to shorten URL";
+    }
     };
-  }
+}
+   
 /* ===============================
    ELEMENTS
 ================================ */
@@ -352,86 +354,94 @@ const commentForm = document.getElementById("commentForm");
 const commentList = document.getElementById("commentList");
 
 /* ===============================
-   QUALITY SLIDER
+   QUALITY SLIDER 
 ================================ */
-quality.addEventListener("input", () => {
-  qualityText.innerText = `Quality: ${quality.value}%`;
-});
+if (quality && qualityText) {
+  quality.addEventListener("input", () => {
+    qualityText.innerText = `Quality: ${quality.value}%`;
+  });
+}
 
 /* ===============================
    DRAG & DROP
 ================================ */
-dropZone.addEventListener("click", () => imgInput.click());
+if (dropZone && imgInput && fileInfo && output) {
 
-imgInput.addEventListener("change", () => {
-  if (imgInput.files.length) {
+  dropZone.addEventListener("click", () => imgInput.click());
+
+  imgInput.addEventListener("change", () => {
+    if (imgInput.files.length) {
+      fileInfo.innerText = imgInput.files[0].name;
+      output.innerHTML = "";
+    }
+  });
+
+  dropZone.addEventListener("dragover", e => {
+    e.preventDefault();
+    dropZone.classList.add("dragover");
+  });
+
+  dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("dragover");
+  });
+
+  dropZone.addEventListener("drop", e => {
+    e.preventDefault();
+    dropZone.classList.remove("dragover");
+
+    imgInput.files = e.dataTransfer.files;
     fileInfo.innerText = imgInput.files[0].name;
     output.innerHTML = "";
-  }
-});
-
-dropZone.addEventListener("dragover", e => {
-  e.preventDefault();
-  dropZone.classList.add("dragover");
-});
-
-dropZone.addEventListener("dragleave", () => {
-  dropZone.classList.remove("dragover");
-});
-
-dropZone.addEventListener("drop", e => {
-  e.preventDefault();
-  dropZone.classList.remove("dragover");
-
-  imgInput.files = e.dataTransfer.files;
-  fileInfo.innerText = imgInput.files[0].name;
-  output.innerHTML = "";
-});
+  });
+}
 
 /* ===============================
    IMAGE COMPRESSION
 ================================ */
-compressBtn.addEventListener("click", () => {
+if (compressBtn && imgInput && output && quality) {
+  compressBtn.addEventListener("click", () => {
 
-  if (!imgInput.files.length) {
-    alert("Please select an image");
-    return;
-  }
+    if (!imgInput.files.length) {
+      alert("Please select an image");
+      return;
+    }
 
-  output.innerHTML = "Compressing...";
+    output.innerHTML = "Compressing...";
 
-  const reader = new FileReader();
+    const reader = new FileReader();
 
-  reader.onload = () => {
-    const img = new Image();
+    reader.onload = () => {
+      const img = new Image();
 
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width  = img.width;
-      canvas.height = img.height;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width  = img.width;
+        canvas.height = img.height;
 
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
 
-      const compressedImage = canvas.toDataURL(
-        "image/jpeg",
-        quality.value / 100
-      );
+        const compressedImage = canvas.toDataURL(
+          "image/jpeg",
+          quality.value / 100
+        );
 
-      output.innerHTML = `
-        <img src="${compressedImage}" alt="Compressed Image">
-        <br>
-        <a href="${compressedImage}" download="compressed-image.jpg">
-          ⬇ Download Image
-        </a>
-      `;
+        output.innerHTML = `
+          <img src="${compressedImage}" alt="Compressed Image">
+          <br>
+          <a href="${compressedImage}" download="compressed-image.jpg">
+            ⬇ Download Image
+          </a>
+        `;
+      };
+
+      img.src = reader.result;
     };
 
-    img.src = reader.result;
-  };
+    reader.readAsDataURL(imgInput.files[0]);
+  });
+}
 
-  reader.readAsDataURL(imgInput.files[0]);
-});
 
 /* ===============================
    COMMENTS & RATINGS
@@ -488,11 +498,11 @@ if (emojiGrid && selectedEmoji) {
     navigator.clipboard.writeText(selectedEmoji.innerText);
     alert("Emoji copied!");
   };
+}
+
 /* ===============================
    Emoji Download as PNG
 ================================= */
-const selectedEmoji = document.getElementById("selectedEmoji");
-
 window.downloadEmoji = () => {
   if (!selectedEmoji || !selectedEmoji.innerText.trim()) {
     alert("Select an emoji");
@@ -508,7 +518,6 @@ window.downloadEmoji = () => {
   ctx.font = "200px serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-
   ctx.fillText(selectedEmoji.innerText.trim(), 128, 140);
 
   const link = document.createElement("a");
@@ -516,6 +525,7 @@ window.downloadEmoji = () => {
   link.download = "emoji.png";
   link.click();
 };
+
 
 /* ================= WHY US TOGGLE ================= */
 function toggleWhy(btn) {
@@ -526,3 +536,4 @@ function toggleWhy(btn) {
     ? "Why Choose DailyTools? −"
     : "Why Choose DailyTools? +";
 }
+}); 

@@ -446,34 +446,42 @@ if (compressBtn && imgInput && output && quality) {
 /* ===============================
    COMMENTS & RATINGS
 ================================ */
-commentForm.addEventListener("submit", e => {
-  e.preventDefault();
+if (commentForm && commentList) {
+  commentForm.addEventListener("submit", e => {
+    e.preventDefault();
 
-  const name   = document.getElementById("username").value;
-  const review = document.getElementById("usercomment").value;
-  const rate   = document.getElementById("rating").value;
+    const nameInput   = document.getElementById("username");
+    const reviewInput = document.getElementById("usercomment");
+    const ratingInput = document.getElementById("rating");
 
-  if (!rate) {
-    alert("Please select a rating");
-    return;
-  }
+    if (!nameInput || !reviewInput || !ratingInput) return;
 
-  commentList.innerHTML =
-    `<div class="review">
-      <strong>${name}</strong> (${rate}⭐)
-      <p>${review}</p>
-    </div>` + commentList.innerHTML;
+    const name   = nameInput.value;
+    const review = reviewInput.value;
+    const rate   = ratingInput.value;
 
-  commentForm.reset();
-});
+    if (!rate) {
+      alert("Please select a rating");
+      return;
+    }
+
+    commentList.innerHTML =
+      `<div class="review">
+        <strong>${name}</strong> (${rate}⭐)
+        <p>${review}</p>
+      </div>` + commentList.innerHTML;
+
+    commentForm.reset();
+  });
+}
 
 
 /* ===============================
-  ZIP Tool
+   ZIP Tool
 ================================ */
 
-   
-   /* ===============================
+
+/* ===============================
    EMOJI TOOL
 ================================ */
 const emojiGrid = document.getElementById("emojiGrid");
@@ -530,10 +538,13 @@ window.downloadEmoji = () => {
 /* ================= WHY US TOGGLE ================= */
 function toggleWhy(btn) {
   const grid = document.getElementById("whyGrid");
+  if (!grid) return;
+
   grid.classList.toggle("active");
 
   btn.innerText = grid.classList.contains("active")
     ? "Why Choose DailyTools? −"
     : "Why Choose DailyTools? +";
 }
+
 }); 

@@ -96,28 +96,6 @@ button:hover{background:#1e4fd8}
   box-shadow:0 4px 10px rgba(0,0,0,.08);
 }
 
-.seo-section h2{
-  text-align:center;
-  font-size:22px;
-  margin-bottom:28px;
-}
-
-.seo-section h3{
-  margin-top:26px;
-  margin-bottom:14px;
-  font-size:18px;
-}
-
-.seo-section ul{
-  padding-left:22px;
-}
-
-.seo-section li{
-  margin-bottom:12px;
-  font-size:15px;
-  line-height:1.6;
-}
-
 /* ================= REVIEWS ================= */
 #comments{
   max-width:900px;
@@ -126,33 +104,6 @@ button:hover{background:#1e4fd8}
   padding:36px;
   border-radius:12px;
   box-shadow:0 4px 10px rgba(0,0,0,.1);
-}
-
-#comments h2{
-  text-align:center;
-  margin-bottom:20px;
-}
-
-.comment-box input,
-.comment-box textarea{
-  width:100%;
-  padding:12px;
-  margin-bottom:14px;
-  border-radius:10px;
-  border:1px solid #d1d5db;
-}
-
-.review-actions{
-  display:flex;
-  justify-content:center;
-  gap:14px;
-}
-
-.review-actions select,
-.review-actions button{
-  width:200px;
-  height:48px;
-  border-radius:12px;
 }
 </style>
 </head>
@@ -165,7 +116,6 @@ button:hover{background:#1e4fd8}
 
 <main class="tool-wrapper">
   <h1>URL Shortener</h1>
-
   <p class="tool-desc">
     Shorten long URLs instantly. Copy and share links easily. 100% private.
   </p>
@@ -176,67 +126,52 @@ button:hover{background:#1e4fd8}
   <div id="shortenedLinks"></div>
 </main>
 
+<!-- ✅ FIXED URL SHORTENER SCRIPT -->
 <script>
 const urlInput = document.getElementById("urlInput");
 const shortenBtn = document.getElementById("shortenBtn");
 const shortenedLinks = document.getElementById("shortenedLinks");
 
-const baseURL = window.location.origin + "/s/";
-
-function generateShortCode(length = 6){
-  const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let code = "";
-  for(let i=0;i<length;i++){
-    code += chars[Math.floor(Math.random()*chars.length)];
-  }
-  return code;
-}
-
-shortenBtn.onclick = () => {
+shortenBtn.onclick = async () => {
   const longUrl = urlInput.value.trim();
-  if(!longUrl){ alert("Please enter a URL"); return; }
+  if (!longUrl) {
+    alert("Please enter a URL");
+    return;
+  }
 
-  const shortUrl = baseURL + generateShortCode();
+  try {
+    const res = await fetch(
+      `https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}`
+    );
+    const shortUrl = await res.text();
 
-  const div = document.createElement("div");
-  div.className = "link-item";
-  div.innerHTML = `
-    <a href="${longUrl}" target="_blank">${shortUrl}</a>
-    <button class="copy-btn">Copy</button>
-  `;
+    const div = document.createElement("div");
+    div.className = "link-item";
+    div.innerHTML = `
+      <a href="${shortUrl}" target="_blank" rel="noopener noreferrer">${shortUrl}</a>
+      <button class="copy-btn">Copy</button>
+    `;
 
-  div.querySelector(".copy-btn").onclick = () => {
-    navigator.clipboard.writeText(shortUrl);
-    alert("Copied!");
-  };
+    div.querySelector(".copy-btn").onclick = () => {
+      navigator.clipboard.writeText(shortUrl);
+      alert("Copied!");
+    };
 
-  shortenedLinks.prepend(div);
-  urlInput.value = "";
+    shortenedLinks.prepend(div);
+    urlInput.value = "";
+
+  } catch {
+    alert("Failed to shorten URL");
+  }
 };
 </script>
 
 <!-- ================= SEO ================= -->
 <section class="seo-section">
   <h2>About URL Shortener Tool</h2>
-
   <p>
     This URL Shortener helps you create short, shareable links instantly.
     Everything runs inside your browser, keeping your data private.
-  </p>
-
-  <h3>Why use this tool?</h3>
-  <ul>
-    <li>✔ Free and unlimited usage</li>
-    <li>✔ No sign-up or login required</li>
-    <li>✔ One-click copy feature</li>
-    <li>✔ Works on all devices</li>
-    <li>✔ 100% privacy-focused</li>
-  </ul>
-
-  <h3>How it works</h3>
-  <p>
-    Paste your long URL, click the shorten button, and instantly get a short link
-    ready to copy and share anywhere.
   </p>
 </section>
 

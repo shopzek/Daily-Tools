@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>JPG to PDF Converter – Free Online Tool | DailyTools</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Convert JPG images to PDF online for free. High-quality, secure JPG to PDF converter.">
+<meta name="description" content="Convert JPG images to PDF online for free. Secure, fast and high-quality JPG to PDF converter by DailyTools.">
 
 <link rel="stylesheet" href="../style.css">
 
@@ -16,10 +16,30 @@ body{
   color:#111827;
 }
 
-/* TOOL CARD (UNCHANGED) */
+/* INTRO CONTENT */
+.intro-section{
+  max-width:900px;
+  margin:40px auto 20px;
+  background:#fff;
+  padding:40px;
+  border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+.intro-section h1{
+  margin-bottom:16px;
+  font-size:28px;
+}
+.intro-section p{
+  color:#4b5563;
+  font-size:15px;
+  line-height:1.7;
+  margin-bottom:14px;
+}
+
+/* TOOL CARD */
 .tool-wrapper{
   max-width:750px;
-  margin:40px auto;
+  margin:30px auto;
   background:#fff;
   padding:32px;
   border-radius:16px;
@@ -33,23 +53,21 @@ body{
   margin-bottom:25px;
 }
 
-/* ✅ DRAG & DROP — SAME SIZE AS PREVIOUS TOOL */
+/* DROP ZONE */
 .drop-zone{
   border:2px dashed #cbd5e1;
   border-radius:12px;
-  padding:30px;               /* SAME AS PREVIOUS */
+  padding:30px;
   background:#f9fafb;
   cursor:pointer;
   transition:.2s;
   margin-bottom:18px;
   font-size:15px;
 }
-
 .drop-zone.hover{
   background:#eef2ff;
   border-color:#4f46e5;
 }
-
 .file-info{
   margin-top:10px;
   font-size:14px;
@@ -69,16 +87,15 @@ button{
 button:hover{background:#1e40af}
 #status{margin-top:15px;font-size:14px}
 
-/* SEO + REVIEWS (UNCHANGED — ORIGINAL STYLE) */
+/* SEO SECTION */
 .seo-section{
   max-width:900px;
-  margin:60px auto 80px auto;
+  margin:60px auto 80px;
   background:white;
   padding:40px;
   border-radius:16px;
   box-shadow:0 10px 30px rgba(0,0,0,.08);
 }
-
 .seo-section h2{text-align:center;margin-bottom:22px}
 .seo-section h3{margin-top:28px;margin-bottom:12px}
 .seo-section p,
@@ -124,6 +141,24 @@ button:hover{background:#1e40af}
   <a href="../index.html" class="logo">🚀 DailyTools</a>
 </header>
 
+<!-- ✅ CONTENT FIRST (ADSENSE IMPORTANT) -->
+<section class="intro-section">
+<h1>JPG to PDF Converter – Convert Images to PDF Online</h1>
+
+<p>
+The JPG to PDF converter by DailyTools helps you convert one or multiple JPG images into a single, high-quality PDF document directly in your browser. This free online tool is designed for fast, secure, and professional image-to-PDF conversion without installing any software.
+</p>
+
+<p>
+PDF files are widely used for sharing documents because they preserve layout, quality, and compatibility across all devices. By converting JPG images into PDF format, you can easily organize photos, scanned documents, invoices, assignments, and reports into a single file.
+</p>
+
+<p>
+Our tool works online and respects your privacy. Uploaded images are processed instantly and are not stored permanently. Whether you are a student, office worker, or casual user, this JPG to PDF tool makes document creation simple and efficient.
+</p>
+</section>
+
+<!-- TOOL -->
 <div class="tool-wrapper">
 <h2>JPG to PDF Converter</h2>
 <p class="tool-desc">Convert JPG images into high-quality PDF files instantly.</p>
@@ -138,20 +173,33 @@ button:hover{background:#1e40af}
 <p id="status"></p>
 </div>
 
+<!-- SEO CONTENT -->
 <section class="seo-section">
-<h2>About JPG to PDF Converter</h2>
+<h2>How to Use JPG to PDF Converter</h2>
+<ul>
+<li>Select or drag & drop JPG images</li>
+<li>Click the convert button</li>
+<li>Download your PDF instantly</li>
+</ul>
+
+<h3>Features</h3>
+<ul>
+<li>Free and unlimited usage</li>
+<li>No registration required</li>
+<li>High-quality PDF output</li>
+<li>Mobile & desktop friendly</li>
+<li>Secure and private processing</li>
+</ul>
+
+<h3>Why Convert JPG to PDF?</h3>
 <p>
-DailyTools JPG to PDF converter lets you merge images into a professional
-PDF document directly in your browser. No uploads. No tracking.
+PDF format is ideal for printing, sharing, and archiving documents. It keeps images in order, reduces compatibility issues, and presents content in a professional format suitable for business and academic use.
 </p>
 
-<h3>Why use this tool?</h3>
-<ul>
-<li>✔ Free & unlimited</li>
-<li>✔ HD quality output</li>
-<li>✔ No installation required</li>
-<li>✔ Secure & private</li>
-</ul>
+<h3>Frequently Asked Questions</h3>
+<p><strong>Is this tool free?</strong> Yes, it is 100% free.</p>
+<p><strong>Are my files safe?</strong> Yes, files are processed securely and deleted automatically.</p>
+<p><strong>Can I merge multiple images?</strong> Yes, you can combine multiple JPG files into one PDF.</p>
 
 <section id="comments">
 <h2>User Reviews & Rating</h2>
@@ -183,7 +231,6 @@ PDF document directly in your browser. No uploads. No tracking.
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
-/* DRAG & DROP */
 const dropZone=document.getElementById("dropZone");
 const input=document.getElementById("jpgInput");
 const info=document.getElementById("fileInfo");
@@ -199,7 +246,6 @@ dropZone.ondrop=e=>{
 };
 input.onchange=()=>info.textContent=`${input.files.length} file(s) selected`;
 
-/* HD JPG → PDF */
 async function convertJpgToPdf(){
 const status=document.getElementById("status");
 if(!input.files.length){status.textContent="Select images first";return;}
@@ -229,7 +275,6 @@ pdf.save("images-hd.pdf");
 status.textContent="Conversion done ✔";
 }
 
-/* COMMENTS */
 commentForm.onsubmit=e=>{
 e.preventDefault();
 const div=document.createElement("div");

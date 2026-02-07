@@ -4,133 +4,162 @@
 <meta charset="UTF-8">
 <title>JPG to PDF Converter – Free Online Tool | DailyTools</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Convert JPG images to PDF online for free. Merge multiple images into one PDF securely using DailyTools.">
+<meta name="description" content="Convert JPG images to PDF online for free. Merge images into one PDF securely using DailyTools.">
 
 <link rel="stylesheet" href="../style.css">
 
 <style>
+:root{
+  --primary:#2563eb;
+  --bg:#f3f4f6;
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --radius:18px;
+}
+
 body{
   margin:0;
   font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
-  background:#f3f4f6;
-  color:#111827;
+  background:linear-gradient(180deg,#f8fafc,#eef2ff);
+  color:var(--text);
 }
 
-/* SHORT INTRO */
+/* HEADER SPACING FIX */
+.main-header{margin-bottom:20px}
+
+/* HERO INTRO */
 .intro-section{
-  max-width:750px;
-  margin:40px auto 20px;
-  background:#fff;
-  padding:28px;
-  border-radius:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  max-width:860px;
+  margin:40px auto 10px;
+  text-align:center;
+  padding:20px;
 }
 .intro-section h1{
-  margin-bottom:10px;
-  font-size:26px;
+  font-size:34px;
+  margin-bottom:12px;
 }
 .intro-section p{
-  color:#4b5563;
-  font-size:15px;
+  max-width:620px;
+  margin:0 auto;
+  font-size:16px;
+  color:var(--muted);
   line-height:1.6;
 }
 
 /* TOOL CARD */
 .tool-wrapper{
-  max-width:750px;
-  margin:20px auto 40px;
-  background:#fff;
-  padding:32px;
-  border-radius:16px;
-  box-shadow:0 15px 40px rgba(0,0,0,.08);
+  max-width:760px;
+  margin:30px auto 60px;
+  background:var(--card);
+  padding:36px;
+  border-radius:var(--radius);
+  box-shadow:0 20px 50px rgba(0,0,0,.08);
   text-align:center;
 }
 
+.tool-wrapper h2{
+  font-size:24px;
+  margin-bottom:6px;
+}
+
 .tool-desc{
-  color:#6b7280;
   font-size:15px;
-  margin-bottom:25px;
+  color:var(--muted);
+  margin-bottom:28px;
 }
 
 /* DROP ZONE */
 .drop-zone{
-  border:2px dashed #cbd5e1;
-  border-radius:12px;
-  padding:30px;
-  background:#f9fafb;
+  border:2px dashed #c7d2fe;
+  border-radius:14px;
+  padding:36px;
+  background:#f8fafc;
   cursor:pointer;
-  transition:.2s;
-  margin-bottom:18px;
+  transition:.25s;
+  margin-bottom:22px;
+}
+.drop-zone p{
   font-size:15px;
+  color:#4f46e5;
 }
 .drop-zone.hover{
   background:#eef2ff;
-  border-color:#4f46e5;
+  border-color:var(--primary);
 }
 .file-info{
   margin-top:10px;
   font-size:14px;
+  color:#374151;
 }
 
 /* BUTTON */
 button{
-  padding:14px 28px;
-  border-radius:12px;
+  padding:14px 34px;
+  border-radius:14px;
   font-size:16px;
-  font-weight:500;
-  background:#2563eb;
-  color:white;
+  font-weight:600;
+  background:linear-gradient(135deg,#2563eb,#4f46e5);
+  color:#fff;
   cursor:pointer;
   border:none;
+  box-shadow:0 10px 25px rgba(37,99,235,.3);
 }
-button:hover{background:#1e40af}
-#status{margin-top:15px;font-size:14px}
+button:hover{opacity:.95}
+#status{margin-top:16px;font-size:14px;color:#374151}
 
 /* CONTENT SECTION */
 .seo-section{
   max-width:900px;
-  margin:0 auto 80px;
-  background:white;
-  padding:40px;
-  border-radius:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  margin:0 auto 90px;
+  background:var(--card);
+  padding:46px;
+  border-radius:var(--radius);
+  box-shadow:0 18px 40px rgba(0,0,0,.06);
 }
-.seo-section h2{text-align:center;margin-bottom:22px}
-.seo-section h3{margin-top:28px;margin-bottom:12px}
+
+.seo-section h2{
+  text-align:center;
+  font-size:26px;
+  margin-bottom:26px;
+}
+
+.seo-section h3{
+  margin-top:34px;
+  margin-bottom:14px;
+  font-size:20px;
+}
+
 .seo-section p,
 .seo-section li{
-  color:#4b5563;
   font-size:15px;
-  line-height:1.7;
+  line-height:1.8;
+  color:#374151;
 }
-.seo-section ul{padding-left:18px}
+
+.seo-section ul{padding-left:20px}
 
 /* COMMENTS */
-#comments{text-align:center;margin-top:40px}
+#comments{text-align:center;margin-top:50px}
 #comments input,
-#comments textarea{
+#comments textarea,
+#comments select{
   width:100%;
   padding:14px;
   margin-bottom:18px;
   border-radius:12px;
   border:1px solid #d1d5db;
-}
-#comments select{
-  padding:14px 28px;
-  border-radius:12px;
-  border:1px solid #d1d5db;
-  background:#fff;
-  margin-bottom:18px;
+  font-size:14px;
 }
 .comment{
   background:#f9fafb;
   padding:12px;
-  border-radius:8px;
+  border-radius:10px;
   margin-bottom:10px;
   font-size:14px;
   text-align:left;
 }
-.comment strong{color:#2563eb}
+.comment strong{color:var(--primary)}
 </style>
 </head>
 
@@ -140,20 +169,19 @@ button:hover{background:#1e40af}
   <a href="../index.html" class="logo">🚀 DailyTools</a>
 </header>
 
-<!-- SHORT INTRO -->
+<!-- HERO INTRO -->
 <section class="intro-section">
 <h1>JPG to PDF Converter</h1>
 <p>
-Convert JPG images into high-quality PDF files online for free.
-Merge multiple images into one PDF instantly — no signup, no installation,
-and your files stay private.
+Convert JPG images into a single high-quality PDF in seconds.
+Fast, secure, and free — no signup required.
 </p>
 </section>
 
-<!-- TOOL FIRST -->
+<!-- TOOL -->
 <div class="tool-wrapper">
 <h2>Convert JPG to PDF</h2>
-<p class="tool-desc">Fast, secure and high-quality image to PDF conversion.</p>
+<p class="tool-desc">Upload images and get a professional PDF instantly.</p>
 
 <div class="drop-zone" id="dropZone">
   <p>📂 Drag & drop JPG files here<br>or click to select</p>
@@ -165,35 +193,34 @@ and your files stay private.
 <p id="status"></p>
 </div>
 
-<!-- LONG CONTENT BELOW TOOL -->
+<!-- CONTENT -->
 <section class="seo-section" id="how-to">
 <h2>How to Use JPG to PDF Converter</h2>
 <ul>
-<li>Select or drag & drop JPG images</li>
+<li>Upload or drag & drop JPG images</li>
 <li>Click the convert button</li>
 <li>Download your PDF instantly</li>
 </ul>
 
 <h3>Features</h3>
 <ul>
-<li>100% free & unlimited</li>
+<li>Free and unlimited usage</li>
 <li>No registration required</li>
 <li>High-quality PDF output</li>
-<li>Works on mobile & desktop</li>
-<li>Secure and private processing</li>
+<li>Mobile & desktop friendly</li>
+<li>Privacy-focused processing</li>
 </ul>
 
 <h3>Why Convert JPG to PDF?</h3>
 <p>
-PDF format preserves image layout and quality while making files easier
-to print, share, and store. Combining images into a single PDF keeps
-documents organized and professional.
+PDF files are ideal for sharing, printing, and storing documents.
+Combining images into a single PDF keeps files organized and professional.
 </p>
 
 <h3>Frequently Asked Questions</h3>
-<p><strong>Is this JPG to PDF tool free?</strong><br>Yes, it is completely free.</p>
-<p><strong>Are my images safe?</strong><br>Your files are processed instantly and not stored.</p>
-<p><strong>Can I merge multiple images?</strong><br>Yes, multiple JPG files can be combined into one PDF.</p>
+<p><strong>Is this tool free?</strong><br>Yes, completely free.</p>
+<p><strong>Are my images safe?</strong><br>Files are processed instantly and not stored.</p>
+<p><strong>Can I upload multiple images?</strong><br>Yes, merge multiple JPGs into one PDF.</p>
 
 <section id="comments">
 <h2>User Reviews & Rating</h2>

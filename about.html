@@ -96,6 +96,66 @@
       border-radius: 8px;
       cursor: pointer;
     }
+    /* SEARCH (same as index.html) */
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #f0f0f0;
+  border-radius: 6px;
+  padding: 6px 12px;
+  min-width: 260px; /* makes it LONG */
+  transition: background 0.3s ease;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  margin-left: 6px;
+  background: transparent;
+  width: 100%;
+  font-size: 14px;
+}
+
+/* Dark mode search */
+body.dark .search-box {
+  background: #2a2a2a;
+}
+
+/* DARK TOGGLE BUTTON (animated like index.html) */
+.dark-btn {
+  height: 38px;
+  width: 38px;
+  font-size: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 
+    background-color 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Hover animation */
+.dark-btn:hover {
+  background-color: #e5e7eb;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Dark mode button */
+body.dark .dark-btn {
+  background-color: #333;
+  color: #fff;
+}
+
+body.dark .dark-btn:hover {
+  background-color: #444;
+}
+
 
     /* MAIN */
     .page-wrapper {
@@ -164,10 +224,16 @@
   </nav>
 
   <div class="header-actions">
-    <input type="text" class="search-box" placeholder="Search tools...">
-    <button class="toggle-btn" onclick="toggleDark()">🌙</button>
+  <div class="search-box">
+    🔍
+    <input type="text" placeholder="Search tools..." aria-label="Search tools">
   </div>
-</header>
+
+  <button onclick="toggleDark()" class="dark-btn" aria-label="Toggle dark mode">
+    🌙
+  </button>
+</div>
+
 
 <!-- MAIN CONTENT -->
 <main class="page-wrapper">

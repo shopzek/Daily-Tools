@@ -4,30 +4,175 @@
   <meta charset="UTF-8">
   <title>About – Free Tools</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Learn about Free Tools – a collection of free online tools for daily use. 100% browser-based and private.">
-  <link rel="stylesheet" href="style.css">
+
+  <!-- SEO / Adsense -->
+  <meta name="description" content="About Free Tools – a free online platform offering secure, fast, and browser-based tools for documents, images, text, and productivity.">
+  <meta name="keywords" content="free tools, online tools, pdf tools, image tools, text tools">
 
   <style>
-    body { font-family: Arial, sans-serif; background: #f8fafc; margin:0; padding:0; }
-    .main-header { background: #4f46e5; padding: 16px; text-align: center; }
-    .main-header .logo { color: white; font-size: 24px; font-weight: bold; text-decoration: none; }
-    .page-wrapper { max-width: 800px; margin: 60px auto; background: #fff; padding: 32px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
-    h1 { color: #1e3a8a; margin-bottom: 16px; }
-    p { color: #555; font-size: 16px; line-height: 1.6; margin-bottom: 16px; }
-    ul { margin-left: 20px; margin-bottom: 16px; }
-    li { margin-bottom: 8px; color: #333; }
-    footer { text-align: center; padding: 24px; background: #f3f4f6; margin-top: 40px; font-size: 14px; }
-    footer a { color: #4f46e5; text-decoration: none; margin: 0 6px; }
+    :root {
+      --primary: #4f46e5;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #555;
+      --footer: #f3f4f6;
+    }
+
+    body.dark {
+      --bg: #0f172a;
+      --card: #111827;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --footer: #020617;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+      transition: .3s;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--primary);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .logo {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      gap: 14px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      opacity: .9;
+    }
+
+    nav a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .search-box {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .toggle-btn {
+      background: rgba(255,255,255,.15);
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* MAIN */
+    .page-wrapper {
+      max-width: 900px;
+      margin: 60px auto;
+      background: var(--card);
+      padding: 40px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    }
+
+    h1, h2 {
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    ul {
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    li {
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      background: var(--footer);
+      margin-top: 40px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      margin: 0 6px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
+
 <body>
 
-<header class="main-header">
+<!-- HEADER (CONNECTED PAGES) -->
+<header>
   <a href="index.html" class="logo">Free Tools</a>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+  </nav>
+
+  <div class="header-actions">
+    <input type="text" class="search-box" placeholder="Search tools...">
+    <button class="toggle-btn" onclick="toggleDark()">🌙</button>
+  </div>
 </header>
 
+<!-- MAIN CONTENT -->
 <main class="page-wrapper">
+
+  <!-- YOUR ORIGINAL CONTENT (NOT DELETED) -->
   <h1>About Free Tools</h1>
+
   <p>
     Welcome to <strong>Free Tools</strong> – your go-to destination for a wide variety of online tools that you can use for free, instantly, and without registration. Our mission is to make daily tasks easier by providing simple, efficient, and reliable tools directly in your browser.
   </p>
@@ -51,11 +196,50 @@
   <p>
     Thank you for using <strong>Free Tools</strong>. We hope our platform makes your daily tasks faster, easier, and more enjoyable!
   </p>
+
+  <!-- ADDED FULL PAGE DESCRIPTION (ADSENSE SAFE) -->
+  <h2>Our Vision & Platform Purpose</h2>
+
+  <p>
+    Free Tools was created with a simple vision: to provide high-quality online utilities that are accessible to everyone, regardless of technical skill level. In today’s digital world, many basic tasks still require expensive software or complicated setups. We aim to remove those barriers by offering lightweight, fast, and reliable tools that work directly in your web browser.
+  </p>
+
+  <p>
+    Our platform is designed for students, professionals, freelancers, educators, content creators, and everyday users who need quick solutions without compromising privacy or security. Every tool is carefully developed to ensure accuracy, speed, and ease of use.
+  </p>
+
+  <h2>Privacy, Security & Transparency</h2>
+
+  <p>
+    User privacy is extremely important to us. Free Tools does not require account creation, personal information, or unnecessary permissions. Most tools process data locally within your browser, and we do not store uploaded files once the task is completed.
+  </p>
+
+  <p>
+    We follow transparent practices and comply with standard web policies to ensure a safe browsing experience. Our website includes clearly defined pages such as Privacy Policy, Terms & Conditions, and Contact Information to maintain trust and accountability.
+  </p>
+
+  <h2>Continuous Improvement</h2>
+
+  <p>
+    We are committed to continuously improving our website by adding new tools, optimizing performance, and enhancing usability. Feedback from users plays a vital role in shaping the future of Free Tools, helping us build a platform that truly serves real-world needs.
+  </p>
+
 </main>
 
+<!-- FOOTER (CONNECTED PAGES) -->
 <footer>
-  © 2026 Free Tools • <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms</a> | <a href="contact.html">Contact</a>
+  © 2026 Free Tools •
+  <a href="about.html">About</a> |
+  <a href="privacy.html">Privacy Policy</a> |
+  <a href="terms.html">Terms & Conditions</a> |
+  <a href="contact.html">Contact</a>
 </footer>
+
+<script>
+  function toggleDark() {
+    document.body.classList.toggle('dark');
+  }
+</script>
 
 </body>
 </html>

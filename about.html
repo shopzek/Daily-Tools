@@ -52,66 +52,50 @@
       font-weight: bold;
       text-decoration: none;
     }
-    /* SEARCH (same as index.html) */
-.search-box {
-  display: flex;
-  align-items: center;
-  background: #f0f0f0;
-  border-radius: 6px;
-  padding: 6px 12px;
-  min-width: 260px; /* makes it LONG */
-  transition: background 0.3s ease;
-}
 
-.search-box input {
-  border: none;
-  outline: none;
-  margin-left: 6px;
-  background: transparent;
-  width: 100%;
-  font-size: 14px;
-}
+    nav {
+     
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex: 1;
+    }
 
-/* Dark mode search */
-body.dark .search-box {
-  background: #2a2a2a;
-}
+    nav a {
+      color: #007bff;
+      text-decoration: none;
+      font-size: 14px;
+      opacity: .9;
+    font-weight: 500;
+    }
 
-/* DARK TOGGLE BUTTON (animated like index.html) */
-.dark-btn {
-  height: 38px;
-  width: 38px;
-  font-size: 18px;
-  border-radius: 6px;
-  cursor: pointer;
-  border: none;
-  background-color: #f0f0f0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 
-    background-color 0.3s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
+    nav a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
 
-/* Hover animation */
-.dark-btn:hover {
-  background-color: #e5e7eb;
-  transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
 
-/* Dark mode button */
-body.dark .dark-btn {
-  background-color: #333;
-  color: #fff;
-}
+    .search-box {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
 
-body.dark .dark-btn:hover {
-  background-color: #444;
-}
-
+    .toggle-btn {
+      background: rgba(255,255,255,.15);
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
 
     /* MAIN */
     .page-wrapper {
@@ -169,28 +153,26 @@ body.dark .dark-btn:hover {
 
 <body>
 
-<!-- HEADER (CONNECTED PAGES) -->
-<header>
- <a href="index.html" class="logo">🚀 DailyTools</a>
+<!-- ================= HEADER ================= -->
+<header class="main-header">
+  <a href="index.html" class="logo">🚀 DailyTools</a>
 
-
-  <nav>
+  <nav class="navbar">
     <a href="index.html">Home</a>
     <a href="blog.html">Blog</a>
   </nav>
 
-  <div class="header-actions">
-  <div class="search-box">
-    🔍
-    <input type="text" placeholder="Search tools..." aria-label="Search tools">
+  <div class="header-right">
+    <div class="search-box">
+      🔍
+      <input type="text" id="search" placeholder="Search tools..." aria-label="Search tools">
+    </div>
+
+    <button onclick="toggleDark()" class="dark-btn" aria-label="Toggle dark mode">
+      🌙
+    </button>
   </div>
-
-  <button onclick="toggleDark()" class="dark-btn" aria-label="Toggle dark mode">
-    🌙
-  </button>
-</div>
-
-
+</header>
 <!-- MAIN CONTENT -->
 <main class="page-wrapper">
 

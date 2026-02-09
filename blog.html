@@ -5,6 +5,7 @@
 <title>DailyTools Blog – All Tools</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
+  /* ================= GENERAL ================= */
   body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -12,7 +13,6 @@
     color: #000;
     transition: background 0.3s, color 0.3s;
   }
-
   body.dark {
     background: #121212;
     color: #f1f1f1;
@@ -26,11 +26,9 @@
     padding: 10px 20px;
     background: #f8f8f8;
     flex-wrap: wrap;
+    transition: background 0.3s;
   }
-
-  body.dark .main-header {
-    background: #1e1e1e;
-  }
+  body.dark .main-header { background: #1e1e1e; }
 
   .logo {
     font-size: 1.5rem;
@@ -46,19 +44,13 @@
     gap: 30px;
     flex: 1;
   }
-
   .navbar a {
     color: #007bff;
     text-decoration: none;
     font-weight: 500;
     font-size: 14px;
   }
-
-  .navbar a:hover,
-  .navbar a:focus {
-    text-decoration: underline;
-    outline: none;
-  }
+  .navbar a:hover, .navbar a:focus { text-decoration: underline; outline: none; }
 
   .header-right {
     display: flex;
@@ -68,31 +60,18 @@
     justify-content: flex-end;
   }
 
-  /* Search Box with Transition */
+  /* ================= SEARCH BOX ================= */
   .search-box {
     display: flex;
     align-items: center;
     background: #f0f0f0;
     border-radius: 6px;
     padding: 5px 10px;
-    transition: background 0.3s, box-shadow 0.3s;
+    transition: all 0.3s ease;
   }
-
-  .search-box:hover,
-  .search-box:focus-within {
-    background: #e0e0e0;
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
-  }
-
-  body.dark .search-box {
-    background: #333;
-  }
-
-  body.dark .search-box:hover,
-  body.dark .search-box:focus-within {
-    background: #444;
-    box-shadow: 0 0 5px rgba(255,255,255,0.2);
-  }
+  .search-box:hover, .search-box:focus-within { background: #e0e0e0; }
+  body.dark .search-box { background: #333; }
+  body.dark .search-box:hover, body.dark .search-box:focus-within { background: #444; }
 
   .search-box input {
     border: none;
@@ -102,14 +81,12 @@
     font-size: 13px;
     background: transparent;
     color: inherit;
-    transition: width 0.3s ease;
+    transition: width 0.3s ease, color 0.3s;
+    width: 120px;
   }
+  .search-box input:focus { width: 180px; }
 
-  .search-box input:focus {
-    width: 150px;
-  }
-
-  /* Dark Mode Toggle */
+  /* ================= DARK MODE BUTTON ================= */
   .dark-btn {
     height: 38px;
     width: 38px;
@@ -123,43 +100,18 @@
     justify-content: center;
     transition: background-color 0.3s;
   }
-
-  .dark-btn:hover,
-  .dark-btn:focus {
-    background-color: #d0d0d0;
-    outline: none;
-  }
-
-  body.dark .dark-btn {
-    background-color: #333;
-    color: #fff;
-  }
-
-  body.dark .dark-btn:hover,
-  body.dark .dark-btn:focus {
-    background-color: #444;
-  }
+  .dark-btn:hover, .dark-btn:focus { background-color: #d0d0d0; outline: none; }
+  body.dark .dark-btn { background-color: #333; color: #fff; }
+  body.dark .dark-btn:hover, body.dark .dark-btn:focus { background-color: #444; }
 
   /* ================= HERO ================= */
   .hero {
     text-align: center;
     padding: 40px 20px;
   }
-
-  .hero h1 {
-    margin: 0 0 10px;
-    font-size: 2rem;
-  }
-
-  .hero p {
-    margin: 0;
-    font-size: 14px;
-    color: #555555;
-  }
-
-  body.dark .hero p {
-    color: #ccc;
-  }
+  .hero h1 { margin: 0 0 10px; font-size: 2rem; }
+  .hero p { margin: 0; font-size: 14px; color: #555555; }
+  body.dark .hero p { color: #ccc; }
 
   /* ================= BLOG GRID ================= */
   .container {
@@ -167,7 +119,6 @@
     margin: 20px auto;
     padding: 0 20px;
   }
-
   .blog-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -182,22 +133,17 @@
     flex-direction: column;
     justify-content: space-between;
     box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
-    transition: box-shadow 0.3s;
+    transition: box-shadow 0.3s, background 0.3s;
   }
-
-  .blog-card:hover,
-  .blog-card:focus-within {
+  .blog-card:hover, .blog-card:focus-within {
     box-shadow: 0 5px 15px rgb(0 0 0 / 0.2);
   }
-
   body.dark .blog-card {
     background: #1e1e1e;
     color: #f1f1f1;
     box-shadow: none;
   }
-
-  body.dark .blog-card:hover,
-  body.dark .blog-card:focus-within {
+  body.dark .blog-card:hover, body.dark .blog-card:focus-within {
     box-shadow: 0 5px 15px rgb(255 255 255 / 0.15);
   }
 
@@ -207,22 +153,16 @@
     font-weight: 600;
     color: #222;
   }
-
-  body.dark .blog-card h3 {
-    color: #e0e0e0;
-  }
+  body.dark .blog-card h3 { color: #e0e0e0; }
 
   .blog-card p {
     font-size: 14px;
-    color: #555555;
+    color: #555;
     line-height: 1.5;
     margin-bottom: 15px;
     flex-grow: 1;
   }
-
-  body.dark .blog-card p {
-    color: #aaa;
-  }
+  body.dark .blog-card p { color: #aaa; }
 
   .blog-card a {
     text-decoration: none;
@@ -232,74 +172,40 @@
     margin-top: auto;
     align-self: flex-start;
   }
-
-  .blog-card a:hover,
-  .blog-card a:focus {
-    text-decoration: underline;
-    outline: none;
-  }
+  .blog-card a:hover, .blog-card a:focus { text-decoration: underline; outline: none; }
 
   /* ================= FOOTER ================= */
   .site-footer {
     text-align: center;
-    padding: 10px 0; /* Reduced padding to fix big height */
+    padding: 15px 20px;
     background: #f8f8f8;
     margin-top: 40px;
     font-size: 13px;
-    color: #555555;
+    color: #555;
+    line-height: 1.5;
   }
-
-  body.dark .site-footer {
-    background: #1e1e1e;
-    color: #aaa;
-  }
-
-  .footer-nav {
-    margin-top: 5px;
-  }
-
+  body.dark .site-footer { background: #1e1e1e; color: #aaa; }
+  .footer-nav { margin-top: 5px; }
   .footer-nav a {
     color: #007bff;
     text-decoration: none;
     margin: 0 5px;
     font-weight: 500;
   }
-
-  .footer-nav a:hover {
-    text-decoration: underline;
-  }
+  .footer-nav a:hover { text-decoration: underline; }
 
   /* ================= RESPONSIVE ================= */
   @media (max-width: 768px) {
-    .main-header {
-      flex-wrap: wrap;
-    }
-
-    .logo {
-      flex: 1 1 100%;
-      text-align: left;
-      margin-bottom: 10px;
-    }
-
-    .header-right {
-      order: 2;
-      width: 100%;
-      justify-content: flex-end;
-      margin-top: 10px;
-    }
-
-    .navbar {
-      order: 1;
-      flex: 1 1 100%;
-      justify-content: flex-start;
-      gap: 15px;
-      margin-bottom: 10px;
-    }
+    .main-header { flex-wrap: wrap; }
+    .logo { flex: 1 1 100%; text-align: left; margin-bottom: 10px; }
+    .header-right { order: 2; width: 100%; justify-content: flex-end; margin-top: 10px; }
+    .navbar { order: 1; flex: 1 1 100%; justify-content: flex-start; gap: 15px; margin-bottom: 10px; }
   }
 </style>
 </head>
-
 <body>
+
+<!-- ================= HEADER ================= -->
 <header class="main-header" role="banner">
   <a href="index.html" class="logo" aria-label="DailyTools Home">🚀 DailyTools</a>
 
@@ -309,26 +215,138 @@
   </nav>
 
   <div class="header-right">
-    <div class="search-box" role="search">
+    <div class="search-box" role="search"> 
       🔍
       <input type="search" id="search" placeholder="Search tools..." aria-label="Search tools" />
     </div>
-
     <button onclick="toggleDark()" class="dark-btn" aria-label="Toggle dark mode" title="Toggle dark mode">
       🌙
     </button>
   </div>
 </header>
 
+<!-- ================= HERO ================= -->
 <section class="hero" role="banner">
   <h1>DailyTools Blog</h1>
   <p>All our tools, guides &amp; tips in one place</p>
 </section>
 
+<!-- ================= TOOL GRID ================= -->
 <main class="container blog-grid" role="main" aria-live="polite">
-  <!-- TOOL CARDS GO HERE (unchanged) -->
+
+  <!-- ===== TOOL CARDS START ===== -->
+  <article class="blog-card" tabindex="0" aria-label="Word to PDF tool overview">
+    <h3>Word to PDF</h3>
+    <p>Convert Word documents (.doc, .docx) to PDF instantly, preserving formatting and images for professional sharing or printing.</p>
+    <a href="tools/word-to-pdf.html">Read More →</a>
+  </article>
+
+  <article class="blog-card" tabindex="0" aria-label="PDF to Word tool overview">
+    <h3>PDF to Word</h3>
+    <p>Transform PDFs into editable Word documents quickly without losing layout, perfect for editing reports, contracts, or academic work.</p>
+    <a href="tools/pdf-to-word.html">Read More →</a>
+  </article>
+
+  <article class="blog-card" tabindex="0" aria-label="Excel to PDF tool overview">
+    <h3>Excel to PDF</h3>
+    <p>Convert Excel spreadsheets into PDFs, keeping tables, charts, and formatting intact for easy sharing or printing.</p>
+    <a href="tools/excel-to-pdf.html">Read More →</a>
+  </article>
+
+  <article class="blog-card" tabindex="0" aria-label="PDF to Excel tool overview">
+    <h3>PDF to Excel</h3>
+    <p>Extract tables and data from PDF files into Excel sheets effortlessly for analysis or editing, saving hours of manual entry.</p>
+    <a href="tools/pdf-to-excel.html">Read More →</a>
+  </article>
+
+  <article class="blog-card" tabindex="0" aria-label="PDF to JPG tool overview">
+    <h3>PDF to JPG</h3>
+    <p>Convert PDF pages into high-quality JPG images for presentations, social media, or embedding in documents where PDF is unsupported.</p>
+    <a href="tools/pdf-to-jpg.html">Read More →</a>
+  </article>
+
+  <article class="blog-card" tabindex="0" aria-label="JPG to PDF tool overview">
+    <h3>JPG to PDF</h3>
+    <p>Merge multiple JPG images into a single PDF document for photo albums, portfolios, or easy sharing of scanned files.</p>
+    <a href="tools/jpg-to-pdf.html">Read More →</a>
+  </article>
+
+  <article class="blog-card" tabindex="0" aria-label="Language Converter tool overview">
+    <h3>Language Converter</h3>
+    <p>Translate text instantly between multiple languages with accuracy, helping you communicate globally in seconds.</p>
+    <a href="tools/language-converter.html">Read More →</a>
+  </article>
+
+  <article class="blog-card" tabindex="0" aria-label="PNG to JPG tool overview">
+    <h3>PNG to JPG</h3>
+    <p>Reduce file size without losing quality by converting PNG images to JPG format, ideal for fast web uploads and sharing.</p>
+    <a href="tools/png-to-jpg.html">Read More →</a>
+  </article>
+
+  <article class="blog-card" tabindex="0" aria-label="Merge PDF tool overview">
+    <h3>Merge PDF</h3>
+    <p>Combine multiple PDFs into a single document seamlessly, organizing reports, contracts, or scanned documents efficiently.</p>
+    <a href="tools/merge-pdf.html">Read More →</a>
+  </article>
+
+  <article class="blog-card" tabindex="0" aria-label="Image Converter tool overview">
+    <h3>Image Converter</h3>
+    <p>Convert images between formats like JPG, PNG, GIF, WEBP quickly for web, print, or social media use.</p>
+    <a href="tools/image-converter.html">Read More →</a>
+  </article>
+
+  <article class="blog-card" tabindex="0" aria-label="Image to WEBP tool overview">
+    <h3>Image to WEBP</h3>
+    <p>Optimize images by converting to WEBP, reducing size while keeping high quality for faster loading websites.</p>
+    <a href="tools/image-to-webp.html">Read More →</a>
+  </article>
+
+  <article class="blog-card" tabindex="0" aria-label="URL Shortener tool overview">
+    <h3>URL Shortener</h3>
+    <p>Create short, clean links from long URLs for social media, emails, or printed materials, optionally with tracking.</p>
+    <a href="tools/url-shortener.html">Read More →</a>
+  </article>
+
+  <article class="blog-card" tabindex="0" aria-label="QR Code Generator tool overview">
+    <h3>QR Code Generator</h3>
+    <p>Generate QR codes for URLs, text, contact info, or Wi-Fi credentials quickly and shareable anywhere.</p>
+    <a href="tools/qr-generator.html">Read More →</a>
+  </article>
+
+  <article class="blog-card" tabindex="0" aria-label="Text Case Converter tool overview">
+    <h3>Text Case Converter</h3>
+    <p>Switch text between uppercase, lowercase, title, sentence, and more, simplifying formatting for documents or posts.</p>
+    <a href="tools/text-case.html">Read More →</a>
+  </article>
+
+  <article class="blog-card" tabindex="0" aria-label="Password Generator tool overview">
+    <h3>Password Generator</h3>
+    <p>Create strong, random passwords with customizable length and character types for enhanced online security.</p>
+    <a href="tools/password-generator.html">Read More →</a>
+  </article>
+
+  <article class="blog-card" tabindex="0" aria-label="Word Counter tool overview">
+    <h3>Word Counter</h3>
+    <p>Count words, characters, sentences, and paragraphs in your text instantly for writing, editing, or social media posts.</p>
+    <a href="tools/word-counter.html">Read More →</a>
+  </article>
+
+  <article class="blog-card" tabindex="0" aria-label="Timer and Stopwatch tool overview">
+    <h3>Timer & Stopwatch</h3>
+    <p>Set timers or use a stopwatch for productivity, workouts, cooking, or precise task tracking easily online.</p>
+    <a href="tools/timer.html">Read More →</a>
+  </article>
+
+  <article class="blog-card" tabindex="0" aria-label="Emoji Picker tool overview">
+    <h3>Emoji Picker</h3>
+    <p>Quickly select and copy emojis for messages, posts, or creative projects to express emotions easily.</p>
+    <a href="tools/emoji-tool.html">Read More →</a>
+  </article>
+  <!-- ===== TOOL CARDS END ===== -->
+
 </main>
 
+<!-- ================= FOOTER ================= -->
 <footer class="site-footer" role="contentinfo">
   <p>© 2026 DailyTools — Free & Private Online Utilities</p>
   <nav class="footer-nav">
@@ -339,19 +357,18 @@
   </nav>
 </footer>
 
+<!-- ================= SCRIPTS ================= -->
 <script>
-  // Toggle dark mode
-  function toggleDark() {
-    document.body.classList.toggle("dark");
-  }
+  function toggleDark() { document.body.classList.toggle("dark"); }
 
   // Search filter
-  document.getElementById("search").addEventListener("input", function () {
+  document.getElementById("search").addEventListener("input", function() {
     const value = this.value.toLowerCase();
     document.querySelectorAll(".blog-card").forEach(card => {
       card.style.display = card.innerText.toLowerCase().includes(value) ? "block" : "none";
     });
   });
 </script>
+
 </body>
 </html>

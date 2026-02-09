@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <title>DailyTools Blog – All Tools</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
   body {
     margin: 0;
@@ -54,8 +54,10 @@
     font-size: 14px;
   }
 
-  .navbar a:hover {
+  .navbar a:hover,
+  .navbar a:focus {
     text-decoration: underline;
+    outline: none;
   }
 
   .header-right {
@@ -80,6 +82,12 @@
     margin-left: 5px;
     height: 28px;
     font-size: 13px;
+    background: transparent;
+    color: inherit;
+  }
+
+  body.dark .search-box {
+    background: #333;
   }
 
   .dark-btn {
@@ -93,11 +101,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background-color 0.3s;
+  }
+
+  .dark-btn:hover,
+  .dark-btn:focus {
+    background-color: #d0d0d0;
+    outline: none;
   }
 
   body.dark .dark-btn {
     background-color: #333;
     color: #fff;
+  }
+
+  body.dark .dark-btn:hover,
+  body.dark .dark-btn:focus {
+    background-color: #444;
   }
 
   /* ================= HERO ================= */
@@ -117,6 +137,10 @@
     color: #555555;
   }
 
+  body.dark .hero p {
+    color: #ccc;
+  }
+
   /* ================= BLOG GRID ================= */
   .container {
     max-width: 1200px;
@@ -126,7 +150,7 @@
 
   .blog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 20px;
   }
 
@@ -137,38 +161,65 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+    transition: box-shadow 0.3s;
   }
 
-  /* 🔽 TOOL CARD HEADING (smaller) */
-  .blog-card h3 {
-    margin-top: 0;
-    font-size: 15px;
-    font-weight: 600;
-    color: #333;
-  }
-
-  /* 🔽 TOOL CARD DESCRIPTION (footer-style) */
-  .blog-card p {
-    font-size: 13px;
-    color: #555555;
-    line-height: 1.5;
-  }
-
-  .blog-card a {
-    text-decoration: none;
-    color: #007bff;
-    font-weight: 600;
-    font-size: 13px;
-    margin-top: 10px;
+  .blog-card:hover,
+  .blog-card:focus-within {
+    box-shadow: 0 5px 15px rgb(0 0 0 / 0.2);
   }
 
   body.dark .blog-card {
     background: #1e1e1e;
     color: #f1f1f1;
+    box-shadow: none;
+  }
+
+  body.dark .blog-card:hover,
+  body.dark .blog-card:focus-within {
+    box-shadow: 0 5px 15px rgb(255 255 255 / 0.15);
+  }
+
+  /* TOOL CARD HEADING */
+  .blog-card h3 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #222;
+  }
+
+  body.dark .blog-card h3 {
+    color: #e0e0e0;
+  }
+
+  /* TOOL CARD DESCRIPTION */
+  .blog-card p {
+    font-size: 14px;
+    color: #555555;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    flex-grow: 1;
   }
 
   body.dark .blog-card p {
-    color: #555555;
+    color: #aaa;
+  }
+
+  /* LINK "READ MORE" */
+  .blog-card a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: auto;
+    align-self: flex-start;
+  }
+
+  .blog-card a:hover,
+  .blog-card a:focus {
+    text-decoration: underline;
+    outline: none;
   }
 
   /* ================= FOOTER ================= */
@@ -177,16 +228,13 @@
     padding: 20px;
     background: #f8f8f8;
     margin-top: 40px;
-  }
-
-  .site-footer p {
     font-size: 13px;
     color: #555555;
-    margin: 0;
   }
 
   body.dark .site-footer {
     background: #1e1e1e;
+    color: #aaa;
   }
 
   /* ================= RESPONSIVE ================= */
@@ -198,6 +246,7 @@
     .logo {
       flex: 1 1 100%;
       text-align: left;
+      margin-bottom: 10px;
     }
 
     .header-right {
@@ -209,6 +258,10 @@
 
     .navbar {
       order: 1;
+      flex: 1 1 100%;
+      justify-content: flex-start;
+      gap: 15px;
+      margin-bottom: 10px;
     }
   }
 </style>
@@ -216,160 +269,163 @@
 
 <body>
 
-<header class="main-header">
-  <a href="index.html" class="logo">🚀 DailyTools</a>
+<header class="main-header" role="banner">
+  <a href="index.html" class="logo" aria-label="DailyTools Home">🚀 DailyTools</a>
 
-  <nav class="navbar">
+  <nav class="navbar" role="navigation" aria-label="Main Navigation">
     <a href="index.html">Home</a>
     <a href="blog.html">Blog</a>
   </nav>
 
   <div class="header-right">
-    <div class="search-box">
+    <div class="search-box" role="search">
+      <label for="search" class="visually-hidden">Search tools</label>
       🔍
-      <input type="text" id="search" placeholder="Search tools..." aria-label="Search tools">
+      <input type="search" id="search" placeholder="Search tools..." aria-label="Search tools" />
     </div>
 
-    <button onclick="toggleDark()" class="dark-btn" aria-label="Toggle dark mode">
+    <button onclick="toggleDark()" class="dark-btn" aria-label="Toggle dark mode" title="Toggle dark mode">
       🌙
     </button>
   </div>
 </header>
 
-<section class="hero">
+<section class="hero" role="banner">
   <h1>DailyTools Blog</h1>
-  <p>All our tools, guides & tips in one place</p>
+  <p>All our tools, guides &amp; tips in one place</p>
 </section>
 
-<main class="container blog-grid">
+<main class="container blog-grid" role="main" aria-live="polite">
 
-  <!-- (ALL TOOL CARDS UNCHANGED) -->
+  <!-- TOOL CARDS with detailed descriptions -->
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="Word to PDF tool overview">
     <h3>Word to PDF</h3>
-    <p>Convert Word documents (.doc, .docx) to PDF instantly online.</p>
+    <p>Convert your Microsoft Word documents (.doc, .docx) to universally accepted PDF format instantly, preserving all formatting, fonts, and images. Ideal for sharing and printing professional documents with ease.</p>
     <a href="tools/word-to-pdf.html">Read More →</a>
   </article>
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="PDF to Word tool overview">
     <h3>PDF to Word</h3>
-    <p>Convert PDF files to editable Word documents quickly.</p>
+    <p>Effortlessly transform PDF files into fully editable Word documents, allowing you to modify text, images, and layouts without starting from scratch. Perfect for revising reports, contracts, or any PDF content.</p>
     <a href="tools/pdf-to-word.html">Read More →</a>
   </article>
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="Excel to PDF tool overview">
     <h3>Excel to PDF</h3>
-    <p>Transform Excel spreadsheets into PDF format easily.</p>
+    <p>Quickly convert Excel spreadsheets into PDF files, maintaining cell structures, formulas, and charts. Share or print your data with confidence, ensuring consistent presentation across devices.</p>
     <a href="tools/excel-to-pdf.html">Read More →</a>
   </article>
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="PDF to Excel tool overview">
     <h3>PDF to Excel</h3>
-    <p>Extract data from PDF files into Excel sheets fast.</p>
+    <p>Easily extract tables and numerical data from PDFs into editable Excel spreadsheets, saving time on manual data entry and enabling deeper analysis and modifications.</p>
     <a href="tools/pdf-to-excel.html">Read More →</a>
   </article>
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="PDF to JPG tool overview">
     <h3>PDF to JPG</h3>
-    <p>Convert PDF pages to high-quality JPG images online.</p>
+    <p>Convert individual PDF pages into high-quality JPG images. Ideal for presentations, sharing on social media, or embedding images where PDFs are not supported.</p>
     <a href="tools/pdf-to-jpg.html">Read More →</a>
   </article>
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="JPG to PDF tool overview">
     <h3>JPG to PDF</h3>
-    <p>Combine JPG images into a single PDF document easily.</p>
+    <p>Merge multiple JPG images into a single PDF document effortlessly. Useful for creating photo albums, portfolios, or combining scans into one file for easy storage and sharing.</p>
     <a href="tools/jpg-to-pdf.html">Read More →</a>
   </article>
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="Language Converter tool overview">
     <h3>Language Converter</h3>
-    <p>Convert text between multiple languages online.</p>
+    <p>Instantly translate text between multiple languages with our fast and reliable language converter. Supports many popular languages to help you communicate effectively worldwide.</p>
     <a href="tools/language-converter.html">Read More →</a>
   </article>
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="PNG to JPG tool overview">
     <h3>PNG to JPG</h3>
-    <p>Convert PNG images into JPG format without losing quality.</p>
+    <p>Convert PNG images to JPG format to reduce file size while maintaining excellent image quality — perfect for faster web uploads and sharing.</p>
     <a href="tools/png-to-jpg.html">Read More →</a>
   </article>
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="Merge PDF tool overview">
     <h3>Merge PDF</h3>
-    <p>Combine multiple PDF files into a single document instantly.</p>
+    <p>Combine multiple PDF files into one seamless document. Easily organize reports, contracts, or any multi-page PDF collections without losing quality.</p>
     <a href="tools/merge-pdf.html">Read More →</a>
   </article>
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="Image Converter tool overview">
     <h3>Image Converter</h3>
-    <p>Convert images between multiple formats quickly.</p>
+    <p>Convert images between various formats quickly and easily. Supports JPG, PNG, GIF, WEBP, and more to suit your specific needs.</p>
     <a href="tools/image-converter.html">Read More →</a>
   </article>
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="Image to WEBP tool overview">
     <h3>Image to WEBP</h3>
-    <p>Convert images to the efficient WEBP format for web usage.</p>
+    <p>Optimize your images by converting them to the efficient WEBP format, reducing file size significantly for faster web performance while retaining quality.</p>
     <a href="tools/image-to-webp.html">Read More →</a>
   </article>
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="URL Shortener tool overview">
     <h3>URL Shortener</h3>
-    <p>Create short, shareable links from long URLs instantly.</p>
+    <p>Create clean, short, and shareable links from long URLs. Perfect for social media, emails, and printed materials, with optional tracking features.</p>
     <a href="tools/url-shortener.html">Read More →</a>
   </article>
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="QR Code Generator tool overview">
     <h3>QR Code Generator</h3>
-    <p>Generate QR codes for URLs, text, and more.</p>
+    <p>Generate QR codes for URLs, text, contact info, and more. Easily share information with anyone using just their smartphone camera.</p>
     <a href="tools/qr-generator.html">Read More →</a>
   </article>
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="Text Case Converter tool overview">
     <h3>Text Case Converter</h3>
-    <p>Change text between uppercase, lowercase, title case and more.</p>
+    <p>Convert text between uppercase, lowercase, title case, sentence case, and more. Simplify formatting for documents, emails, or social media posts.</p>
     <a href="tools/text-case.html">Read More →</a>
   </article>
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="Password Generator tool overview">
     <h3>Password Generator</h3>
-    <p>Create secure, random passwords online in seconds.</p>
+    <p>Create strong, random passwords tailored to your security needs. Customize length, character types, and complexity to protect your online accounts.</p>
     <a href="tools/password-generator.html">Read More →</a>
   </article>
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="Word Counter tool overview">
     <h3>Word Counter</h3>
-    <p>Count words, characters, and paragraphs of any text.</p>
+    <p>Count words, characters, and paragraphs quickly. Ideal for writers, students, and professionals tracking text length and readability.</p>
     <a href="tools/word-counter.html">Read More →</a>
   </article>
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="Timer and Stopwatch tool overview">
     <h3>Timer & Stopwatch</h3>
-    <p>Set timers or use a stopwatch for productivity tasks.</p>
+    <p>Set customizable timers or use a stopwatch for productivity, workouts, cooking, or any timed activity requiring precise tracking.</p>
     <a href="tools/timer.html">Read More →</a>
   </article>
 
-  <article class="blog-card">
+  <article class="blog-card" tabindex="0" aria-label="Emoji Picker tool overview">
     <h3>Emoji Picker</h3>
-    <p>Select and copy emojis quickly for messages or social media.</p>
+    <p>Browse and select emojis easily to add fun and emotion to your messages, social posts, or creative projects.</p>
     <a href="tools/emoji-tool.html">Read More →</a>
   </article>
 
 </main>
 
-<footer class="site-footer">
-  <p>© 2026 DailyTools — Free & Private Online Utilities</p>
+<footer class="site-footer" role="contentinfo">
+  <p>© 2026 DailyTools — Free &amp; Private Online Utilities</p>
 </footer>
 
 <script>
-function toggleDark() {
-  document.body.classList.toggle("dark");
-}
+  // Toggle dark mode on button click
+  function toggleDark() {
+    document.body.classList.toggle("dark");
+  }
 
-document.getElementById("search").addEventListener("input", function () {
-  const value = this.value.toLowerCase();
-  document.querySelectorAll(".blog-card").forEach(card => {
-    card.style.display = card.innerText.toLowerCase().includes(value) ? "block" : "none";
+  // Filter tool cards by search input
+  document.getElementById("search").addEventListener("input", function () {
+    const value = this.value.toLowerCase();
+    document.querySelectorAll(".blog-card").forEach(card => {
+      card.style.display = card.innerText.toLowerCase().includes(value) ? "block" : "none";
+    });
   });
-});
 </script>
 
 </body>

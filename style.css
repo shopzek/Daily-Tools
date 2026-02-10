@@ -2,7 +2,7 @@
    RESET & BASE
 ========================= */
 * {
-  margin: 4px;
+  margin: 5px;
   padding: 0;
   box-sizing: border-box;
   font-family: Inter, system-ui, Arial, sans-serif;

@@ -25,11 +25,11 @@ body.dark {
 /* ================= HEADER ================= */
 .main-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
   background: #f8f8f8;
-  flex-wrap: wrap;
+  gap: 15px;
+
 }
 body.dark .main-header { background: #1e1e1e; }
 
@@ -56,6 +56,9 @@ body.dark .main-header { background: #1e1e1e; }
   display: flex;
   align-items: center;
   gap: 10px;
+
+  /* THIS IS THE KEY */
+  margin-left: auto;
 }
 
 /* ================= SEARCH ================= */
@@ -115,7 +118,7 @@ body.dark .search-box:hover {
 }
 
 .dark-btn:hover {
-  background-color: #dcdcdc;
+  background-color: #333;
 }
 
 body.dark .dark-btn {

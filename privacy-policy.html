@@ -1,50 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Privacy Policy - Free Online Tools</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Privacy Policy – DailyTools</title>
+
 <style>
-  body { font-family: Arial, sans-serif; margin:0; padding:0; line-height:1.6; background:#f9f9f9; color:#333; }
-  header, footer { background:#2563eb; color:white; padding:15px 20px; text-align:center; }
-  main { max-width:900px; margin:20px auto; padding:20px; background:white; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.1); }
-  h1 { color:#2563eb; }
-  a { color:#2563eb; text-decoration:none; }
-  a:hover { text-decoration:underline; }
+/* ================= GENERAL ================= */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #fff;
+  color: #000;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.3s, color 0.3s;
+}
+body.dark {
+  background: #121212;
+  color: #f1f1f1;
+}
+
+/* ================= HEADER ================= */
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: #f8f8f8;
+  flex-wrap: wrap;
+}
+body.dark .main-header { background: #1e1e1e; }
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.navbar {
+  display: flex;
+  gap: 20px;
+}
+.navbar a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+.navbar a:hover { text-decoration: underline; }
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ================= SEARCH ================= */
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #f0f0f0;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+body.dark .search-box { background: #333; }
+
+.search-box input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 13px;
+  margin-left: 5px;
+  width: 130px;
+  color: inherit;
+}
+
+/* ================= DARK MODE ================= */
+.dark-btn {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  background: #f0f0f0;
+}
+body.dark .dark-btn {
+  background: #333;
+  color: #fff;
+}
+
+/* ================= MAIN CONTENT ================= */
+main {
+  flex: 1;
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 30px;
+  background: #f9f9f9;
+  border-radius: 10px;
+}
+body.dark main {
+  background: #1e1e1e;
+}
+
+main h1 {
+  margin-top: 0;
+  color: #007bff;
+}
+main h2 {
+  margin-top: 25px;
+  font-size: 1.1rem;
+}
+main p, main li {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #555;
+}
+body.dark main p,
+body.dark main li {
+  color: #ccc;
+}
+
+/* ================= FOOTER ================= */
+.site-footer {
+  text-align: center;
+  padding: 15px 20px;
+  background: #f8f8f8;
+  font-size: 13px;
+  color: #555;
+}
+body.dark .site-footer {
+  background: #1e1e1e;
+  color: #aaa;
+}
+
+.footer-nav a {
+  color: #007bff;
+  text-decoration: none;
+  margin: 0 6px;
+}
+.footer-nav a:hover { text-decoration: underline; }
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .navbar {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
 </style>
 </head>
+
 <body>
 
-<header>
-  <h1>Free Online Tools</h1>
+<!-- ================= HEADER ================= -->
+<header class="main-header">
+  <a href="index.html" class="logo">🚀 DailyTools</a>
+
+  <nav class="navbar">
+    <a href="index.html">Home</a>
+    <a href="blog.html">Blog</a>
+  </nav>
+
+  <div class="header-right">
+    <div class="search-box">
+      🔍 <input type="search" placeholder="Search tools..." />
+    </div>
+    <button class="dark-btn" onclick="toggleDark()">🌙</button>
+  </div>
 </header>
 
+<!-- ================= MAIN ================= -->
 <main>
   <h1>Privacy Policy</h1>
-  <p>Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your information while you use our free online tools.</p>
+
+  <p>
+    At <strong>DailyTools</strong>, we respect your privacy and are committed to protecting it.
+    This Privacy Policy document outlines the types of information that are collected and recorded
+    and how we use it.
+  </p>
 
   <h2>Information We Collect</h2>
   <ul>
-    <li>No personal data is collected unless you voluntarily provide it (e.g., via Contact form).</li>
-    <li>We do not store uploaded files permanently. Files are processed client-side whenever possible.</li>
-    <li>Analytics may be used to improve site performance anonymously.</li>
+    <li>We do not collect personal information unless you voluntarily provide it.</li>
+    <li>Uploaded files are processed automatically and are not stored on our servers.</li>
+    <li>Basic analytics data may be collected to improve site performance.</li>
   </ul>
 
-  <h2>Use of Information</h2>
-  <p>We use the information only to respond to your queries or improve our services. We do not sell or share your personal data with third parties.</p>
+  <h2>Cookies and Web Beacons</h2>
+  <p>
+    DailyTools may use cookies to store information about visitors’ preferences and optimize
+    user experience. These cookies do not contain personally identifiable information.
+  </p>
 
-  <h2>Cookies</h2>
-  <p>Our site may use minimal cookies for functionality (e.g., tool preferences). No tracking cookies are used.</p>
+  <h2>Google AdSense</h2>
+  <p>
+    Some pages on this website may display advertisements served by Google AdSense.
+    Google may use cookies, including the DoubleClick cookie, to show ads to users
+    based on their visit to this and other websites.
+  </p>
+  <p>
+    Users may opt out of personalized advertising by visiting Google’s Ads Settings.
+  </p>
 
-  <h2>Changes to Privacy Policy</h2>
-  <p>We may update this policy occasionally. The latest version will always be posted here.</p>
+  <h2>Third-Party Privacy Policies</h2>
+  <p>
+    DailyTools’s Privacy Policy does not apply to other advertisers or websites.
+    We advise you to consult the respective Privacy Policies of third-party ad servers.
+  </p>
 
-  <p>For any questions, <a href="contact.html">contact us</a>.</p>
+  <h2>Children’s Information</h2>
+  <p>
+    DailyTools does not knowingly collect any Personal Identifiable Information from
+    children under the age of 13.
+  </p>
+
+  <h2>Consent</h2>
+  <p>
+    By using our website, you hereby consent to our Privacy Policy and agree to its terms.
+  </p>
+
+  <p>
+    If you have any questions, please <a href="contact.html">contact us</a>.
+  </p>
 </main>
 
-<footer>
-  &copy; 2026 Free Online Tools | <a href="privacy.html" style="color:white;">Privacy Policy</a> | <a href="terms.html" style="color:white;">Terms</a> | <a href="contact.html" style="color:white;">Contact</a>
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <p>© 2026 DailyTools — Free & Private Online Utilities</p>
+  <nav class="footer-nav">
+    <a href="about.html">About</a> |
+    <a href="privacy-policy.html">Privacy Policy</a> |
+    <a href="terms.html">Terms</a> |
+    <a href="contact.html">Contact</a>
+  </nav>
 </footer>
+
+<script>
+function toggleDark() {
+  document.body.classList.toggle("dark");
+}
+</script>
 
 </body>
 </html>

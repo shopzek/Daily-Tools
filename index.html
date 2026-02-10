@@ -107,23 +107,33 @@
 }
 
 
-    .dark-btn {
-      height: 38px;
-      width: 38px;
-      font-size: 18px;
-      border-radius: 6px;
-      cursor: pointer;
-      border: none;
-      background-color: #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+.dark-btn {
+  height: 36px;
+  width: 36px;
+  font-size: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
 
-    body.dark .dark-btn {
-      background-color: #333;
-      color: #fff;
-    }
+.dark-btn:hover {
+  background-color: #e0e0e0;
+}
+
+body.dark .dark-btn {
+  background-color: #333;
+  color: #fff;
+}
+
+body.dark .dark-btn:hover {
+  background-color: #444;
+}
+
 
     /* ================= HERO ================= */
     .hero {

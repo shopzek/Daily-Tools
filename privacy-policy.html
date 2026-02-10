@@ -23,12 +23,13 @@ body.dark {
 }
 
 /* ================= HEADER ================= */
-.main-header {
+..main-header {
   display: flex;
   align-items: center;
   padding: 10px 20px;
   background: #f8f8f8;
-  gap: 15px;
+  position: relative;
+}
 
 }
 body.dark .main-header { background: #1e1e1e; }
@@ -40,9 +41,14 @@ body.dark .main-header { background: #1e1e1e; }
   color: #007bff;
 }
 
-.navbar {
+..navbar {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  gap: 20px;
+  gap: 35px;
+}
+
 }
 .navbar a {
   color: #007bff;

@@ -65,18 +65,39 @@ body.dark .main-header { background: #1e1e1e; }
   background: #f0f0f0;
   padding: 5px 10px;
   border-radius: 6px;
+  transition: background-color 0.3s ease;
 }
-body.dark .search-box { background: #333; }
 
+.search-box:hover {
+  background: #e6e6e6;
+}
+
+body.dark .search-box {
+  background: #333;
+}
+
+body.dark .search-box:hover {
+  background: #444;
+}
+
+/* INPUT ANIMATION */
 .search-box input {
   border: none;
   outline: none;
   background: transparent;
   font-size: 13px;
   margin-left: 5px;
-  width: 130px;
+  width: 110px;
   color: inherit;
+  transition: width 0.3s ease;
 }
+
+/* EXPAND ON HOVER OR FOCUS */
+.search-box:hover input,
+.search-box input:focus {
+  width: 180px;
+}
+
 
 /* ================= DARK MODE ================= */
 .dark-btn {
@@ -87,10 +108,23 @@ body.dark .search-box { background: #333; }
   cursor: pointer;
   font-size: 18px;
   background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+.dark-btn:hover {
+  background-color: #dcdcdc;
+}
+
 body.dark .dark-btn {
   background: #333;
   color: #fff;
+}
+
+body.dark .dark-btn:hover {
+  background-color: #444;
 }
 
 /* ================= MAIN CONTENT ================= */

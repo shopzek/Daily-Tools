@@ -48,7 +48,7 @@ body {
   border: none;
   outline: none;
   background: transparent;
-  width: 120px;
+  width: 200px;
   transition: width 0.3s ease;
 }
 
@@ -75,13 +75,12 @@ body.dark .search-box {
 
 @media (max-width: 768px) {
   .navbar {
-    display: none;
-    position: absolute;
-    top: 12px;
-    left: 0;
-    right: 0;
-  
-  }
+           display: none;
+        position: absolute;
+        top: -9px;
+        left: 100px;
+        right: 0;
+    }
 
   .navbar.show {
     display: flex;
